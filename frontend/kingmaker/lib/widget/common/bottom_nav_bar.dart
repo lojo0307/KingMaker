@@ -7,15 +7,14 @@ import 'package:kingmaker/page/profile_page.dart';
 import 'package:kingmaker/page/todo_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-PersistentTabController _controller = PersistentTabController(initialIndex: 0);
-
 class BottomNavBar extends StatelessWidget {
   BottomNavBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    PersistentTabController controller = PersistentTabController(initialIndex: 2);
     return PersistentTabView(
       context,
-      controller: _controller,
+      controller: controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
@@ -58,31 +57,31 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       icon: const Icon(CupertinoIcons.square_list),
       title: ("Todo"),
       activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.systemGrey,
+      inactiveColorPrimary: CupertinoColors.black,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.calendar),
       title: ("calendar"),
       activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.systemGrey,
+      inactiveColorPrimary: CupertinoColors.black,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.house_fill),
       title: ("Home"),
       activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.systemGrey,
+      inactiveColorPrimary: CupertinoColors.black,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.bell),
       title: ("Alarm"),
       activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.systemGrey,
+      inactiveColorPrimary: CupertinoColors.black,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.person),
       title: ("Profile"),
       activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.systemGrey,
+      inactiveColorPrimary: CupertinoColors.black,
     ),
   ];// NOTE: You CAN declare your own model here instead of `PersistentBottomNavBarItem`.
 }
