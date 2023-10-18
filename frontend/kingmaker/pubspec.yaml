@@ -40,6 +40,7 @@ dependencies:
   social_login_buttons: ^1.0.7
   auto_size_text: ^3.0.0
   animated_text_kit: ^4.2.1
+  flame: ^1.10.0
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/
+    - assets/images/background.png
     - assets/login/
     - assets/login/login.png
     - assets/login/kakaoLogin.png

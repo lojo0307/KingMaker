@@ -1,4 +1,6 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/widget/main/main_game.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -9,7 +11,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: GameWidget.controlled(
+        gameFactory: mainGame.new,
+      ),
+    );
   }
 }
 
