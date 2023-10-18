@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
-class ProfileScoreWidget extends StatefulWidget {
-  const ProfileScoreWidget({super.key});
+class ProfileKingdomWidget extends StatefulWidget {
+  const ProfileKingdomWidget({super.key});
 
   @override
-  State<ProfileScoreWidget> createState() => _ProfileScoreWidgetState();
+  State<ProfileKingdomWidget> createState() => _ProfileKingdomWidgetState();
 }
 
-class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
+class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
+  Map<String, String> kingdom = {
+    'kingdomName' : "버섯 왕국",
+    'level':"6",
+    'citizen' : "2145"
+  };
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (ctx, constraints) {
@@ -16,7 +21,6 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
         children: [
           Container(
             width: constraints.maxWidth - 40,
-            padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(13),
@@ -25,63 +29,37 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                 width: 1,
               ),
             ),
-            child: Column(
+            child: Row(
               children: [
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('달성률',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        child: const Row(
-                          children: [
-                            Text('일간도표'),
-                            Text('월간도표'),
-                          ],
-                        ),
-                      )
-                    ],
+                const SizedBox(
+                  child: Image(image: AssetImage('assets/castle/tower.png'),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Container(
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                SizedBox(
+                  width: constraints.maxWidth - 190,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('가장 강력한 몬스터',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),),
-                      Text('빨래널기',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('가장 강력한 몬스터',
-                        style: TextStyle(
+                      Text(kingdom['kingdomName']!,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text('늦잠자기',
-                        style: TextStyle(
-                          fontSize: 20,
+                      const SizedBox(height: 5,),
+                      Text('왕국 ${kingdom['level']!} 단계',
+                        style: const TextStyle(
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: Colors.green,
+                        ),
+                      ),
+                      const SizedBox(height: 5,),
+                      Text('백성 : ${kingdom['citizen']!} 명',
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileNameWidget extends StatefulWidget {
@@ -19,6 +20,7 @@ class _ProfileNameWidgetState extends State<ProfileNameWidget> {
           name,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),
         ),
+        const Icon(CupertinoIcons.gear_alt_fill,color: Colors.grey,),
       ],
     );
   }
