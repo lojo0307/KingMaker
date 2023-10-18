@@ -23,8 +23,7 @@ class BottomNavBar extends StatelessWidget {
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
       stateManagement: true, // Default is true.
       hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-      decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
+      decoration: const NavBarDecoration(
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
@@ -55,31 +54,31 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
   return [
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.square_list),
-      title: ("Todo"),
+      // title: ("Todo"),
       activeColorPrimary: CupertinoColors.activeBlue,
       inactiveColorPrimary: CupertinoColors.black,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.calendar),
-      title: ("calendar"),
+      // title: ("calendar"),
       activeColorPrimary: CupertinoColors.activeBlue,
       inactiveColorPrimary: CupertinoColors.black,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.house_fill),
-      title: ("Home"),
+      // title: ("Home"),
       activeColorPrimary: CupertinoColors.activeBlue,
       inactiveColorPrimary: CupertinoColors.black,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.bell),
-      title: ("Alarm"),
+      // title: ("Alarm"),
       activeColorPrimary: CupertinoColors.activeBlue,
       inactiveColorPrimary: CupertinoColors.black,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.person),
-      title: ("Profile"),
+      // title: ("Profile"),
       activeColorPrimary: CupertinoColors.activeBlue,
       inactiveColorPrimary: CupertinoColors.black,
     ),
