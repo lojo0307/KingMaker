@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kingmaker/page/story_page.dart';
+import 'package:kingmaker/page/story/story_page.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
-
-import '../common/bottom_nav_bar.dart';
 
 class LoginWidget extends StatelessWidget {
   const LoginWidget({super.key});
@@ -34,9 +32,9 @@ class LoginWidget extends StatelessWidget {
                         image: AssetImage(
                             'assets/login/kakaoLogin.png'))),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
               SocialLoginButton(
-                height: 46,
+                height: 53,
                 backgroundColor: Colors.white,
                 text: '구글 로그인',
                 fontSize: 18,

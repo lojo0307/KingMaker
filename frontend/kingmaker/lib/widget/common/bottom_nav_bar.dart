@@ -8,7 +8,7 @@ import 'package:kingmaker/page/todo_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class BottomNavBar extends StatelessWidget {
-  BottomNavBar({Key? key}) : super(key: key);
+  const BottomNavBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     PersistentTabController controller = PersistentTabController(initialIndex: 2);
