@@ -1,16 +1,31 @@
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 
 class GameBackground extends SpriteComponent  with HasGameRef {
   @override
   Future<void> onLoad() async {
     super.onLoad();
     sprite = await Sprite.load('background.png');
-    position = Vector2(0, 0);
-    size = gameRef.size;
-    // size.setFrom(Vector2.all(1));
-    // 화면 크기에 맞게 스케일을
-    // 조정합니다.
+    position = Vector2.zero(); // Start position
+    size = gameRef.size * 2;
   }
 
-// onResize 메서드 제거
+  void handleDragUpdate(DragUpdateInfo info) {
+
+    final delta = Vector2(info.delta.global.x, info.delta.global.y);
+
+
+    position = position + delta;
+
+    position.x = position.x.clamp(
+      gameRef.size.x - size.x,
+      0, // Right-most boundary
+    );
+    position.y = position.y.clamp(
+      gameRef.size.y - size.y,
+      0,
+    );
+  }
+
+
 }

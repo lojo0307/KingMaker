@@ -11,8 +11,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
+    return Align(
+      alignment: Alignment.center,
       child: GameWidget.controlled(
         gameFactory: mainGame.new,
       ),
