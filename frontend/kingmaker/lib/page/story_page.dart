@@ -1,7 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:kingmaker/page/signup_page.dart';
+import 'package:kingmaker/page/signup/make_myname_widget.dart';
 
 class StoryPage extends StatefulWidget {
   const StoryPage({super.key});
@@ -14,10 +13,10 @@ class _StoryPageState extends State<StoryPage> {
   List<String> imgList = ["assets/signup/story1.png", "assets/signup/story2.png", "assets/signup/story3.png"];
   List<String> storyList = [
     " 약속장소로 급하게 뛰어가던 당신 ",
-    " 핸들이 고장난 8t 트럭에 부딪히는데... ",
-    "눈을 뜬 당신 앞에 등장한 여신...",
-    '이세계에 가서 규칙적인 삶을 산다면...',
-    '너는 왕이 될 것이다!'];
+    " 핸들이 고장난 8톤 트럭에 부딪히는데... ",
+    "눈을 뜬 당신 앞에 등장한 여신... ",
+    '이세계에 가서 규칙적인 삶을 산다면... ',
+    '너는 왕이 될 것이다! '];
   int imgIdx = 0;
   int storyIdx = 0;
   int idx = 0;
@@ -74,7 +73,7 @@ class _StoryPageState extends State<StoryPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const SignupPage())
+              builder: (context) => const MakeMynamePage())
       );
     }
     else if (storyList[storyIdx].length == idx){

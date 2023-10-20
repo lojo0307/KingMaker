@@ -16,7 +16,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: isLoggedIn? BottomNavBar() : const LoginPage(),
+      home: Container(
+        constraints: const BoxConstraints(
+          maxWidth: 400,
+        ),
+        child: isLoggedIn? const BottomNavBar() : const LoginPage(),
+      ),
     );
   }
 }
