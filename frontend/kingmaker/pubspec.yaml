@@ -70,6 +70,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/
+    - assets/images/player_sprite.png
     - assets/images/background.png
     - assets/login/
     - assets/login/login.png
