@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/widget/alarm/alarm_main.dart';
+import 'package:kingmaker/widget/common/header1.dart';
 class AlarmPage extends StatefulWidget {
   const AlarmPage({super.key});
 
@@ -9,7 +11,16 @@ class AlarmPage extends StatefulWidget {
 class _AlarmPageState extends State<AlarmPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: Color(0xFFEDF1FF),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Header1(title: '알림'),
+          AlarmMain(),
+        ],
+      ),
+    );
   }
 }
 
