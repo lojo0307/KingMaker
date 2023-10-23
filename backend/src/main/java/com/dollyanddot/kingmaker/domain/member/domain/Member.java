@@ -1,7 +1,6 @@
-package com.dollyanddot.kingmaker.domain.auth.domain;
+package com.dollyanddot.kingmaker.domain.member.domain;
 
 import com.dollyanddot.kingmaker.domain.kingdom.Kingdom;
-import com.dollyanddot.kingmaker.domain.auth.domain.Credential;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
