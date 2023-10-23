@@ -71,6 +71,8 @@ flutter:
   assets:
     - assets/
     - assets/images/player_sprite.png
+    - assets/images/pig.png
+    - assets/images/ember.png
     - assets/images/background.png
     - assets/login/
     - assets/login/login.png

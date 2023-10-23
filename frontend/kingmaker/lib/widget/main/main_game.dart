@@ -1,19 +1,21 @@
-
-
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:kingmaker/widget/main/main_camera_focus.dart';
+import 'package:kingmaker/widget/main/main_monster.dart';
 
 
 import 'main_background.dart';
 import 'main_player.dart';
 
-class MyGame extends FlameGame with MultiTouchDragDetector {
+class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
   late Vector2 backgroundSize;
   late FocusArea focusArea;
+  late MainPlayer player;
+
   MyGame() {
-    world = MyWorld(this);
+    player = MainPlayer(this);
+    world = MyWorld(this, player);
     backgroundSize = Vector2(1024, 1024);
     focusArea = FocusArea();
     focusArea.position = backgroundSize / 2;
@@ -22,7 +24,24 @@ class MyGame extends FlameGame with MultiTouchDragDetector {
   void setFocusArea(FocusArea fa) {  // focusArea를 설정하는 메서드
     focusArea = fa;
   }
+  @override
+  void onTapUp(TapUpInfo info) {
+    print(info.eventPosition.global);
 
+    Vector2 worldPosition = camera.globalToLocal(info.eventPosition.global);
+    print(worldPosition);
+    if (player.toRect().contains(worldPosition.toOffset())) {
+      print('Character was tapped!');
+      player.playSecondRowAnimation();
+    }
+  }
+
+  bool isWithinGameBounds(Vector2 position){
+    return position.x >= 0 &&
+        position.y >= 0 &&
+        position.x <= size.x &&
+        position.y <= size.y;
+  }
 
   @override
   void onDragUpdate(int pointerId, DragUpdateInfo info) {
@@ -52,7 +71,11 @@ class MyWorld extends World {
   late GameBackground background;
   late Vector2 backgroundSize;
   final MyGame game;
-  MyWorld(this.game);
+
+  final MainPlayer player;
+
+  MyWorld(this.game, this.player);
+
   @override
   Future<void> onLoad() async {
     backgroundSize = Vector2(1024, 1024);
@@ -64,7 +87,15 @@ class MyWorld extends World {
     add(focusArea);
     game.setFocusArea(focusArea);  // MyGame의 focusArea 설정
 
-    final player = MainPlayer(initialPosition: Vector2(512, 512));
+
+    // game.player = player;
+    // game.add(game.player);
     add(player);
+    for(int i=0; i<50; i++){
+      Monster monster =Monster(game);
+      add(monster);
+    }
+
   }
+
 }
