@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public interface NotificationService {
+public class NotificationService {
     private final NotificationRepository notificationRepository;
 }
