@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.routine.domain;
 
+import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Entity(name = "member_routine")
-public class MemberRoutine extends BasetimeEntity{
+public class MemberRoutine extends BaseTimeEntity {
 
   @Id
   @Column(name = "member_routine_id")
@@ -32,4 +33,7 @@ public class MemberRoutine extends BasetimeEntity{
   @ManyToOne(fetch = FetchType.LAZY)
   @Column(name = "routine_id")
   private Routine routine;
+
+  @Column
+  private boolean achievedYn;
 }
