@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/page/login_page.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
-
-void main() {
+import 'package:flutter/services.dart';
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const MyApp());
 }
 const isLoggedIn = false;
