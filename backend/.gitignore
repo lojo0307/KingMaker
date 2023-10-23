@@ -47,12 +47,10 @@ out/
 *.lnk
 
 # Properties yml
-*.yml
+*env.yml
 
 # Mock Data SQL
 *.sql
 
 # fcm properties
 *.json
-
-
