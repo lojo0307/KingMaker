@@ -5,8 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/routine")
+@RequestMapping("/api/routine")
 @RequiredArgsConstructor
 public class RoutineController {
 
+  @
 }

@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.routine.domain;
 
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -22,9 +23,9 @@ public class MemberRoutine extends BaseTimeEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  @Column(name = "member_id")
-//  private Member member;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @Column(name = "member_id")
+  private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "routine_id")
