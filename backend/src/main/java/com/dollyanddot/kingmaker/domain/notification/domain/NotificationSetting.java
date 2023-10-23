@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.notification.domain;
 
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
