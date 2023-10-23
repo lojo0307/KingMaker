@@ -1,6 +1,6 @@
 package com.dollyanddot.kingmaker.domain.todo.domain;
 
-import com.dollyanddot.kingmaker.domain.util.domain.Category;
+import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

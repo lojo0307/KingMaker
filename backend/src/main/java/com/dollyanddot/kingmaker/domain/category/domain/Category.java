@@ -1,4 +1,4 @@
-package com.dollyanddot.kingmaker.domain.util.domain;
+package com.dollyanddot.kingmaker.domain.category.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

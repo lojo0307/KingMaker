@@ -1,6 +1,6 @@
 package com.dollyanddot.kingmaker.domain.routine.domain;
 
-import com.dollyanddot.kingmaker.domain.util.domain.Category;
+import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
