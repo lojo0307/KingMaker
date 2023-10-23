@@ -8,9 +8,9 @@
 - [ ] Delete source branch when merge request is accepted  
 
 ## :fire: Title
-:twisted_rightwards_arrows: Merge: 간단한 설명
+Merge: 간단한 설명
 
-<br>
+---
 
 ## :pushpin: 상세 설명
 
