@@ -1,13 +1,9 @@
 package com.dollyanddot.kingmaker.domain.routine.domain;
 
 import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +27,7 @@ public class MemberRoutine extends BaseTimeEntity {
 //  private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @Column(name = "routine_id")
+  @JoinColumn(name = "routine_id")
   private Routine routine;
 
   @Column
