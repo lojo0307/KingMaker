@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.parameters.P;
 
 @Getter
 @Builder
@@ -49,4 +50,12 @@ public class RoutineRegistraion {
   @Column
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
   private LocalDateTime endAt;
+
+  public void update(Routine routine, String period, boolean importantYn, LocalDateTime startAt, LocalDateTime endAt){
+    this.routine = routine;
+    this.period = period;
+    this.importantYn = importantYn;
+    this.startAt = startAt;
+    this.endAt = endAt;
+  }
 }

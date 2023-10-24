@@ -8,6 +8,7 @@ import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import com.dollyanddot.kingmaker.domain.routine.domain.RoutineRegistraion;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
+import com.dollyanddot.kingmaker.domain.routine.dto.request.PutRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRegistrationRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
@@ -57,4 +58,22 @@ public class RoutineService {
 
     return null;
   }
+
+  @Transactional
+  public Void editRoutine(PutRoutineReqDto putRoutineReqDto){
+
+    RoutineRegistraion routineRegistraion =
+        routineRegistrationRepository.findById(putRoutineReqDto.getRoutineRegistrationId()).orElseThrow();
+
+    Routine routine = routineRepository.findById(routineRegistraion.getRoutine().getId()).orElseThrow();
+
+    routine.update(categoryRepository.findById(putRoutineReqDto.getCategoryId()).orElseThrow(),
+        putRoutineReqDto.getRoutineNm(), putRoutineReqDto.getRoutineDetail());
+
+    routineRegistraion.update(routine, putRoutineReqDto.getPeriod(),
+        putRoutineReqDto.isImportantYn(), putRoutineReqDto.getStartAt(), putRoutineReqDto.getEndAt());
+
+    return null;
+  }
+
 }
