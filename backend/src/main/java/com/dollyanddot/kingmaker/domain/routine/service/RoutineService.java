@@ -7,6 +7,7 @@ import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import com.dollyanddot.kingmaker.domain.routine.domain.RoutineRegistraion;
+import com.dollyanddot.kingmaker.domain.routine.dto.request.DeleteRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PutRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
@@ -72,6 +73,17 @@ public class RoutineService {
 
     routineRegistraion.update(routine, putRoutineReqDto.getPeriod(),
         putRoutineReqDto.isImportantYn(), putRoutineReqDto.getStartAt(), putRoutineReqDto.getEndAt());
+
+    return null;
+  }
+
+  @Transactional
+  public Void deleteRoutine(DeleteRoutineReqDto deleteRoutineReqDto){
+
+    RoutineRegistraion routineRegistraion =
+        routineRegistrationRepository.findById(deleteRoutineReqDto.getRoutineRegistrationId()).orElseThrow();
+
+    routineRegistrationRepository.delete(routineRegistraion);
 
     return null;
   }
