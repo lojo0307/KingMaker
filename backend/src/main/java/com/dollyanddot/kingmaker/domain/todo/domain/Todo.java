@@ -1,6 +1,8 @@
 package com.dollyanddot.kingmaker.domain.todo.domain;
 
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,15 +21,39 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "getTodoList",
+                query = "select * from todo t"
+                        + " where DATE(t.start_at)<=:targetDate and DATE(t.end_at)>=:targetDate and t.member_id=:memberId",
+                resultSetMapping = "getTodoList"
+        ),
+})
+@SqlResultSetMapping(
+        name = "getTodoList",
+        classes = @ConstructorResult(
+                targetClass = TodoListResDto.class,
+                columns = {
+                        @ColumnResult(name = "todo_id", type = Long.class),
+                        @ColumnResult(name = "todo_nm", type = String.class),
+                        @ColumnResult(name = "category_id", type = Long.class),
+                        @ColumnResult(name = "start_at", type = LocalDateTime.class),
+                        @ColumnResult(name = "end_at", type = LocalDateTime.class),
+                        @ColumnResult(name = "important_yn", type = byte.class),
+                        @ColumnResult(name = "achieved_yn", type = byte.class)
+                }
+        )
+)
+
 public class Todo {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long todoId;
 
-//    @ManyToOne(fetch=FetchType.LAZY)
-//    @OnDelete(action= OnDeleteAction.CASCADE)
-//    @JoinColumn(name="member_id",nullable=false)
-//    private Member member;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    @JoinColumn(name="member_id",nullable=false)
+    private Member member;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @OnDelete(action= OnDeleteAction.CASCADE)
