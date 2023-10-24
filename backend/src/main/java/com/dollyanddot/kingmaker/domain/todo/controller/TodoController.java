@@ -1,12 +1,11 @@
 package com.dollyanddot.kingmaker.domain.todo.controller;
 
+import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.todo.service.TodoService;
+import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,9 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class TodoController {
     private final TodoService todoService;
 
-    @DeleteMapping("")
-    public ResponseEntity<Void> deleteTodo(@RequestParam Long todoId){
+    @DeleteMapping
+    public EnvelopeResponse<Void> deleteTodo(@RequestParam Long todoId){
         todoService.deleteTodoByTodoId(todoId);
-        return ResponseEntity.ok().build();
+        return EnvelopeResponse.<Void>builder()
+                .data(null)
+                .build();
+    }
+
+    @GetMapping
+    public EnvelopeResponse<TodoListResDto> getTodoList(){
+        return EnvelopeResponse.<TodoListResDto>builder()
+                .data(null)
+                .build();
     }
 }

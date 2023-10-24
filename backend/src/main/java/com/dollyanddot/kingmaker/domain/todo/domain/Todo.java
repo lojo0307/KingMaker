@@ -1,6 +1,7 @@
 package com.dollyanddot.kingmaker.domain.todo.domain;
 
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity(name="todo")
@@ -32,10 +35,12 @@ public class Todo {
     private Category category;
 
     @Column(nullable=true)
-    private Timestamp startAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    private LocalDateTime startAt;
 
     @Column(nullable=true)
-    private Timestamp endAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    private LocalDateTime endAt;
 
     @Column(nullable=false)
     private String todoNm;
