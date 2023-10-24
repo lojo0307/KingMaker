@@ -1,5 +1,6 @@
-package com.dollyanddot.kingmaker.domain.kingdom;
+package com.dollyanddot.kingmaker.domain.kingdom.domain;
 
+import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
