@@ -13,9 +13,11 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
   final Random _random = Random();
   late SpriteSheet spriteSheet;
   Vector2 velocity = Vector2.zero();
-  int currentRow = 0; // 현재 애니메이션 행을 나타내는 변수
+  int currentRow = 0;
 
-  Monster(this.game);
+  var monsterInfo; // 현재 애니메이션 행을 나타내는 변수
+
+  Monster(this.game, this.monsterInfo);
 
   @override
   Future<void> onLoad() async {

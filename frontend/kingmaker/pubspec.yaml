@@ -72,9 +72,11 @@ flutter:
     - assets/
     - assets/images/player_sprite.png
     - assets/images/pig.png
+    - assets/images/Slime.png
     - assets/images/ember.png
     - assets/images/background.png
     - assets/login/
+    - assets/images/pixel_star.png
     - assets/login/login.png
     - assets/login/kakaoLogin.png
     - assets/login/kingMaker.png

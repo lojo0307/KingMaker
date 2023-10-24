@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
     return Align(
       alignment: Alignment.center,
       child: GameWidget.controlled(
-        gameFactory: MyGame.new,
+        gameFactory:()=> MyGame(context),
       ),
     );
   }
