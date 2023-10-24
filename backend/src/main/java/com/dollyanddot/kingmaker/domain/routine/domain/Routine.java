@@ -36,4 +36,10 @@ public class Routine extends BaseTimeEntity {
 
   @Column(name = "routine_detail")
   private String detail;
+
+  public void update(Category category, String routineName, String detail){
+    this.category = category;
+    this.routineName = routineName;
+    this.detail = detail;
+  }
 }
