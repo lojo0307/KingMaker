@@ -7,5 +7,5 @@ import java.util.List;
 public interface TodoService {
     void deleteTodoByTodoId(Long todoId);
 
-    List<TodoListResDto> getTodoList(int year, int month, int day);
+    List<TodoListResDto> getTodoList(Long memberId,String date);
 }

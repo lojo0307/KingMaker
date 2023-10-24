@@ -16,17 +16,19 @@ import java.util.List;
 public class TodoController {
     private final TodoService todoService;
 
+    //성공 시 성공 메시지만 출력, 아닐 경우 예외 처리
     @DeleteMapping
     public EnvelopeResponse<Void> deleteTodo(@RequestParam Long todoId){
         todoService.deleteTodoByTodoId(todoId);
+
         return EnvelopeResponse.<Void>builder()
                 .data(null)
                 .build();
     }
 
-    @GetMapping
-    public EnvelopeResponse<List<TodoListResDto>> getTodoList(@RequestParam int year, @RequestParam int month, @RequestParam int day){
-        List<TodoListResDto> list=todoService.getTodoList(year,month,day);
+    @GetMapping("{memberId}")
+    public EnvelopeResponse<List<TodoListResDto>> getTodoList(@PathVariable Long memberId,@RequestParam String date){
+        List<TodoListResDto> list=todoService.getTodoList(memberId,date);
         return EnvelopeResponse.<List<TodoListResDto>>builder()
                 .data(list)
                 .build();

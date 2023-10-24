@@ -1,6 +1,7 @@
 package com.dollyanddot.kingmaker.domain.todo.domain;
 
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ import java.time.LocalDateTime;
         @NamedNativeQuery(
                 name = "getTodoList",
                 query = "select * from todo t"
-                        + " where DATE(t.start_at)<=:targetDate and DATE(t.end_at)>=:targetDate",
+                        + " where DATE(t.start_at)<=:targetDate and DATE(t.end_at)>=:targetDate and t.member_id=:memberId",
                 resultSetMapping = "getTodoList"
         ),
 })
@@ -49,10 +50,10 @@ public class Todo {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long todoId;
 
-//    @ManyToOne(fetch=FetchType.LAZY)
-//    @OnDelete(action= OnDeleteAction.CASCADE)
-//    @JoinColumn(name="member_id",nullable=false)
-//    private Member member;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    @JoinColumn(name="member_id",nullable=false)
+    private Member member;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @OnDelete(action= OnDeleteAction.CASCADE)

@@ -2,12 +2,14 @@ package com.dollyanddot.kingmaker.domain.todo.service;
 
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
+import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoListException;
 import com.dollyanddot.kingmaker.domain.todo.exception.NonExistTodoIdException;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +25,10 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public List<TodoListResDto> getTodoList(int year, int month, int day) {
-        LocalDate targetDate=LocalDate.of(year,month,day);
-        return todoRepository.getTodoList(targetDate);
+    public List<TodoListResDto> getTodoList(Long memberId,String date) throws GetTodoListException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+        LocalDate targetDate=LocalDate.parse(date, formatter);
+        return todoRepository.getTodoList(memberId,targetDate);
     }
 
 

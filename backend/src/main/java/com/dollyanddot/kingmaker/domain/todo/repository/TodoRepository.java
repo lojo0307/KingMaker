@@ -14,5 +14,5 @@ public interface TodoRepository extends JpaRepository<Todo,Long> {
     void deleteTodoByTodoId(Long todoId);
 
     @Query(name = "getTodoList", nativeQuery = true)
-    List<TodoListResDto> getTodoList(LocalDate targetDate);
+    List<TodoListResDto> getTodoList(Long memberId,LocalDate targetDate);
 }
