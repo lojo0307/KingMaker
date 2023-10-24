@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.routine.dto.request;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +15,9 @@ public class PostRoutineReqDto {
   private Long memberId;
   private Long categoryId;
   private String period;
-
+  private String routineNm;
+  private boolean importantYn;
+  private String routineDetail;
+  private LocalDateTime startAt;
+  private LocalDateTime endAt;
 }

@@ -1,7 +1,6 @@
 package com.dollyanddot.kingmaker.domain.routine.controller;
 
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
-import com.dollyanddot.kingmaker.domain.routine.dto.response.PostRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.service.RoutineService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/routine")
 @RequiredArgsConstructor
-public class RoutineController {
+public class RoutineController{
 
   private final RoutineService routineService;
 
   @PostMapping()
-  public EnvelopeResponse<PostRoutineResDto> registerRoutine(@RequestBody PostRoutineReqDto postRoutineReqDto){
-    return EnvelopeResponse.<PostRoutineResDto>builder()
+  public EnvelopeResponse<?> registerRoutine (@RequestBody PostRoutineReqDto postRoutineReqDto){
+    return EnvelopeResponse.<Void>builder()
         .data(routineService.registerRoutine(postRoutineReqDto))
         .build();
   }
