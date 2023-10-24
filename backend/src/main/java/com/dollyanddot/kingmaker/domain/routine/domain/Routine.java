@@ -1,7 +1,7 @@
 package com.dollyanddot.kingmaker.domain.routine.domain;
 
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
-import java.time.LocalDateTime;
+import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,16 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "routine")
-public class Routine {
+public class Routine extends BaseTimeEntity {
 
   @Id
   @Column(name = "routine_id")
@@ -32,29 +32,8 @@ public class Routine {
   private Category category;
 
   @Column
-  private String period;
-
-  @Column
   private String routineName;
-
-  @Column(name = "routine_important")
-  private boolean isImportant;
 
   @Column(name = "routine_detail")
   private String detail;
-
-  @Column
-  private LocalDateTime startAt;
-
-  @Column
-  private LocalDateTime endAt;
-
-  @Column
-  private int monsterCd;
-
-
-
-
-
-
 }
