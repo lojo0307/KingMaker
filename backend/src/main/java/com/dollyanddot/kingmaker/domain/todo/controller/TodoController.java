@@ -1,11 +1,14 @@
 package com.dollyanddot.kingmaker.domain.todo.controller;
 
+import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.todo.service.TodoService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,9 +25,10 @@ public class TodoController {
     }
 
     @GetMapping
-    public EnvelopeResponse<TodoListResDto> getTodoList(){
-        return EnvelopeResponse.<TodoListResDto>builder()
-                .data(null)
+    public EnvelopeResponse<List<TodoListResDto>> getTodoList(@RequestParam int year, @RequestParam int month, @RequestParam int day){
+        List<TodoListResDto> list=todoService.getTodoList(year,month,day);
+        return EnvelopeResponse.<List<TodoListResDto>>builder()
+                .data(list)
                 .build();
     }
 }
