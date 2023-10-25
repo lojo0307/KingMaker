@@ -38,11 +38,10 @@ dependencies:
   persistent_bottom_nav_bar: any
   google_fonts: ^6.1.0
   social_login_buttons: ^1.0.7
-  auto_size_text: ^3.0.0
-  animated_text_kit: ^4.2.1
   flame: ^1.10.0
   flutter_secure_storage: ^9.0.0 # flutter_secure_storage 관련 패키지
   dio: ^5.3.3 #http 통신을 위한 패키지
+  custom_radio_grouped_button: ^2.2.1
 
 dev_dependencies:
   flutter_test:
