@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kingmaker/page/story/story_page.dart';
-import 'package:social_login_buttons/social_login_buttons.dart';
+import 'package:kingmaker/page/story_page.dart';
+import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 
 class LoginWidget extends StatelessWidget {
   const LoginWidget({super.key});
@@ -15,15 +15,15 @@ class LoginWidget extends StatelessWidget {
             children: <Widget>[
               const SizedBox(height: 60),
               const Image(image: AssetImage('assets/login/kingMaker.png'), height: 150),
-              const SizedBox(height: 100),
-              const SizedBox(height: 60),
+              const SizedBox(height: 160),
               GestureDetector(
                 onTap: () async{
                   await kakaoLogin();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => StoryPage()), (route) => false
+                          // builder: (context) => SignupPage()), (route) => false
+                          builder: (context) => BottomNavBar()), (route) => false
                   );
                 },
                 child: Container(
@@ -33,22 +33,20 @@ class LoginWidget extends StatelessWidget {
                             'assets/login/kakaoLogin.png'))),
               ),
               const SizedBox(height: 20),
-              SocialLoginButton(
-                height: 53,
-                backgroundColor: Colors.white,
-                text: '구글 로그인',
-                fontSize: 18,
-                borderRadius: 5,
-                width: 350,
-                buttonType: SocialLoginButtonType.google,
-                onPressed: () async {
-                  await GoogleLogin();
+              GestureDetector(
+                onTap: () async{
+                  await kakaoLogin();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => StoryPage()), (route) => false
+                        builder: (context) => StoryPage()), (route) => false
                   );
                 },
+                child: Container(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: const Image(
+                        image: AssetImage(
+                            'assets/login/kakaoLogin.png'))),
               ),
             ],
         ),

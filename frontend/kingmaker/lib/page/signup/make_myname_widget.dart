@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kingmaker/page/signup/make_kingdom_widget.dart';
-import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:kingmaker/widget/profile/profile_char_image_widget.dart';
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+import 'package:kingmaker/page/signup/make_kingdom_widget.dart';
+class MakeMynamePage extends StatefulWidget {
+  const MakeMynamePage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<MakeMynamePage> createState() => _MakeMynamePageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _MakeMynamePageState extends State<MakeMynamePage> {
   int mainColor = 0xFFEDF1FF;
   String error = "이름은 10자 이하로 지어주십시오.";
   String name ="";
@@ -22,7 +21,9 @@ class _SignupPageState extends State<SignupPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 100,),
             const ProfileCharImageWidget(),
+            const SizedBox(height: 20,),
             const Text('Your majesty,',
               style: TextStyle(
                 fontSize: 20,
@@ -64,12 +65,12 @@ class _SignupPageState extends State<SignupPage> {
             ),
             Text(error,
               style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.red
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red
               ),
             ),
-            TextButton(onPressed: () {
+            ElevatedButton(onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
