@@ -3,12 +3,14 @@ package com.dollyanddot.kingmaker.domain.routine.controller;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.DeleteRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PutRoutineReqDto;
+import com.dollyanddot.kingmaker.domain.routine.dto.response.GetRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.PatchRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.service.MemberRoutineService;
 import com.dollyanddot.kingmaker.domain.routine.service.RoutineService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +52,13 @@ public class RoutineController {
   public EnvelopeResponse<PatchRoutineResDto> toggleAchieved(@PathVariable Long memberRoutineId) {
     return EnvelopeResponse.<PatchRoutineResDto>builder()
         .data(memberRoutineService.changeAchievedStatement(memberRoutineId))
+        .build();
+  }
+
+  @GetMapping("/{memberRoutineId}")
+  public EnvelopeResponse<GetRoutineResDto> getRoutineDetail(@PathVariable Long memberRoutineId){
+    return EnvelopeResponse.<GetRoutineResDto>builder()
+        .data(memberRoutineService.getMemberRoutine(memberRoutineId))
         .build();
   }
 }
