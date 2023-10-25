@@ -1,6 +1,8 @@
 package com.dollyanddot.kingmaker.domain.routine.service;
 
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
+import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
+import com.dollyanddot.kingmaker.domain.routine.dto.response.GetRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.PatchRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +21,15 @@ public class MemberRoutineService {
     MemberRoutine memberRoutine = memberRoutineRepository.findById(memberRoutineId).orElseThrow();
 
     return PatchRoutineResDto.from(memberRoutine.toggleAchieved());
+  }
+
+  @Transactional(readOnly = true)
+  public GetRoutineResDto getMemberRoutine(Long memberRoutineId){
+
+    MemberRoutine memberRoutine = memberRoutineRepository.findById(memberRoutineId).orElseThrow();
+
+    Routine routine = memberRoutine.getRoutine();
+
+    return GetRoutineResDto.of(memberRoutine, routine);
   }
 }
