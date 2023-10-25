@@ -2,6 +2,7 @@ package com.dollyanddot.kingmaker.domain.todo.domain;
 
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -16,11 +17,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
-@Entity(name="todo")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @NamedNativeQueries({
         @NamedNativeQuery(
                 name = "getTodoList",
@@ -40,11 +36,16 @@ import java.time.LocalDateTime;
                         @ColumnResult(name = "start_at", type = LocalDateTime.class),
                         @ColumnResult(name = "end_at", type = LocalDateTime.class),
                         @ColumnResult(name = "important_yn", type = byte.class),
-                        @ColumnResult(name = "achieved_yn", type = byte.class)
+                        @ColumnResult(name = "achieved_yn", type = byte.class),
+                        @ColumnResult(name = "monster_cd",type= Integer.class)
                 }
         )
 )
-
+@Data
+@Entity(name="todo")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Todo {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

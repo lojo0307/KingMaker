@@ -1,7 +1,9 @@
 package com.dollyanddot.kingmaker.domain.todo.service;
 
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
+import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoDetailException;
 import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoListException;
 import com.dollyanddot.kingmaker.domain.todo.exception.NonExistTodoIdException;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
@@ -29,6 +31,27 @@ public class TodoServiceImpl implements TodoService{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
         LocalDate targetDate=LocalDate.parse(date, formatter);
         return todoRepository.getTodoList(memberId,targetDate);
+    }
+
+    @Override
+    public TodoDetailResDto getTodoDetail(Long todoId) throws GetTodoDetailException {
+        Optional<Todo> todo=todoRepository.getTodoByTodoId(todoId);
+        if(todo.isEmpty()) throw new GetTodoDetailException();
+        TodoDetailResDto detail=new TodoDetailResDto();
+        detail.setTodoDetail(todo.get().getTodoDetail());
+        detail.setTodoPlace(todo.get().getTodoPlace());
+        detail.setTodoNm(todo.get().getTodoNm());
+        byte temp=(byte)(todo.get().isAchievedYn()?1:0);
+        detail.setAchievedYn(temp);
+        temp=(byte)(todo.get().isImportantYn()?1:0);
+        detail.setImportantYn(temp);
+        detail.setEndAt(todo.get().getEndAt());
+        detail.setStartAt(todo.get().getStartAt());
+        detail.setTodoNm(todo.get().getTodoNm());
+        detail.setMonsterCd(todo.get().getMonsterCd());
+        Long categoryId=todo.get().getCategory().getId();
+        detail.setCategoryId(categoryId);
+        return detail;
     }
 
 
