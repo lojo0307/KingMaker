@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/alarm/alarm_main.dart';
-import 'package:kingmaker/widget/common/header1.dart';
+import 'package:kingmaker/widget/common/header.dart';
 class AlarmPage extends StatefulWidget {
   const AlarmPage({super.key});
 
@@ -15,7 +15,7 @@ class _AlarmPageState extends State<AlarmPage> {
       backgroundColor: Color(0xFFEDF1FF),
       body: Stack(
         children: [
-          Header1(title: '알림'),
+          Header(title: '알 림'),
           AlarmMain(),
         ],
       ),
