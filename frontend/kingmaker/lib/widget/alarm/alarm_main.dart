@@ -62,6 +62,13 @@ class _AlarmMainState extends State<AlarmMain> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                 children:[
+                  (delFlag)?
+                  TextButton(onPressed: () {
+                    delFlag = false;
+                    setState(() {});
+                  }, child: const Icon(CupertinoIcons.back))
+                      : const SizedBox.shrink(),
+                  Spacer(),
                   (delFlag)? TextButton(onPressed: () {
                     delFlag = false;
                     setState(() {});
