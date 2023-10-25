@@ -4,6 +4,7 @@ import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoStreakResDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +17,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NamedNativeQueries({
         @NamedNativeQuery(
@@ -24,11 +26,28 @@ import java.time.LocalDateTime;
                         + " where DATE(t.start_at)<=:targetDate and DATE(t.end_at)>=:targetDate and t.member_id=:memberId",
                 resultSetMapping = "getTodoList"
         ),
+        @NamedNativeQuery(
+                name = "getTodoStreak",
+                query = "WITH RECURSIVE DateRange AS (" +
+                        "SELECT DATE(CONCAT(:targetMonth, '-01')) AS target_date " +
+                        "UNION ALL " +
+                        "SELECT DATE_ADD(target_date, INTERVAL 1 DAY) " +
+                        "FROM DateRange " +
+                        "WHERE DATE_ADD(target_date, INTERVAL 1 DAY) <= LAST_DAY(DATE(CONCAT(:targetMonth, '-01')))" +
+                        ") " +
+                        "SELECT " +
+                        "DAY(dr.target_date) AS day," +
+                        "COUNT(t.todo_id) AS level " +
+                        "FROM DateRange dr " +
+                        "LEFT JOIN todo t ON dr.target_date BETWEEN date(t.start_at) AND date(t.end_at) AND t.member_id=:memberId " +
+                        "GROUP BY dr.target_date ORDER BY day;",
+                resultSetMapping = "getTodoStreak"
+        ),
 })
 @SqlResultSetMapping(
         name = "getTodoList",
         classes = @ConstructorResult(
-                targetClass = TodoListResDto.class,
+                targetClass = TodoStreakResDto.class,
                 columns = {
                         @ColumnResult(name = "todo_id", type = Long.class),
                         @ColumnResult(name = "todo_nm", type = String.class),
@@ -41,6 +60,17 @@ import java.time.LocalDateTime;
                 }
         )
 )
+@SqlResultSetMapping(
+        name = "getTodoStreak",
+        classes = @ConstructorResult(
+                targetClass = TodoStreakResDto.class,
+                columns = {
+                        @ColumnResult(name = "day", type = Integer.class),
+                        @ColumnResult(name = "level", type = Integer.class)
+                }
+        )
+)
+
 @Data
 @Entity(name="todo")
 @NoArgsConstructor

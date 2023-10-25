@@ -3,6 +3,7 @@ package com.dollyanddot.kingmaker.domain.todo.controller;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoStreakResDto;
 import com.dollyanddot.kingmaker.domain.todo.service.TodoService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,14 @@ public class TodoController {
         TodoDetailResDto detail=todoService.getTodoDetail(todoId);
         return EnvelopeResponse.<TodoDetailResDto>builder()
                 .data(detail)
+                .build();
+    }
+
+    @GetMapping("calendar/{memberId}")
+    public EnvelopeResponse<List<TodoStreakResDto>> getTodoCalendar(@PathVariable Long memberId, @RequestParam int year, @RequestParam int month){
+        List<TodoStreakResDto> list=todoService.getTodoStreak(year,month,memberId);
+        return EnvelopeResponse.<List<TodoStreakResDto>>builder()
+                .data(list)
                 .build();
     }
 }
