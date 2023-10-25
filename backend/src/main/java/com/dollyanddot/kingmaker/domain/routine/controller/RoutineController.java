@@ -39,14 +39,14 @@ public class RoutineController {
         .build();
   }
 
-  @DeleteMapping()
+  @DeleteMapping("/{routineId}")
   public EnvelopeResponse<Void> deleteRoutine(@PathVariable Long routineId) {
     return EnvelopeResponse.<Void>builder()
         .data(routineService.deleteRoutine(routineId))
         .build();
   }
 
-  @PatchMapping()
+  @PatchMapping("/{memberRoutineId}")
   public EnvelopeResponse<PatchRoutineResDto> toggleAchieved(@PathVariable Long memberRoutineId) {
     return EnvelopeResponse.<PatchRoutineResDto>builder()
         .data(memberRoutineService.changeAchievedStatement(memberRoutineId))
