@@ -15,6 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @SuperBuilder
 @AllArgsConstructor
@@ -29,10 +31,12 @@ public class MemberRoutine extends BaseTimeEntity {
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @OnDelete(action= OnDeleteAction.CASCADE)
   @JoinColumn(name = "member_id", nullable = false)
   private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @OnDelete(action= OnDeleteAction.CASCADE)
   @JoinColumn(name = "routine_id", nullable = false)
   private Routine routine;
 

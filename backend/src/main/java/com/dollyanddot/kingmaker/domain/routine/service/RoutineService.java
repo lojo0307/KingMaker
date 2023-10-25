@@ -6,12 +6,10 @@ import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
-import com.dollyanddot.kingmaker.domain.routine.domain.RoutineRegistraion;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.DeleteRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PutRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
-import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRegistrationRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -25,34 +23,31 @@ public class RoutineService {
   private final RoutineRepository routineRepository;
   private final CategoryRepository categoryRepository;
   private final MemberRepository memberRepository;
-  private final RoutineRegistrationRepository routineRegistrationRepository;
   private final MemberRoutineRepository memberRoutineRepository;
 
-  @Transactional(readOnly = true)
-  public Void registerRoutine(PostRoutineReqDto postRoutineReqDto){
+  @Transactional
+  public Void registerRoutine(PostRoutineReqDto postRoutineReqDto) {
 
-    Category category = categoryRepository.findById(postRoutineReqDto.getCategoryId()).orElseThrow();
+    Category category = categoryRepository.findById(postRoutineReqDto.getCategoryId())
+        .orElseThrow();
     Member member = memberRepository.findById(postRoutineReqDto.getMemberId()).orElseThrow();
     LocalDateTime time = LocalDateTime.now();
 
     Routine routine = routineRepository.save(new Routine().builder()
-        .routineName(postRoutineReqDto.getRoutineNm())
         .category(category)
+        .name(postRoutineReqDto.getRoutineNm())
         .detail(postRoutineReqDto.getRoutineDetail())
-        .build());
-
-    RoutineRegistraion routineRegistraion = routineRegistrationRepository.save(new RoutineRegistraion().builder()
-        .member(member)
-        .routine(routine)
         .period(postRoutineReqDto.getPeriod())
         .importantYn(postRoutineReqDto.isImportantYn())
         .startAt(postRoutineReqDto.getStartAt())
         .endAt(postRoutineReqDto.getEndAt())
         .build());
 
-    if(routineRegistraion.getStartAt().isBefore(time) && routineRegistraion.getEndAt().isAfter(time)){
-      MemberRoutine memberRoutine = memberRoutineRepository.save(new MemberRoutine().builder()
-          .routineRegistraion(routineRegistraion)
+    if (routine.getStartAt().isBefore(time) && routine.getEndAt().isAfter(time)) {
+      memberRoutineRepository.save(new MemberRoutine().builder()
+          .member(member)
+          .routine(routine)
+          .achievedYn(false)
           .monsterCd(1)
           .build());
     }
@@ -61,24 +56,26 @@ public class RoutineService {
   }
 
   @Transactional
-  public Void editRoutine(PutRoutineReqDto putRoutineReqDto){
+  public Void editRoutine(PutRoutineReqDto putRoutineReqDto) {
+
+    Routine routine = routineRepository.findById(putRoutineReqDto.getRoutineId()).orElseThrow();
 
     routine.update(categoryRepository.findById(putRoutineReqDto.getCategoryId()).orElseThrow(),
-        putRoutineReqDto.getRoutineNm(), putRoutineReqDto.getRoutineDetail());
-
-    routineRegistraion.update(routine, putRoutineReqDto.getPeriod(),
-        putRoutineReqDto.isImportantYn(), putRoutineReqDto.getStartAt(), putRoutineReqDto.getEndAt());
+        putRoutineReqDto.getRoutineNm(), putRoutineReqDto.getRoutineDetail(),
+        putRoutineReqDto.getPeriod(), putRoutineReqDto.isImportantYn(),
+        putRoutineReqDto.getStartAt(), putRoutineReqDto.getEndAt());
 
     return null;
   }
 
   @Transactional
-  public Void deleteRoutine(DeleteRoutineReqDto deleteRoutineReqDto){
+  public Void deleteRoutine(DeleteRoutineReqDto deleteRoutineReqDto) {
 
-    RoutineRegistraion routineRegistraion =
-        routineRegistrationRepository.findById(deleteRoutineReqDto.getRoutineRegistrationId()).orElseThrow();
+    Routine routine =
+        routineRepository.findById(deleteRoutineReqDto.getRoutineId())
+            .orElseThrow();
 
-    routineRegistrationRepository.delete(routineRegistraion);
+    routineRepository.delete(routine);
 
     return null;
   }
