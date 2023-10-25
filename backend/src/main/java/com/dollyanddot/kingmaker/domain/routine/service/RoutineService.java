@@ -63,11 +63,6 @@ public class RoutineService {
   @Transactional
   public Void editRoutine(PutRoutineReqDto putRoutineReqDto){
 
-    RoutineRegistraion routineRegistraion =
-        routineRegistrationRepository.findById(putRoutineReqDto.getRoutineRegistrationId()).orElseThrow();
-
-    Routine routine = routineRepository.findById(routineRegistraion.getRoutine().getId()).orElseThrow();
-
     routine.update(categoryRepository.findById(putRoutineReqDto.getCategoryId()).orElseThrow(),
         putRoutineReqDto.getRoutineNm(), putRoutineReqDto.getRoutineDetail());
 
