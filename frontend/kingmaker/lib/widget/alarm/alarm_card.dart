@@ -7,8 +7,17 @@ class AlarmCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-    SizedBox(
-      width: 300,
+    Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(13),
+        border: Border.all(
+          color: Colors.grey,
+          width: 1,
+        ),
+      ),
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(10),
       child: Column(
         children: [
           Row(
