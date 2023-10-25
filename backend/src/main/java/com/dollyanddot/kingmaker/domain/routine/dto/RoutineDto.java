@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.routine.dto;
 
+import com.dollyanddot.kingmaker.domain.category.dto.CategoryDto;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

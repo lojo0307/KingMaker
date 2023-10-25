@@ -1,4 +1,4 @@
-package com.dollyanddot.kingmaker.domain.routine.dto;
+package com.dollyanddot.kingmaker.domain.category.dto;
 
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import lombok.AllArgsConstructor;
