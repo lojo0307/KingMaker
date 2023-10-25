@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class PutRoutineReqDto {
 
-  private Long routineRegistrationId;
+  private Long routineId;
   private Long categoryId;
   private String period;
   private String routineNm;
