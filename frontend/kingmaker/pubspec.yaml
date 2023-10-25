@@ -38,6 +38,9 @@ dependencies:
   persistent_bottom_nav_bar: any
   google_fonts: ^6.1.0
   social_login_buttons: ^1.0.7
+  auto_size_text: ^3.0.0
+  animated_text_kit: ^4.2.1
+  flame: ^1.10.0
   flutter_secure_storage: ^9.0.0 # flutter_secure_storage 관련 패키지
   dio: ^5.3.3 #http 통신을 위한 패키지
 
@@ -69,7 +72,13 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/
+    - assets/images/player_sprite.png
+    - assets/images/pig.png
+    - assets/images/Slime.png
+    - assets/images/ember.png
+    - assets/images/background.png
     - assets/login/
+    - assets/images/pixel_star.png
     - assets/login/login.png
     - assets/login/kakaoLogin.png
     - assets/login/kingMaker.png
