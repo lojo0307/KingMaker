@@ -6,7 +6,6 @@ import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
-import com.dollyanddot.kingmaker.domain.routine.dto.request.DeleteRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PutRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
@@ -69,15 +68,14 @@ public class RoutineService {
   }
 
   @Transactional
-  public Void deleteRoutine(DeleteRoutineReqDto deleteRoutineReqDto) {
+  public Void deleteRoutine(Long routineId) {
 
     Routine routine =
-        routineRepository.findById(deleteRoutineReqDto.getRoutineId())
+        routineRepository.findById(routineId)
             .orElseThrow();
 
     routineRepository.delete(routine);
 
     return null;
   }
-
 }
