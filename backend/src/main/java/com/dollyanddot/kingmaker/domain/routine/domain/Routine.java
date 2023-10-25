@@ -53,4 +53,13 @@ public class Routine extends BaseTimeEntity {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
   private LocalDateTime endAt;
 
+  public void update(Category category, String name, String detail, String period, boolean importantYn, LocalDateTime startAt, LocalDateTime endAt){
+    this.category = category;
+    this.name = name;
+    this.detail = detail;
+    this.period = period;
+    this.importantYn = importantYn;
+    this.startAt = startAt;
+    this.endAt = endAt;
+  }
 }

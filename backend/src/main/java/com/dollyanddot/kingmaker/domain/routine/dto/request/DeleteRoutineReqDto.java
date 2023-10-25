@@ -11,6 +11,6 @@ import lombok.Setter;
 @Setter
 public class DeleteRoutineReqDto {
 
-  private Long routineRegistrationId;
+  private Long routineId;
 
 }
