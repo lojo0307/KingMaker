@@ -2,6 +2,8 @@ package com.dollyanddot.kingmaker.domain.routine.domain;
 
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,18 +30,27 @@ public class Routine extends BaseTimeEntity {
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name="category_id")
+  @JoinColumn(name="category_id", nullable = false)
   private Category category;
 
-  @Column
-  private String routineName;
+  @Column(name = "routine_nm", nullable = false)
+  private String name;
 
   @Column(name = "routine_detail")
   private String detail;
 
-  public void update(Category category, String routineName, String detail){
-    this.category = category;
-    this.routineName = routineName;
-    this.detail = detail;
-  }
+  @Column(nullable = false)
+  private String period;
+
+  @Column(nullable = false)
+  private boolean importantYn;
+
+  @Column(nullable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+  private LocalDateTime startAt;
+
+  @Column
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+  private LocalDateTime endAt;
+
 }
