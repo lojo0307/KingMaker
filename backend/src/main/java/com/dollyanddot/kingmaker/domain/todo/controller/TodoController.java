@@ -45,7 +45,7 @@ public class TodoController {
 
     @GetMapping("calendar/{memberId}")
     public EnvelopeResponse<List<CalendarStreakResDto>> getTodoCalendar(@PathVariable Long memberId, @RequestParam int year, @RequestParam int month){
-        List<CalendarStreakResDto> list=todoService.getTodoStreak(year,month,memberId);
+        List<CalendarStreakResDto> list=todoService.getStreak(year,month,memberId);
         return EnvelopeResponse.<List<CalendarStreakResDto>>builder()
                 .data(list)
                 .build();
