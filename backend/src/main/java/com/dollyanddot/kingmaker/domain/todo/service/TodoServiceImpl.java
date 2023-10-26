@@ -1,5 +1,7 @@
 package com.dollyanddot.kingmaker.domain.todo.service;
 
+import com.dollyanddot.kingmaker.domain.calendar.dto.CalendarAchieveDto;
+import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarAchieveAndSumResDto;
 import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
@@ -14,6 +16,7 @@ import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoDetailException;
 import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoListException;
 import com.dollyanddot.kingmaker.domain.todo.exception.NonExistTodoIdException;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -39,6 +42,41 @@ public class TodoServiceImpl implements TodoService {
       throw new NonExistTodoIdException();
     }
     todoRepository.deleteTodoByTodoId(todoId);
+  }
+
+  @Override
+  public List<CalendarStreakResDto> getStreak(int year, int month, Long memberId) {
+    //윤년까지 계산해야 하므로 year도 parameter로 넘김
+    List<CalendarStreakResDto> list=calendarRepository.getPlansByMonth(year,month,memberId);
+    List<CalendarStreakResDto> result=new ArrayList<>();
+    LocalDate newDate = LocalDate.of(year, month,1);
+    int lengthOfMon = newDate.lengthOfMonth();
+    for(int i=1;i<=lengthOfMon;i++){
+      result.add(new CalendarStreakResDto(i,0));
+    }
+    for(CalendarStreakResDto c:list){
+      result.get(c.getDay()-1).setLevel(c.getLevel());
+    }
+    return result;
+  }
+
+  @Override
+  public List<CalendarAchieveAndSumResDto> getAchieveAndSum(int year, int month, Long memberId){
+    List<CalendarAchieveDto> achieveList=calendarRepository.getAchieveByMonth(year,month,memberId);
+    List<CalendarStreakResDto> sumList=calendarRepository.getPlansByMonth(year,month,memberId);
+    List<CalendarAchieveAndSumResDto> result=new ArrayList<>();
+    LocalDate newDate = LocalDate.of(year, month,1);
+    int lengthOfMon = newDate.lengthOfMonth();
+    for(int i=1;i<=lengthOfMon;i++){
+      result.add(new CalendarAchieveAndSumResDto(i,0,0));
+    }
+    for(CalendarAchieveDto a:achieveList){
+      result.get(a.getDay()-1).setAchieve(a.getAchieve());
+    }
+    for(CalendarStreakResDto s:sumList){
+      result.get(s.getDay()-1).setSum(s.getLevel());
+    }
+    return result;
   }
 
   @Override
@@ -69,22 +107,6 @@ public class TodoServiceImpl implements TodoService {
     Long categoryId = todo.get().getCategory().getId();
     detail.setCategoryId(categoryId);
     return detail;
-  }
-
-  @Override
-  public List<CalendarStreakResDto> getTodoStreak(int year, int month, Long memberId) {
-    //윤년까지 계산해야 하므로 year도 parameter로 넘김
-    List<CalendarStreakResDto> list = calendarRepository.getMonthlyPlans(year, month, memberId);
-    List<CalendarStreakResDto> result = new ArrayList<>();
-    LocalDate newDate = LocalDate.of(year, month, 1);
-    int lengthOfMon = newDate.lengthOfMonth();
-    for (int i = 1; i <= lengthOfMon; i++) {
-      result.add(new CalendarStreakResDto(i, 0));
-    }
-    for (CalendarStreakResDto c : list) {
-      result.get(c.getDay()).setLevel(c.getLevel());
-    }
-    return result;
   }
 
   @Override

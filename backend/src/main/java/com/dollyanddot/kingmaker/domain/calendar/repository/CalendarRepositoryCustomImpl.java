@@ -14,7 +14,7 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<CalendarStreakResDto> getMonthlyPlans(int year,int month, Long memberId){
+    public List<CalendarStreakResDto> getPlansByMonth(int year,int month, Long memberId){
         return queryFactory
                 .select(Projections.fields(CalendarStreakResDto.class,
                         calendar.calendarDate.dayOfMonth().as("day"),
