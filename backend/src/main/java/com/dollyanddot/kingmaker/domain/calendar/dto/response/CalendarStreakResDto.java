@@ -1,5 +1,6 @@
-package com.dollyanddot.kingmaker.domain.todo.dto.response;
+package com.dollyanddot.kingmaker.domain.calendar.dto.response;
 
+import com.querydsl.core.types.dsl.NumberExpression;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TodoStreakResDto {
+public class CalendarStreakResDto {
     int day;
     int level;
 }

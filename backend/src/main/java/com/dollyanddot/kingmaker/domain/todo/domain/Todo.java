@@ -2,9 +2,7 @@ package com.dollyanddot.kingmaker.domain.todo.domain;
 
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
-import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
-import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
-import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoStreakResDto;
+import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +12,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @NamedNativeQueries({
         @NamedNativeQuery(
@@ -47,7 +42,7 @@ import java.util.List;
 @SqlResultSetMapping(
         name = "getTodoList",
         classes = @ConstructorResult(
-                targetClass = TodoStreakResDto.class,
+                targetClass = CalendarStreakResDto.class,
                 columns = {
                         @ColumnResult(name = "todo_id", type = Long.class),
                         @ColumnResult(name = "todo_nm", type = String.class),
@@ -63,7 +58,7 @@ import java.util.List;
 @SqlResultSetMapping(
         name = "getTodoStreak",
         classes = @ConstructorResult(
-                targetClass = TodoStreakResDto.class,
+                targetClass = CalendarStreakResDto.class,
                 columns = {
                         @ColumnResult(name = "day", type = Integer.class),
                         @ColumnResult(name = "level", type = Integer.class)
