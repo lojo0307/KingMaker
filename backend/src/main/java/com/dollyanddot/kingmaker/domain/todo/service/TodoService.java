@@ -1,6 +1,7 @@
 package com.dollyanddot.kingmaker.domain.todo.service;
 
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarAchieveAndSumResDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.request.PostTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
@@ -17,4 +18,6 @@ public interface TodoService {
     List<CalendarStreakResDto> getStreak(int year, int month, Long memberId);
 
     List<CalendarAchieveAndSumResDto> getAchieveAndSum(int year, int month, Long memberId);
+
+    Void registerTodo(PostTodoReqDto postTodoReqDto);
 }
