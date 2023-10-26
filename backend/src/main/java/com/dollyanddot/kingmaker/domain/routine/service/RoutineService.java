@@ -34,6 +34,7 @@ public class RoutineService {
 
     Routine routine = routineRepository.save(new Routine().builder()
         .category(category)
+        .member(member)
         .name(postRoutineReqDto.getRoutineNm())
         .detail(postRoutineReqDto.getRoutineDetail())
         .period(postRoutineReqDto.getPeriod())
@@ -60,7 +61,7 @@ public class RoutineService {
     Routine routine = routineRepository.findById(putRoutineReqDto.getRoutineId()).orElseThrow();
 
     routine.update(categoryRepository.findById(putRoutineReqDto.getCategoryId()).orElseThrow(),
-        putRoutineReqDto.getRoutineNm(), putRoutineReqDto.getRoutineDetail(),
+        routine.getMember(), putRoutineReqDto.getRoutineNm(), putRoutineReqDto.getRoutineDetail(),
         putRoutineReqDto.getPeriod(), putRoutineReqDto.isImportantYn(),
         putRoutineReqDto.getStartAt(), putRoutineReqDto.getEndAt());
 

@@ -1,6 +1,7 @@
 package com.dollyanddot.kingmaker.domain.routine.domain;
 
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
@@ -33,6 +34,10 @@ public class Routine extends BaseTimeEntity {
   @JoinColumn(name="category_id", nullable = false)
   private Category category;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id", nullable = false)
+  private Member member;
+
   @Column(name = "routine_nm", nullable = false)
   private String name;
 
@@ -53,8 +58,9 @@ public class Routine extends BaseTimeEntity {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
   private LocalDateTime endAt;
 
-  public void update(Category category, String name, String detail, String period, boolean importantYn, LocalDateTime startAt, LocalDateTime endAt){
+  public void update(Category category, Member member, String name, String detail, String period, boolean importantYn, LocalDateTime startAt, LocalDateTime endAt){
     this.category = category;
+    this.member = member;
     this.name = name;
     this.detail = detail;
     this.period = period;
