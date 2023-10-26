@@ -56,7 +56,7 @@ public class RoutineController {
         .build();
   }
 
-  @GetMapping("/{memberRoutineId}")
+  @GetMapping("/detail/{memberRoutineId}")
   public EnvelopeResponse<GetRoutineResDto> getRoutineDetail(@PathVariable Long memberRoutineId){
     return EnvelopeResponse.<GetRoutineResDto>builder()
         .data(memberRoutineService.getMemberRoutine(memberRoutineId))
