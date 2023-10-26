@@ -11,12 +11,18 @@ class AddContent extends StatefulWidget {
 }
 
 class _AddContentState extends State<AddContent> {
-  static bool flag =  false;
+  bool flag =  false;
   @override
   Widget build(BuildContext context) {
-    return (flag) ? Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.5),
-      body: addPage(),
+    return (flag) ? GestureDetector(
+      onTap: () {
+        flag = false;
+        setState(() {});
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black.withOpacity(0.5),
+        body: addPage(),
+      ) ,
     ) : addPage();
   }
   Widget addPage() {

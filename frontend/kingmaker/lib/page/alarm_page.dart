@@ -15,7 +15,12 @@ class _AlarmPageState extends State<AlarmPage> {
       backgroundColor: Color(0xFFEDF1FF),
       body: Stack(
         children: [
-          Header(title: '알 림'),
+          Column(
+            children: [
+              SizedBox(height: 20,),
+              Header(title: '알 림'),
+            ],
+          ),
           AlarmMain(),
         ],
       ),
