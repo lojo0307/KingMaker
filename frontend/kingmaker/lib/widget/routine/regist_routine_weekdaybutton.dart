@@ -2,6 +2,8 @@ import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/routine/regist_routine_dayofweekbutton.dart';
+import 'package:kingmaker/widget/routine/regist_routine_dayspicker.dart';
+import 'package:kingmaker/widget/routine/regist_routine_monthspicker.dart';
 
 class WeekDayButton extends StatefulWidget {
   const WeekDayButton({super.key});
@@ -11,7 +13,7 @@ class WeekDayButton extends StatefulWidget {
 }
 
 class _WeekDayButtonState extends State<WeekDayButton> {
-  static const category = ['요일 선택', '일자 선택'];
+  static const category = ['주 단위', '일 단위', '월 단위'];
   String selectedValue = category.first;
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class _WeekDayButtonState extends State<WeekDayButton> {
           height: 30,
           buttonLables: category,
           buttonValues: category,
+
           radioButtonValue: (value) {
             setState(() {
               selectedValue = value;
@@ -36,13 +39,21 @@ class _WeekDayButtonState extends State<WeekDayButton> {
         ),
         //selectedValue의 값이 바뀔 때 마다 다른 라디오 버튼 출력
         //첫번째 값이면 나올 위젯
-        Container(
-          child: DayOfWeekButton(),
-          width: 380,
-        )
-        //두번째 값이면 나올 위젯
-
-
+        if (selectedValue == category.first)
+          Container(
+            child: DayOfWeekButton(),
+            width: 380,
+          )
+        else if (selectedValue == category.last)
+          Container(
+            child: MonthsPicker(),
+            width: 380,
+          )
+        else
+          Container(
+            child: DaysPicker(),
+            width: 380,
+          )
       ],
     );
   }
