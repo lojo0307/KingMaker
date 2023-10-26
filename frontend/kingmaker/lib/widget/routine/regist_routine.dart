@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/common/header.dart';
 import 'package:kingmaker/widget/routine/regist_routine_categorybutton.dart';
+import 'package:kingmaker/widget/routine/regist_routine_timeinput.dart';
 import 'package:kingmaker/widget/routine/resgist_routine_dateinput.dart';
 class RegistRoutine extends StatefulWidget {
   const RegistRoutine({super.key});
@@ -75,20 +76,43 @@ class _RegistRoutineState extends State<RegistRoutine> {
                 ),
                 Row(
                   children: [
-                    Text('시작 일자'),
-                    Container(
-                      child: DateInput(),
+                    Text('시작\n일자',
+                    style: TextStyle(
+                      fontSize: 15
+                    )),
+                    Column(
+                      children: [
+                        Container(
+                        child: DateInput(),
+                        ),
+                        // Container(
+                        //   child: TimeInput(),
+                        // ),
+                      ],
                     )
+
                   ],
                 ),
                 Row(
                   children: [
-                    Text('시작 일자'),
-                    Container(
-                      child: DateInput(),
+                    Text('종료\n일자',
+                        style: TextStyle(
+                            fontSize: 15
+                        )),
+                    Column(
+                      children: [
+                        Container(
+                          child: DateInput(),
+                        ),
+                        // Container(
+                        //   child: TimeInput(),
+                        // ),
+                      ],
                     )
+
                   ],
-                )
+                ),
+                
 
               ],
             )
