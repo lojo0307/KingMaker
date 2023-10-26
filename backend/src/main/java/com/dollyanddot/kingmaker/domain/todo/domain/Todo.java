@@ -3,11 +3,12 @@ package com.dollyanddot.kingmaker.domain.todo.domain;
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
+import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -70,8 +71,8 @@ import java.time.LocalDateTime;
 @Entity(name="todo")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Todo {
+@SuperBuilder
+public class Todo extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long todoId;
