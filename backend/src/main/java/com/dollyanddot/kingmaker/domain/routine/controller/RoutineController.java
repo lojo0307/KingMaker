@@ -1,8 +1,8 @@
 package com.dollyanddot.kingmaker.domain.routine.controller;
 
-import com.dollyanddot.kingmaker.domain.routine.dto.request.DeleteRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PutRoutineReqDto;
+import com.dollyanddot.kingmaker.domain.routine.dto.response.GetDailyRoutinesResDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.GetRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.PatchRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.service.MemberRoutineService;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -59,6 +60,13 @@ public class RoutineController {
   public EnvelopeResponse<GetRoutineResDto> getRoutineDetail(@PathVariable Long memberRoutineId){
     return EnvelopeResponse.<GetRoutineResDto>builder()
         .data(memberRoutineService.getMemberRoutine(memberRoutineId))
+        .build();
+  }
+
+  @GetMapping("/{memberId}")
+  public EnvelopeResponse<GetDailyRoutinesResDto> getDailyRoutines(@PathVariable Long memberId, @RequestParam String date){
+    return EnvelopeResponse.<GetDailyRoutinesResDto>builder()
+        .data(memberRoutineService.getDailyRoutines(memberId, date))
         .build();
   }
 }
