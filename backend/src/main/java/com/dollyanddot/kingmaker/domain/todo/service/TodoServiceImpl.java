@@ -1,25 +1,31 @@
 package com.dollyanddot.kingmaker.domain.todo.service;
 
+import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
-import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoStreakResDto;
+import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
 import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoDetailException;
 import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoListException;
 import com.dollyanddot.kingmaker.domain.todo.exception.NonExistTodoIdException;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
 public class TodoServiceImpl implements TodoService{
     private final TodoRepository todoRepository;
+    private final CalendarRepository calendarRepository;
     @Override
     public void deleteTodoByTodoId(Long todoId) throws NonExistTodoIdException {
         Optional<Todo> temp=todoRepository.findById(todoId);
@@ -56,10 +62,18 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public List<TodoStreakResDto> getTodoStreak(int year,int month,Long memberId) {
-        String targetMonth=year+"-"+month;
-        return todoRepository.getTodoStreak(targetMonth,memberId);
+    public List<CalendarStreakResDto> getTodoStreak(int year, int month, Long memberId) {
+        //윤년까지 계산해야 하므로 year도 parameter로 넘김
+        List<CalendarStreakResDto> list=calendarRepository.getMonthlyPlans(year,month,memberId);
+        List<CalendarStreakResDto> result=new ArrayList<>();
+        LocalDate newDate = LocalDate.of(year, month,1);
+        int lengthOfMon = newDate.lengthOfMonth();
+        for(int i=1;i<=lengthOfMon;i++){
+            result.add(new CalendarStreakResDto(i,0));
+        }
+        for(CalendarStreakResDto c:list){
+            result.get(c.getDay()).setLevel(c.getLevel());
+        }
+        return result;
     }
-
-
 }
