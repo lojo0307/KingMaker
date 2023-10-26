@@ -112,4 +112,14 @@ public class Todo extends BaseTimeEntity {
 
     @Column(nullable=false)
     private int monsterCd;
+
+    public void update(Category category, String todoNm, String todoDetail, String todoPlace, boolean importantYn, LocalDateTime startAt, LocalDateTime endAt){
+        this.category = category;
+        this.todoNm = todoNm;
+        this.todoDetail = todoDetail;
+        this.todoPlace = todoPlace;
+        this.importantYn = importantYn;
+        this.startAt = startAt;
+        this.endAt = endAt;
+    }
 }

@@ -12,30 +12,15 @@ spring:
       - env.yml
       - application-redis.yml
 
-#    datasource:
-#      driver-class-name: org.mariadb.jdbc.Driver
-#      url: ${MARIADB_DATABASE_URL}
-#      username: ${DATABASE_USERNAME}
-#      password: ${DATABASE_PASSWORD}
-#      hikari:
-#        maximum-pool-size: 2
-#        max-lifetime: 30000
-
-#    jpa:
-#      show-sql: true
-#      hibernate:
-#        ddl-auto: create-drop
-#      properties:
-#        hibernate:
-#          format-sql: true
-#          dialect: org.hibernate.dialect.MariaDBDialect
-#      defer-datasource-initialization: true
-
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/kingmaker
-    username: root
-    password: root
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${MARIADB_DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    hikari:
+      maximum-pool-size: 2
+      max-lifetime: 30000
+
   jpa:
     show-sql: true
     hibernate:
@@ -43,6 +28,7 @@ spring:
     properties:
       hibernate:
         format-sql: true
+        dialect: org.hibernate.dialect.MariaDBDialect
     defer-datasource-initialization: true
 
   sql:
