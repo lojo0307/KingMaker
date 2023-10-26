@@ -42,6 +42,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0 # flutter_secure_storage 관련 패키지
   dio: ^5.3.3 #http 통신을 위한 패키지
   custom_radio_grouped_button: ^2.2.1
+  table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_test:
@@ -79,7 +80,6 @@ flutter:
     - assets/login/
     - assets/images/pixel_star.png
     - assets/login/login.png
-    - assets/login/kakaoLogin.png
     - assets/login/kingMaker.png
     - assets/signup/
     - assets/castle/
@@ -97,10 +97,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+
+  fonts:
+    - family: PretendardBold
+      fonts:
+        - asset: assets/fonts/NeoDunggeunmoPro-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

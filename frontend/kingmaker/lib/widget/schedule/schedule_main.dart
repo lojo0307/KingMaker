@@ -26,40 +26,40 @@ class _ScheduleMainState extends State<ScheduleMain> {
     },
     {
       'title' : '빨래널기2',
-      'type' : '2',
-      'category' : '1',
+      'type' : '1',
+      'category' : '2',
       'start' : '9시 40분',
       'end' : '11시 23분',
       'achieved' : '0',
     },
     {
       'title' : '빨래널기3',
-      'type' : '3',
-      'category' : '1',
+      'type' : '1',
+      'category' : '3',
       'start' : '9시 40분',
       'end' : '11시 23분',
       'achieved' : '0',
     },
     {
       'title' : '빨래널기4',
-      'type' : '4',
-      'category' : '1',
+      'type' : '2',
+      'category' : '4',
       'start' : '9시 40분',
       'end' : '11시 23분',
       'achieved' : '1',
     },
     {
       'title' : '빨래널기5',
-      'type' : '5',
-      'category' : '1',
+      'type' : '2',
+      'category' : '5',
       'start' : '9시 40분',
       'end' : '11시 23분',
       'achieved' : '1',
     },
     {
       'title' : '빨래널기6',
-      'type' : '6',
-      'category' : '1',
+      'type' : '2',
+      'category' : '6',
       'start' : '9시 40분',
       'end' : '11시 23분',
       'achieved' : '1',
@@ -73,6 +73,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
           backgroundColor: Colors.transparent,
           body: Column(
             children: [
+              SizedBox(height: 20,),
               Header(title: '일 정'),
               TabBar(
                 indicatorColor: Colors.black,
@@ -87,11 +88,9 @@ class _ScheduleMainState extends State<ScheduleMain> {
                   String title = obj['text'].toString();
                   return Tab(
                     text: title,
-                    height: 50,
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 30),
               Expanded(
                 child: TabBarView(
                   children:
