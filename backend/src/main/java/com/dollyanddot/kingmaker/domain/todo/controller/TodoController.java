@@ -1,6 +1,7 @@
 package com.dollyanddot.kingmaker.domain.todo.controller;
 
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PostTodoReqDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.request.PutTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
@@ -55,6 +56,13 @@ public class TodoController {
     public EnvelopeResponse<Void> registerTodo(@RequestBody PostTodoReqDto postTodoReqDto){
         return EnvelopeResponse.<Void>builder()
             .data(todoService.registerTodo(postTodoReqDto))
+            .build();
+    }
+
+    @PutMapping()
+    public EnvelopeResponse<Void> editTodo(@RequestBody PutTodoReqDto putTodoReqDto){
+        return EnvelopeResponse.<Void>builder()
+            .data(todoService.editTodo(putTodoReqDto))
             .build();
     }
 }
