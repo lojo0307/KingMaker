@@ -13,7 +13,7 @@ import lombok.Getter;
 public class RoutineDto {
 
   private Long routineId;
-  private CategoryDto category;
+  private Long categoryId;
   private String routineNm;
   private String routineDetail;
   private String period;
@@ -24,7 +24,7 @@ public class RoutineDto {
   public static RoutineDto from(Routine routine){
     return RoutineDto.builder()
         .routineId(routine.getId())
-        .category(CategoryDto.from(routine.getCategory()))
+        .categoryId(routine.getCategory().getId())
         .routineNm(routine.getName())
         .routineDetail(routine.getDetail())
         .period(routine.getPeriod())
