@@ -30,7 +30,7 @@ class LoginWidget extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: const Image(
                         image: AssetImage(
-                            'assets/login/kakaoLogin.png'))),
+                            'assets/login/googleLogin.png'))),
               ),
               const SizedBox(height: 20),
               GestureDetector(

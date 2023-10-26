@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/page/login_page.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
-import 'package:flutter/services.dart';
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+void main() {
   runApp(const MyApp());
 }
 const isLoggedIn = false;
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'kingMaker',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: 'PretendardBold',
         useMaterial3: true,
       ),
       home: Container(
