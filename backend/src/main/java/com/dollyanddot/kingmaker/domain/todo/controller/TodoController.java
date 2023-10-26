@@ -1,13 +1,11 @@
 package com.dollyanddot.kingmaker.domain.todo.controller;
 
-import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
-import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoStreakResDto;
+import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
 import com.dollyanddot.kingmaker.domain.todo.service.TodoService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,9 +43,9 @@ public class TodoController {
     }
 
     @GetMapping("calendar/{memberId}")
-    public EnvelopeResponse<List<TodoStreakResDto>> getTodoCalendar(@PathVariable Long memberId, @RequestParam int year, @RequestParam int month){
-        List<TodoStreakResDto> list=todoService.getTodoStreak(year,month,memberId);
-        return EnvelopeResponse.<List<TodoStreakResDto>>builder()
+    public EnvelopeResponse<List<CalendarStreakResDto>> getTodoCalendar(@PathVariable Long memberId, @RequestParam int year, @RequestParam int month){
+        List<CalendarStreakResDto> list=todoService.getTodoStreak(year,month,memberId);
+        return EnvelopeResponse.<List<CalendarStreakResDto>>builder()
                 .data(list)
                 .build();
     }
