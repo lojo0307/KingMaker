@@ -74,6 +74,8 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - assets/images/uncheck.png
+    - assets/images/check.png
     - assets/
     - assets/images/player_sprite.png
     - assets/images/pig.png

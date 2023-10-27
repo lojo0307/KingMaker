@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 
 import 'package:kingmaker/widget/routine/regist_routine_categorybutton.dart';
+import 'package:kingmaker/widget/routine/regist_routine_importancecheck.dart';
 
 import 'package:kingmaker/widget/routine/regist_routine_weekdaybutton.dart';
 import 'package:kingmaker/widget/routine/resgist_routine_dateinput.dart';
@@ -44,30 +46,125 @@ class _RegistRoutineState extends State<RegistRoutine> {
                     ),
                   ],
                 ),
+
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('제목'),
-                    Container(
-                      width: 100,
-                      height: 30,
-                      child: TextFormField(),
+                    // Flexible(
+                    //   flex: 2,
+                    //   fit: FlexFit.loose,
+                    //   child: Text('제목'),
+                    // ),
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.loose,
+                      child: SizedBox(),
+                    ),
+                    Flexible(
+                      flex: 9,
+                      fit: FlexFit.loose,
+                      child: Container(
+                        // color: Colors.red,
+                        margin: EdgeInsetsDirectional.only(top: 10),
+                        padding: EdgeInsetsDirectional.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(13),
+                        ),
+                        height: 60,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: '제목',
+                            labelStyle: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.loose,
+                      child: SizedBox(),
                     ),
                   ],
                 ),
+                SizedBox(height: 20,),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('상세\n'
-                        '정보'),
-                    Container(
-                      width: 100,
-                      height: 30,
-                      child: TextFormField(),
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.loose,
+                      child: SizedBox(),
+                    ),
+                    Flexible(
+                      flex: 9,
+                      fit: FlexFit.loose,
+                      child: Container(
+                        // width: 100,
+                        // height: 170,
+                        // color: Colors.red,
+                        padding: EdgeInsetsDirectional.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(13),
+                        ),
+                        child: TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          // border: OutlineInputBorder(borderRadius: BorderRadius.circular(13),),
+                          labelText: '상세내용',
+                          labelStyle: TextStyle(
+                            fontSize: 17,
+                          ),
+                        ),),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.loose,
+                      child: SizedBox(),
                     ),
                   ],
                 ),
-                Row(
+                SizedBox(height: 10,),
+                Column(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('분류'),
+                    Text('분류',style: TextStyle(
+                        fontSize: 15
+                    )),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.loose,
+                          child: Container(
+                          ),
+                        ),
+                        Flexible(
+                          flex: 9,
+                          fit: FlexFit.loose,
+                          child: Divider(
+                              color: Colors.black,
+                              thickness: 0.3),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.loose,
+                          child: Container(
+                          ),
+                        ),
+                      ],
+                    ),
+
                     Container(
                       width: 370,
                       height: 80,
@@ -75,33 +172,44 @@ class _RegistRoutineState extends State<RegistRoutine> {
                     ),
                   ],
                 ),
-                Row(
+                SizedBox(height: 8,),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('시작\n일자',
+                    Text('시작 일자 & 종료 일자',
                     style: TextStyle(
                       fontSize: 15
                     )),
-                    Column(
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.loose,
+                          child: Container(
+                          ),
+                        ),
+                        Flexible(
+                          flex: 9,
+                          fit: FlexFit.loose,
+                          child: Divider(
+                              color: Colors.black,
+                              thickness: 0.3),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.loose,
+                          child: Container(
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                         child: DateInput(),
                         ),
-                        // Container(
-                        //   child: TimeInput(),
-                        // ),
-                      ],
-                    )
-
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text('종료\n일자',
-                        style: TextStyle(
-                            fontSize: 15
-                        )),
-                    Column(
-                      children: [
+                        Text('  ~  ', style: TextStyle(fontSize: 18)),
                         Container(
                           child: DateInput(),
                         ),
@@ -113,26 +221,78 @@ class _RegistRoutineState extends State<RegistRoutine> {
 
                   ],
                 ),
-                Row(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('주기',
                         style: TextStyle(
                             fontSize: 15
                         )),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.loose,
+                          child: Container(
+                          ),
+                        ),
+                        Flexible(
+                          flex: 9,
+                          fit: FlexFit.loose,
+                          child: Divider(
+                              color: Colors.black,
+                              thickness: 0.3),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.loose,
+                          child: Container(
+                          ),
+                        ),
+                      ],
+                    ),
                     Column(
                       children: [
                         Container(
                           child: WeekDayButton(),
                         ),
-                        // Container(
-                        //   child: TimeInput(),
-                        // ),
                       ],
                     )
-
                   ],
                 ),
 
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: ImportanceCheck(),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      fit: FlexFit.tight,
+                        flex: 1,
+                        child: SizedBox()
+                    ),
+                    Flexible(
+                      fit: FlexFit.tight,
+                        flex: 14,
+                        child: ElevatedButton(
+                            onPressed: ()=> print('click'),
+                            child: Text('루틴 등록하기')
+                        )
+                    ),
+                    Flexible(
+                        fit: FlexFit.tight,
+                        flex: 1,
+                        child: SizedBox()
+                    ),
+
+                  ],
+                )
               ],
             )
         )
