@@ -10,6 +10,7 @@ import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PostTodoReqDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.request.PutTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoDetailException;
@@ -47,34 +48,35 @@ public class TodoServiceImpl implements TodoService {
   @Override
   public List<CalendarStreakResDto> getStreak(int year, int month, Long memberId) {
     //윤년까지 계산해야 하므로 year도 parameter로 넘김
-    List<CalendarStreakResDto> list=calendarRepository.getPlansByMonth(year,month,memberId);
-    List<CalendarStreakResDto> result=new ArrayList<>();
-    LocalDate newDate = LocalDate.of(year, month,1);
+    List<CalendarStreakResDto> list = calendarRepository.getPlansByMonth(year, month, memberId);
+    List<CalendarStreakResDto> result = new ArrayList<>();
+    LocalDate newDate = LocalDate.of(year, month, 1);
     int lengthOfMon = newDate.lengthOfMonth();
-    for(int i=1;i<=lengthOfMon;i++){
-      result.add(new CalendarStreakResDto(i,0));
+    for (int i = 1; i <= lengthOfMon; i++) {
+      result.add(new CalendarStreakResDto(i, 0));
     }
-    for(CalendarStreakResDto c:list){
-      result.get(c.getDay()-1).setLevel(c.getLevel());
+    for (CalendarStreakResDto c : list) {
+      result.get(c.getDay() - 1).setLevel(c.getLevel());
     }
     return result;
   }
 
   @Override
-  public List<CalendarAchieveAndSumResDto> getAchieveAndSum(int year, int month, Long memberId){
-    List<CalendarAchieveDto> achieveList=calendarRepository.getAchieveByMonth(year,month,memberId);
-    List<CalendarStreakResDto> sumList=calendarRepository.getPlansByMonth(year,month,memberId);
-    List<CalendarAchieveAndSumResDto> result=new ArrayList<>();
-    LocalDate newDate = LocalDate.of(year, month,1);
+  public List<CalendarAchieveAndSumResDto> getAchieveAndSum(int year, int month, Long memberId) {
+    List<CalendarAchieveDto> achieveList = calendarRepository.getAchieveByMonth(year, month,
+        memberId);
+    List<CalendarStreakResDto> sumList = calendarRepository.getPlansByMonth(year, month, memberId);
+    List<CalendarAchieveAndSumResDto> result = new ArrayList<>();
+    LocalDate newDate = LocalDate.of(year, month, 1);
     int lengthOfMon = newDate.lengthOfMonth();
-    for(int i=1;i<=lengthOfMon;i++){
-      result.add(new CalendarAchieveAndSumResDto(i,0,0));
+    for (int i = 1; i <= lengthOfMon; i++) {
+      result.add(new CalendarAchieveAndSumResDto(i, 0, 0));
     }
-    for(CalendarAchieveDto a:achieveList){
-      result.get(a.getDay()-1).setAchieve(a.getAchieve());
+    for (CalendarAchieveDto a : achieveList) {
+      result.get(a.getDay() - 1).setAchieve(a.getAchieve());
     }
-    for(CalendarStreakResDto s:sumList){
-      result.get(s.getDay()-1).setSum(s.getLevel());
+    for (CalendarStreakResDto s : sumList) {
+      result.get(s.getDay() - 1).setSum(s.getLevel());
     }
     return result;
   }
@@ -136,6 +138,41 @@ public class TodoServiceImpl implements TodoService {
             .member(member)
             .calendarDate(date)
             .build()));
+
+    return null;
+  }
+
+  @Override
+  @Transactional
+  public Void editTodo(PutTodoReqDto putTodoReqDto) {
+
+    Todo todo = todoRepository.findById(putTodoReqDto.getTodoId()).orElseThrow();
+    List<Calendar> calendars = calendarRepository.findAllByTodoAndMember(todo, todo.getMember());
+
+    todo.update(categoryRepository.findById(putTodoReqDto.getCategoryId()).orElseThrow(),
+        putTodoReqDto.getTodoNm(), putTodoReqDto.getTodoDetail(), putTodoReqDto.getTodoPlace(),
+        putTodoReqDto.isImportantYn(), putTodoReqDto.getStartAt(), putTodoReqDto.getEndAt());
+
+    LocalDate startDate = todo.getStartAt().toLocalDate();
+    LocalDate endDate = todo.getEndAt().toLocalDate();
+
+    LocalDate.from(startDate).datesUntil(LocalDate.from(endDate).plusDays(1))
+        .forEach(date -> {
+          if(calendarRepository.findByCalendarDateAndTodo(date, todo) == null){
+            calendarRepository.save(new Calendar().builder()
+                .todo(todo)
+                .member(todo.getMember())
+                .calendarDate(date)
+                .build());
+          }
+        });
+
+    for (Calendar calendar : calendars) {
+      if (calendar.getCalendarDate().isBefore(startDate) || calendar.getCalendarDate()
+          .isAfter(endDate)) {
+        calendarRepository.delete(calendar);
+      }
+    }
 
     return null;
   }
