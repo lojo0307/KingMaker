@@ -122,4 +122,10 @@ public class Todo extends BaseTimeEntity {
         this.startAt = startAt;
         this.endAt = endAt;
     }
+
+    public boolean toggleAchieved(){
+        this.achievedYn = !this.achievedYn;
+
+        return this.achievedYn;
+    }
 }
