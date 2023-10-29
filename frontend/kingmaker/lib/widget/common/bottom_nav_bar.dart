@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/page/alarm_page.dart';
 import 'package:kingmaker/page/calendar_page.dart';
@@ -17,16 +16,16 @@ class BottomNavBar extends StatelessWidget {
       controller: controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
-      confineInSafeArea: true,
-      backgroundColor: Colors.white, // Default is Colors.white.
+      confineInSafeArea: false,
+      backgroundColor: Colors.transparent, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-      stateManagement: true, // Default is true.
-      hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+      stateManagement: false, // Default is true.
+      hideNavigationBarWhenKeyboardShows: false, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: const NavBarDecoration(
-        colorBehindNavBar: Colors.white,
+        colorBehindNavBar: Colors.white
       ),
-      popAllScreensOnTapOfSelectedTab: true,
+      popAllScreensOnTapOfSelectedTab: false,
       popActionScreens: PopActionScreensType.all,
       itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
         duration: Duration(milliseconds: 200),
@@ -53,34 +52,29 @@ List<Widget> _buildScreens() {
 List<PersistentBottomNavBarItem> _navBarsItems() {
   return [
     PersistentBottomNavBarItem(
-      icon: const Icon(CupertinoIcons.square_list),
+      icon: Image.asset('assets/icon/todo.png', color: Colors.black,scale: 0.7,),
       // title: ("Todo"),
-      activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.black,
+      inactiveIcon: Image.asset('assets/icon/todo.png', color: Colors.black87),
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(CupertinoIcons.calendar),
-      // title: ("calendar"),
-      activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.black,
+      icon: Image.asset('assets/icon/calendar.png', color: Colors.black,scale: 0.7,),
+      // title: ("Calendar"),
+      inactiveIcon: Image.asset('assets/icon/calendar.png', color: Colors.black87),
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(CupertinoIcons.house_fill),
+      icon: Image.asset('assets/icon/home.png', color: Colors.black,scale: 0.7,),
       // title: ("Home"),
-      activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.black,
+      inactiveIcon: Image.asset('assets/icon/home.png', color: Colors.black87),
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(CupertinoIcons.bell),
+      icon: Image.asset('assets/icon/alarm.png', color: Colors.black,scale: 0.7,),
       // title: ("Alarm"),
-      activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.black,
+      inactiveIcon: Image.asset('assets/icon/alarm.png', color: Colors.black87),
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(CupertinoIcons.person),
+      icon: Image.asset('assets/icon/profile.png', color: Colors.black,scale: 0.7,),
       // title: ("Profile"),
-      activeColorPrimary: CupertinoColors.activeBlue,
-      inactiveColorPrimary: CupertinoColors.black,
+      inactiveIcon: Image.asset('assets/icon/profile.png', color: Colors.black87),
     ),
   ];// NOTE: You CAN declare your own model here instead of `PersistentBottomNavBarItem`.
 }

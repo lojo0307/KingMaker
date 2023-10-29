@@ -26,12 +26,12 @@ class _ProfileCalendarWidgetState extends State<ProfileCalendarWidget> {
         firstDay: DateTime.utc(2010, 10, 16),
         lastDay: DateTime.utc(2030, 3, 14),
         focusedDay: _focusedDay,
-        headerStyle: const HeaderStyle(
+        headerStyle: HeaderStyle(
           titleCentered: true,
           formatButtonVisible: false,
           headerPadding:EdgeInsets.only(bottom: 10),
-          // leftChevronIcon: const Icon(CupertinoIcons.square_list),
-          // rightChevronIcon: const Icon(CupertinoIcons.square_list),
+          leftChevronIcon: Image.asset('assets/icon/left.png'),
+          rightChevronIcon: Image.asset('assets/icon/right.png'),
         ),
         calendarBuilders: CalendarBuilders(
           headerTitleBuilder: (context, day) {
@@ -76,41 +76,13 @@ class _ProfileCalendarWidgetState extends State<ProfileCalendarWidget> {
               ),
             );
           },
-          // selectedBuilder: (context, day, focusedDay) {
-          //   int idx = 0;
-          //   if (levels.containsKey(day.day.toString())) {
-          //     idx = levels['${day.day}']!.toInt();
-          //   }
-          //   return Container(
-          //     margin: EdgeInsets.all(5),
-          //     decoration: BoxDecoration(
-          //       color: calColors[idx],
-          //       border: Border(top: BorderSide(color: borColors[idx], width: 2), left: BorderSide(color: borColors[idx], width: 2)),
-          //     ),
-          //     child: Center(
-          //       child: Text(day.day.toString(), style: TextStyle(color: borColors[0])),
-          //     ),
-          //   );
-          // },
-          // outsideBuilder: (context, day, focusedDay) {
-          //   return Container(
-          //     margin: EdgeInsets.all(5),
-          //     decoration: BoxDecoration(
-          //       color: calColors[0],
-          //       border: Border(top: BorderSide(color: borColors[0], width: 2), left: BorderSide(color: borColors[0], width: 2)),
-          //     ),
-          //     child: Center(
-          //       child: Text(day.day.toString(), style: TextStyle(color: Colors.grey)),
-          //     ),
-          //   );
-          // },
-
         ),
         calendarStyle: const CalendarStyle(
           todayDecoration: BoxDecoration(
               color: Color(0xFF7EC4D9),
               border: Border(left: BorderSide(width: 1, color: Color(0xFF9FC6D2)), top: BorderSide(width: 1, color: Color(0xFF9FC6D2)))
           ),
+          outsideDaysVisible: false,
           todayTextStyle:TextStyle(color: Colors.white,),
         ),
         daysOfWeekHeight: 30,

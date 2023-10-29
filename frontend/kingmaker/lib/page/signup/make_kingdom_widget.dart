@@ -74,7 +74,7 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
               Navigator.pop(
                 context,
               );
-            }, child: const Icon(CupertinoIcons.back)),
+            }, child: Image.asset('assets/icon/left.png')),
           ],
         )
       ),

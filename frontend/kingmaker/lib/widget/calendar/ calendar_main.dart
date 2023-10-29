@@ -59,12 +59,12 @@ class _CalendarMainState extends State<CalendarMain> {
                     setState(() {});
                   }
                 },
-                headerStyle: const HeaderStyle(
+                headerStyle: HeaderStyle(
                   titleCentered: true,
                   formatButtonVisible: false,
-                  headerPadding:EdgeInsets.only(bottom: 10),
-                  // leftChevronIcon: const Icon(CupertinoIcons.square_list),
-                  // rightChevronIcon: const Icon(CupertinoIcons.square_list),
+                  headerPadding:const EdgeInsets.only(bottom: 10),
+                  leftChevronIcon: Image.asset('assets/icon/left.png',scale: 0.8),
+                  rightChevronIcon: Image.asset('assets/icon/right.png',scale: 0.8),
                 ),
                 calendarBuilders: CalendarBuilders(
                   headerTitleBuilder: (context, day) {
