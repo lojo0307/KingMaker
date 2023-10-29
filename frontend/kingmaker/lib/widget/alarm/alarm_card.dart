@@ -28,7 +28,7 @@ class AlarmCard extends StatelessWidget {
               Row(
                 children: [
                   Text(data['time'].toString(), style: const TextStyle(fontSize: 15, color: Colors.grey ),),
-                  (delFlag)? TextButton( onPressed: () { }, child: const Icon(CupertinoIcons.delete), ): const SizedBox.shrink()
+                  (delFlag)? TextButton( onPressed: () { }, child: Image.asset('assets/icon/delete.png',), ): const SizedBox.shrink()
                 ],
               ),
             ],
