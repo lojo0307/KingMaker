@@ -67,7 +67,8 @@ class _AlarmMainState extends State<AlarmMain> {
                   TextButton(onPressed: () {
                     delFlag = false;
                     setState(() {});
-                  }, child: const Icon(CupertinoIcons.back))
+                  }, child: Image.asset('assets/icon/left.png')
+                  )
                       : const SizedBox.shrink(),
                   Spacer(),
                   (delFlag)? TextButton(onPressed: () {
@@ -77,7 +78,7 @@ class _AlarmMainState extends State<AlarmMain> {
                       : TextButton( onPressed: () {
                         delFlag = true;
                         setState(() {});
-                          }, child: const Icon(CupertinoIcons.delete), ),
+                          }, child: Image.asset('assets/icon/trash.png', scale: 0.7),),
                   ],
                 ),
                 TabBar(
