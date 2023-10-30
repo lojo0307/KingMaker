@@ -11,6 +11,7 @@ import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PostTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PutTodoReqDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.PatchTodoResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoDetailException;
@@ -175,5 +176,14 @@ public class TodoServiceImpl implements TodoService {
     }
 
     return null;
+  }
+
+  @Override
+  @Transactional
+  public PatchTodoResDto changeAchievedStatement(Long todoId){
+
+    Todo todo = todoRepository.findById(todoId).orElseThrow();
+
+    return PatchTodoResDto.from(todo.toggleAchieved());
   }
 }
