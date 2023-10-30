@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public enum Type {
 
-    MORNING, ROUTINE, EVENING
+    MORNING, TODO, ROUTINE, EVENING
 }
