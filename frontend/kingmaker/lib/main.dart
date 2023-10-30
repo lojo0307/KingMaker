@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kingmaker/page/login_page.dart';
-import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
+import 'package:kingmaker/page/test_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async{
   runApp(const MyApp());
+  await dotenv.load(fileName: ".env");
 }
 const isLoggedIn = false;
 
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
         constraints: const BoxConstraints(
           maxWidth: 400,
         ),
-        child: isLoggedIn? const BottomNavBar() : const LoginPage(),
+        // child: isLoggedIn? const BottomNavBar() : const LoginPage(),
+        child: TestPage(),
       ),
     );
   }
