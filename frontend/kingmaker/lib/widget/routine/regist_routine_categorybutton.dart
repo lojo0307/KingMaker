@@ -1,4 +1,5 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
+import 'package:flame/extensions.dart';
 import 'package:flutter/cupertino.dart';
 
 class CategoryButton extends StatefulWidget {
@@ -19,6 +20,9 @@ class _CategoryButtonState extends State<CategoryButton> {
     return Column(
       children: [
         CustomRadioButton(
+          unSelectedBorderColor: Color(0x0000000),
+          selectedBorderColor: Color(0x0000000),
+          elevation: 0,
           width: 80,
           height: 30,
           buttonLables: category,
@@ -35,23 +39,7 @@ class _CategoryButtonState extends State<CategoryButton> {
           defaultSelected: selectedValue,
           // ... 기타 속성들
         ),
-        // CustomRadioButton(
-        //   width: 80,
-        //   height: 30,
-        //   buttonLables: secondHalf,
-        //   buttonValues: secondHalf,
-        //   radioButtonValue: (value) {
-        //     setState(() {
-        //       selectedValue = value!;
-        //     });
-        //     print(value);
-        //   },
-        //   unSelectedColor: const Color(0xFFD9D9D9),
-        //   selectedColor: const Color(0xFF5792A4),
-        //   enableButtonWrap: false, // 중요: 버튼 래핑 비활성화
-        //   defaultSelected: null,
-        //   // ... 기타 속성들
-        // ),
+
       ],
     );
   }
