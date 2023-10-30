@@ -1,13 +1,12 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
-
 import '../dto/test_dto.dart';
 
 final dio = Dio();
 String? url = dotenv.env['URL'];
 
 class TestApi{
-  static Future<TestDto> getData() async{
+  Future<TestDto> getData() async{
     final response = await dio.get(
         '$url/api/test',
     );
@@ -18,3 +17,4 @@ class TestApi{
     return TestDto.fromJson(response.data['data']);
   }
 }
+

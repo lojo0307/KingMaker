@@ -46,7 +46,7 @@ dependencies:
   time_picker_sheet: ^0.0.2+1
   table_calendar: ^3.0.9
   flutter_dotenv: ^5.1.0 # 보안데이터 관리를 위한 패키지
-
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
@@ -64,7 +64,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
