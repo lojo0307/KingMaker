@@ -31,5 +31,5 @@ public class NotificationSetting {
     private NotificationType notificationType;
 
     @Column(nullable=false, columnDefinition = "TINYINT(1)")
-    private boolean achievedYn;
+    private boolean activatedYn;
 }
