@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/page/test_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:kingmaker/provider/test_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async{
-  runApp(const MyApp());
   await dotenv.load(fileName: ".env");
+  runApp(const MyApp());
 }
 const isLoggedIn = false;
 
@@ -19,12 +21,19 @@ class MyApp extends StatelessWidget {
         fontFamily: 'PretendardBold',
         useMaterial3: true,
       ),
-      home: Container(
-        constraints: const BoxConstraints(
-          maxWidth: 400,
-        ),
-        // child: isLoggedIn? const BottomNavBar() : const LoginPage(),
-        child: TestPage(),
+      home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<TestProvider>(
+              create: (context) => TestProvider(),
+            )
+          ],
+          child: Container(
+            constraints: const BoxConstraints(
+              maxWidth: 400,
+            ),
+            // child: isLoggedIn? const BottomNavBar() : const LoginPage(),
+            child: TestPage(),
+          ),
       ),
     );
   }
