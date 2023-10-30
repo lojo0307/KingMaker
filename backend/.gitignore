@@ -54,3 +54,6 @@ out/
 
 # fcm properties
 *.json
+
+# QueryDSL Q class
+**/src/main/generated/
