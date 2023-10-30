@@ -18,5 +18,6 @@ public class NotificationType {
     private int notificationTypeId;
 
     @Column(nullable=false)
-    private int type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 }
