@@ -9,4 +9,10 @@ public interface NotificationService {
     void sendNotification();
 
     List<Notification> getNotification(Long memberId);
+
+    void deleteNotification(Long notificationId);
+
+    void sendMorningNotification();
+
+    void sendEveningNotification();
 }
