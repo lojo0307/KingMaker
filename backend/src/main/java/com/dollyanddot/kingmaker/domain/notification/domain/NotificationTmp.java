@@ -11,16 +11,17 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
-@Entity(name="notification")
+@Entity(name="notification_tmp")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Notification {
+public class NotificationTmp {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long notificationId;
+    private Long notificationTmpId;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @OnDelete(action= OnDeleteAction.CASCADE)
@@ -34,4 +35,17 @@ public class Notification {
 
     @Column(nullable=false,length=256)
     private String message;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @OnDelete(action=OnDeleteAction.CASCADE)
+    @JoinColumn(name="todo_id",nullable=true)
+    private Todo todo;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @OnDelete(action=OnDeleteAction.CASCADE)
+    @JoinColumn(name="member_routine_id",nullable=true)
+    private MemberRoutine memberRoutine;
+
+    @Column(name="send_time",nullable=false)
+    private LocalDateTime sendTime;
 }
