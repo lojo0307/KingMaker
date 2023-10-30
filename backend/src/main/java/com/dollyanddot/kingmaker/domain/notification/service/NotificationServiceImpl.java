@@ -1,7 +1,10 @@
 package com.dollyanddot.kingmaker.domain.notification.service;
 
+import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationTmp;
+import com.dollyanddot.kingmaker.domain.notification.dto.response.NotificationResDto;
+import com.dollyanddot.kingmaker.domain.notification.exception.GetNotificationException;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTmpRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import java.util.List;
 public class NotificationServiceImpl implements NotificationService{
     private final NotificationRepository notificationRepository;
     private final NotificationTmpRepository notificationTmpRepository;
+    private final MemberRepository memberRepository;
 
     //발송 전 알림 보낸 후, 발송된 알림 테이블로 데이터 이동
     @Override
@@ -33,6 +37,12 @@ public class NotificationServiceImpl implements NotificationService{
             notificationRepository.save(n);
         }
         notificationTmpRepository.deleteNotificationTmpsBySendTimeLessThanEqual(time);
+    }
+
+    @Override
+    public List<Notification> getNotification(Long memberId) throws GetNotificationException {
+        if(memberRepository.findMemberByMemberId(memberId).isEmpty()) throw new GetNotificationException();
+        return notificationRepository.getNotificationsByMember_MemberId(memberId);
     }
 
 
