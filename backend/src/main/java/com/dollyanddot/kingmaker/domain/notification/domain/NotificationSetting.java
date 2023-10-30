@@ -29,4 +29,7 @@ public class NotificationSetting {
     @OnDelete(action= OnDeleteAction.CASCADE)
     @JoinColumn(name="notification_type_id",nullable=false)
     private NotificationType notificationType;
+
+    @Column(nullable=false, columnDefinition = "TINYINT(1)")
+    private boolean achievedYn;
 }
