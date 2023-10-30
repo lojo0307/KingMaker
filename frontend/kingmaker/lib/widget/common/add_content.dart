@@ -43,6 +43,8 @@ class _AddContentState extends State<AddContent> {
                     backgroundColor: MaterialStatePropertyAll(Colors.white),
                   ),
                   onPressed: () {
+                    flag = !flag;
+                    setState(() {});
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -62,6 +64,8 @@ class _AddContentState extends State<AddContent> {
                     backgroundColor: MaterialStatePropertyAll(Colors.white),
                   ),
                   onPressed: () {
+                    flag = !flag;
+                    setState(() {});
                     Navigator.push(
                         context,
                         MaterialPageRoute(
