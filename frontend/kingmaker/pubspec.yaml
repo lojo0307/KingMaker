@@ -45,6 +45,7 @@ dependencies:
   date_picker_plus: ^1.1.4
   time_picker_sheet: ^0.0.2+1
   table_calendar: ^3.0.9
+  flutter_dotenv: ^5.1.0 # 보안데이터 관리를 위한 패키지
 
 
 dev_dependencies:
@@ -91,6 +92,7 @@ flutter:
     - assets/character/
     - assets/user_level/
     - assets/icon/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
