@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface CalendarRepository extends JpaRepository<Calendar, Long>, CalendarRepositoryCustom{
@@ -19,4 +20,6 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long>, Calen
     List<Calendar> findAllByTodoAndMember(Todo todo, Member member);
 
     Calendar findByCalendarDateAndTodo(LocalDate date, Todo todo);
+
+    int countByMember_MemberIdAndCalendarDateEquals(Long memberId,LocalDate date);
 }
