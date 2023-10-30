@@ -2,6 +2,7 @@ package com.dollyanddot.kingmaker.domain.todo.controller;
 
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PostTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PutTodoReqDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.PatchTodoResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
@@ -65,4 +66,12 @@ public class TodoController {
             .data(todoService.editTodo(putTodoReqDto))
             .build();
     }
+
+    @PatchMapping("/{todoId}")
+    public EnvelopeResponse<PatchTodoResDto> toggleAchieved(@PathVariable Long todoId){
+        return EnvelopeResponse.<PatchTodoResDto>builder()
+            .data(todoService.changeAchievedStatement(todoId))
+            .build();
+    }
+
 }
