@@ -17,6 +17,7 @@ import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTmpR
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
+import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -42,6 +43,8 @@ public class NotificationServiceImpl implements NotificationService{
     private final FirebaseMessaging firebaseMessaging;
     private final FcmTokenRepository fcmTokenRepository;
     private final NotificationSettingRepository notificationSettingRepository;
+
+    private final TodoRepository todoRepository;
 
     //발송 전 알림 보낸 후, 발송된 알림 테이블로 데이터 이동
     @Override
@@ -141,12 +144,14 @@ public class NotificationServiceImpl implements NotificationService{
     }
 
     @Override
-    public void generateTodoNotificationTmp(Todo todo){
+    public void generateTodoNotificationTmp(Long todoId){
+        Optional<Todo> todo=todoRepository.findById(todoId);
+        if(todo.isEmpty())throw new RuntimeException();
         NotificationTmp nt=NotificationTmp.builder()
                 .notificationType(notificationTypeRepository.findById(2).get())
-                .member(todo.getMember())
-                .sendTime(todo.getStartAt().minusHours(1))
-                .message("Your majesty, "+todo.getTodoNm()+" 시작 한 시간 전입니다.")
+                .member(todo.get().getMember())
+                .sendTime(todo.get().getStartAt().minusHours(1))
+                .message("Your majesty, "+todo.get().getTodoNm()+" 시작 한 시간 전입니다.")
                 .build();
         return;
     }
@@ -169,11 +174,11 @@ public class NotificationServiceImpl implements NotificationService{
     }
 
     @Override
-    public void updateTodoNotification(Todo todo){
-        Optional<NotificationTmp> nt=notificationTmpRepository.findNotificationTmpByTodo_TodoId(todo.getTodoId());
-        if(nt.isEmpty())throw new RuntimeException();
-        nt.get().setMessage("Your majesty, "+todo.getTodoNm()+" 시작 한 시간 전입니다.");
-        nt.get().setSendTime(todo.getStartAt().minusHours(1));
+    public void updateTodoNotification(Long todoId){
+        Optional<Todo> todo=todoRepository.findById(todoId);
+        if(todo.isEmpty())throw new RuntimeException();
+        notificationTmpRepository.updateTodoNotification(todo.get());
+        return;
     }
 
 //    public void updateMemberRoutineNotification(MemberRoutine memberRoutine){
