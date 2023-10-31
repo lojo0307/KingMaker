@@ -14,8 +14,8 @@ class _TestPageState extends State<TestPage> {
   late TestDto testDto;
   @override
   Widget build(BuildContext context) {
-    return  Consumer<TestProvider>(builder:
-        (context, provider, child) {
+    return  Consumer<TestProvider>(
+        builder: (context, provider, child) {
           testDto = provider.testDto;
           return Container(
             child: TextButton(
