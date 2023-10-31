@@ -5,8 +5,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home:Container(
+    return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
@@ -17,7 +16,6 @@ class LoginPage extends StatelessWidget {
           backgroundColor: Colors.transparent, // 배경색을 투명으로 설정
           body: LoginWidget(),
         ),
-      ),
-    );
+      );
   }
 }
