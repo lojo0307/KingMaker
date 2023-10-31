@@ -20,7 +20,7 @@ public class MemberService {
         Member member
             = memberRepository.findById(nicknameDto.getMemberId()).orElseThrow();
 
-        member.setNickname(nicknameDto.getNickname());
+        member.update(nicknameDto.getNickname());
     }
 
 }

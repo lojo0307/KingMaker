@@ -36,4 +36,7 @@ public class Member {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    public void update(String nickname) {
+        this.nickname = nickname;
+    }
 }
