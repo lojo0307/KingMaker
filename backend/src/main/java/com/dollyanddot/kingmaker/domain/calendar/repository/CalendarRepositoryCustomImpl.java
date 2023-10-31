@@ -60,11 +60,7 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
                 .from(calendar)
                 .leftJoin(calendar.todo, todo)
                 .leftJoin(calendar.memberRoutine, memberRoutine)
-                .where(calendar.calendarDate.eq(LocalDate.now())
-                        .and(
-                                (calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse()))
-                                .or
-                                        (calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse()))))
+                .where(calendar.calendarDate.eq(LocalDate.now()).and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse())).or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse()))))
                 .groupBy(calendar.member.memberId)
                 .fetch();
     }

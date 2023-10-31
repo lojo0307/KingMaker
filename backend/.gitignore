@@ -57,3 +57,6 @@ out/
 
 # QueryDSL Q class
 **/src/main/generated/
+
+# firebase 비공개 키
+**/src/main/resources/firebase/
