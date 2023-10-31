@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface NotificationTmpRepository extends JpaRepository<NotificationTmp,Long> {
+public interface NotificationTmpRepository extends JpaRepository<NotificationTmp,Long>,NotificationTmpRepositoryCustom{
     List<NotificationTmp> getNotificationTmpsBySendTimeLessThanEqual(LocalDateTime time);
 
     @Transactional

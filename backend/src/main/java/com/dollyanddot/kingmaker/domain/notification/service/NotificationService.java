@@ -18,11 +18,11 @@ public interface NotificationService {
 
     void sendEveningNotification();
 
-    void generateTodoNotificationTmp(Todo todo);
+    void generateTodoNotificationTmp(Long todoId);
 
 //    void generateMemberRoutineNotificationTmp(MemberRoutine memberRoutine);
 
-    void updateTodoNotification(Todo todo);
+    void updateTodoNotification(Long todoId);
 
     void notificationSettingToggle(Long memberId,int notificationTypeId);
 
