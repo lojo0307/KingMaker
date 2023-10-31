@@ -3,8 +3,10 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/extensions.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/flame.dart';
+import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/main/main_game.dart';
 
 class Monster extends SpriteAnimationComponent with TapCallbacks {
@@ -14,10 +16,10 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
   late SpriteSheet spriteSheet;
   Vector2 velocity = Vector2.zero();
   int currentRow = 0;
-
-  var monsterInfo; // 현재 애니메이션 행을 나타내는 변수
-
+  Map<String, String> monsterInfo;
   Monster(this.game, this.monsterInfo);
+  late TextPainter textPainter; // TextPaint에서 TextPainter로 변경
+  late Rect textRect;
 
   @override
   Future<void> onLoad() async {
@@ -27,41 +29,65 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
       srcSize: spriteSize,
     );
     final animation = spriteSheet.createAnimation(row: 0, stepTime: 0.1);
-
-    // 애니메이션, 초기 위치, 크기 설정
     this.animation = animation;
     this.size = spriteSize;
     this.position = Vector2(
-        _random.nextDouble() * (1024 - spriteSize.x), // x 좌표
-        _random.nextDouble() * (1024 - spriteSize.y) // y 좌표
+        // _random.nextDouble() * (1024 - spriteSize.x),
+        // _random.nextDouble() * (1024 - spriteSize.y)
+      100,
+      100
     );
     setRandomVelocity();
+    textPainter = TextPainter(textDirection: TextDirection.ltr);
+    final textSpan = TextSpan(text:  monsterInfo['todo_nm'], style: TextStyle(color: Colors.black, fontSize: 16.0));
+    textPainter.text = textSpan;
+    textPainter.layout();
+
+    textRect = Rect.fromLTWH(
+        position.x + size.x / 2 - textPainter.width / 2,
+        position.y + size.y + 5,
+        textPainter.width,
+        textPainter.height
+    );
   }
-    void setRandomVelocity() {
-      double speed = 30.0;  // 원하는 속도로 설정
-      double direction = _random.nextDouble() * 2 * pi;  // 0에서 2π 사이의 랜덤한 각도
-      velocity = Vector2(cos(direction) * speed, sin(direction) * speed);
+
+  void setRandomVelocity() {
+    double speed = 30.0;
+    double direction = _random.nextDouble() * 2 * pi;
+    velocity = Vector2(cos(direction) * speed, sin(direction) * speed);
+  }
+
+  Rect toRect() {
+    return Rect.fromLTWH(position.x, position.y, size.x, size.y);
+  }
+
+  @override
+  void update(double dt) {
+
+    super.update(dt);
+    position += velocity*dt;
+    // print('Game world size: ');
+    textRect = Rect.fromLTWH(
+        position.x,
+        position.y,
+        textPainter.width,
+        textPainter.height
+    );
+
+    if (position.x <= 0 || position.x >= 1024 - size.x) {
+      velocity.x = -velocity.x;
     }
-
-
-    Rect toRect() {
-      return Rect.fromLTWH(position.x, position.y, size.x, size.y);
+    if (position.y <= 0 || position.y >= 1024 - size.y) {
+      velocity.y = -velocity.y;
     }
+  }
 
-    @override
-    void update(double dt) {
-      super.update(dt);
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    canvas.drawRect(textRect, Paint()..color = Colors.red..style = PaintingStyle.stroke);
 
-      // 위치 업데이트
-      position += velocity * dt;
-
-      // 경계 체크
-      if (position.x <= 0 || position.x >= 1024 - size.x) {
-        velocity.x = -velocity.x;  // x 방향 반전
-      }
-      if (position.y <= 0 || position.y >= 1024 - size.y) {
-        velocity.y = -velocity.y;  // y 방향 반전
-      }
-    }
-
+    // 텍스트를 textRect의 위치에 그립니다.
+    textPainter.paint(canvas, textRect.topLeft);
+  }
 }

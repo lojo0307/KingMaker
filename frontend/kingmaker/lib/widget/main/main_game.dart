@@ -5,7 +5,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/main/main_camera_focus.dart';
 import 'package:kingmaker/widget/main/main_monster.dart';
-
+import 'package:flame/extensions.dart';
 
 import '../../page/todo_detail_page.dart';
 import 'main_background.dart';
@@ -19,6 +19,7 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
   final BuildContext context;
 
   MyGame(this.context) {
+    camera.viewport.size = Vector2(1024, 1024);
     player = MainPlayer(this);
     world = MyWorld(this, player);
     backgroundSize = Vector2(1024, 1024);
@@ -26,12 +27,16 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     focusArea.position = backgroundSize / 2;
     camera.follow(focusArea);
     //몬스터 리스트 초기화 -지금은 임의 값
-    monsterList = [Monster(this,"첫번째 몬스터"),Monster(this,"2번째 몬스터"),Monster(this,"3번째 몬스터"),
-      Monster(this,"4번째 몬스터"),Monster(this,"5번째 몬스터"),Monster(this,"6번째 몬스터"),Monster(this,"7번째 몬스터")];
+    monsterList = [Monster(this,{'todo_nm' : "첫번째 몬스터"}),
+      Monster(this,{'todo_nm' : "2번째 몬스터"}),Monster(this,{'todo_nm' : "3번째 몬스터"}),
+      Monster(this,{'todo_nm' : "4번째 몬스터"}),Monster(this,{'todo_nm' : "5번째 몬스터"}),Monster(this,{'todo_nm' : "6번째 몬스터"}),Monster(this,{'todo_nm' : "7번째 몬스터"})
+    ];
   }
   void setFocusArea(FocusArea fa) {  // focusArea를 설정하는 메서드
     focusArea = fa;
   }
+
+
   @override
   void onTapUp(TapUpInfo info) {
     print(info.eventPosition.global);
@@ -102,6 +107,7 @@ class MyWorld extends World {
 
   @override
   Future<void> onLoad() async {
+    print('Initial game world size: $game.size');
     backgroundSize = Vector2(1024, 1024);
     final bgSprite = await Sprite.load('background.png');
     background = GameBackground(bgSprite, backgroundSize);
