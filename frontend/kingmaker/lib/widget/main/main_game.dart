@@ -4,8 +4,8 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/main/main_camera_focus.dart';
-import 'package:kingmaker/widget/main/main_monster.dart';
 import 'package:flame/extensions.dart';
+import 'package:kingmaker/widget/main/main_monster_position.dart';
 
 import '../../page/todo_detail_page.dart';
 import 'main_background.dart';
@@ -15,7 +15,7 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
   late Vector2 backgroundSize;
   late FocusArea focusArea;
   late MainPlayer player;
-  late List<Monster> monsterList;
+  late List<MonsterPosition> monsterList;
   final BuildContext context;
 
   MyGame(this.context) {
@@ -27,9 +27,9 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     focusArea.position = backgroundSize / 2;
     camera.follow(focusArea);
     //몬스터 리스트 초기화 -지금은 임의 값
-    monsterList = [Monster(this,{'todo_nm' : "첫번째 몬스터"}),
-      Monster(this,{'todo_nm' : "2번째 몬스터"}),Monster(this,{'todo_nm' : "3번째 몬스터"}),
-      Monster(this,{'todo_nm' : "4번째 몬스터"}),Monster(this,{'todo_nm' : "5번째 몬스터"}),Monster(this,{'todo_nm' : "6번째 몬스터"}),Monster(this,{'todo_nm' : "7번째 몬스터"})
+    monsterList = [MonsterPosition(this,{'todo_nm' : "첫번째 몬스터"}),
+    MonsterPosition(this,{'todo_nm' : "2번째 몬스터"}),MonsterPosition(this,{'todo_nm' : "3번째 몬스터"}),
+    MonsterPosition(this,{'todo_nm' : "4번째 몬스터"}),MonsterPosition(this,{'todo_nm' : "5번째 몬스터"}),MonsterPosition(this,{'todo_nm' : "6번째 몬스터"}),MonsterPosition(this,{'todo_nm' : "7번째 몬스터"})
     ];
   }
   void setFocusArea(FocusArea fa) {  // focusArea를 설정하는 메서드
@@ -49,7 +49,7 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
       return;
     }//몬스터를 클릭했을 때의 로직
 
-    for (Monster monster in monsterList) {
+    for (MonsterPosition monster in monsterList) {
       if (monster.toRect().contains(worldPosition.toOffset())) {
         print('${monster.monsterInfo} was tapped!');
         // 필요한 로직 (예: 몬스터를 잡거나, 정보를 표시하거나 등) 추가하기
