@@ -11,6 +11,8 @@ import com.dollyanddot.kingmaker.domain.notification.exception.GetNotificationEx
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTmpRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ public class NotificationServiceImpl implements NotificationService{
     private final MemberRepository memberRepository;
     private final CalendarRepository calendarRepository;
     private final NotificationTypeRepository notificationTypeRepository;
+    private final FirebaseMessaging firebaseMessaging;
 
     //발송 전 알림 보낸 후, 발송된 알림 테이블로 데이터 이동
     @Override
@@ -75,7 +78,8 @@ public class NotificationServiceImpl implements NotificationService{
                     .build();
             notifications.add(temp);
         }
-        //fcm 발송
+        //저장된 유저에게 푸시 알림 발송
+        List<Message> messageList;
         notificationRepository.saveAll(notifications);
     }
 
