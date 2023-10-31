@@ -13,6 +13,8 @@ import com.dollyanddot.kingmaker.domain.notification.exception.GetNotificationEx
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTmpRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
+import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
+import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -88,7 +90,9 @@ public class NotificationServiceImpl implements NotificationService{
         }
         return messageList;
     }
+
     //오늘 해야 할 알림 개수 푸시 알림 발송 및 notification 테이블에 저장
+    @Override
     public void sendMorningNotification(){
         //각 멤버 별로 오늘 할 일+루틴 개수 반환해서 알림 생성 후 fcm으로 발송
         List<CountPlanDto> list=calendarRepository.getTodayPlan();
@@ -110,6 +114,7 @@ public class NotificationServiceImpl implements NotificationService{
         notificationRepository.saveAll(notifications);
     }
 
+    @Override
     public void sendEveningNotification(){
         //멤버 별로 오늘 완료하지 못한 일 개수 알림
         List<CountPlanDto> list=calendarRepository.getUndonePlan();
@@ -132,6 +137,22 @@ public class NotificationServiceImpl implements NotificationService{
     }
 
     @Override
+    public void generateTodoNotificationTmp(Todo todo){
+        NotificationTmp nt=NotificationTmp.builder()
+                .notificationType(notificationTypeRepository.findById(2).get())
+                .member(todo.getMember())
+                .sendTime(todo.getStartAt().minusHours(1))
+                .message("Your majesty, "+todo.getTodoNm()+" 시작 한 시간 전입니다.")
+                .build();
+        return;
+    }
+
+//    @Override
+//    public void generateMemberRoutineNotificationTmp(MemberRoutine memberRoutine){
+//        return;
+//    }
+
+    @Override
     public List<Notification> getNotification(Long memberId) throws GetNotificationException {
         if(memberRepository.findMemberByMemberId(memberId).isEmpty()) throw new GetNotificationException();
         return notificationRepository.getNotificationsByMember_MemberId(memberId);
@@ -143,5 +164,18 @@ public class NotificationServiceImpl implements NotificationService{
         return;
     }
 
+    @Override
+    public void updateTodoNotification(Todo todo){
+        Optional<NotificationTmp> nt=notificationTmpRepository.findNotificationTmpByTodo_TodoId(todo.getTodoId());
+        if(nt.isEmpty())throw new RuntimeException();
+        nt.get().setMessage("Your majesty, "+todo.getTodoNm()+" 시작 한 시간 전입니다.");
+        nt.get().setSendTime(todo.getStartAt().minusHours(1));
+    }
 
+//    public void updateMemberRoutineNotification(MemberRoutine memberRoutine){
+//        Optional<NotificationTmp> nt=notificationTmpRepository.findNotificationTmpByMemberRoutine_Id(memberRoutine.getId());
+//        if(nt.isEmpty())throw new RuntimeException();
+//        nt.get().setMessage("Your majesty, "+memberRoutine.getRoutine().getName()+" 시작 한 시간 전입니다.");
+//        //시간 설정
+//    }
 }
