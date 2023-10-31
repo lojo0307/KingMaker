@@ -7,10 +7,12 @@ import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
+import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationTmp;
 import com.dollyanddot.kingmaker.domain.notification.exception.DeleteNotificationException;
 import com.dollyanddot.kingmaker.domain.notification.exception.GetNotificationException;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationRepository;
+import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTmpRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
@@ -19,6 +21,7 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.TopicManagementResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +41,7 @@ public class NotificationServiceImpl implements NotificationService{
     private final NotificationTypeRepository notificationTypeRepository;
     private final FirebaseMessaging firebaseMessaging;
     private final FcmTokenRepository fcmTokenRepository;
+    private final NotificationSettingRepository notificationSettingRepository;
 
     //발송 전 알림 보낸 후, 발송된 알림 테이블로 데이터 이동
     @Override
@@ -178,4 +182,30 @@ public class NotificationServiceImpl implements NotificationService{
 //        nt.get().setMessage("Your majesty, "+memberRoutine.getRoutine().getName()+" 시작 한 시간 전입니다.");
 //        //시간 설정
 //    }
+
+    @Override
+    public void notificationSettingToggle(Long memberId,int notificationTypeId){
+        Optional<NotificationSetting> ns=notificationSettingRepository.findNotificationSettingByMember_MemberIdAndNotificationType_NotificationTypeId(memberId,notificationTypeId);
+        if(ns.isEmpty())throw new RuntimeException();
+        boolean prev=ns.get().isActivatedYn();
+        //토픽 구독/구독 취소 로직
+        Optional<List<String>> tokenList=fcmTokenRepository.findTokensByMemberId(memberId);
+        if(tokenList.isEmpty())throw new RuntimeException();
+        String topic=notificationTypeRepository.findById(notificationTypeId).get().getType().name();
+        try {
+            TopicManagementResponse response;
+            if (!prev){
+                //토픽 구독 시작
+                response= FirebaseMessaging.getInstance().subscribeToTopic(tokenList.get(), topic);
+            }
+            else{
+                //토픽 구독 취소
+                response = FirebaseMessaging.getInstance().unsubscribeFromTopic(tokenList.get(), topic);
+            }
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+        //엔티티 설정 바꿈
+        ns.get().setActivatedYn(!prev);
+    }
 }

@@ -23,4 +23,9 @@ public interface NotificationService {
 //    void generateMemberRoutineNotificationTmp(MemberRoutine memberRoutine);
 
     void updateTodoNotification(Todo todo);
+
+    void notificationSettingToggle(Long memberId,int notificationTypeId);
+
+//    //알림 초기 설정 함수
+//    void notificationFirstSetting(Long memberId);
 }
