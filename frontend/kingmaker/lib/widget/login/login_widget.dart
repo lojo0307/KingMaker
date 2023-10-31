@@ -18,7 +18,7 @@ class LoginWidget extends StatelessWidget {
               const SizedBox(height: 160),
               GestureDetector(
                 onTap: () async{
-                  await kakaoLogin();
+                  await GoogleLogin();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
@@ -28,9 +28,8 @@ class LoginWidget extends StatelessWidget {
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: const Image(
-                        image: AssetImage(
-                            'assets/login/googleLogin.png'))),
+                    child: const Image(image: AssetImage('assets/login/googleLogin.png'))
+                ),
               ),
               const SizedBox(height: 20),
               GestureDetector(
@@ -45,8 +44,8 @@ class LoginWidget extends StatelessWidget {
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: const Image(
-                        image: AssetImage(
-                            'assets/login/kakaoLogin.png'))),
+                        image: AssetImage('assets/login/kakaoLogin.png')),
+                ),
               ),
             ],
         ),
