@@ -1,8 +1,6 @@
 package com.dollyanddot.kingmaker.domain.notification.controller;
 
-import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarAchieveAndSumResDto;
-import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
-import com.dollyanddot.kingmaker.domain.notification.dto.request.NotificationSettingReqDto;
+import com.dollyanddot.kingmaker.domain.notification.dto.request.NotificationSettingUpdateReqDto;
 import com.dollyanddot.kingmaker.domain.notification.dto.response.NotificationResDto;
 import com.dollyanddot.kingmaker.domain.notification.service.NotificationService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
@@ -45,7 +43,7 @@ public class NotificationController {
     }
 
     @PatchMapping("setting")
-    public EnvelopeResponse<Void> updateNotificationSetting(@RequestBody NotificationSettingReqDto req){
+    public EnvelopeResponse<Void> updateNotificationSetting(@RequestBody NotificationSettingUpdateReqDto req){
         notificationService.notificationSettingToggle(req.getMemberId(), req.getNotificationTypeId());
         return EnvelopeResponse.<Void>builder().build();
     }
