@@ -8,6 +8,7 @@ import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
+import com.dollyanddot.kingmaker.domain.notification.service.NotificationService;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PostTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PutTodoReqDto;
@@ -36,6 +37,7 @@ public class TodoServiceImpl implements TodoService {
   private final CalendarRepository calendarRepository;
   private final MemberRepository memberRepository;
   private final CategoryRepository categoryRepository;
+  private final NotificationService notificationService;
 
   @Override
   public void deleteTodoByTodoId(Long todoId) throws NonExistTodoIdException {
@@ -139,6 +141,8 @@ public class TodoServiceImpl implements TodoService {
             .calendarDate(date)
             .build()));
 
+    //알림 생성
+    notificationService.generateTodoNotificationTmp(todo.getTodoId());
     return null;
   }
 
@@ -173,7 +177,8 @@ public class TodoServiceImpl implements TodoService {
         calendarRepository.delete(calendar);
       }
     }
-
+    //알림 수정
+    notificationService.updateTodoNotification(putTodoReqDto.getTodoId());
     return null;
   }
 
