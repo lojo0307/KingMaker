@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/member_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileCharImageWidget extends StatefulWidget {
   const ProfileCharImageWidget({super.key});
@@ -20,8 +22,8 @@ class _ProfileCharImageWidgetState extends State<ProfileCharImageWidget> {
           ),
           height: 150,
           width: 150,
-          child: const Image(
-            image: AssetImage('assets/character/charMan.png'),
+          child: Image(
+            image: (Provider.of<MemberProvider>(context, listen: false).member?.gender == "W") ? AssetImage('assets/character/charWoman.png'): AssetImage('assets/character/charMan.png'),
           ),
         )],
     );
