@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/member_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileNameWidget extends StatefulWidget {
   const ProfileNameWidget({super.key});
@@ -9,7 +11,6 @@ class ProfileNameWidget extends StatefulWidget {
 }
 
 class _ProfileNameWidgetState extends State<ProfileNameWidget> {
-  String name = "리히트";
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,7 +18,7 @@ class _ProfileNameWidgetState extends State<ProfileNameWidget> {
       children: [
         const Image(image: AssetImage('assets/user_level/level.png')),
         Text(
-          name,
+          Provider.of<MemberProvider>(context, listen: false).member!.nickname,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),
         ),
         const Icon(CupertinoIcons.gear_alt_fill,color: Colors.grey,),
@@ -25,4 +26,3 @@ class _ProfileNameWidgetState extends State<ProfileNameWidget> {
     );
   }
 }
-
