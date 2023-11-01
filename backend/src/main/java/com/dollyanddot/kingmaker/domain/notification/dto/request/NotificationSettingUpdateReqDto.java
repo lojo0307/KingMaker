@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NotificationSettingReqDto {
+public class NotificationSettingUpdateReqDto {
+    Long memberId;
     int notificationTypeId;
-    boolean activatedYn;
 }
