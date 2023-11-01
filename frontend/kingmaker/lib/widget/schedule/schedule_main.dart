@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
+import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/schedule/schedule_set.dart';
+import 'package:provider/provider.dart';
 
 import '../common/header.dart';
 class ScheduleMain extends StatefulWidget {
@@ -67,6 +70,8 @@ class _ScheduleMainState extends State<ScheduleMain> {
   ];
   @override
   Widget build(BuildContext context) {
+    Provider.of<ScheduleProvider>(context, listen: false).getList();
+    List<Map<String, String>>data = Provider.of<ScheduleProvider>(context, listen: false).list;
     return DefaultTabController(
         length: myTabs.length,
         child: Scaffold(

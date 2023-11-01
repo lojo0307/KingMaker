@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/dto/kingdom_dto.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileKingdomWidget extends StatefulWidget {
   const ProfileKingdomWidget({super.key});
@@ -8,13 +11,15 @@ class ProfileKingdomWidget extends StatefulWidget {
 }
 
 class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
-  Map<String, String> kingdom = {
-    'kingdomName' : "버섯 왕국",
-    'level':"6",
-    'citizen' : "2145"
-  };
+  // Map<String, String> kingdom = {
+  //   'kingdomName' : "버섯 왕국",
+  //   'level':"6",
+  //   'citizen' : "2145"
+  // };
   @override
   Widget build(BuildContext context) {
+    KingdomDto? kingdom = Provider.of<KingdomProvider>(context, listen: false).kingdomDto;
+    print(kingdom);
     return LayoutBuilder(builder: (ctx, constraints) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -42,21 +47,21 @@ class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(kingdom['kingdomName']!,
+                      Text(kingdom!.kingdomNm,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 5,),
-                      Text('왕국 ${kingdom['level']!} 단계',
+                      Text('왕국 ${kingdom?.level} 단계',
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 5,),
-                      Text('백성 : ${kingdom['citizen']!} 명',
+                      Text('백성 : ${kingdom?.citizen} 명',
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,

@@ -1,7 +1,7 @@
 class TestDto{
-  final int age;
-  final String name;
-  final String city;
+  int age;
+  String name;
+  String city;
 
   TestDto({
     required this.age,

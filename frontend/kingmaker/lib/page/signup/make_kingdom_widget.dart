@@ -1,7 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:kingmaker/widget/profile/profile_char_image_widget.dart';
+import 'package:kingmaker/widget/signup/select_gender.dart';
+import 'package:kingmaker/widget/signup/signup_text.dart';
+import 'package:kingmaker/widget/signup/signup_write_kingdom.dart';
+import 'package:provider/provider.dart';
 class MakeKingDomPage extends StatefulWidget {
   const MakeKingDomPage({super.key});
 
@@ -11,7 +17,6 @@ class MakeKingDomPage extends StatefulWidget {
 
 class _MakeKingDomPageState extends State<MakeKingDomPage> {
   int mainColor = 0xFFEDF1FF;
-  String kingdomName = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,62 +24,43 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
       body: SingleChildScrollView(
         child:Stack(
           children: [
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 100,),
-                const ProfileCharImageWidget(),
-                const Text('당신은 왕국의 태조입니다.',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Text('왕국의 이름은?',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child:Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                kingdomName = value;
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                const SelectGender(),
+                const SignupText(line1: '당신은 왕국의 태조입니다.', line2: '왕국의 이름은?',),
+                const SignupWriteKingdom(),
                 ElevatedButton(onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BottomNavBar()), (route) => false
-                  );
+                  String kdName = Provider.of<KingdomProvider>(context, listen: false).kingdomName;
+                  String error = Provider.of<KingdomProvider>(context, listen: false).errorMessage;
+                  if (kdName != "" && error == " "){
+                    Provider.of<MemberProvider>(context, listen: false).signup();
+                    Provider.of<KingdomProvider>(context, listen: false).makeKingdom();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BottomNavBar()), (route) => false
+                    );
+                  }
                 }, child: const Text("건국하기")),
               ],
             ),
-            TextButton(onPressed: () {
-              Navigator.pop(
-                context,
-              );
-            }, child: Image.asset('assets/icon/left.png')),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 100,
+                ),
+                TextButton(onPressed: () {
+                  Navigator.pop(
+                    context,
+                  );
+                }, child: Image.asset('assets/icon/left.png')),
+              ],
+            ),
           ],
         )
       ),
