@@ -9,6 +9,7 @@ import com.dollyanddot.kingmaker.domain.routine.service.MemberRoutineService;
 import com.dollyanddot.kingmaker.domain.routine.service.RoutineService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,7 +30,8 @@ public class RoutineController {
   private final MemberRoutineService memberRoutineService;
 
   @PostMapping()
-  public EnvelopeResponse<Void> registerRoutine(@RequestBody PostRoutineReqDto postRoutineReqDto) {
+  public EnvelopeResponse<Void> registerRoutine(@RequestBody PostRoutineReqDto postRoutineReqDto)
+      throws ParseException {
     return EnvelopeResponse.<Void>builder()
         .data(routineService.registerRoutine(postRoutineReqDto))
         .build();

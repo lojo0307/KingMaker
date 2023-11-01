@@ -12,9 +12,15 @@ import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineReposito
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RoutineService {
@@ -25,7 +31,7 @@ public class RoutineService {
   private final MemberRoutineRepository memberRoutineRepository;
 
   @Transactional
-  public Void registerRoutine(PostRoutineReqDto postRoutineReqDto) {
+  public Void registerRoutine(PostRoutineReqDto postRoutineReqDto) throws ParseException {
 
     Category category = categoryRepository.findById(postRoutineReqDto.getCategoryId())
         .orElseThrow();
@@ -42,6 +48,11 @@ public class RoutineService {
         .startAt(postRoutineReqDto.getStartAt())
         .endAt(postRoutineReqDto.getEndAt())
         .build());
+
+    JSONParser jsonParser = new JSONParser();
+
+    JSONObject jsonObject = (JSONObject) jsonParser.parse(postRoutineReqDto.getPeriod());
+    JSONArray dayArr = (JSONArray) jsonObject.get("value");
 
     if (routine.getStartAt().isBefore(time) && routine.getEndAt().isAfter(time)) {
       memberRoutineRepository.save(new MemberRoutine().builder()
