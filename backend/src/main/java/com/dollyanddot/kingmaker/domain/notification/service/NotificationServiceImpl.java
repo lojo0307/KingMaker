@@ -31,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,6 @@ public class NotificationServiceImpl implements NotificationService{
     private final FirebaseMessaging firebaseMessaging;
     private final FcmTokenRepository fcmTokenRepository;
     private final NotificationSettingRepository notificationSettingRepository;
-
     private final TodoRepository todoRepository;
 
     //발송 전 알림 보낸 후, 발송된 알림 테이블로 데이터 이동
@@ -52,6 +52,8 @@ public class NotificationServiceImpl implements NotificationService{
         //notification_tmp에서 발송해야 하는 알림 목록 가져오기->발송->notification에 저장 후 notification_tmp에서 삭제
         LocalDateTime time=LocalDateTime.now();
         List<NotificationTmp> list=notificationTmpRepository.getNotificationTmpsBySendTimeLessThanEqual(time);
+        List<Notification> notificationList=new ArrayList<>();
+        List<Message> messageList=new ArrayList<>();
         //발송 로직
         for(NotificationTmp nt:list){
             Notification n=Notification.builder()
@@ -59,7 +61,28 @@ public class NotificationServiceImpl implements NotificationService{
                     .message(nt.getMessage())
                     .member(nt.getMember())
                     .build();
-            notificationRepository.save(n);
+            notificationList.add(n);
+            Optional<List<FcmToken>> fcmTokenList=fcmTokenRepository.findFcmTokensByMember_MemberId(nt.getMember().getMemberId());
+            if(fcmTokenList.isPresent()){
+                for(FcmToken token:fcmTokenList.get()){
+                    Message m=Message.builder()
+                            .setToken(token.getToken())
+                            .setTopic(nt.getNotificationType().getType().name())
+                            .setNotification(com.google.firebase.messaging.Notification.builder()
+                                    .setBody(nt.getMessage())
+                                    .setTitle("일정 수행 전입니다.")
+                                    .build())
+                            .build();
+                    messageList.add(m);
+                }
+            }
+        }
+        notificationRepository.saveAll(notificationList);
+        //푸시 알림 발송
+        try{
+            firebaseMessaging.sendAll(messageList);
+        }catch(FirebaseMessagingException e){
+            e.printStackTrace();
         }
         notificationTmpRepository.deleteNotificationTmpsBySendTimeLessThanEqual(time);
     }
@@ -72,7 +95,7 @@ public class NotificationServiceImpl implements NotificationService{
             if(isMorning){
                 for(FcmToken ft:tokenList.get()){
                     Message message=Message.builder()
-                            .setToken(ft.getFcmToken())
+                            .setToken(ft.getToken())
                             .setTopic("MORNING")
                             .setNotification(com.google.firebase.messaging.Notification.builder()
                                     .setBody("Your majesty, 오늘 처리해야 하는 업무가 "+t.getCnt()+"건 있습니다.")
@@ -84,7 +107,7 @@ public class NotificationServiceImpl implements NotificationService{
             }else{
                 for(FcmToken ft:tokenList.get()){
                     Message message=Message.builder()
-                            .setToken(ft.getFcmToken())
+                            .setToken(ft.getToken())
                             .setTopic("EVENING")
                             .setNotification(com.google.firebase.messaging.Notification.builder()
                                     .setBody("Your majesty, 아직 처리하지 못한 업무가 "+t.getCnt()+"건 있습니다.")
