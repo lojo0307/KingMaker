@@ -13,4 +13,5 @@ public interface NotificationSettingRepository extends JpaRepository<Notificatio
     List<NotificationSetting> findNotificationSettingsByMember(Member member);
 
     Optional<NotificationSetting> findNotificationSettingByMember_MemberIdAndNotificationType_NotificationTypeId(Long memberId,int notificationTypeId);
+
 }
