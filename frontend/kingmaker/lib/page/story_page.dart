@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/page/signup/make_myname_widget.dart';
+import 'package:kingmaker/provider/member_provider.dart';
+import 'package:provider/provider.dart';
 
 class StoryPage extends StatefulWidget {
   const StoryPage({super.key});
@@ -68,8 +70,11 @@ class _StoryPageState extends State<StoryPage> {
     });
   }
 
-  clickPage() {
+  clickPage() async{
     if (storyIdx == 4 && storyList[storyIdx].length == idx){
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<MemberProvider>(context, listen: false).setNickName("");
+      });
       Navigator.push(
           context,
           MaterialPageRoute(

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/page/signup_page.dart';
 import 'package:kingmaker/page/story_page.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
+import 'package:provider/provider.dart';
 
 class LoginWidget extends StatelessWidget {
   const LoginWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<MemberProvider>(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
@@ -18,13 +22,8 @@ class LoginWidget extends StatelessWidget {
               const SizedBox(height: 160),
               GestureDetector(
                 onTap: () async{
-                  await GoogleLogin();
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          // builder: (context) => SignupPage()), (route) => false
-                          builder: (context) => BottomNavBar()), (route) => false
-                  );
+                  int flag = await provider.GoogleLogin();
+                  movPage(flag, context);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -34,12 +33,9 @@ class LoginWidget extends StatelessWidget {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () async{
-                  await kakaoLogin();
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StoryPage()), (route) => false
-                  );
+                  int flag = await provider.KakaoLogin();
+                  print(flag);
+                 movPage(flag, context);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -53,10 +49,11 @@ class LoginWidget extends StatelessWidget {
     );
   }
 
-  kakaoLogin() {
-
-  }
-  GoogleLogin(){
-
+  void movPage(int flag, BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => (flag == 0 ? StoryPage() : BottomNavBar())), (route) => false
+    );
   }
 }
