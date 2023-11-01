@@ -87,7 +87,18 @@ flutter:
     - assets/login/login.png
     - assets/login/kingMaker.png
     - assets/signup/
-    - assets/castle/
+    - assets/images/castle/Lv1.png
+    - assets/images/castle/Lv2.png
+    - assets/images/castle/Lv3.png
+    - assets/images/castle/Lv4.png
+    - assets/images/castle/Lv5.png
+    - assets/images/castle/Lv6.png
+    - assets/images/castle/Lv7.png
+    - assets/images/castle/Lv8.png
+    - assets/images/castle/Lv9.png
+    - assets/images/male.png
+    - assets/images/slime_left.png
+    - assets/images/slime_right.png
     - assets/character/
     - assets/user_level/
     - assets/icon/

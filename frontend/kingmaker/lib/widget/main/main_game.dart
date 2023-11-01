@@ -5,6 +5,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/main/main_camera_focus.dart';
 import 'package:flame/extensions.dart';
+import 'package:kingmaker/widget/main/main_castle.dart';
 import 'package:kingmaker/widget/main/main_monster_position.dart';
 
 import '../../page/todo_detail_page.dart';
@@ -45,7 +46,6 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     print(worldPosition);
     if (player.toRect().contains(worldPosition.toOffset())) {
       print('Character was tapped!');
-      player.playSecondRowAnimation();
       return;
     }//몬스터를 클릭했을 때의 로직
 
@@ -112,7 +112,7 @@ class MyWorld extends World {
     final bgSprite = await Sprite.load('background.png');
     background = GameBackground(bgSprite, backgroundSize);
     add(background);
-
+    add(Castle(game, {'level': '1'}));
     FocusArea focusArea = FocusArea();
     add(focusArea);
     game.setFocusArea(focusArea);  // MyGame의 focusArea 설정
