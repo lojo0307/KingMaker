@@ -27,11 +27,12 @@ public class SchedulerService {
   private final RoutineRepository routineRepository;
   private final MemberRoutineRepository memberRoutineRepository;
   private final CalendarRepository calendarRepository;
-  private final JSONParser jsonParser;
 
   @Transactional
   @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Seoul")
   public void registerTodayRoutines() {
+
+    JSONParser jsonParser = new JSONParser();
 
     LocalDateTime today = LocalDateTime.now();
     List<Routine> todayRoutines = routineRepository.findAllByRegisterDateOrDay(today,
