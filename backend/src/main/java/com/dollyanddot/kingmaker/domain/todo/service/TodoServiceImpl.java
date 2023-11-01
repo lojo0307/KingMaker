@@ -95,20 +95,19 @@ public class TodoServiceImpl implements TodoService {
     if (todo.isEmpty()) {
       throw new GetTodoDetailException();
     }
-    TodoDetailResDto detail = new TodoDetailResDto();
-    detail.setTodoDetail(todo.get().getTodoDetail());
-    detail.setTodoPlace(todo.get().getTodoPlace());
-    detail.setTodoNm(todo.get().getTodoNm());
-    byte temp = (byte) (todo.get().isAchievedYn() ? 1 : 0);
-    detail.setAchievedYn(temp);
-    temp = (byte) (todo.get().isImportantYn() ? 1 : 0);
-    detail.setImportantYn(temp);
-    detail.setEndAt(todo.get().getEndAt());
-    detail.setStartAt(todo.get().getStartAt());
-    detail.setTodoNm(todo.get().getTodoNm());
-    detail.setMonsterCd(todo.get().getMonsterCd());
-    Long categoryId = todo.get().getCategory().getId();
-    detail.setCategoryId(categoryId);
+    byte achivedYn=(byte) (todo.get().isAchievedYn() ? 1 : 0);
+    byte importantYn=(byte) (todo.get().isImportantYn() ? 1 : 0);
+    TodoDetailResDto detail=TodoDetailResDto.builder()
+            .todoDetail(todo.get().getTodoDetail())
+            .todoPlace(todo.get().getTodoPlace())
+            .todoNm(todo.get().getTodoNm())
+            .achievedYn(achivedYn)
+            .importantYn(importantYn)
+            .startAt(todo.get().getStartAt())
+            .endAt(todo.get().getEndAt())
+            .monsterCd(todo.get().getMonsterCd())
+            .categoryId(todo.get().getCategory().getId())
+            .build();
     return detail;
   }
 
