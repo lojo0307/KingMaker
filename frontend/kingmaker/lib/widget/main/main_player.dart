@@ -1,7 +1,10 @@
 
+
+import 'package:flame/text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/sprite.dart';
+import 'package:flutter/material.dart';
 
 import 'package:kingmaker/widget/main/main_game.dart';
 
@@ -19,7 +22,17 @@ class MainPlayer extends SpriteComponent with TapCallbacks {
       sprite = await Sprite.load('male.png');
       size = Vector2(65,110);
       position = Vector2(452, 300);
-      textComponent=TextComponent(text: "엄준식");
+      textComponent=TextComponent(
+          text: "엄준식",
+          textRenderer: TextPaint(
+            style:TextStyle(
+              fontFamily: 'PretendardBold',
+              fontSize: 20,
+              backgroundColor: Colors.black38,
+
+            ),
+          )
+      );
       await textComponent.onLoad();
       final textWidth = textComponent.width;
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),

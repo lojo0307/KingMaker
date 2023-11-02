@@ -38,12 +38,25 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
     this.animation = animation;
     this.size = spriteSize;
     monsterPosition = parent as MonsterPosition;
-    textComponent=TextComponent(text: "${monsterInfo['todo_nm']}");
+    textComponent=TextComponent(
+        text: "${monsterInfo['todo_nm']}",
+        textRenderer: TextPaint(
+          style:TextStyle(
+            fontFamily: 'PretendardBold',
+            color: Colors.red,
+            fontSize: 18,
+            backgroundColor: Colors.black38,
+          ),
+        )
+    );
     await textComponent.onLoad();
     final textWidth = textComponent.width;
-    textComponent.position.setValues((size.x / 2.3) - (textWidth / 2.1),
-        size.y-55);
-    // add(textComponent);
+    textComponent.position.setValues((size.x / 2.3) - (textWidth / 2.0),
+        size.y-20);
+    position=Vector2(77, 0);
+    // textComponent.position.setValues(77,
+    //     108);
+    add(textComponent);
   }
 
   Rect toRect() {
@@ -70,7 +83,7 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
       image: spriteImage,
       srcSize: spriteSize,
     );
-    final animation = spriteSheet.createAnimation(row: 0, stepTime: 0.5);
+    final animation = spriteSheet.createAnimation(row: 0, stepTime: 0.1);
     this.animation = animation;
   }
 }

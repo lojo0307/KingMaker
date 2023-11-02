@@ -20,7 +20,7 @@ class MonsterPosition extends PositionComponent {
   Map<String, String> monsterInfo;
   MonsterPosition(this.game, this.monsterInfo) {
     setRandomVelocity();
-    this.size = Vector2(240,216);
+    this.size = Vector2(144,144);
   }
   late Monster monster;
   late MonsterText monsterText;

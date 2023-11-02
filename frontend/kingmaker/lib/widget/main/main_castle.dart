@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/text.dart';
+import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/main/main_game.dart';
 
 class Castle extends SpriteComponent {
@@ -13,7 +14,16 @@ class Castle extends SpriteComponent {
     super.onLoad(); // 상위 클래스의 onLoad 호출
     sprite = await Sprite.load('castle/Lv${level['level']}.png');
 
-    textComponent=TextComponent(text: "Lv.${level['level']} dsds겁쟁이 쉼터",textRenderer: TextPaint(style:TextStyle(fontFamily: 'PretendarBold')));
+    textComponent=TextComponent(
+        text: "Lv.${level['level']} dsds겁쟁이 쉼터",
+        textRenderer: TextPaint(
+            style:TextStyle(
+              fontFamily: 'PretendardBold',
+              fontSize: 25,
+              backgroundColor: Colors.black38,
+            ),
+        )
+    );
     await textComponent.onLoad();
     final textWidth = textComponent.width;
     if(level['level']=='1'||level['level']=='2'){
