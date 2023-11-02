@@ -78,13 +78,14 @@ public class NotificationServiceImpl implements NotificationService{
             }
         }
         notificationRepository.saveAll(notificationList);
+        notificationTmpRepository.deleteNotificationTmpsBySendTimeLessThanEqual(time);
         //푸시 알림 발송
+        if(messageList.isEmpty())return;
         try{
             firebaseMessaging.sendAll(messageList);
         }catch(FirebaseMessagingException e){
             e.printStackTrace();
         }
-        notificationTmpRepository.deleteNotificationTmpsBySendTimeLessThanEqual(time);
     }
 
     List<Message> generateMessageList(List<CountPlanDto> list,boolean isMorning){
@@ -134,14 +135,15 @@ public class NotificationServiceImpl implements NotificationService{
                     .message("Your majesty, 오늘 처리해야 하는 업무가 "+t.getCnt()+"건 있습니다.")
                     .build();
         }
+        notificationRepository.saveAll(notifications);
         //fcm 발송
         List<Message> messageList=generateMessageList(list,true);
+        if(messageList.isEmpty())return;
         try{
             firebaseMessaging.sendAll(messageList);
         }catch(FirebaseMessagingException e){
             e.printStackTrace();
         }
-        notificationRepository.saveAll(notifications);
     }
 
     @Override
@@ -157,13 +159,14 @@ public class NotificationServiceImpl implements NotificationService{
                     .build();
             notifications.add(temp);
         }
+        notificationRepository.saveAll(notifications);
         List<Message> messageList=generateMessageList(list,false);
+        if(messageList.isEmpty())return;
         try{
             firebaseMessaging.sendAll(messageList);
         }catch(FirebaseMessagingException e){
             e.printStackTrace();
         }
-        notificationRepository.saveAll(notifications);
     }
 
     @Override
