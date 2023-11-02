@@ -35,6 +35,7 @@ public class SecurityConfig {
     httpSecurity
         .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS).permitAll()
+//        .antMatchers("/api/auth/**").permitAll()
         .antMatchers("/**").permitAll()
         .anyRequest().authenticated();
 
