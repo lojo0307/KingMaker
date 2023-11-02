@@ -8,13 +8,15 @@ import 'package:flutter/material.dart';
 
 import 'package:kingmaker/widget/main/main_game.dart';
 
+import 'main_speech_bubble.dart';
+
 class MainPlayer extends SpriteComponent with TapCallbacks {
   static Vector2 spriteSize = Vector2(128, 128);
   final MyGame game;
 
   late SpriteComponent spriteComponent;
   late TextComponent textComponent;
-
+  late MainSpeechBubble? speechBubble;
   MainPlayer(this.game);
 
   @override
@@ -38,15 +40,30 @@ class MainPlayer extends SpriteComponent with TapCallbacks {
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           120);
       add(textComponent);
+
+
+      //말풍선 컴포넌트 생성
+      speechBubble = MainSpeechBubble(Vector2(-33, -130), "엄준식");
+      await speechBubble!.onLoad();
+      add(speechBubble!);
+
+      propagateToChildren((p0) => true);
   }
+
+  void TapUp(){
+    speechBubble?.showBubble("Hellow");
+  }
+
 
   @override
   void onTapUp(TapUpEvent event) {
-    Vector2 worldPosition = game.camera.localToGlobal(event.localPosition);
-    if (toRect().contains(worldPosition.toOffset())) {
-      print('player onTapUp called');
-      // toggleAnimationRow();
-    }
+    // Vector2 worldPosition = game.camera.localToGlobal(event.localPosition);
+    // if (toRect().contains(worldPosition.toOffset())) {
+    //   print('player onTapUp called');
+    //   // toggleAnimationRow();
+    // }
+    super.onTapUp(event);
+    // speechBubble.showBubble("Hellow");
   }
 
   @override

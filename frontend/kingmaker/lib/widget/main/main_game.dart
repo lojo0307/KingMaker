@@ -46,6 +46,7 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     print(worldPosition);
     if (player.toRect().contains(worldPosition.toOffset())) {
       print('Character was tapped!');
+      player.TapUp();
       return;
     }//몬스터를 클릭했을 때의 로직
 
