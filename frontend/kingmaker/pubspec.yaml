@@ -103,6 +103,16 @@ flutter:
     - assets/user_level/
     - assets/icon/
     - .env
+    - assets/images/mushrooms.png
+    - assets/images/reaper_right.png
+    - assets/images/reaper_left.png
+    - assets/castle/tower.png
+    - assets/castle/castle.png
+    - assets/images/skeleton_right.png
+    - assets/images/skeleton_left.png
+    - assets/images/goblin_right.png
+    - assets/images/goblin_left.png
+    - assets/images/mush.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -13,6 +13,8 @@ enum MonsterDirection {
 class MonsterPosition extends PositionComponent {
   final MyGame game;
   final Random _random = Random();
+  final List<String> categorytList =["slime", "skeleton", "goblin", "reaper", "slime", "slime"];
+  late int categoryId;
   MonsterDirection currentDirection = MonsterDirection.RIGHT;
   Vector2 velocity = Vector2.zero();
   Map<String, String> monsterInfo;
@@ -22,15 +24,15 @@ class MonsterPosition extends PositionComponent {
   }
   late Monster monster;
   late MonsterText monsterText;
+
   @override
   void onLoad() {
     super.onLoad();
-
     position = Vector2(
         _random.nextDouble() * (1024 - size.x),
         _random.nextDouble() * (1024 - size.y)
     );
-
+    categoryId = int.tryParse(monsterInfo['category_id'] ?? '') ?? 0;
     monster = Monster(this.game, monsterInfo);
     monsterText = MonsterText(monsterInfo);
 
@@ -45,10 +47,10 @@ class MonsterPosition extends PositionComponent {
     position += velocity * dt;  // MonsterPosition의 위치를 업데이트
     if (velocity.x > 0 && currentDirection != MonsterDirection.RIGHT) {
       currentDirection = MonsterDirection.RIGHT;
-      monster.changeAnimation('slime_right.png');
+      monster.changeAnimation('${categorytList[categoryId-1]}_right.png');
     } else if (velocity.x < 0 && currentDirection != MonsterDirection.LEFT) {
       currentDirection = MonsterDirection.LEFT;
-      monster.changeAnimation('slime_left.png');
+      monster.changeAnimation('${categorytList[categoryId-1]}_left.png');
     }
     if (monster != null && monsterText != null) {
       // monster.position = position;

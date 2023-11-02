@@ -28,9 +28,9 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     focusArea.position = backgroundSize / 2;
     camera.follow(focusArea);
     //몬스터 리스트 초기화 -지금은 임의 값
-    monsterList = [MonsterPosition(this,{'todo_nm' : "첫번째 몬스터"}),
-    MonsterPosition(this,{'todo_nm' : "2번째 몬스터"}),MonsterPosition(this,{'todo_nm' : "3번째 몬스터"}),
-    MonsterPosition(this,{'todo_nm' : "4번째 몬스터"}),MonsterPosition(this,{'todo_nm' : "5번째 몬스터"}),MonsterPosition(this,{'todo_nm' : "6번째 몬스터"}),MonsterPosition(this,{'todo_nm' : "7번째 몬스터"})
+    monsterList = [MonsterPosition(this,{'todo_nm' : "첫번째 몬스터",'category_id' :'1'}),
+    MonsterPosition(this,{'todo_nm' : "2번째 몬스터",'category_id' :'1'}),MonsterPosition(this,{'todo_nm' : "3번째 몬스터",'category_id' :'2'}),
+    MonsterPosition(this,{'todo_nm' : "4번째 몬스터", 'category_id' :'2'}),MonsterPosition(this,{'todo_nm' : "5번째 몬스터",'category_id' :'3'}),MonsterPosition(this,{'todo_nm' : "6번째 몬스터", 'category_id' :'4'}),MonsterPosition(this,{'todo_nm' : "7번째 몬스터", 'category_id' :'5'})
     ];
   }
   void setFocusArea(FocusArea fa) {  // focusArea를 설정하는 메서드
