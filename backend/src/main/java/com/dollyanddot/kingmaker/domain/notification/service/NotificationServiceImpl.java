@@ -9,14 +9,14 @@ import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationTmp;
-import com.dollyanddot.kingmaker.domain.notification.exception.DeleteNotificationException;
-import com.dollyanddot.kingmaker.domain.notification.exception.GetNotificationException;
+import com.dollyanddot.kingmaker.domain.notification.exception.*;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTmpRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
+import com.dollyanddot.kingmaker.domain.todo.exception.NonExistTodoIdException;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -48,43 +48,46 @@ public class NotificationServiceImpl implements NotificationService{
 
     //발송 전 알림 보낸 후, 발송된 알림 테이블로 데이터 이동
     @Override
-    public void sendNotification() {
-        //notification_tmp에서 발송해야 하는 알림 목록 가져오기->발송->notification에 저장 후 notification_tmp에서 삭제
+    public void sendNotification() throws Exception{
         LocalDateTime time=LocalDateTime.now();
         List<NotificationTmp> list=notificationTmpRepository.getNotificationTmpsBySendTimeLessThanEqual(time);
         List<Notification> notificationList=new ArrayList<>();
         List<Message> messageList=new ArrayList<>();
-        //발송 로직
-        for(NotificationTmp nt:list){
-            Notification n=Notification.builder()
-                    .notificationType(nt.getNotificationType())
-                    .message(nt.getMessage())
-                    .member(nt.getMember())
-                    .build();
-            notificationList.add(n);
-            Optional<List<FcmToken>> fcmTokenList=fcmTokenRepository.findFcmTokensByMember_MemberId(nt.getMember().getMemberId());
-            if(fcmTokenList.isPresent()){
-                for(FcmToken token:fcmTokenList.get()){
-                    Message m=Message.builder()
-                            .setToken(token.getToken())
-                            .setTopic(nt.getNotificationType().getType().name())
-                            .setNotification(com.google.firebase.messaging.Notification.builder()
-                                    .setBody(nt.getMessage())
-                                    .setTitle("일정 수행 전입니다.")
-                                    .build())
-                            .build();
-                    messageList.add(m);
+        try{
+            //notification_tmp에서 발송해야 하는 알림 목록 가져오기->발송->notification에 저장 후 notification_tmp에서 삭제
+            //발송 로직
+            for(NotificationTmp nt:list){
+                Notification n=Notification.builder()
+                        .notificationType(nt.getNotificationType())
+                        .message(nt.getMessage())
+                        .member(nt.getMember())
+                        .build();
+                notificationList.add(n);
+                Optional<List<FcmToken>> fcmTokenList=fcmTokenRepository.findFcmTokensByMember_MemberId(nt.getMember().getMemberId());
+                if(fcmTokenList.isPresent()){
+                    for(FcmToken token:fcmTokenList.get()){
+                        Message m=Message.builder()
+                                .setToken(token.getToken())
+                                .setTopic(nt.getNotificationType().getType().name())
+                                .setNotification(com.google.firebase.messaging.Notification.builder()
+                                        .setBody(nt.getMessage())
+                                        .setTitle("일정 수행 전입니다.")
+                                        .build())
+                                .build();
+                        messageList.add(m);
+                    }
                 }
             }
-        }
-        notificationRepository.saveAll(notificationList);
-        notificationTmpRepository.deleteNotificationTmpsBySendTimeLessThanEqual(time);
-        //푸시 알림 발송
-        if(messageList.isEmpty())return;
-        try{
+            notificationRepository.saveAll(notificationList);
+            notificationTmpRepository.deleteNotificationTmpsBySendTimeLessThanEqual(time);
+            if(messageList.isEmpty())return;
+            //푸시 알림 발송
             firebaseMessaging.sendAll(messageList);
         }catch(FirebaseMessagingException e){
-            e.printStackTrace();
+            throw e;
+        }
+        catch(Exception e){
+            throw new ProcessingNotificationException();
         }
     }
 
@@ -124,61 +127,69 @@ public class NotificationServiceImpl implements NotificationService{
 
     //오늘 해야 할 알림 개수 푸시 알림 발송 및 notification 테이블에 저장
     @Override
-    public void sendMorningNotification(){
+    public void sendMorningNotification() throws Exception{
         //각 멤버 별로 오늘 할 일+루틴 개수 반환해서 알림 생성 후 fcm으로 발송
         List<CountPlanDto> list=calendarRepository.getTodayPlan();
         List<Notification> notifications=new ArrayList<>();
-        for(CountPlanDto t:list){
-            Notification temp=Notification.builder()
-                    .notificationType(notificationTypeRepository.findById(1).get())
-                    .member(memberRepository.findById(t.getMemberId()).get())
-                    .message("Your majesty, 오늘 처리해야 하는 업무가 "+t.getCnt()+"건 있습니다.")
-                    .build();
-        }
-        notificationRepository.saveAll(notifications);
-        //fcm 발송
-        List<Message> messageList=generateMessageList(list,true);
-        if(messageList.isEmpty())return;
         try{
+            for(CountPlanDto t:list){
+                Notification temp=Notification.builder()
+                        .notificationType(notificationTypeRepository.findById(1).get())
+                        .member(memberRepository.findById(t.getMemberId()).get())
+                        .message("Your majesty, 오늘 처리해야 하는 업무가 "+t.getCnt()+"건 있습니다.")
+                        .build();
+            }
+            notificationRepository.saveAll(notifications);
+            //fcm 발송
+            List<Message> messageList=generateMessageList(list,true);
+            if(messageList.isEmpty())return;
             firebaseMessaging.sendAll(messageList);
         }catch(FirebaseMessagingException e){
             e.printStackTrace();
+        }catch(Exception e){
+            throw new ProcessingNotificationException();
         }
     }
 
     @Override
-    public void sendEveningNotification(){
+    public void sendEveningNotification() throws Exception{
         //멤버 별로 오늘 완료하지 못한 일 개수 알림
         List<CountPlanDto> list=calendarRepository.getUndonePlan();
         List<Notification> notifications=new ArrayList<>();
-        for(CountPlanDto t:list){
-            Notification temp=Notification.builder()
-                    .notificationType(notificationTypeRepository.findById(4).get())
-                    .member(memberRepository.findById(t.getMemberId()).get())
-                    .message("Your majesty, 아직 처리하지 못한 업무가 "+t.getCnt()+"건 있습니다.")
-                    .build();
-            notifications.add(temp);
-        }
-        notificationRepository.saveAll(notifications);
-        List<Message> messageList=generateMessageList(list,false);
-        if(messageList.isEmpty())return;
         try{
+            for(CountPlanDto t:list){
+                Notification temp=Notification.builder()
+                        .notificationType(notificationTypeRepository.findById(4).get())
+                        .member(memberRepository.findById(t.getMemberId()).get())
+                        .message("Your majesty, 아직 처리하지 못한 업무가 "+t.getCnt()+"건 있습니다.")
+                        .build();
+                notifications.add(temp);
+            }
+            notificationRepository.saveAll(notifications);
+            List<Message> messageList=generateMessageList(list,false);
+            if(messageList.isEmpty())return;
             firebaseMessaging.sendAll(messageList);
         }catch(FirebaseMessagingException e){
             e.printStackTrace();
+        }catch(Exception e){
+            throw new ProcessingNotificationException();
         }
     }
 
     @Override
-    public void generateTodoNotificationTmp(Long todoId){
+    public void generateTodoNotificationTmp(Long todoId) throws ProcessingNotificationException{
         Optional<Todo> todo=todoRepository.findById(todoId);
-        if(todo.isEmpty())throw new RuntimeException();
+        if(todo.isEmpty())throw new NonExistTodoIdException();
+        //현 시간보다 이전에 시작한 일정이면 예약 알림 보내지 않음
+        if(todo.get().getStartAt().isBefore(LocalDateTime.now()))return;
         NotificationTmp nt=NotificationTmp.builder()
                 .notificationType(notificationTypeRepository.findById(2).get())
+                .todo(todo.get())
                 .member(todo.get().getMember())
                 .sendTime(todo.get().getStartAt().minusHours(1))
                 .message("Your majesty, "+todo.get().getTodoNm()+" 시작 한 시간 전입니다.")
                 .build();
+        notificationTmpRepository.save(nt);
         return;
     }
 
@@ -200,10 +211,19 @@ public class NotificationServiceImpl implements NotificationService{
     }
 
     @Override
-    public void updateTodoNotification(Long todoId){
+    public void updateTodoNotification(Long todoId) throws UpdateNotificationException{
         Optional<Todo> todo=todoRepository.findById(todoId);
-        if(todo.isEmpty())throw new RuntimeException();
-        notificationTmpRepository.updateTodoNotification(todo.get());
+        if(todo.isEmpty())throw new NonExistTodoIdException();
+        //없으면 새로 만듦-예전에 한 시간 전 알림까지 날린 todo를 수정할 수도 있으니
+        Optional<NotificationTmp> n=notificationTmpRepository.findNotificationTmpByTodo_TodoId(todoId);
+        if(n.isEmpty()){
+            generateTodoNotificationTmp(todoId);
+        }
+        else{
+            //현 시간보다 이전이면 있는 알림도 삭제
+            if(todo.get().getStartAt().isBefore(LocalDateTime.now()))notificationTmpRepository.delete(n.get());
+            else notificationTmpRepository.updateTodoNotification(todo.get());
+        }
         return;
     }
 
@@ -215,7 +235,7 @@ public class NotificationServiceImpl implements NotificationService{
 //    }
 
     @Override
-    public void notificationSettingToggle(Long memberId,int notificationTypeId){
+    public void notificationSettingToggle(Long memberId,int notificationTypeId) throws NotificationSettingException {
         Optional<NotificationSetting> ns=notificationSettingRepository.findNotificationSettingByMember_MemberIdAndNotificationType_NotificationTypeId(memberId,notificationTypeId);
         if(ns.isEmpty())throw new RuntimeException();
         boolean prev=ns.get().isActivatedYn();

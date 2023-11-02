@@ -23,7 +23,6 @@ public class TodoController {
     @DeleteMapping
     public EnvelopeResponse<Void> deleteTodo(@RequestParam Long todoId){
         todoService.deleteTodoByTodoId(todoId);
-
         return EnvelopeResponse.<Void>builder()
                 .data(null)
                 .build();
