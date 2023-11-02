@@ -16,15 +16,6 @@ import java.util.stream.Collectors;
 public class NotificationController {
     private final NotificationService notificationService;
 
-    //1분마다 일정 알림 발송하기 위한 함수 테스트용
-    @GetMapping("test")
-    void sendTest(){
-//        notificationService.sendNotification();
-//        notificationService.sendMorningNotification();
-        notificationService.sendEveningNotification();
-        return;
-    }
-
     @GetMapping("{memberId}")
     public EnvelopeResponse<List<NotificationResDto>> getNotification(@PathVariable Long memberId){
         List<NotificationResDto> list=notificationService.getNotification(memberId)

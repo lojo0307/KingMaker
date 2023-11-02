@@ -84,20 +84,20 @@ public class SchedulerService {
   }
 
   @Scheduled(cron="0 0 8 * * ?",zone="Asia/Seoul")
-  public void sendMorningNotification(){
+  public void sendMorningNotification() throws Exception{
     //TODO: 매일 오전 8시에 아침 알림 발송
     notificationService.sendMorningNotification();
   }
 
   @Scheduled(cron="0 0 21 * * ?",zone="Asia/Seoul")
-  public void sendEveningNotification(){
+  public void sendEveningNotification() throws Exception{
     //TODO: 매일 오후 9시에 아직 해결되지 않은 알림 발송
     notificationService.sendEveningNotification();
   }
 
-  @Scheduled(cron="0 0/1 * * * *",zone="Asia/Seoul")
-  public void sendPlanNotification(){
-    //TODO: 일정 수행 시작 한 시간 전 알림 발송
-    notificationService.sendNotification();
-  }
+//  @Scheduled(cron="0 0/1 * * * *",zone="Asia/Seoul")
+//  public void sendPlanNotification() throws Exception{
+//    //TODO: 일정 수행 시작 한 시간 전 알림 발송
+//    notificationService.sendNotification();
+//  }
 }
