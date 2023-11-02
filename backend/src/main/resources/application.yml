@@ -11,6 +11,7 @@ spring:
     import:
       - env.yml
       - application-redis.yml
+      - application-oauth2.yml
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
