@@ -2,6 +2,7 @@ package com.dollyanddot.kingmaker.domain.scheduler;
 
 import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
+import com.dollyanddot.kingmaker.domain.notification.service.NotificationService;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
@@ -27,6 +28,7 @@ public class SchedulerService {
   private final RoutineRepository routineRepository;
   private final MemberRoutineRepository memberRoutineRepository;
   private final CalendarRepository calendarRepository;
+  private final NotificationService notificationService;
 
   @Transactional
   @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Seoul")
@@ -79,5 +81,23 @@ public class SchedulerService {
         log.error("{}: JSON parsing 예외 발생", e.toString());
       }
     });
+  }
+
+  @Scheduled(cron="0 0 8 * * ?",zone="Asia/Seoul")
+  public void sendMorningNotification(){
+    //TODO: 매일 오전 8시에 아침 알림 발송
+    notificationService.sendMorningNotification();
+  }
+
+  @Scheduled(cron="0 0 21 * * ?",zone="Asia/Seoul")
+  public void sendEveningNotification(){
+    //TODO: 매일 오후 9시에 아직 해결되지 않은 알림 발송
+    notificationService.sendEveningNotification();
+  }
+
+  @Scheduled(cron="0 0/1 * * * *",zone="Asia/Seoul")
+  public void sendPlanNotification(){
+    //TODO: 일정 수행 시작 한 시간 전 알림 발송
+    notificationService.sendNotification();
   }
 }
