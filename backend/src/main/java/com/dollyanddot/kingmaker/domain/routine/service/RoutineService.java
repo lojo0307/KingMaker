@@ -36,7 +36,33 @@ public class RoutineService {
     Category category = categoryRepository.findById(postRoutineReqDto.getCategoryId())
         .orElseThrow();
     Member member = memberRepository.findById(postRoutineReqDto.getMemberId()).orElseThrow();
-    LocalDateTime time = LocalDateTime.now();
+    LocalDateTime today = LocalDateTime.now();
+
+    JSONParser jsonParser = new JSONParser();
+    JSONObject jsonObject = (JSONObject) jsonParser.parse(postRoutineReqDto.getPeriod());
+
+    String type = (String) jsonObject.get("type");
+    Object obj = jsonObject.get("value");
+    int value = 0;
+    boolean isToday = false;
+    if (type.equals("day")) {
+      boolean[] days = (boolean[]) obj;
+      for (int i = today.getDayOfWeek().getValue(); i < days.length; i++) {
+        if (days[i % days.length] && today.getDayOfWeek().getValue() == i) {
+          isToday = true;
+          continue;
+        }
+        if (days[i % days.length]) {
+          value = i;
+          break;
+        }
+        if (i == days.length) {
+          i = 0;
+        }
+      }
+    } else {
+      value = (int) obj;
+    }
 
     Routine routine = routineRepository.save(new Routine().builder()
         .category(category)
@@ -47,14 +73,13 @@ public class RoutineService {
         .importantYn(postRoutineReqDto.isImportantYn())
         .startAt(postRoutineReqDto.getStartAt())
         .endAt(postRoutineReqDto.getEndAt())
+        .registerAt(type.equals("day") ? null
+            : type.equals("num") ? today.plusDays(value) : today.plusMonths(value))
+        .registerDay(type.equals("day") ? value : null)
         .build());
 
-    JSONParser jsonParser = new JSONParser();
-
-    JSONObject jsonObject = (JSONObject) jsonParser.parse(postRoutineReqDto.getPeriod());
-    JSONArray dayArr = (JSONArray) jsonObject.get("value");
-
-    if (routine.getStartAt().isBefore(time) && routine.getEndAt().isAfter(time)) {
+    if ((routine.getStartAt().isBefore(today) && routine.getEndAt().isAfter(today)) &&
+        (!type.equals("day") || (type.equals("day") && isToday))) {
       memberRoutineRepository.save(new MemberRoutine().builder()
           .member(member)
           .routine(routine)
@@ -84,12 +109,12 @@ public class RoutineService {
     if (type.equals("day")) {
       JSONArray dayArr = (JSONArray) jsonObject.get("value");
 
-      for(int i=today.getDayOfWeek().getValue()+1; i<=dayArr.size(); i++){
-        if((boolean) dayArr.get(i%dayArr.size())){
+      for (int i = today.getDayOfWeek().getValue() + 1; i <= dayArr.size(); i++) {
+        if ((boolean) dayArr.get(i % dayArr.size())) {
           routine.updateRegisterDay(i);
           break;
         }
-        if(i == dayArr.size()){
+        if (i == dayArr.size()) {
           i = 0;
         }
       }
