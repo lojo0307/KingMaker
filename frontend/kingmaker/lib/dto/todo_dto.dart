@@ -6,9 +6,12 @@ class TodoDto{
   String todoNm;
   String todoDetail;
   String todoPlace;
-  int importantYn;
-  int achievedYn;
+  bool importantYn;
+  bool achievedYn;
 
+  String toString(){
+    return '$todoId,$categoryId,$startAt,$endAt,$todoNm,$todoDetail,$todoPlace,$importantYn,$achievedYn';
+  }
   TodoDto({
     required this.todoId,
     required this.categoryId,
@@ -29,8 +32,35 @@ class TodoDto{
       todoNm: json['todoNm'],
       todoDetail: json['todoDetail'],
       todoPlace: json['todoPlace'],
-      importantYn: json['importantYn'],
-      achievedYn: json['age'],
+      importantYn: (json['importantYn'] == 1) ? true : false,
+      achievedYn: (json['achievedYn'] == 1) ? true : false,
     );
+  }
+  factory TodoDto.fromJsonToListDto(Map<String, dynamic> json) {
+    return TodoDto(
+      todoId: json['todoId'],
+      categoryId: json['categoryId'],
+      startAt: json['startAt'],
+      endAt: json['endAt'],
+      todoNm: json['todoNm'],
+      todoDetail: "",
+      todoPlace: "",
+      importantYn: (json['importantYn'] == 1) ? true : false,
+      achievedYn: (json['age'] == 1) ? true : false,
+    );
+  }
+
+  toRegistJson(int memberId) {
+    return {
+      "memberId": memberId,
+      "categoryId": categoryId,
+      "startAt": startAt,
+      "endAt": endAt,
+      "todoNm": todoNm,
+      "todoDetail": todoDetail,
+      "todoPlace": todoPlace,
+      "importantYn": importantYn,
+      "monsterCd": 1
+    };
   }
 }

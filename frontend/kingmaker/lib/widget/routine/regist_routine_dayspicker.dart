@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
+import 'package:provider/provider.dart';
 
 class DaysPicker extends StatefulWidget {
   const DaysPicker({super.key});
@@ -16,7 +18,6 @@ class _DaysPickerState extends State<DaysPicker> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-
         Text('매 '),
         Container(
           child:TextFormField(
@@ -25,6 +26,9 @@ class _DaysPickerState extends State<DaysPicker> {
               LengthLimitingTextInputFormatter(3),
             ],
             keyboardType: TextInputType.number,
+            onChanged: (value) {
+              Provider.of<RegistProvider>(context, listen: false).setValue(value);
+            },
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(

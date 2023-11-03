@@ -13,6 +13,10 @@ class MemberRoutineDto{
     required this.monsterCd,
   });
   factory MemberRoutineDto.fromJson(Map<String, dynamic> json) {
+    print(json['memberRoutineId']);
+    print(json['routine']);
+    print(json['achievedYn']);
+    print(json['monsterCd']);
     return MemberRoutineDto(
         memberRoutineId: json['memberRoutineId'],
         routine: RoutineDto.fromJson(json['routine']),

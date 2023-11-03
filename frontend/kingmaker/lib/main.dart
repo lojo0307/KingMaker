@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kingmaker/page/login_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/provider/test_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
@@ -12,6 +13,9 @@ void main() async{
   await dotenv.load(fileName: ".env");
   runApp(MultiProvider(
       providers: [
+        ChangeNotifierProvider<RegistProvider>(
+          create: (context) => RegistProvider(),
+        ),
         ChangeNotifierProvider<ScheduleProvider>(
           create: (context) => ScheduleProvider(),
         ),
