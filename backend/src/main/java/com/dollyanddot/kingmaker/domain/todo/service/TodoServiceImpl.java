@@ -95,7 +95,7 @@ public class TodoServiceImpl implements TodoService {
   public TodoDetailResDto getTodoDetail(Long todoId) throws GetTodoDetailException {
     Optional<Todo> todo = todoRepository.getTodoByTodoId(todoId);
     if (todo.isEmpty()) {
-      throw new GetTodoDetailException();
+      throw new NonExistTodoIdException();
     }
     byte achivedYn=(byte) (todo.get().isAchievedYn() ? 1 : 0);
     byte importantYn=(byte) (todo.get().isImportantYn() ? 1 : 0);
