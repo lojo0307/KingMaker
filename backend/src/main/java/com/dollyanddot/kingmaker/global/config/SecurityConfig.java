@@ -2,6 +2,7 @@ package com.dollyanddot.kingmaker.global.config;
 
 import com.dollyanddot.kingmaker.domain.auth.JwtAuthenticationFilter;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
+import com.dollyanddot.kingmaker.domain.auth.repository.RefreshTokenRepository;
 import com.dollyanddot.kingmaker.domain.auth.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class SecurityConfig {
 
   private final JwtService jwtService;
   private final CredentialRepository credentialRepository;
+  private final RefreshTokenRepository refreshTokenRepository;
 
   @Bean
   protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -38,8 +40,8 @@ public class SecurityConfig {
         .and()
         .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS).permitAll()
-        .antMatchers("/api/auth/**").permitAll()
-//        .antMatchers("/**").permitAll()
+//        .antMatchers("/api/auth/**").permitAll()
+        .antMatchers("/**").permitAll()
         .anyRequest().authenticated();
 
 //        .and()
@@ -50,7 +52,7 @@ public class SecurityConfig {
 
   @Bean
   public JwtAuthenticationFilter jwtAuthenticationFilter() {
-    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtService, credentialRepository);
+    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtService, credentialRepository, refreshTokenRepository);
     return jwtAuthenticationFilter;
   }
 }

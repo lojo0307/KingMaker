@@ -2,8 +2,10 @@ package com.dollyanddot.kingmaker.domain.auth.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.dollyanddot.kingmaker.domain.auth.domain.RefreshToken;
 import com.dollyanddot.kingmaker.domain.auth.exception.JwtExceptionList;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
+import com.dollyanddot.kingmaker.domain.auth.repository.RefreshTokenRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,11 @@ public class JwtService {
     private static final String BEARER = "Bearer ";
 
     private final CredentialRepository credentialRepository;
+
+    private final RefreshTokenRepository refreshTokenRepository;
+
+    @Value("${spring.redis.ttl.refresh_token}")
+    private long refresh_expiration;
 
     /**
      * AccessToken 생성
@@ -127,11 +134,10 @@ public class JwtService {
      * RefreshToken DB 저장(업데이트)
      */
     public void updateRefreshToken(long credentialId, String refreshToken) {
-        credentialRepository.findById(credentialId)
-                .ifPresentOrElse(
-                        credential -> credential.updateRefreshToken(refreshToken),
-                        () -> new Exception("일치하는 회원이 없습니다.")
-                );
+        refreshTokenRepository.save(RefreshToken.builder()
+                .credentialId(String.valueOf(credentialId))
+                .refreshToken(refreshToken)
+                .ttl(refresh_expiration).build());
     }
 
     public boolean isTokenValid(String token) {

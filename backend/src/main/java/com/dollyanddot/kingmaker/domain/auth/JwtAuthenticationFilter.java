@@ -1,8 +1,10 @@
 package com.dollyanddot.kingmaker.domain.auth;
 
 import com.dollyanddot.kingmaker.domain.auth.domain.Credential;
+import com.dollyanddot.kingmaker.domain.auth.domain.RefreshToken;
 import com.dollyanddot.kingmaker.domain.auth.exception.JwtExceptionList;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
+import com.dollyanddot.kingmaker.domain.auth.repository.RefreshTokenRepository;
 import com.dollyanddot.kingmaker.domain.auth.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -29,8 +32,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String NO_CHECK_URL = "/api/auth/";
     private final JwtService jwtService;
     private final CredentialRepository credentialRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
    private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -59,19 +64,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-        credentialRepository.findByRefreshToken(refreshToken)
-                .ifPresentOrElse(credential -> {
-                    String reIssuedRefreshToken = reIssueRefreshToken(credential);
-                    jwtService.sendAccessAndRefreshToken(response, jwtService.generateAccessToken(credential.getCredentialId()), reIssuedRefreshToken);
+        refreshTokenRepository.findByRefreshToken(refreshToken)
+                .ifPresentOrElse(token -> {
+                    Optional<Credential> credential = credentialRepository.findById(Long.parseLong(token.getCredentialId()));
+                    if (credential.isEmpty()) throw new JwtException(JwtExceptionList.UNAUTHORIZED.getMessage());
+                    String reIssuedRefreshToken = reIssueRefreshToken(token);
+                    jwtService.sendAccessAndRefreshToken(response, jwtService.generateAccessToken(credential.get().getCredentialId()), reIssuedRefreshToken);
                 }, () -> {
                     throw new JwtException(JwtExceptionList.TOKEN_EXCEPTION.getMessage());
                 });
     }
 
-    public String reIssueRefreshToken(Credential credential) {
+    public String reIssueRefreshToken(RefreshToken token) {
         String reIssuedRefreshToken = jwtService.generateRefreshToken();
-        credential.updateRefreshToken(reIssuedRefreshToken);
-        credentialRepository.saveAndFlush(credential);
+        token.updateRefreshToken(reIssuedRefreshToken);
+        refreshTokenRepository.save(token);
         return reIssuedRefreshToken;
     }
 

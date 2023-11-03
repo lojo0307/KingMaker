@@ -17,9 +17,6 @@ public class Credential {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long credentialId;
 
-    @Column(name = "refresh_token")
-    private String refreshToken;
-
     @Column
     private String email;
 
@@ -31,7 +28,4 @@ public class Credential {
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
-    public void updateRefreshToken(String updateRefreshToken) {
-        this.refreshToken = updateRefreshToken;
-    }
 }
