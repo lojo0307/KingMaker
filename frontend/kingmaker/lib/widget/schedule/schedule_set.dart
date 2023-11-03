@@ -11,8 +11,8 @@ class ScheduleSet extends StatefulWidget {
 }
 
 class _ScheduleSetState extends State<ScheduleSet> {
-  static const category = ['전체', '건 강' ,'학 습', '일 상', '업 무', '수 정', '집안일', '기 타'];
-  static const idxs = ['0', '1' ,'2', '3', '4', '5', '6', '7'];
+  static const category = ['전체', '집안일' ,'일 상', '학 습', '건 강', '업 무', '기 타'];
+  static const idxs = ['0', '1' ,'2', '3', '4', '5', '6'];
   String idx = '0';
   @override
   Widget build(BuildContext context) {

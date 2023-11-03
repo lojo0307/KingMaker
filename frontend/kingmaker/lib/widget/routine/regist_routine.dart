@@ -1,11 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/member_provider.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
+import 'package:kingmaker/provider/schedule_provider.dart';
 
 import 'package:kingmaker/widget/routine/regist_routine_categorybutton.dart';
 import 'package:kingmaker/widget/routine/regist_routine_importancecheck.dart';
 
 import 'package:kingmaker/widget/routine/regist_routine_weekdaybutton.dart';
 import 'package:kingmaker/widget/routine/resgist_routine_dateinput.dart';
+import 'package:provider/provider.dart';
 class RegistRoutine extends StatefulWidget {
   const RegistRoutine({super.key});
 
@@ -32,6 +36,9 @@ class _RegistRoutineState extends State<RegistRoutine> {
                         tooltip: '이 전 페이지',
                         onPressed: () {
                           print("click");
+                          Navigator.pop(
+                            context,
+                          );
                         },
                         iconSize: 30,
                       ),
@@ -74,6 +81,9 @@ class _RegistRoutineState extends State<RegistRoutine> {
                         ),
                         height: 60,
                         child: TextFormField(
+                          onChanged: (value) {
+                            Provider.of<RegistProvider>(context, listen: false).setTitle(value);
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             labelText: '제목',
@@ -114,6 +124,9 @@ class _RegistRoutineState extends State<RegistRoutine> {
                           borderRadius: BorderRadius.circular(13),
                         ),
                         child: TextFormField(
+                          onChanged: (value) {
+                            Provider.of<RegistProvider>(context, listen: false).setDetail(value);
+                          },
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           decoration: InputDecoration(
@@ -207,11 +220,11 @@ class _RegistRoutineState extends State<RegistRoutine> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                        child: DateInput(),
+                        child: DateInput(type: 'start',),
                         ),
                         Text('  ~  ', style: TextStyle(fontSize: 18)),
                         Container(
-                          child: DateInput(),
+                          child: DateInput(type: 'end',),
                         ),
                         // Container(
                         //   child: TimeInput(),
@@ -281,7 +294,13 @@ class _RegistRoutineState extends State<RegistRoutine> {
                       fit: FlexFit.tight,
                         flex: 14,
                         child: ElevatedButton(
-                            onPressed: ()=> print('click'),
+                            onPressed: () {
+                              print('click');
+                              int? MemberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+                              Provider.of<RegistProvider>(context, listen: false).RegistRoutine(MemberId!);
+                              Provider.of<ScheduleProvider>(context, listen: false).getList();
+                              Navigator.pop(context);
+                            },
                             child: Text('루틴 등록하기')
                         )
                     ),

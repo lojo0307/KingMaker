@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
+import 'package:provider/provider.dart';
 
 class ImportanceCheck extends StatefulWidget {
   const ImportanceCheck({super.key});
@@ -12,7 +14,14 @@ class _ImportanceCheckState extends State<ImportanceCheck> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.asset('assets/images/uncheck.png',width: 33,),
+        GestureDetector(
+          onTap: () {
+            Provider.of<RegistProvider>(context, listen: false).changeImport();
+            setState(() {});
+            print(Provider.of<RegistProvider>(context, listen: false).importantYn);
+          },
+          child: (Provider.of<RegistProvider>(context, listen: false).importantYn)? Image.asset('assets/images/check.png',width: 33,) :Image.asset('assets/images/uncheck.png',width: 33,),
+        ),
         SizedBox(width: 10,),
         Text('중요한 일정')
       ],
