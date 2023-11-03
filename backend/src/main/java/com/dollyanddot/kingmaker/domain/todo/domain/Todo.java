@@ -3,6 +3,7 @@ package com.dollyanddot.kingmaker.domain.todo.domain;
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -43,7 +44,7 @@ import java.time.LocalDateTime;
 @SqlResultSetMapping(
         name = "getTodoList",
         classes = @ConstructorResult(
-                targetClass = CalendarStreakResDto.class,
+                targetClass = TodoListResDto.class,
                 columns = {
                         @ColumnResult(name = "todo_id", type = Long.class),
                         @ColumnResult(name = "todo_nm", type = String.class),
