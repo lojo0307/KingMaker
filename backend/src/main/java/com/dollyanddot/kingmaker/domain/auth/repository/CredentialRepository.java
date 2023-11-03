@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface CredentialRepository extends JpaRepository<Credential, Long> {
     Optional<Credential> findByEmailAndProvider(String email, Provider provider);
+    Optional<Credential> findByRefreshToken(String refreshToken);
 }

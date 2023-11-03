@@ -41,6 +41,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'com.auth0:java-jwt:4.2.1'
 
     //querydsl 설정
     implementation "com.querydsl:querydsl-jpa"

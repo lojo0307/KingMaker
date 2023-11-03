@@ -22,6 +22,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
@@ -31,16 +33,29 @@ public class OAuth2Service {
 
     private final CredentialRepository credentialRepository;
     private final InMemoryClientRegistrationRepository inMemoryClientRegistrationRepository;
+    private final JwtService jwtService;
 
-    public LoginResDto login(String code, String provider) {
+    public LoginResDto login(String code, String provider, HttpServletResponse response) throws IOException {
         log.info("로그인 로직 시작");
         ClientRegistration providerInfo = inMemoryClientRegistrationRepository.findByRegistrationId(provider);
         ProviderTokenDto providerToken = getAccessToken(provider, code, providerInfo);
         log.info("토큰 발급 완료 = {}", providerToken.getAccess_token());
-        getCredential(getUserInfo(providerToken, providerInfo, Provider.valueOf(provider.toUpperCase())), Provider.valueOf(provider.toUpperCase()));
 
+        loginSuccess(response, getCredential(getUserInfo(providerToken, providerInfo, Provider.valueOf(provider.toUpperCase())), Provider.valueOf(provider.toUpperCase())));
+        log.info("로그인 성공!");
+        log.info("발급된 Access Token = {}", response.getHeader("Authorization"));
         // credentialtoresdto
         return null;
+    }
+
+    private void loginSuccess(HttpServletResponse response, Credential credential) throws IOException {
+        String accessToken = jwtService.generateAccessToken(credential.getCredentialId());
+        String refreshToken = jwtService.generateRefreshToken();
+        response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
+        response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
+
+        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
+        jwtService.updateRefreshToken(credential.getCredentialId(), refreshToken);
     }
 
 
