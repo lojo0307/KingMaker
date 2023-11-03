@@ -21,7 +21,8 @@ import java.time.LocalDateTime;
         @NamedNativeQuery(
                 name = "getTodoList",
                 query = "select * from todo t"
-                        + " where DATE(t.start_at)<=:targetDate and DATE(t.end_at)>=:targetDate and t.member_id=:memberId",
+                        + " where DATE(t.start_at)<=:targetDate and DATE(t.end_at)>=:targetDate and t.member_id=:memberId"
+                        + " order by t.start_at asc;",
                 resultSetMapping = "getTodoList"
         ),
         @NamedNativeQuery(
