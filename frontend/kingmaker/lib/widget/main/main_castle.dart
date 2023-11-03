@@ -29,27 +29,33 @@ class Castle extends SpriteComponent {
     if(level['level']=='1'||level['level']=='2'){
       //텐트일 때
       size = Vector2.all(250.0);
-      position = Vector2(512, 100);
+      position = Vector2(350, 90);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
-          size.y-55);
+          size.y-5);
       add(textComponent);
     }else if(level['level']=='3'||level['level']=='4'||level['level']=='5'){
-      size = Vector2.all(330.0);
-      position = Vector2(512, 100);
+      size = Vector2.all(270.0);
+      position = Vector2(350, 90);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
-          size.y-55);
+          size.y-15);
       add(textComponent);
-    }else if(level['level']=='6'||level['level']=='7'){
-      size = Vector2.all(360.0);
-      position = Vector2(512, 100);
+    }else if(level['level']=='6'){
+      size = Vector2.all(290.0);
+      position = Vector2(350, 30);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
-          size.y-55);
+          size.y-5);
+      add(textComponent);
+    }else if(level['level']=='7'){
+      size = Vector2.all(300.0);
+      position = Vector2(350, 50);
+      textComponent.position.setValues((size.x / 2) - (textWidth / 2),
+          size.y-35);
       add(textComponent);
     }else if(level['level']=='8'||level['level']=='9'){
-      size = Vector2.all(400.0);
-      position = Vector2(512, 100);
+      size = Vector2.all(300.0);
+      position = Vector2(350, 30);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
-          size.y-55);
+          size.y-10);
       add(textComponent);
     }
 

@@ -112,6 +112,12 @@ flutter:
     - assets/images/goblin_right.png
     - assets/images/goblin_left.png
     - assets/images/speech_bubble.png
+    - assets/images/bear_left.png
+    - assets/images/bear_right.png
+    - assets/images/nutty_left.png
+    - assets/images/nutty_right.png
+    - assets/images/panda_left.png
+    - assets/images/panda_right.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

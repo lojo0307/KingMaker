@@ -20,9 +20,9 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
   late TextPainter textPainter;
   late MonsterPosition monsterPosition;
   late TextComponent textComponent;
-  final List<String> categorytList =["slime", "skeleton", "goblin", "reaper", "slime", "slime"];
-  final List<double> sizeX =[160, 216, 216, 96, 160, 160];
-  final List<double> sizeY =[160, 144, 144, 96, 160, 160];
+  final List<String> categorytList =["slime", "skeleton", "goblin", "nutty", "panda", "bear"];
+  final List<double> sizeX =[160, 216, 216, 99, 144, 268];
+  final List<double> sizeY =[160, 144, 144, 99, 144, 93];
   late Vector2 spriteSize;
   @override
   Future<void> onLoad() async {
@@ -38,6 +38,7 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
     this.animation = animation;
     this.size = spriteSize;
     monsterPosition = parent as MonsterPosition;
+
     textComponent=TextComponent(
         text: "${monsterInfo['todo_nm']}",
         textRenderer: TextPaint(
@@ -75,6 +76,8 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
     // }
     // 여기서는 position 업데이트나 경계 체크를 하지 않습니다.
     // 이것은 MonsterPosition에서 처리됩니다.
+
+
   }
 
   void changeAnimation(String imagePath) async {
@@ -86,4 +89,7 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
     final animation = spriteSheet.createAnimation(row: 0, stepTime: 0.1);
     this.animation = animation;
   }
+
+
+
 }

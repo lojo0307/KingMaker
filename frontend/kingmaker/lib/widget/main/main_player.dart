@@ -23,7 +23,7 @@ class MainPlayer extends SpriteComponent with TapCallbacks {
   Future<void> onLoad() async {
       sprite = await Sprite.load('male.png');
       size = Vector2(65,110);
-      position = Vector2(452, 300);
+      position = Vector2(272, 300);
       textComponent=TextComponent(
           text: "엄준식",
           textRenderer: TextPaint(
