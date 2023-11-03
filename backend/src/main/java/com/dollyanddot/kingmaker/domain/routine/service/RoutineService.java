@@ -67,14 +67,41 @@ public class RoutineService {
   }
 
   @Transactional
-  public Void editRoutine(PutRoutineReqDto putRoutineReqDto) {
+  public Void editRoutine(PutRoutineReqDto putRoutineReqDto) throws ParseException {
 
     Routine routine = routineRepository.findById(putRoutineReqDto.getRoutineId()).orElseThrow();
+    LocalDateTime today = LocalDateTime.now();
 
     routine.update(categoryRepository.findById(putRoutineReqDto.getCategoryId()).orElseThrow(),
         routine.getMember(), putRoutineReqDto.getRoutineNm(), putRoutineReqDto.getRoutineDetail(),
         putRoutineReqDto.getPeriod(), putRoutineReqDto.isImportantYn(),
         putRoutineReqDto.getStartAt(), putRoutineReqDto.getEndAt());
+
+    JSONParser jsonParser = new JSONParser();
+
+    JSONObject jsonObject = (JSONObject) jsonParser.parse(routine.getPeriod());
+    String type = (String) jsonObject.get("type");
+    if (type.equals("day")) {
+      JSONArray dayArr = (JSONArray) jsonObject.get("value");
+
+      for(int i=today.getDayOfWeek().getValue()+1; i<=dayArr.size(); i++){
+        if((boolean) dayArr.get(i%dayArr.size())){
+          routine.updateRegisterDay(i);
+          break;
+        }
+        if(i == dayArr.size()){
+          i = 0;
+        }
+      }
+
+    } else {
+      MemberRoutine latestMemberRoutine =
+          memberRoutineRepository.findMemberRoutineTop1ByRoutineOrderByCreatedAtDesc(routine);
+
+      routine.updateRegisterAt(type.equals("num") ?
+          latestMemberRoutine.getCreatedAt().plusDays((Long) jsonObject.get("value"))
+          : latestMemberRoutine.getCreatedAt().plusMonths((Long) jsonObject.get("value")));
+    }
 
     return null;
   }
