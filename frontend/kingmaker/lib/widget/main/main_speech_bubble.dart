@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/main/main_player.dart';
@@ -6,10 +8,11 @@ class MainSpeechBubble extends PositionComponent with HasGameRef {
   late SpriteComponent bubbleSprite;
   late TextComponent textComponent;
   MainPlayer? mainPlayer;
+  List<String> list = ['곤방와','대단해~!','우효-',' 왕으로 \n 만들어줘'];
   final text;
   MainSpeechBubble(Vector2 position, String this.text)
       : super(position: position, size: Vector2(130, 122));
-
+  Random random = Random();
   @override
   Future<void> onLoad() async {
     final spriteImage = await Sprite.load('speech_bubble.png');
@@ -43,11 +46,11 @@ class MainSpeechBubble extends PositionComponent with HasGameRef {
       return;
     }
 
-    textComponent.text = "곤방와";
+    textComponent.text = list[random.nextInt(list.length)];
     addToParent(mainPlayer!); // Non-null assertion을 사용합니다.
 
     // 일정 시간 후에 말풍선을 숨깁니다.
-    Future.delayed(Duration(seconds: 3)).then((_) {
+    Future.delayed(Duration(seconds: 5)).then((_) {
       removeFromParent();
     });
   }
