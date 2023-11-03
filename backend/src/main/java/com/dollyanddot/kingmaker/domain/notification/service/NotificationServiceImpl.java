@@ -9,6 +9,7 @@ import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationTmp;
+import com.dollyanddot.kingmaker.domain.notification.domain.Type;
 import com.dollyanddot.kingmaker.domain.notification.exception.*;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
@@ -68,7 +69,7 @@ public class NotificationServiceImpl implements NotificationService{
                     for(FcmToken token:fcmTokenList.get()){
                         Message m=Message.builder()
                                 .setToken(token.getToken())
-                                .setTopic(nt.getNotificationType().getType().name())
+                                .setTopic(Type.TODO.name())
                                 .setNotification(com.google.firebase.messaging.Notification.builder()
                                         .setBody(nt.getMessage())
                                         .setTitle("일정 수행 전입니다.")
@@ -100,7 +101,7 @@ public class NotificationServiceImpl implements NotificationService{
                 for(FcmToken ft:tokenList.get()){
                     Message message=Message.builder()
                             .setToken(ft.getToken())
-                            .setTopic("MORNING")
+                            .setTopic(Type.MORNING.name())
                             .setNotification(com.google.firebase.messaging.Notification.builder()
                                     .setBody("Your majesty, 오늘 처리해야 하는 업무가 "+t.getCnt()+"건 있습니다.")
                                     .setTitle("아침 문안인사 드립니다.")
@@ -112,7 +113,7 @@ public class NotificationServiceImpl implements NotificationService{
                 for(FcmToken ft:tokenList.get()){
                     Message message=Message.builder()
                             .setToken(ft.getToken())
-                            .setTopic("EVENING")
+                            .setTopic(Type.EVENING.name())
                             .setNotification(com.google.firebase.messaging.Notification.builder()
                                     .setBody("Your majesty, 아직 처리하지 못한 업무가 "+t.getCnt()+"건 있습니다.")
                                     .setTitle("저녁 문안인사 드립니다.")
