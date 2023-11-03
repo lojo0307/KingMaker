@@ -10,7 +10,7 @@ class MemberProvider with ChangeNotifier {
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
-  MemberDto? _member;
+  MemberDto? _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
   MemberDto? get member => _member;
 
   String _errorMessage = " ";
@@ -38,7 +38,7 @@ class MemberProvider with ChangeNotifier {
     String token = await _socialRepository.googlelogin();
     _member = await _memberRepository.checkMemberGoogle(token);
     if (member == null){
-      _member = new MemberDto(memberId: 0, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
+      _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
       return 0;
     }
     else
@@ -49,7 +49,7 @@ class MemberProvider with ChangeNotifier {
     String token = await _socialRepository.kakaologin();
     _member = await _memberRepository.checkMemberKakao(token);
     if (member == null) {
-      _member = new MemberDto(memberId: 0, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
+      _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
       return 0;
     } else
       return 1;

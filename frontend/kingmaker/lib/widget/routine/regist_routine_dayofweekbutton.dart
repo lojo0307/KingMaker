@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
+import 'package:provider/provider.dart';
 
 class DayOfWeekButton extends StatefulWidget {
   const DayOfWeekButton({super.key});
@@ -32,6 +34,7 @@ class _DayOfWeekButtonState extends State<DayOfWeekButton> {
       onPressed: (int index) {
         setState(() {
           _selections1[index] = !_selections1[index];
+          Provider.of<RegistProvider>(context, listen: false).setValue(_selections1);
         });
       },
       isSelected: _selections1,

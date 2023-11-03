@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
+import 'package:kingmaker/provider/schedule_provider.dart';
+import 'package:provider/provider.dart';
 
 
 import '../routine/regist_routine_categorybutton.dart';
@@ -53,11 +56,6 @@ class _RegistTodoState extends State<RegistTodo> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Flexible(
-                    //   flex: 2,
-                    //   fit: FlexFit.loose,
-                    //   child: Text('제목'),
-                    // ),
                     Flexible(
                       flex: 1,
                       fit: FlexFit.loose,
@@ -77,6 +75,9 @@ class _RegistTodoState extends State<RegistTodo> {
                         ),
                         height: 60,
                         child: TextFormField(
+                          onChanged: (value) {
+                            Provider.of<RegistProvider>(context, listen: false).setTitle(value);
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             labelText: '제목',
@@ -119,6 +120,9 @@ class _RegistTodoState extends State<RegistTodo> {
                         child: TextFormField(
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
+                          onChanged: (value) {
+                            Provider.of<RegistProvider>(context, listen: false).setDetail(value);
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             // border: OutlineInputBorder(borderRadius: BorderRadius.circular(13),),
@@ -213,11 +217,11 @@ class _RegistTodoState extends State<RegistTodo> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              child: DateInput(),
+                              child: DateInput(type: 'start',),
                             ),
                             SizedBox(width: 10,),
                             Container(
-                              child: TimeInput(),
+                              child: TimeInput(type: 'start',),
                             ),
                           ],
                         ),
@@ -226,11 +230,11 @@ class _RegistTodoState extends State<RegistTodo> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              child: DateInput(),
+                              child: DateInput(type: 'end',),
                             ),
                             SizedBox(width: 10,),
                             Container(
-                              child: TimeInput(),
+                              child: TimeInput(type: 'end',),
                             ),
                           ],
                         ),
@@ -261,7 +265,11 @@ class _RegistTodoState extends State<RegistTodo> {
                         fit: FlexFit.tight,
                         flex: 14,
                         child: ElevatedButton(
-                            onPressed: ()=> print('click'),
+                            onPressed: () async {
+                              await Provider.of<RegistProvider>(context, listen: false).RegistTodo(1);
+                              await Provider.of<ScheduleProvider>(context, listen: false).getList();
+                              Navigator.pop(context);
+                            },
                             child: Text('할 일 등록하기')
                         )
                     ),
