@@ -1,7 +1,6 @@
 class RoutineDto{
   int routineId;
   int categoryId;
-  String category;
   String routineNm;
   String routineDetail;
   String period;
@@ -12,7 +11,6 @@ class RoutineDto{
   RoutineDto({
     required this.routineId,
     required this.categoryId,
-    required this.category,
     required this.routineNm,
     required this.routineDetail,
     required this.period,
@@ -22,10 +20,12 @@ class RoutineDto{
   });
 
   factory RoutineDto.fromJson(Map<String, dynamic> json) {
+    print('111111111111111111111111111');
+    print(json['startAt']);
+    print('22222222222222222222222222222');
     return RoutineDto(
-      routineId: int.parse(json['routineId']),
-      categoryId: json['category']['categoryId'],
-      category: json['category']['categoryNm'],
+      routineId: json['routineId'],
+      categoryId: json['categoryId'],
       routineNm: json['routineNm'],
       routineDetail: json['routineDetail'],
       period: json['period'],
@@ -33,5 +33,20 @@ class RoutineDto{
       startAt: json['startAt'],
       endAt: json['endAt'],
     );
+  }
+  Map<String, dynamic> toRegistJson(int memberId) {
+    return {
+      "memberId" : memberId,
+      "categoryId" : categoryId,
+      "period" : period,
+      "routineNm" : routineNm,
+      "importantYn" : importantYn,
+      "routineDetail" : routineDetail,
+      "startAt" : startAt,
+      "endAt" : endAt,
+    };
+  }
+  String toString(){
+    return " $routineId, $categoryId, $routineNm, $routineDetail, $period, $importantYn, $startAt, $endAt,";
   }
 }

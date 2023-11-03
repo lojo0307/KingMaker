@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:time_picker_sheet/widget/sheet.dart';
 import 'package:time_picker_sheet/widget/time_picker.dart';
 
 class TimeInput extends StatefulWidget {
-  const TimeInput({super.key});
-
+  const TimeInput({super.key, required this.type});
+  final String type;
   @override
   State<TimeInput> createState() => _TimeInputState();
 }
@@ -36,6 +38,13 @@ class _TimeInputState extends State<TimeInput> {
     );
 
     if (result != null) {
+      String hour = (result.hour < 10)? '0${result.hour}' : '${result.hour}';
+      String minute = (result.minute < 10)? '0${result.minute}' : '${result.minute}';
+      if (widget.type == 'start'){
+        Provider.of<RegistProvider>(context, listen: false).setStartTime('$hour:$minute');
+      } else {
+        Provider.of<RegistProvider>(context, listen: false).setEndTime('$hour:$minute');
+      }
       setState(() {
         dateTimeSelected = result;
       });

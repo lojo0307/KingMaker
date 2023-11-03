@@ -1,9 +1,11 @@
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
+import 'package:provider/provider.dart';
 class DateInput extends StatefulWidget {
-  const DateInput({super.key});
-
+  const DateInput({super.key, required this.type});
+  final String type;
   @override
   State<DateInput> createState() => _DateInput();
 }
@@ -43,8 +45,12 @@ class _DateInput extends State<DateInput> {
                 );
                 if (date != null) {
                   setState(() {
+                    if (widget.type == 'start'){
+                      Provider.of<RegistProvider>(context, listen: false).setStart(DateFormat('yyyy-MM-ddT').format(date));
+                    } else {
+                      Provider.of<RegistProvider>(context, listen: false).setEnd(DateFormat('yyyy-MM-ddT').format(date));
+                    }
                     initialdate = DateFormat('yyyy년 MM월 dd일').format(date);
-
                     // selectedDate = date;
                   });
                 }

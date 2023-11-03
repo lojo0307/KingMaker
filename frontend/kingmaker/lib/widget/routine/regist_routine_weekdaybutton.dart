@@ -1,9 +1,11 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/widget/routine/regist_routine_dayofweekbutton.dart';
 import 'package:kingmaker/widget/routine/regist_routine_dayspicker.dart';
 import 'package:kingmaker/widget/routine/regist_routine_monthspicker.dart';
+import 'package:provider/provider.dart';
 
 class WeekDayButton extends StatefulWidget {
   const WeekDayButton({super.key});
@@ -28,6 +30,7 @@ class _WeekDayButtonState extends State<WeekDayButton> {
           radioButtonValue: (value) {
             setState(() {
               selectedValue = value;
+              Provider.of<RegistProvider>(context, listen: false).setType(value);
             });
             print(value);
           },
