@@ -19,6 +19,7 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
   late List<MonsterPosition> monsterList;
   final BuildContext context;
 
+
   MyGame(this.context) {
     camera.viewport.size = Vector2(1024, 1024);
     player = MainPlayer(this);
@@ -101,6 +102,16 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     camera.follow(focusArea);
 
   }
+
+  @override
+  Future<void> onLoad() async {
+    // TODO: implement onLoad
+    super.onLoad();
+    // 다른 컴포넌트 로드...
+
+    // 경험치 바 로드 및 설정
+
+  }
 }
 
 class MyWorld extends World {
@@ -119,6 +130,13 @@ class MyWorld extends World {
     final bgSprite = await Sprite.load('background.png');
     background = GameBackground(bgSprite, backgroundSize);
     add(background);
+
+
+
+
+
+
+    //성
     add(Castle(game, {'level': '9'}));
     FocusArea focusArea = FocusArea();
     add(focusArea);

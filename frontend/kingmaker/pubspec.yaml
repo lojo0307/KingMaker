@@ -118,6 +118,36 @@ flutter:
     - assets/images/nutty_right.png
     - assets/images/panda_left.png
     - assets/images/panda_right.png
+    - assets/images/expbar/1_expbar.png
+    - assets/images/expbar/2_expbar.png
+    - assets/images/expbar/3_expbar.png
+    - assets/images/expbar/4_expbar.png
+    - assets/images/expbar/5_expbar.png
+    - assets/images/expbar/6_expbar.png
+    - assets/images/expbar/7_expbar.png
+    - assets/images/expbar/8_expbar.png
+    - assets/images/expbar/9_expbar.png
+    - assets/images/expbar/10_expbar.png
+    - assets/images/expbar/11_expbar.png
+    - assets/images/expbar/12_expbar.png
+    - assets/images/expbar/13_expbar.png
+    - assets/images/expbar/14_expbar.png
+    - assets/images/expbar/15_expbar.png
+    - assets/images/expbar/16_expbar.png
+    - assets/images/expbar/17_expbar.png
+    - assets/images/expbar/18_expbar.png
+    - assets/images/expbar/19_expbar.png
+    - assets/images/expbar/20_expbar.png
+    - assets/images/expbar/21_expbar.png
+    - assets/images/expbar/22_expbar.png
+    - assets/images/expbar/23_expbar.png
+    - assets/images/expbar/24_expbar.png
+    - assets/images/expbar/25_expbar.png
+    - assets/images/expbar/26_expbar.png
+    - assets/images/expbar/27_expbar.png
+    - assets/images/expbar/28_expbar.png
+    - assets/images/expbar/expicon.png
+    - assets/images/expbar/monstericon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
