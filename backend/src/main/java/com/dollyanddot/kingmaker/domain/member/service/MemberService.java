@@ -3,6 +3,7 @@ package com.dollyanddot.kingmaker.domain.member.service;
 import com.dollyanddot.kingmaker.domain.member.domain.FcmToken;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.dto.NicknameDto;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
@@ -33,7 +34,8 @@ public class MemberService {
     @Transactional
     public void updateNickname(NicknameDto nicknameDto) {
         Member member
-                = memberRepository.findById(nicknameDto.getMemberId()).orElseThrow();
+                = memberRepository.findById(nicknameDto.getMemberId()).orElseThrow(
+                    () -> new MemberNotFoundException());
 
         member.update(nicknameDto.getNickname());
     }
