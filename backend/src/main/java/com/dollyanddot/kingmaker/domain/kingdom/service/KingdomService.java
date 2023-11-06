@@ -8,7 +8,6 @@ import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
-import com.dollyanddot.kingmaker.domain.notification.dto.NotificationSettingDto;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -4,7 +4,6 @@ import com.dollyanddot.kingmaker.domain.kingdom.dto.response.KingdomResDto;
 import com.dollyanddot.kingmaker.domain.kingdom.service.KingdomService;
 import com.dollyanddot.kingmaker.domain.member.dto.request.NicknameReqDto;
 import com.dollyanddot.kingmaker.domain.member.service.MemberService;
-import com.dollyanddot.kingmaker.domain.notification.dto.NotificationSettingDto;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
