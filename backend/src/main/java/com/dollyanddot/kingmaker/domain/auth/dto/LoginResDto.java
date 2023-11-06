@@ -1,4 +1,4 @@
-package com.dollyanddot.kingmaker.domain.member.dto.response;
+package com.dollyanddot.kingmaker.domain.auth.dto;
 
 import com.dollyanddot.kingmaker.domain.auth.domain.Provider;
 import com.dollyanddot.kingmaker.domain.member.domain.Gender;

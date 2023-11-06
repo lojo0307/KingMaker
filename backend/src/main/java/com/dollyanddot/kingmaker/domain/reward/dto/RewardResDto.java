@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class RewardResDto {
 
-    private int isRewardAchieved;
+    private int isRewardAchieved; // 달성시 1
     private RewardInfoDto rewardInfoDto;
 
     public static RewardResDto from(int isRewardAchieved, RewardInfoDto rewardInfoDto) {
