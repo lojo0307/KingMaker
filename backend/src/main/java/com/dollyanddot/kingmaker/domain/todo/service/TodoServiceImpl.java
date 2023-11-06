@@ -15,16 +15,13 @@ import com.dollyanddot.kingmaker.domain.todo.dto.request.PutTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.PatchTodoResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
-import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoDetailException;
-import com.dollyanddot.kingmaker.domain.todo.exception.GetTodoListException;
-import com.dollyanddot.kingmaker.domain.todo.exception.NonExistTodoIdException;
+import com.dollyanddot.kingmaker.domain.todo.exception.TodoNotFoundException;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,11 +37,8 @@ public class TodoServiceImpl implements TodoService {
   private final NotificationService notificationService;
 
   @Override
-  public void deleteTodoByTodoId(Long todoId) throws NonExistTodoIdException {
-    Optional<Todo> temp = todoRepository.findById(todoId);
-    if (temp.isEmpty()) {
-      throw new NonExistTodoIdException();
-    }
+  public void deleteTodoByTodoId(Long todoId){
+    Todo temp = todoRepository.findById(todoId).orElseThrow(()->new TodoNotFoundException());
     todoRepository.deleteTodoByTodoId(todoId);
   }
 
@@ -85,30 +79,27 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
-  public List<TodoListResDto> getTodoList(Long memberId, String date) throws GetTodoListException {
+  public List<TodoListResDto> getTodoList(Long memberId, String date){
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
     LocalDate targetDate = LocalDate.parse(date, formatter);
     return todoRepository.getTodoList(memberId, targetDate);
   }
 
   @Override
-  public TodoDetailResDto getTodoDetail(Long todoId) throws GetTodoDetailException {
-    Optional<Todo> todo = todoRepository.getTodoByTodoId(todoId);
-    if (todo.isEmpty()) {
-      throw new NonExistTodoIdException();
-    }
-    byte achivedYn=(byte) (todo.get().isAchievedYn() ? 1 : 0);
-    byte importantYn=(byte) (todo.get().isImportantYn() ? 1 : 0);
+  public TodoDetailResDto getTodoDetail(Long todoId){
+    Todo todo = todoRepository.getTodoByTodoId(todoId).orElseThrow(()->new TodoNotFoundException());
+    byte achivedYn=(byte) (todo.isAchievedYn() ? 1 : 0);
+    byte importantYn=(byte) (todo.isImportantYn() ? 1 : 0);
     TodoDetailResDto detail=TodoDetailResDto.builder()
-            .todoDetail(todo.get().getTodoDetail())
-            .todoPlace(todo.get().getTodoPlace())
-            .todoNm(todo.get().getTodoNm())
+            .todoDetail(todo.getTodoDetail())
+            .todoPlace(todo.getTodoPlace())
+            .todoNm(todo.getTodoNm())
             .achievedYn(achivedYn)
             .importantYn(importantYn)
-            .startAt(todo.get().getStartAt())
-            .endAt(todo.get().getEndAt())
-            .monsterCd(todo.get().getMonsterCd())
-            .categoryId(todo.get().getCategory().getId())
+            .startAt(todo.getStartAt())
+            .endAt(todo.getEndAt())
+            .monsterCd(todo.getMonsterCd())
+            .categoryId(todo.getCategory().getId())
             .build();
     return detail;
   }
