@@ -13,4 +13,12 @@ class RoutineRepository {
   void registRoutine(int memberId, RoutineDto routine) {
     return _routineApi.registRoutine(memberId, routine);
   }
+
+  void achieve(int memberRoutineId) {
+    return _routineApi.acheiveRoutine(memberRoutineId);
+  }
+
+  Future<MemberRoutineDto> getDetail(int id) {
+    return _routineApi.getDetailRoutine(id);
+  }
 }
