@@ -63,4 +63,18 @@ class TodoDto{
       "monsterCd": 1
     };
   }
+
+  toModifytJson() {
+    return {
+      "todoId": todoId,
+      "categoryId": categoryId,
+      "startAt": startAt,
+      "endAt": endAt,
+      "todoNm": todoNm,
+      "todoDetail": todoDetail,
+      "todoPlace": todoPlace,
+      "importantYn": importantYn,
+      "monsterCd": 1
+    };
+  }
 }

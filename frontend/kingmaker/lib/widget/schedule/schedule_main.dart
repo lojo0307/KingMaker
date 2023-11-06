@@ -23,7 +23,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
     return Consumer<ScheduleProvider>(
         builder: (context, provider, child) {
           List<Map<String, String>> data = provider.list;
-          return DefaultTabController(
+      return DefaultTabController(
               length: myTabs.length,
               child: Scaffold(
                 backgroundColor: Colors.transparent,
