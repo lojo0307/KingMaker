@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kingmaker/page/signup_page.dart';
 import 'package:kingmaker/page/story_page.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
