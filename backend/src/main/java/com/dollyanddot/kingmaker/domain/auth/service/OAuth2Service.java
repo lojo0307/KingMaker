@@ -3,9 +3,11 @@ package com.dollyanddot.kingmaker.domain.auth.service;
 import com.dollyanddot.kingmaker.domain.auth.domain.Credential;
 import com.dollyanddot.kingmaker.domain.auth.domain.Provider;
 import com.dollyanddot.kingmaker.domain.auth.domain.Role;
-import com.dollyanddot.kingmaker.domain.auth.dto.LoginResDto;
 import com.dollyanddot.kingmaker.domain.auth.dto.ProviderTokenDto;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
+import com.dollyanddot.kingmaker.domain.member.dto.response.LoginResDto;
+import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -34,6 +36,7 @@ public class OAuth2Service {
     private final CredentialRepository credentialRepository;
     private final InMemoryClientRegistrationRepository inMemoryClientRegistrationRepository;
     private final JwtService jwtService;
+    private final MemberRepository memberRepository;
 
     public LoginResDto login(String code, String provider, HttpServletResponse response) throws IOException {
         log.info("로그인 로직 시작");
@@ -41,11 +44,22 @@ public class OAuth2Service {
         ProviderTokenDto providerToken = getAccessToken(provider, code, providerInfo);
         log.info("토큰 발급 완료 = {}", providerToken.getAccess_token());
 
-        loginSuccess(response, getCredential(getUserInfo(providerToken, providerInfo, Provider.valueOf(provider.toUpperCase())), Provider.valueOf(provider.toUpperCase())));
+        Credential credential = getCredential(getUserInfo(providerToken, providerInfo, Provider.valueOf(provider.toUpperCase())), Provider.valueOf(provider.toUpperCase()));
+        loginSuccess(response, credential);
         log.info("로그인 성공!");
         log.info("발급된 Access Token = {}", response.getHeader("Authorization"));
-        // credentialtoresdto
-        return null;
+
+        if (credential.getRole().equals(Role.GUEST)) return LoginResDto.builder().build();
+
+        Optional<Member> member = memberRepository.findByCredential(credential);
+        if (member.isEmpty()) throw new RuntimeException();
+        return LoginResDto.builder()
+                .memberId(member.get().getMemberId())
+                .nickname(member.get().getNickname())
+                .gender(member.get().getGender())
+                .email(credential.getEmail())
+                .provider(credential.getProvider())
+                .build();
     }
 
     private void loginSuccess(HttpServletResponse response, Credential credential) throws IOException {
