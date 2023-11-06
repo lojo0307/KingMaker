@@ -294,11 +294,11 @@ class _RegistRoutineState extends State<RegistRoutine> {
                       fit: FlexFit.tight,
                         flex: 14,
                         child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               print('click');
                               int? MemberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
-                              Provider.of<RegistProvider>(context, listen: false).RegistRoutine(MemberId!);
-                              Provider.of<ScheduleProvider>(context, listen: false).getList();
+                              await Provider.of<RegistProvider>(context, listen: false).RegistRoutine(MemberId!);
+                              await Provider.of<ScheduleProvider>(context, listen: false).getList();
                               Navigator.pop(context);
                             },
                             child: Text('루틴 등록하기')

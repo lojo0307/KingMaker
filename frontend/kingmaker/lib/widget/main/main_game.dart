@@ -61,11 +61,11 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
       if (monster.toRect().contains(worldPosition.toOffset())) {
         print('${monster.monsterInfo} was tapped!');
         // 필요한 로직 (예: 몬스터를 잡거나, 정보를 표시하거나 등) 추가하기
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => TodoDetailPage())
-        );
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => TodoDetailPage())
+        // );
 
 
         break;  // 만약 한 번에 하나의 몬스터만 탭할 수 있다면, 루프를 종료
