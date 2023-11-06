@@ -1,7 +1,7 @@
 package com.dollyanddot.kingmaker.domain.auth.controller;
 
 import com.dollyanddot.kingmaker.domain.auth.service.OAuth2Service;
-import com.dollyanddot.kingmaker.domain.member.dto.response.LoginResDto;
+import com.dollyanddot.kingmaker.domain.auth.dto.LoginResDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

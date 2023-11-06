@@ -6,7 +6,7 @@ import com.dollyanddot.kingmaker.domain.auth.domain.Role;
 import com.dollyanddot.kingmaker.domain.auth.dto.ProviderTokenDto;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
-import com.dollyanddot.kingmaker.domain.member.dto.response.LoginResDto;
+import com.dollyanddot.kingmaker.domain.auth.dto.LoginResDto;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
