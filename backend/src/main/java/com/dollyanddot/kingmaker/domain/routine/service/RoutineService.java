@@ -43,26 +43,34 @@ public class RoutineService {
 
     String type = (String) jsonObject.get("type");
     Object obj = jsonObject.get("value");
-    int value = 0;
+
+    int value = today.getDayOfWeek().getValue();
     boolean isToday = false;
+
     if (type.equals("day")) {
-      boolean[] days = (boolean[]) obj;
-      for (int i = today.getDayOfWeek().getValue(); i < days.length; i++) {
-        if (days[i % days.length] && today.getDayOfWeek().getValue() == i) {
+      JSONArray days = (JSONArray) obj;
+      for (int i = today.getDayOfWeek().getValue(); i <= days.size() + 1; i++) {
+        if (i > days.size()) {
+          i = 1;
+        }
+        if ((boolean) days.get(i % days.size()) && today.getDayOfWeek().getValue() == i
+            && !isToday) {
           isToday = true;
           continue;
         }
-        if (days[i % days.length]) {
+        if ((boolean) days.get(i % days.size())) {
           value = i;
           break;
         }
-        if (i == days.length) {
-          i = 0;
-        }
       }
     } else {
-      value = (int) obj;
+      value = Integer.parseInt(obj.toString());
     }
+
+    LocalDateTime startDate =
+        (postRoutineReqDto.getStartAt().isBefore(today) && postRoutineReqDto.getEndAt()
+            .isAfter(today)) ? type.equals("num") ? today.plusDays(value) : today.plusMonths(value)
+            : postRoutineReqDto.getStartAt();
 
     Routine routine = routineRepository.save(new Routine().builder()
         .category(category)
@@ -74,7 +82,7 @@ public class RoutineService {
         .startAt(postRoutineReqDto.getStartAt())
         .endAt(postRoutineReqDto.getEndAt())
         .registerAt(type.equals("day") ? null
-            : type.equals("num") ? today.plusDays(value) : today.plusMonths(value))
+            : startDate)
         .registerDay(type.equals("day") ? value : null)
         .build());
 
@@ -123,9 +131,13 @@ public class RoutineService {
       MemberRoutine latestMemberRoutine =
           memberRoutineRepository.findMemberRoutineTop1ByRoutineOrderByCreatedAtDesc(routine);
 
-      routine.updateRegisterAt(type.equals("num") ?
-          latestMemberRoutine.getCreatedAt().plusDays((Long) jsonObject.get("value"))
-          : latestMemberRoutine.getCreatedAt().plusMonths((Long) jsonObject.get("value")));
+      if (latestMemberRoutine != null) {
+        routine.updateRegisterAt(type.equals("num") ?
+            latestMemberRoutine.getCreatedAt().plusDays((Long) jsonObject.get("value"))
+            : latestMemberRoutine.getCreatedAt().plusMonths((Long) jsonObject.get("value")));
+      } else {
+        routine.updateRegisterAt(routine.getStartAt());
+      }
     }
 
     return null;
