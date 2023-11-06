@@ -23,9 +23,9 @@ class TodoDto{
     required this.importantYn,
     required this.achievedYn,
   });
-  factory TodoDto.fromJson(Map<String, dynamic> json) {
+  factory TodoDto.fromJson(int todoId, Map<String, dynamic> json) {
     return TodoDto(
-      todoId: json['todoId'],
+      todoId: todoId,
       categoryId: json['categoryId'],
       startAt: json['startAt'],
       endAt: json['endAt'],

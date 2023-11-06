@@ -40,10 +40,17 @@ class TodoApi{
     );
   }
 
-  void detailTodo(int todoId) async{
-    final response = await dio.get(
-      '$url/api/todo/$todoId',
-    );
+  Future<TodoDto> detailTodo(int todoId) async{
+    try{
+      final response = await dio.get(
+        '$url/api/todo/$todoId',
+      );
+      print(response.data['data']);
+      return TodoDto.fromJson(todoId, response.data['data']);
+    } catch (e) {
+      print(e);
+      return {} as TodoDto;
+    }
   }
 
   void achieveTodo(int todoId) async{
@@ -51,7 +58,5 @@ class TodoApi{
       '$url/api/todo/$todoId',
     );
   }
-
-
 }
 

@@ -4,16 +4,13 @@ import 'package:kingmaker/page/calendar_page.dart';
 import 'package:kingmaker/page/home_page.dart';
 import 'package:kingmaker/page/profile_page.dart';
 import 'package:kingmaker/page/todo_page.dart';
-import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     PersistentTabController controller = PersistentTabController(initialIndex: 2);
-    Provider.of<ScheduleProvider>(context, listen: false).getList();
     return PersistentTabView(
       context,
       controller: controller,

@@ -12,4 +12,12 @@ class TodoRepository {
     _todoApi.registTodo(memberId, todoDto);
   }
 
+  void achieve(todoId) {
+    _todoApi.achieveTodo(todoId);
+  }
+
+  Future<TodoDto> getDetail(int id) {
+    return _todoApi.detailTodo(id);
+  }
+
 }
