@@ -8,3 +8,5 @@ spring:
         max-active: 10
         max-idle: 10
         min-idle: 2
+    ttl:
+      refresh_token: 1209600000

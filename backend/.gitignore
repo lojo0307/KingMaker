@@ -60,6 +60,3 @@ out/
 
 # firebase 비공개 키
 **/src/main/resources/firebase/
-
-# oauth 비공개 키
-**/src/main/resources/application-oauth2.yml
