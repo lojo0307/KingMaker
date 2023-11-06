@@ -11,17 +11,15 @@ import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationTmp;
 import com.dollyanddot.kingmaker.domain.notification.domain.Type;
-import com.dollyanddot.kingmaker.domain.notification.dto.NotificationSettingDto;
+import com.dollyanddot.kingmaker.domain.notification.dto.response.NotificationSettingResDto;
 import com.dollyanddot.kingmaker.domain.notification.exception.*;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTmpRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
-import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.exception.NonExistTodoIdException;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -29,7 +27,6 @@ import com.google.firebase.messaging.TopicManagementResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -263,7 +260,7 @@ public class NotificationServiceImpl implements NotificationService{
         ns.get().setActivatedYn(!prev);
     }
 
-    public List<NotificationSettingDto> getNotificationSetting(Long memberId) {
+    public List<NotificationSettingResDto> getNotificationSetting(Long memberId) {
 
         Member member = memberRepository.findById(memberId).orElseThrow(
             () -> new MemberNotFoundException());
@@ -271,7 +268,7 @@ public class NotificationServiceImpl implements NotificationService{
             = notificationSettingRepository.findNotificationSettingsByMember(member);
 
         return notificationDtoList.stream()
-            .map(n -> NotificationSettingDto.builder()
+            .map(n -> NotificationSettingResDto.builder()
                 .notificationTypeId(n.getNotificationSettingId())
                 .activatedYn((byte) (n.isActivatedYn() ? 1 : 0))
                 .build())
