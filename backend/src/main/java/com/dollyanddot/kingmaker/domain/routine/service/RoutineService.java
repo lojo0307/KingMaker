@@ -5,6 +5,10 @@ import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
+import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
+import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
+import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
+import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
@@ -13,6 +17,7 @@ import com.dollyanddot.kingmaker.domain.routine.exception.RoutineNotFoundExcepti
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -31,6 +36,8 @@ public class RoutineService {
   private final CategoryRepository categoryRepository;
   private final MemberRepository memberRepository;
   private final MemberRoutineRepository memberRoutineRepository;
+  private final RewardRepository rewardRepository;
+  private final MemberRewardRepository memberRewardRepository;
 
   @Transactional
   public Void registerRoutine(PostRoutineReqDto postRoutineReqDto) throws ParseException {
@@ -98,6 +105,16 @@ public class RoutineService {
           .build());
     }
 
+    Reward reward = rewardRepository.findById(12).orElseThrow();
+    MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
+    if (memberReward == null) {
+      List<Routine> routines = routineRepository.findAllByMember(member);
+      if (routines.size() >= 20) {
+        memberRewardRepository.save(MemberReward.builder().member(member).reward(reward).build());
+      }
+    }
+    // responseDto 추가해서 해야 함... 루틴 20개 이상 되면 업적 달성하는 로직은 추가했으나 프론트에 반환하기 위한 ResponseDto가 없습니다.
+    // 혹시라도 제가 없는 동안 하실 생각이라면 그부분을 하시면 됩니다.
     return null;
   }
 
