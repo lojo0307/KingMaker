@@ -15,7 +15,6 @@ public class GetRoutineResDto {
   private Long memberRoutineId;
   private RoutineDto routine;
   private boolean achievedYn;
-  private int monsterCd;
 
   public static GetRoutineResDto of(MemberRoutine memberRoutine, Routine routine){
 
@@ -23,7 +22,6 @@ public class GetRoutineResDto {
         .memberRoutineId(memberRoutine.getId())
         .routine(RoutineDto.from(routine))
         .achievedYn(memberRoutine.isAchievedYn())
-        .monsterCd(memberRoutine.getMonsterCd())
         .build();
   }
 }

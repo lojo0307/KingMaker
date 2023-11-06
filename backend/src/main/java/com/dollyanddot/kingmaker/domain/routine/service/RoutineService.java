@@ -95,7 +95,6 @@ public class RoutineService {
           .member(member)
           .routine(routine)
           .achievedYn(false)
-          .monsterCd(1)
           .build());
     }
 
