@@ -78,7 +78,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateNickname(NicknameDto nicknameDto) {
+    public void updateNickname(NicknameReqDto nicknameDto) {
         Member member
                 = memberRepository.findById(nicknameDto.getMemberId()).orElseThrow(
                     () -> new MemberNotFoundException());
