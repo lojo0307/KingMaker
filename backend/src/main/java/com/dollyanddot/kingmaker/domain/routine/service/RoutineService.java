@@ -3,11 +3,13 @@ package com.dollyanddot.kingmaker.domain.routine.service;
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PutRoutineReqDto;
+import com.dollyanddot.kingmaker.domain.routine.exception.RoutineNotFoundException;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
 import java.time.LocalDateTime;
@@ -35,7 +37,8 @@ public class RoutineService {
 
     Category category = categoryRepository.findById(postRoutineReqDto.getCategoryId())
         .orElseThrow();
-    Member member = memberRepository.findById(postRoutineReqDto.getMemberId()).orElseThrow();
+    Member member = memberRepository.findById(postRoutineReqDto.getMemberId()).orElseThrow(
+        MemberNotFoundException::new);
     LocalDateTime today = LocalDateTime.now();
 
     JSONParser jsonParser = new JSONParser();
@@ -102,7 +105,8 @@ public class RoutineService {
   @Transactional
   public Void editRoutine(PutRoutineReqDto putRoutineReqDto) throws ParseException {
 
-    Routine routine = routineRepository.findById(putRoutineReqDto.getRoutineId()).orElseThrow();
+    Routine routine = routineRepository.findById(putRoutineReqDto.getRoutineId()).orElseThrow(
+        RoutineNotFoundException::new);
     LocalDateTime today = LocalDateTime.now();
 
     routine.update(categoryRepository.findById(putRoutineReqDto.getCategoryId()).orElseThrow(),
@@ -148,7 +152,7 @@ public class RoutineService {
 
     Routine routine =
         routineRepository.findById(routineId)
-            .orElseThrow();
+            .orElseThrow(RoutineNotFoundException::new);
 
     routineRepository.delete(routine);
 
