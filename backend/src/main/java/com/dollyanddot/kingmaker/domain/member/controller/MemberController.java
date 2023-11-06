@@ -25,9 +25,4 @@ public class MemberController {
                 .build();
     }
 
-    @PatchMapping("/nickname")
-    EnvelopeResponse<?> updateNickname(@RequestBody NicknameReqDto nicknameDto) {
-        memberService.updateNickname(nicknameDto);
-        return EnvelopeResponse.builder().build();
-    }
 }
