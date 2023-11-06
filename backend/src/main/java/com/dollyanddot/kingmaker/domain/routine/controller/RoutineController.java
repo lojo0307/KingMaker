@@ -38,7 +38,8 @@ public class RoutineController {
   }
 
   @PutMapping()
-  public EnvelopeResponse<Void> editRoutine(@RequestBody PutRoutineReqDto putRoutineReqDto) {
+  public EnvelopeResponse<Void> editRoutine(@RequestBody PutRoutineReqDto putRoutineReqDto)
+      throws ParseException {
     return EnvelopeResponse.<Void>builder()
         .data(routineService.editRoutine(putRoutineReqDto))
         .build();

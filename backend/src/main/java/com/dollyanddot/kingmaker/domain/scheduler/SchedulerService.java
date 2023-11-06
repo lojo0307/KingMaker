@@ -72,7 +72,7 @@ public class SchedulerService {
             }
 
             if(i == dayArr.size()){
-              i = 1;
+              i = 0;
             }
           }
 
