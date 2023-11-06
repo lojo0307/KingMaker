@@ -1,12 +1,14 @@
 package com.dollyanddot.kingmaker.domain.routine.service;
 
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.GetDailyRoutinesResDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.GetRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.PatchRoutineResDto;
+import com.dollyanddot.kingmaker.domain.routine.exception.MemberRoutineNotFoundException;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,7 +27,8 @@ public class MemberRoutineService {
   @Transactional
   public PatchRoutineResDto changeAchievedStatement(Long memberRoutineId) {
 
-    MemberRoutine memberRoutine = memberRoutineRepository.findById(memberRoutineId).orElseThrow();
+    MemberRoutine memberRoutine = memberRoutineRepository.findById(memberRoutineId)
+        .orElseThrow(MemberRoutineNotFoundException::new);
 
     return PatchRoutineResDto.from(memberRoutine.toggleAchieved());
   }
@@ -33,7 +36,8 @@ public class MemberRoutineService {
   @Transactional(readOnly = true)
   public GetRoutineResDto getMemberRoutine(Long memberRoutineId) {
 
-    MemberRoutine memberRoutine = memberRoutineRepository.findById(memberRoutineId).orElseThrow();
+    MemberRoutine memberRoutine = memberRoutineRepository.findById(memberRoutineId).orElseThrow(
+        MemberRoutineNotFoundException::new);
 
     Routine routine = memberRoutine.getRoutine();
 
@@ -43,7 +47,7 @@ public class MemberRoutineService {
   @Transactional(readOnly = true)
   public GetDailyRoutinesResDto getDailyRoutines(Long memberId, String dateStr) {
 
-    Member member = memberRepository.findById(memberId).orElseThrow();
+    Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 
     return GetMemberRoutinesByDate(member, dateStr);
   }
