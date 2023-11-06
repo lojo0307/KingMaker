@@ -36,4 +36,9 @@ public class MemberReward extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean achievedYn;
 
+    public boolean achieveReward(){
+        this.achievedYn = !this.isAchievedYn();
+        return achievedYn;
+    }
+
 }

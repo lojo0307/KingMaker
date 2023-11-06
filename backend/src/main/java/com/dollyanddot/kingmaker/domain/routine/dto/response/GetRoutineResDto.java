@@ -14,14 +14,14 @@ public class GetRoutineResDto {
 
   private Long memberRoutineId;
   private RoutineDto routine;
-  private boolean achievedYn;
+  private byte achievedYn;
 
   public static GetRoutineResDto of(MemberRoutine memberRoutine, Routine routine){
 
     return GetRoutineResDto.builder()
         .memberRoutineId(memberRoutine.getId())
         .routine(RoutineDto.from(routine))
-        .achievedYn(memberRoutine.isAchievedYn())
+        .achievedYn((byte) (memberRoutine.isAchievedYn()? 1:0))
         .build();
   }
 }
