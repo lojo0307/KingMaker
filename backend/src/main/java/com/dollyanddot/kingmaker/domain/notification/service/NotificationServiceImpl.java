@@ -5,12 +5,15 @@ import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.FcmToken;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.exception.TokenNotFoundException;
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationTmp;
 import com.dollyanddot.kingmaker.domain.notification.domain.Type;
+import com.dollyanddot.kingmaker.domain.notification.dto.response.NotificationSettingResDto;
 import com.dollyanddot.kingmaker.domain.notification.exception.*;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
@@ -247,5 +250,20 @@ public class NotificationServiceImpl implements NotificationService{
         }
         //엔티티 설정 바꿈
         ns.setActivatedYn(!prev);
+    }
+
+    public List<NotificationSettingResDto> getNotificationSetting(Long memberId) {
+
+        Member member = memberRepository.findById(memberId).orElseThrow(
+            () -> new MemberNotFoundException());
+        List<NotificationSetting> notificationDtoList
+            = notificationSettingRepository.findNotificationSettingsByMember(member);
+
+        return notificationDtoList.stream()
+            .map(n -> NotificationSettingResDto.builder()
+                .notificationTypeId(n.getNotificationSettingId())
+                .activatedYn((byte) (n.isActivatedYn() ? 1 : 0))
+                .build())
+            .collect(Collectors.toList());
     }
 }
