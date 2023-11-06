@@ -3,11 +3,15 @@ package com.dollyanddot.kingmaker.domain.member.service;
 import com.dollyanddot.kingmaker.domain.member.domain.FcmToken;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.dto.NicknameDto;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
+import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
+import com.dollyanddot.kingmaker.domain.notification.dto.request.NotificationSettingReqDto;
+import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
+import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.TopicManagementResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.dollyanddot.kingmaker.domain.notification.domain.QNotificationType.notificationType;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -26,11 +28,14 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final FcmTokenRepository fcmTokenRepository;
+    private final NotificationSettingRepository notificationSettingRepository;
+    private final NotificationTypeRepository notificationTypeRepository;
 
     @Transactional
     public void updateNickname(NicknameDto nicknameDto) {
         Member member
-                = memberRepository.findById(nicknameDto.getMemberId()).orElseThrow();
+                = memberRepository.findById(nicknameDto.getMemberId()).orElseThrow(
+                    () -> new MemberNotFoundException());
 
         member.update(nicknameDto.getNickname());
     }
@@ -65,5 +70,29 @@ public class MemberService {
         }
         //DB에서 토큰 삭제
         fcmTokenRepository.deleteFcmTokenByToken(token);
+    }
+    
+    //TODO: 회원가입 시 알림 최초 설정
+    public void notificationFirstSetting(Long memberId, List<NotificationSettingReqDto> settingList){
+        for(NotificationSettingReqDto dto:settingList){
+            //설정 저장
+            NotificationSetting ns=NotificationSetting.builder()
+                    .member(memberRepository.findById(memberId).get())
+                    .notificationType(notificationTypeRepository.findById(dto.getNotificationTypeId()).get())
+                    .activatedYn(dto.isActivatedYn())
+                    .build();
+            notificationSettingRepository.save(ns);
+            //fcm에서 알림 받기로 한 topic은 subscribe-fcm 토큰이 등록되어있을 경우
+//            Optional<List<String>> tokenList=fcmTokenRepository.findTokensByMemberId(memberId);
+//            if(tokenList.isEmpty())throw new RuntimeException();
+//            if(dto.isActivatedYn()){
+//                String topic=notificationTypeRepository.findById(dto.getNotificationTypeId()).get().getType().name();
+//                try{
+//                    FirebaseMessaging.getInstance().subscribeToTopic(tokenList.get(), topic);
+//                }catch(FirebaseMessagingException e){
+//                    e.printStackTrace();
+//                }
+//            }
+        }
     }
 }

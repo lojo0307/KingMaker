@@ -3,10 +3,12 @@ package com.dollyanddot.kingmaker.domain.todo.domain;
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
@@ -19,7 +21,8 @@ import java.time.LocalDateTime;
         @NamedNativeQuery(
                 name = "getTodoList",
                 query = "select * from todo t"
-                        + " where DATE(t.start_at)<=:targetDate and DATE(t.end_at)>=:targetDate and t.member_id=:memberId",
+                        + " where DATE(t.start_at)<=:targetDate and DATE(t.end_at)>=:targetDate and t.member_id=:memberId"
+                        + " order by t.start_at asc;",
                 resultSetMapping = "getTodoList"
         ),
         @NamedNativeQuery(
@@ -43,7 +46,7 @@ import java.time.LocalDateTime;
 @SqlResultSetMapping(
         name = "getTodoList",
         classes = @ConstructorResult(
-                targetClass = CalendarStreakResDto.class,
+                targetClass = TodoListResDto.class,
                 columns = {
                         @ColumnResult(name = "todo_id", type = Long.class),
                         @ColumnResult(name = "todo_nm", type = String.class),
@@ -67,7 +70,7 @@ import java.time.LocalDateTime;
         )
 )
 
-@Data
+@Getter
 @Entity(name="todo")
 @NoArgsConstructor
 @AllArgsConstructor

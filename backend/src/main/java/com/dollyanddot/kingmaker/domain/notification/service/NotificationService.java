@@ -8,15 +8,15 @@ import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import java.util.List;
 
 public interface NotificationService {
-    void sendNotification();
+    void sendNotification() throws Exception;
 
     List<Notification> getNotification(Long memberId);
 
     void deleteNotification(Long notificationId);
 
-    void sendMorningNotification();
+    void sendMorningNotification() throws Exception;
 
-    void sendEveningNotification();
+    void sendEveningNotification() throws Exception;
 
     void generateTodoNotificationTmp(Long todoId);
 

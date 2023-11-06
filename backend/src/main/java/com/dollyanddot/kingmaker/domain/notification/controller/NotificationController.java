@@ -1,8 +1,6 @@
 package com.dollyanddot.kingmaker.domain.notification.controller;
 
-import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarAchieveAndSumResDto;
-import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
-import com.dollyanddot.kingmaker.domain.notification.dto.request.NotificationSettingReqDto;
+import com.dollyanddot.kingmaker.domain.notification.dto.request.NotificationSettingUpdateReqDto;
 import com.dollyanddot.kingmaker.domain.notification.dto.response.NotificationResDto;
 import com.dollyanddot.kingmaker.domain.notification.service.NotificationService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
@@ -17,15 +15,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/notification")
 public class NotificationController {
     private final NotificationService notificationService;
-
-    //1분마다 일정 알림 발송하기 위한 함수 테스트용
-    @GetMapping("test")
-    void sendTest(){
-//        notificationService.sendNotification();
-//        notificationService.sendMorningNotification();
-        notificationService.sendEveningNotification();
-        return;
-    }
 
     @GetMapping("{memberId}")
     public EnvelopeResponse<List<NotificationResDto>> getNotification(@PathVariable Long memberId){
@@ -45,7 +34,7 @@ public class NotificationController {
     }
 
     @PatchMapping("setting")
-    public EnvelopeResponse<Void> updateNotificationSetting(@RequestBody NotificationSettingReqDto req){
+    public EnvelopeResponse<Void> updateNotificationSetting(@RequestBody NotificationSettingUpdateReqDto req){
         notificationService.notificationSettingToggle(req.getMemberId(), req.getNotificationTypeId());
         return EnvelopeResponse.<Void>builder().build();
     }
