@@ -2,6 +2,7 @@ package com.dollyanddot.kingmaker.domain.reward.service;
 
 import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
+import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
@@ -10,11 +11,15 @@ import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
 import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
+import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
+import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +29,9 @@ public class RewardService {
     private final MemberRepository memberRepository;
     private final RewardRepository rewardRepository;
     private final MemberRewardRepository memberRewardRepository;
+    private final TodoRepository todoRepository;
+    private final MemberRoutineRepository memberRoutineRepository;
+    private final CategoryRepository categoryRepository;
     //TODO: 전 달 성취율 100퍼센트인 멤버들에게 업적 일괄 적용-달마다 취득
     void getMonthlyBrandReputation(int year,int month){
         //그 달의 reward를 먼저 reward 테이블에 추가
@@ -66,5 +74,41 @@ public class RewardService {
 //        }
         memberRewardRepository.saveAll(memberRewardList);
         return;
+    }
+
+    //TODO: 할 일 첫 달성시 "이게 내가 지닌 힘?" 업적 취득
+    RewardResDto isThisMyPower(Long memberId){
+        MemberReward mw=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(memberId,11).orElseThrow();
+        if(mw.isAchievedYn()){
+            return RewardResDto.from(0,null);
+        }
+        Reward reward=rewardRepository.findById(11).get();
+        memberRewardRepository.achieveMemberReward(memberId,11);
+        RewardInfoDto rewardInfoDto=RewardInfoDto.from(11, reward.getRewardNm(), reward.getRewardCond(), reward.getRewardMsg());
+        RewardResDto rewardResDto=RewardResDto.from(1,rewardInfoDto);
+        //중요도 상 이면 "오잉?할 일의 상태가?" 까지 호출
+        return rewardResDto;
+    }
+
+    //TODO: 카테고리별 하나 이상씩 달성시 "알록달록한 세상" 업적 취득
+    RewardResDto colorfulWorld(Long memberId){
+        MemberReward mw=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(memberId,8).orElseThrow();
+        if(mw.isAchievedYn()){
+            return RewardResDto.from(0,null);
+        }
+        List<Long> todoCategories=todoRepository.countCategoryId(memberId);
+        List<Long> mrCategories=memberRoutineRepository.countCategoryId(memberId);
+        Set<Long> categorySet=new HashSet<>();
+        categorySet.addAll(todoCategories);
+        categorySet.addAll(mrCategories);
+        if(categorySet.size()==categoryRepository.count()){
+            Reward reward=rewardRepository.findById(8).orElseThrow();
+            RewardInfoDto rewardInfoDto=RewardInfoDto.from(8, reward.getRewardNm(), reward.getRewardCond(), reward.getRewardMsg());
+            RewardResDto rewardResDto=RewardResDto.from(1,rewardInfoDto);
+            return rewardResDto;
+        }
+        else{
+            return RewardResDto.from(0,null);
+        }
     }
 }

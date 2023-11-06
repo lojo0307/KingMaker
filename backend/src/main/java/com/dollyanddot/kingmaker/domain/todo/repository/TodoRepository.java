@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface TodoRepository extends JpaRepository<Todo,Long> {
+public interface TodoRepository extends JpaRepository<Todo,Long>,TodoRepositoryCustom {
     @Transactional
     void deleteTodoByTodoId(Long todoId);
 
