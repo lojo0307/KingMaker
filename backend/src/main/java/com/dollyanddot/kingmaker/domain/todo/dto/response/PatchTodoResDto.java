@@ -8,10 +8,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PatchTodoResDto {
 
-  private boolean isAchieved;
+  private byte isAchieved;
   private RewardResDto rewardResDto;
 
   public static PatchTodoResDto from(boolean isAchieved, RewardResDto rewardResDto){
-    return new PatchTodoResDto(isAchieved, rewardResDto);
+    return new PatchTodoResDto((byte) (isAchieved?1:0), rewardResDto);
   }
 }

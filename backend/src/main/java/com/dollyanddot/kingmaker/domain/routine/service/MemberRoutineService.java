@@ -4,9 +4,11 @@ import com.dollyanddot.kingmaker.domain.kingdom.service.KingdomService;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
+import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
 import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
+import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
@@ -30,6 +32,7 @@ public class MemberRoutineService {
   private final MemberRepository memberRepository;
   private final KingdomService kingdomService;
   private final RewardRepository rewardRepository;
+  private final MemberRewardRepository memberRewardRepository;
 
   @Transactional
   public PatchRoutineResDto changeAchievedStatement(Long memberRoutineId) {
@@ -40,10 +43,27 @@ public class MemberRoutineService {
 
     boolean isAchieved = memberRoutine.toggleAchieved();
 
-    if(memberRoutine.isAchievedYn()) {
+    if (isAchieved && !memberRewardRepository.findByMemberAndReward(
+        memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new),
+        rewardRepository.findById(11).orElseThrow()).isAchievedYn()) {
+
+      Reward reward = rewardRepository.findById(11).orElseThrow();
+      MemberReward memberReward = memberRewardRepository.findByMemberAndReward(memberRoutine.getMember(), reward);
+
+      return PatchRoutineResDto.from(isAchieved, RewardResDto.builder()
+          .rewardInfoDto(RewardInfoDto.from(
+                  reward.getRewardId(),
+                  reward.getRewardNm(),
+                  reward.getRewardCond(),
+                  reward.getRewardMsg()))
+          .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward()? 1:0)
+          .build());
+    }
+
+    if (memberRoutine.isAchievedYn()) {
       int changeLevel = kingdomService.changeCitizen(memberId, "plus");
       int rewardId = levelReward(changeLevel);
-      if(rewardId!=0) {
+      if (rewardId != 0) {
         Reward reward = rewardRepository.findById(rewardId).orElseThrow();
         RewardInfoDto rewardInfoDto
             = RewardInfoDto.from(rewardId, reward.getRewardNm(),
@@ -58,9 +78,10 @@ public class MemberRoutineService {
       }
 
     } else {
-      kingdomService.changeCitizen(memberId,"minus");
+      kingdomService.changeCitizen(memberId, "minus");
       return PatchRoutineResDto.from(isAchieved, null);
     }
+
   }
 
   @Transactional(readOnly = true)
@@ -96,13 +117,17 @@ public class MemberRoutineService {
   private int levelReward(int level) {
     int rewardId = 0;
     switch (level) {
-      case 3: rewardId = 5;
+      case 3:
+        rewardId = 5;
         break;
-      case 6: rewardId = 6;
+      case 6:
+        rewardId = 6;
         break;
-      case 9: rewardId = 7;
+      case 9:
+        rewardId = 7;
         break;
-      default: rewardId = 0;
+      default:
+        rewardId = 0;
         break;
     }
     return rewardId;

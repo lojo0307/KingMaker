@@ -8,6 +8,7 @@ import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.kingdom.service.KingdomService;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.service.NotificationService;
 import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
@@ -192,6 +193,23 @@ public class TodoServiceImpl implements TodoService {
     //TODO: MemberRoutine도 변경하기
     boolean isAchieved = todo.toggleAchieved();
     boolean achievedYn = todo.isAchievedYn();
+
+    if (isAchieved && !memberRewardRepository.findByMemberAndReward(
+        memberRepository.findById(todo.getMember().getMemberId()).orElseThrow(MemberNotFoundException::new),
+        rewardRepository.findById(11).orElseThrow()).isAchievedYn()) {
+
+      Reward reward = rewardRepository.findById(11).orElseThrow();
+      MemberReward memberReward = memberRewardRepository.findByMemberAndReward(todo.getMember(), reward);
+
+      return PatchTodoResDto.from(isAchieved, RewardResDto.builder()
+          .rewardInfoDto(RewardInfoDto.from(
+              reward.getRewardId(),
+              reward.getRewardNm(),
+              reward.getRewardCond(),
+              reward.getRewardMsg()))
+          .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward()? 1:0)
+          .build());
+    }
 
     if(achievedYn) {
       int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
