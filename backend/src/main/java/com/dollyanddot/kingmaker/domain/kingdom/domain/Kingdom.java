@@ -29,4 +29,13 @@ public class Kingdom {
         this.kingdomNm = kingdomNm;
         this.citizen = citizen;
     }
+
+    public void update(int citizen, int level) {
+        this.citizen = citizen;
+        this.level = level;
+    }
+
+    public void updateName(String kingdomNm) {
+        this.kingdomNm = kingdomNm;
+    }
 }
