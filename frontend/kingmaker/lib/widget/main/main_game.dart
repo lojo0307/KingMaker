@@ -4,8 +4,9 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/widget/main/main_camera_focus.dart';
-import 'package:kingmaker/widget/main/main_monster.dart';
-
+import 'package:flame/extensions.dart';
+import 'package:kingmaker/widget/main/main_castle.dart';
+import 'package:kingmaker/widget/main/main_monster_position.dart';
 
 import '../../page/todo_detail_page.dart';
 import 'main_background.dart';
@@ -15,10 +16,12 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
   late Vector2 backgroundSize;
   late FocusArea focusArea;
   late MainPlayer player;
-  late List<Monster> monsterList;
+  late List<MonsterPosition> monsterList;
   final BuildContext context;
 
+
   MyGame(this.context) {
+    camera.viewport.size = Vector2(1024, 1024);
     player = MainPlayer(this);
     world = MyWorld(this, player);
     backgroundSize = Vector2(1024, 1024);
@@ -26,12 +29,22 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     focusArea.position = backgroundSize / 2;
     camera.follow(focusArea);
     //몬스터 리스트 초기화 -지금은 임의 값
-    monsterList = [Monster(this,"첫번째 몬스터"),Monster(this,"2번째 몬스터"),Monster(this,"3번째 몬스터"),
-      Monster(this,"4번째 몬스터"),Monster(this,"5번째 몬스터"),Monster(this,"6번째 몬스터"),Monster(this,"7번째 몬스터")];
+    monsterList = [MonsterPosition(this,{'todo_nm' : "첫번째 몬스터",'category_id' :'1'}),
+    MonsterPosition(this,{'todo_nm' : "2번째 몬스터",'category_id' :'2'}),
+      MonsterPosition(this,{'todo_nm' : "3번째 몬스터",'category_id' :'4'}),
+      MonsterPosition(this,{'todo_nm' : "2번째 몬스터",'category_id' :'1'}),
+      MonsterPosition(this,{'todo_nm' : "3번째 몬스터",'category_id' :'3'}),
+    MonsterPosition(this,{'todo_nm' : "4번째 몬스터", 'category_id' :'4'}),
+      MonsterPosition(this,{'todo_nm' : "5번째 몬스터",'category_id' :'5'}),
+      MonsterPosition(this,{'todo_nm' : "6번째 몬스터", 'category_id' :'6'}),
+      MonsterPosition(this,{'todo_nm' : "7번째 몬스터", 'category_id' :'6'})
+    ];
   }
   void setFocusArea(FocusArea fa) {  // focusArea를 설정하는 메서드
     focusArea = fa;
   }
+
+
   @override
   void onTapUp(TapUpInfo info) {
     print(info.eventPosition.global);
@@ -40,11 +53,11 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     print(worldPosition);
     if (player.toRect().contains(worldPosition.toOffset())) {
       print('Character was tapped!');
-      player.playSecondRowAnimation();
+      player.TapUp();
       return;
     }//몬스터를 클릭했을 때의 로직
 
-    for (Monster monster in monsterList) {
+    for (MonsterPosition monster in monsterList) {
       if (monster.toRect().contains(worldPosition.toOffset())) {
         print('${monster.monsterInfo} was tapped!');
         // 필요한 로직 (예: 몬스터를 잡거나, 정보를 표시하거나 등) 추가하기
@@ -89,6 +102,16 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     camera.follow(focusArea);
 
   }
+
+  @override
+  Future<void> onLoad() async {
+    // TODO: implement onLoad
+    super.onLoad();
+    // 다른 컴포넌트 로드...
+
+    // 경험치 바 로드 및 설정
+
+  }
 }
 
 class MyWorld extends World {
@@ -102,11 +125,19 @@ class MyWorld extends World {
 
   @override
   Future<void> onLoad() async {
+    print('Initial game world size: $game.size');
     backgroundSize = Vector2(1024, 1024);
     final bgSprite = await Sprite.load('background.png');
     background = GameBackground(bgSprite, backgroundSize);
     add(background);
 
+
+
+
+
+
+    //성
+    add(Castle(game, {'level': '9'}));
     FocusArea focusArea = FocusArea();
     add(focusArea);
     game.setFocusArea(focusArea);  // MyGame의 focusArea 설정
@@ -118,6 +149,7 @@ class MyWorld extends World {
     for(int i=0; i<this.game.monsterList.length; i++){
       add(this.game.monsterList[i]);
     }
+
 
   }
 
