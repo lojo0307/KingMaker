@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.todo.dto.response;
 
+import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,8 +9,9 @@ import lombok.Getter;
 public class PatchTodoResDto {
 
   private boolean isAchieved;
+  private RewardResDto rewardResDto;
 
-  public static PatchTodoResDto from(boolean isAchieved){
-    return new PatchTodoResDto(isAchieved);
+  public static PatchTodoResDto from(boolean isAchieved, RewardResDto rewardResDto){
+    return new PatchTodoResDto(isAchieved, rewardResDto);
   }
 }
