@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
@@ -16,8 +19,8 @@ public class AuthController {
 
     @GetMapping("/auth/{provider}")
     public ResponseEntity<LoginResDto> login(@PathVariable(name = "provider") String provider,
-                                             @RequestParam(name = "code") String code) {
+                                             @RequestParam(name = "code") String code, HttpServletResponse response) throws IOException {
         log.info("로그인 요청 " + provider + "로 code = {} 전달", code);
-        return ResponseEntity.ok().body(oAuth2Service.login(code, provider));
+        return ResponseEntity.ok().body(oAuth2Service.login(code, provider, response));
     }
 }
