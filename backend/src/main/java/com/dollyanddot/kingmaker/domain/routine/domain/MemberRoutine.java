@@ -42,9 +42,6 @@ public class MemberRoutine extends BaseTimeEntity {
 
   @Column(nullable = false)
   private boolean achievedYn;
-  
-  @Column(nullable = false)
-  private int monsterCd;
 
   public boolean toggleAchieved(){
     this.achievedYn = !this.achievedYn;
