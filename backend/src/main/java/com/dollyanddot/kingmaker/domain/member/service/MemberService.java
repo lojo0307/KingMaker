@@ -25,10 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -75,6 +72,12 @@ public class MemberService {
                 .email(credential.getEmail())
                 .provider(credential.getProvider())
                 .build();
+    }
+
+    public void withDraw(long memberId) {
+        Member member = memberRepository.findById(memberId).get();
+        memberRepository.deleteById(memberId);
+        kingdomRepository.delete(member.getKingdom());
     }
 
     @Transactional
