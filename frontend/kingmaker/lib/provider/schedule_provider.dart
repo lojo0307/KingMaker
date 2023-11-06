@@ -19,8 +19,10 @@ class ScheduleProvider with ChangeNotifier {
     _todoRepository = TodoRepository();
   }
   getList() async{
-    _rList = await _routineRepository.getList(1, "2023-11-02 00:00:00");
-    _tList = await _todoRepository.getList(1, "231102");
+    DateTime now = DateTime.now();
+    print(now);
+    _rList = await _routineRepository.getList(1, "2023-11-06 00:00:00");
+    _tList = await _todoRepository.getList(1, "231106");
     make(list);
   }
 
