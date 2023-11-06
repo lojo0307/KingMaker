@@ -1,62 +1,69 @@
 
-import 'dart:ui';
 
+import 'package:flame/text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/sprite.dart';
-import 'package:flame/flame.dart';
+import 'package:flutter/material.dart';
 
 import 'package:kingmaker/widget/main/main_game.dart';
 
-class MainPlayer extends SpriteAnimationComponent with TapCallbacks {
+import 'main_speech_bubble.dart';
+
+class MainPlayer extends SpriteComponent with TapCallbacks {
   static Vector2 spriteSize = Vector2(128, 128);
   final MyGame game;
 
-  late SpriteSheet spriteSheet;
-  int currentRow = 0; // 현재 애니메이션 행을 나타내는 변수
-
+  late SpriteComponent spriteComponent;
+  late TextComponent textComponent;
+  late MainSpeechBubble? speechBubble;
   MainPlayer(this.game);
 
   @override
   Future<void> onLoad() async {
-    final spriteImage = await Flame.images.load('player_sprite.png');
-    spriteSheet = SpriteSheet(
-      image: spriteImage,
-      srcSize: spriteSize,
-    );
+      sprite = await Sprite.load('male.png');
+      size = Vector2(65,110);
+      position = Vector2(272, 300);
+      textComponent=TextComponent(
+          text: "엄준식",
+          textRenderer: TextPaint(
+            style:TextStyle(
+              fontFamily: 'PretendardBold',
+              fontSize: 20,
+              backgroundColor: Colors.black38,
 
-    setAnimationRow(currentRow);
-    this.size = spriteSize;
-    this.position = Vector2(448, 448);
+            ),
+          )
+      );
+      await textComponent.onLoad();
+      final textWidth = textComponent.width;
+      textComponent.position.setValues((size.x / 2) - (textWidth / 2),
+          120);
+      add(textComponent);
+
+
+      //말풍선 컴포넌트 생성
+      speechBubble = MainSpeechBubble(Vector2(-33, -130), "엄준식");
+      await speechBubble!.onLoad();
+      add(speechBubble!);
+
+      propagateToChildren((p0) => true);
   }
+
+  void TapUp(){
+    speechBubble?.showBubble("Hellow");
+  }
+
 
   @override
   void onTapUp(TapUpEvent event) {
-    Vector2 worldPosition = game.camera.localToGlobal(event.localPosition);
-    if (toRect().contains(worldPosition.toOffset())) {
-      print('player onTapUp called');
-
-      toggleAnimationRow();
-    }
-  }
-
-  void toggleAnimationRow() {
-    if (currentRow == 0) {
-      currentRow = 1;
-    } else {
-      currentRow = 0;
-    }
-
-    setAnimationRow(currentRow);
-  }
-
-  void setAnimationRow(int row) {
-    final animation = spriteSheet.createAnimation(row: row, stepTime: 0.1);
-    this.animation = animation;
-  }
-
-  Rect toRect() {
-    return Rect.fromLTWH(position.x, position.y, size.x, size.y);
+    // Vector2 worldPosition = game.camera.localToGlobal(event.localPosition);
+    // if (toRect().contains(worldPosition.toOffset())) {
+    //   print('player onTapUp called');
+    //   // toggleAnimationRow();
+    // }
+    super.onTapUp(event);
+    // speechBubble.showBubble("Hellow");
   }
 
   @override
@@ -64,9 +71,4 @@ class MainPlayer extends SpriteAnimationComponent with TapCallbacks {
     super.update(dt);
   }
 
-  void playSecondRowAnimation() {
-    toggleAnimationRow();
-    final tappedAnimation = spriteSheet.createAnimation(row: currentRow, stepTime: 0.1);
-    this.animation = tappedAnimation;
-  }
 }

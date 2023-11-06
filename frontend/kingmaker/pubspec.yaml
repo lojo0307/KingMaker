@@ -87,11 +87,67 @@ flutter:
     - assets/login/login.png
     - assets/login/kingMaker.png
     - assets/signup/
-    - assets/castle/
+    - assets/images/castle/Lv1.png
+    - assets/images/castle/Lv2.png
+    - assets/images/castle/Lv3.png
+    - assets/images/castle/Lv4.png
+    - assets/images/castle/Lv5.png
+    - assets/images/castle/Lv6.png
+    - assets/images/castle/Lv7.png
+    - assets/images/castle/Lv8.png
+    - assets/images/castle/Lv9.png
+    - assets/images/male.png
+    - assets/images/slime_left.png
+    - assets/images/slime_right.png
     - assets/character/
     - assets/user_level/
     - assets/icon/
     - .env
+    - assets/images/reaper_right.png
+    - assets/images/reaper_left.png
+    - assets/castle/tower.png
+    - assets/castle/castle.png
+    - assets/images/skeleton_right.png
+    - assets/images/skeleton_left.png
+    - assets/images/goblin_right.png
+    - assets/images/goblin_left.png
+    - assets/images/speech_bubble.png
+    - assets/images/bear_left.png
+    - assets/images/bear_right.png
+    - assets/images/nutty_left.png
+    - assets/images/nutty_right.png
+    - assets/images/panda_left.png
+    - assets/images/panda_right.png
+    - assets/images/expbar/1_expbar.png
+    - assets/images/expbar/2_expbar.png
+    - assets/images/expbar/3_expbar.png
+    - assets/images/expbar/4_expbar.png
+    - assets/images/expbar/5_expbar.png
+    - assets/images/expbar/6_expbar.png
+    - assets/images/expbar/7_expbar.png
+    - assets/images/expbar/8_expbar.png
+    - assets/images/expbar/9_expbar.png
+    - assets/images/expbar/10_expbar.png
+    - assets/images/expbar/11_expbar.png
+    - assets/images/expbar/12_expbar.png
+    - assets/images/expbar/13_expbar.png
+    - assets/images/expbar/14_expbar.png
+    - assets/images/expbar/15_expbar.png
+    - assets/images/expbar/16_expbar.png
+    - assets/images/expbar/17_expbar.png
+    - assets/images/expbar/18_expbar.png
+    - assets/images/expbar/19_expbar.png
+    - assets/images/expbar/20_expbar.png
+    - assets/images/expbar/21_expbar.png
+    - assets/images/expbar/22_expbar.png
+    - assets/images/expbar/23_expbar.png
+    - assets/images/expbar/24_expbar.png
+    - assets/images/expbar/25_expbar.png
+    - assets/images/expbar/26_expbar.png
+    - assets/images/expbar/27_expbar.png
+    - assets/images/expbar/28_expbar.png
+    - assets/images/expbar/expicon.png
+    - assets/images/expbar/monstericon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
