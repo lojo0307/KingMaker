@@ -203,5 +203,4 @@ public class MemberRoutineService {
 
     return GetDailyRoutinesResDto.from(memberRoutines);
   }
-
 }

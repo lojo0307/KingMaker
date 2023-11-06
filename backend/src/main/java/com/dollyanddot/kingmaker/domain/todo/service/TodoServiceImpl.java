@@ -292,8 +292,6 @@ public class TodoServiceImpl implements TodoService {
             .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward() ? 1 : 0)
             .build());
       }
-
-      //백성 수 증가 및 레벨 변경
       int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
 
       //5, 6, 7번 업적 수행 여부 확인 - 왕국 단계 재산정 및 해당되는 업적 번호(3단게/6단계/9단계)가 있는 경우
