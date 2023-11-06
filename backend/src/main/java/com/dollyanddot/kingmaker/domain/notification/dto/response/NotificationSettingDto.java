@@ -1,4 +1,4 @@
-package com.dollyanddot.kingmaker.domain.notification.dto;
+package com.dollyanddot.kingmaker.domain.notification.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
