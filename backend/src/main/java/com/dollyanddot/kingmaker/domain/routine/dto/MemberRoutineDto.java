@@ -12,13 +12,13 @@ public class MemberRoutineDto {
 
   private Long memberRoutineId;
   private RoutineDto routine;
-  private boolean achievedYn;
+  private byte achievedYn;
 
   public static MemberRoutineDto from(MemberRoutine memberRoutine){
     return MemberRoutineDto.builder()
         .memberRoutineId(memberRoutine.getId())
         .routine(RoutineDto.from(memberRoutine.getRoutine()))
-        .achievedYn(memberRoutine.isAchievedYn())
+        .achievedYn((byte) (memberRoutine.isAchievedYn()? 1:0))
         .build();
   }
 }
