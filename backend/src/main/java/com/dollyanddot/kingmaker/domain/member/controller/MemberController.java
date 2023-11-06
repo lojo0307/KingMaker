@@ -1,17 +1,15 @@
 package com.dollyanddot.kingmaker.domain.member.controller;
 
-import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarAchieveAndSumResDto;
+import com.dollyanddot.kingmaker.domain.member.dto.request.NicknameReqDto;
 import com.dollyanddot.kingmaker.domain.member.dto.request.NotificationFirstSettingReqDto;
 import com.dollyanddot.kingmaker.domain.member.service.MemberService;
-import com.dollyanddot.kingmaker.domain.notification.dto.request.NotificationSettingReqDto;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +23,11 @@ public class MemberController {
         memberService.notificationFirstSetting(req.getMemberId(),req.getSetting());
         return EnvelopeResponse.<Void>builder()
                 .build();
+    }
+
+    @PatchMapping("/nickname")
+    EnvelopeResponse<?> updateNickname(@RequestBody NicknameReqDto nicknameDto) {
+        memberService.updateNickname(nicknameDto);
+        return EnvelopeResponse.builder().build();
     }
 }
