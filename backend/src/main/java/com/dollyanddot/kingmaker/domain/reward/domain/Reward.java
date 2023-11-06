@@ -4,11 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @NoArgsConstructor
 @Entity
+@SuperBuilder
 public class Reward {
 
     @Id
