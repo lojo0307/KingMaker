@@ -27,4 +27,12 @@ public interface MemberRoutineRepository extends JpaRepository<MemberRoutine, Lo
       + "WHERE routine = :routine "
       + "AND date_format(createdAt, '%Y-%M-%d') >= date_format(:today, '%Y-%M-%d')")
   void deleteAllByRoutineAfterToday(Routine routine, LocalDateTime today);
+
+  @Query(value="SELECT member_routine.routine.category.id "
+          +"FROM member_routine "
+          +"WHERE member_routine.member.memberId=:memberId "
+          +"AND member_routine.achievedYn=true "
+          +"GROUP BY member_routine.routine.category.id "
+          +"ORDER BY routine.category.id ASC")
+  List<Long> countCategoryId(Long memberId);
 }
