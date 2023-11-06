@@ -1,8 +1,15 @@
 package com.dollyanddot.kingmaker.domain.member.service;
 
+import com.dollyanddot.kingmaker.domain.auth.domain.Credential;
+import com.dollyanddot.kingmaker.domain.auth.domain.Role;
+import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
+import com.dollyanddot.kingmaker.domain.kingdom.domain.Kingdom;
+import com.dollyanddot.kingmaker.domain.kingdom.repository.KingdomRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.FcmToken;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.dto.NicknameDto;
+import com.dollyanddot.kingmaker.domain.member.dto.request.SignUpReqDto;
+import com.dollyanddot.kingmaker.domain.member.dto.response.LoginResDto;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
@@ -17,7 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +39,43 @@ public class MemberService {
     private final FcmTokenRepository fcmTokenRepository;
     private final NotificationSettingRepository notificationSettingRepository;
     private final NotificationTypeRepository notificationTypeRepository;
+    private final CredentialRepository credentialRepository;
+    private final KingdomRepository kingdomRepository;
+
+    public LoginResDto signUp(long credentialId, SignUpReqDto signUpReqDto) {
+        Optional<Credential> optionalCredential = credentialRepository.findById(credentialId);
+        if (optionalCredential.isEmpty()) throw new RuntimeException();
+        if (optionalCredential.get().getRole().equals(Role.USER)) throw new RuntimeException();
+
+        Credential credential = optionalCredential.get();
+
+        Kingdom kingdom = Kingdom.builder()
+                .level(1)
+                .kingdomNm(signUpReqDto.getKingdomName())
+                .citizen(0).build();
+
+        Member member = Member.builder()
+                .nickname(signUpReqDto.getNickname())
+                .credential(credential)
+                .kingdom(kingdom)
+                .createdAt(LocalDateTime.now())
+                .gender(signUpReqDto.getGender())
+                .build();
+
+        kingdomRepository.save(kingdom);
+        memberRepository.save(member);
+
+        credential.setRole(Role.USER);
+        credentialRepository.save(credential);
+
+        return LoginResDto.builder()
+                .memberId(member.getMemberId())
+                .nickname(member.getNickname())
+                .gender(member.getGender())
+                .email(credential.getEmail())
+                .provider(credential.getProvider())
+                .build();
+    }
 
     @Transactional
     public void updateNickname(NicknameDto nicknameDto) {
