@@ -4,6 +4,8 @@ import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,6 +15,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity(name = "member_reward")
+@SuperBuilder
 public class MemberReward extends BaseTimeEntity {
 
     @Id
