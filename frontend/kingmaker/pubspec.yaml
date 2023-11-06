@@ -148,6 +148,7 @@ flutter:
     - assets/images/expbar/28_expbar.png
     - assets/images/expbar/expicon.png
     - assets/images/expbar/monstericon.png
+    - assets/achievement/sample.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

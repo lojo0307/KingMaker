@@ -5,6 +5,8 @@ import 'package:kingmaker/widget/profile/profile_kingdom_widget.dart';
 import 'package:kingmaker/widget/profile/profile_score_widget.dart';
 import 'package:kingmaker/widget/profile/profile_name_widget.dart';
 
+import '../widget/profile/profile_achievement_widget.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -35,6 +37,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ProfileKingdomWidget(),
                   SizedBox(height: 5,),
                   ProfileScoreWidget(),
+                  SizedBox(height: 5,),
+                  ProfileAchievementWidget(),
                   SizedBox(height: 5,),
                   ProfileCalendarWidget(),
                   SizedBox(height: 20,),
