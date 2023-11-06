@@ -3,6 +3,8 @@ package com.dollyanddot.kingmaker.domain.notification.service;
 import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.FcmToken;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
+import com.dollyanddot.kingmaker.domain.member.exception.TokenNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
@@ -18,7 +20,7 @@ import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSett
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTmpRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
-import com.dollyanddot.kingmaker.domain.todo.exception.NonExistTodoIdException;
+import com.dollyanddot.kingmaker.domain.todo.exception.TodoNotFoundException;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -31,7 +33,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     //발송 전 알림 보낸 후, 발송된 알림 테이블로 데이터 이동
     @Override
-    public void sendNotification() throws Exception{
+    public void sendNotification(){
         LocalDateTime time=LocalDateTime.now();
         List<NotificationTmp> list=notificationTmpRepository.getNotificationTmpsBySendTimeLessThanEqual(time);
         List<Notification> notificationList=new ArrayList<>();
@@ -84,10 +85,7 @@ public class NotificationServiceImpl implements NotificationService{
             //푸시 알림 발송
             firebaseMessaging.sendAll(messageList);
         }catch(FirebaseMessagingException e){
-            throw e;
-        }
-        catch(Exception e){
-            throw new ProcessingNotificationException();
+            e.printStackTrace();
         }
     }
 
@@ -95,7 +93,7 @@ public class NotificationServiceImpl implements NotificationService{
         List<Message> messageList=new ArrayList<>();
         for(CountPlanDto t:list){
             Optional<List<FcmToken>> tokenList=fcmTokenRepository.findFcmTokensByMember_MemberId(t.getMemberId());
-            if(tokenList.isEmpty())throw new RuntimeException();
+            if(tokenList.isEmpty())throw new TokenNotFoundException();
             if(isMorning){
                 for(FcmToken ft:tokenList.get()){
                     Message message=Message.builder()
@@ -127,7 +125,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     //오늘 해야 할 알림 개수 푸시 알림 발송 및 notification 테이블에 저장
     @Override
-    public void sendMorningNotification() throws Exception{
+    public void sendMorningNotification(){
         //각 멤버 별로 오늘 할 일+루틴 개수 반환해서 알림 생성 후 fcm으로 발송
         List<CountPlanDto> list=calendarRepository.getTodayPlan();
         List<Notification> notifications=new ArrayList<>();
@@ -146,13 +144,11 @@ public class NotificationServiceImpl implements NotificationService{
             firebaseMessaging.sendAll(messageList);
         }catch(FirebaseMessagingException e){
             e.printStackTrace();
-        }catch(Exception e){
-            throw new ProcessingNotificationException();
         }
     }
 
     @Override
-    public void sendEveningNotification() throws Exception{
+    public void sendEveningNotification(){
         //멤버 별로 오늘 완료하지 못한 일 개수 알림
         List<CountPlanDto> list=calendarRepository.getUndonePlan();
         List<Notification> notifications=new ArrayList<>();
@@ -171,15 +167,13 @@ public class NotificationServiceImpl implements NotificationService{
             firebaseMessaging.sendAll(messageList);
         }catch(FirebaseMessagingException e){
             e.printStackTrace();
-        }catch(Exception e){
-            throw new ProcessingNotificationException();
         }
     }
 
     @Override
-    public void generateTodoNotificationTmp(Long todoId) throws ProcessingNotificationException{
+    public void generateTodoNotificationTmp(Long todoId){
         Optional<Todo> todo=todoRepository.findById(todoId);
-        if(todo.isEmpty())throw new NonExistTodoIdException();
+        if(todo.isEmpty())throw new TodoNotFoundException();
         //현 시간보다 이전에 시작한 일정이면 예약 알림 보내지 않음
         if(todo.get().getStartAt().isBefore(LocalDateTime.now()))return;
         NotificationTmp nt=NotificationTmp.builder()
@@ -199,21 +193,21 @@ public class NotificationServiceImpl implements NotificationService{
 //    }
 
     @Override
-    public List<Notification> getNotification(Long memberId) throws GetNotificationException {
-        if(memberRepository.findMemberByMemberId(memberId).isEmpty()) throw new GetNotificationException();
+    public List<Notification> getNotification(Long memberId){
+        if(memberRepository.findMemberByMemberId(memberId).isEmpty()) throw new MemberNotFoundException();
         return notificationRepository.getNotificationsByMember_MemberId(memberId);
     }
 
     @Override
-    public void deleteNotification(Long notificationId) throws DeleteNotificationException {
+    public void deleteNotification(Long notificationId){
+        Notification notification=notificationRepository.findById(notificationId).orElseThrow(()->new NotificationNotFoundException());
         notificationRepository.deleteById(notificationId);
         return;
     }
 
     @Override
-    public void updateTodoNotification(Long todoId) throws UpdateNotificationException{
-        Optional<Todo> todo=todoRepository.findById(todoId);
-        if(todo.isEmpty())throw new NonExistTodoIdException();
+    public void updateTodoNotification(Long todoId){
+        Todo todo=todoRepository.findById(todoId).orElseThrow(()->new TodoNotFoundException());
         //없으면 새로 만듦-예전에 한 시간 전 알림까지 날린 todo를 수정할 수도 있으니
         Optional<NotificationTmp> n=notificationTmpRepository.findNotificationTmpByTodo_TodoId(todoId);
         if(n.isEmpty()){
@@ -221,8 +215,8 @@ public class NotificationServiceImpl implements NotificationService{
         }
         else{
             //현 시간보다 이전이면 있는 알림도 삭제
-            if(todo.get().getStartAt().isBefore(LocalDateTime.now()))notificationTmpRepository.delete(n.get());
-            else notificationTmpRepository.updateTodoNotification(todo.get());
+            if(todo.getStartAt().isBefore(LocalDateTime.now()))notificationTmpRepository.delete(n.get());
+            else notificationTmpRepository.updateTodoNotification(todo);
         }
         return;
     }
@@ -235,29 +229,27 @@ public class NotificationServiceImpl implements NotificationService{
 //    }
 
     @Override
-    public void notificationSettingToggle(Long memberId,int notificationTypeId) throws NotificationSettingException {
-        Optional<NotificationSetting> ns=notificationSettingRepository.findNotificationSettingByMember_MemberIdAndNotificationType_NotificationTypeId(memberId,notificationTypeId);
-        if(ns.isEmpty())throw new RuntimeException();
-        boolean prev=ns.get().isActivatedYn();
+    public void notificationSettingToggle(Long memberId,int notificationTypeId){
+        NotificationSetting ns=notificationSettingRepository.findNotificationSettingByMember_MemberIdAndNotificationType_NotificationTypeId(memberId,notificationTypeId).orElseThrow(()->new NotificationSettingNotFoundException());
+        boolean prev=ns.isActivatedYn();
         //토픽 구독/구독 취소 로직
-        Optional<List<String>> tokenList=fcmTokenRepository.findTokensByMemberId(memberId);
-        if(tokenList.isEmpty())throw new RuntimeException();
+        List<String> tokenList=fcmTokenRepository.findTokensByMemberId(memberId).orElseThrow(()->new TokenNotFoundException());
         String topic=notificationTypeRepository.findById(notificationTypeId).get().getType().name();
         try {
             TopicManagementResponse response;
             if (!prev){
                 //토픽 구독 시작
-                response= FirebaseMessaging.getInstance().subscribeToTopic(tokenList.get(), topic);
+                response= FirebaseMessaging.getInstance().subscribeToTopic(tokenList, topic);
             }
             else{
                 //토픽 구독 취소
-                response = FirebaseMessaging.getInstance().unsubscribeFromTopic(tokenList.get(), topic);
+                response = FirebaseMessaging.getInstance().unsubscribeFromTopic(tokenList, topic);
             }
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }
         //엔티티 설정 바꿈
-        ns.get().setActivatedYn(!prev);
+        ns.setActivatedYn(!prev);
     }
 
     public List<NotificationSettingResDto> getNotificationSetting(Long memberId) {
