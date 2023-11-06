@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.notification.controller;
 
+import com.dollyanddot.kingmaker.domain.notification.dto.NotificationSettingDto;
 import com.dollyanddot.kingmaker.domain.notification.dto.request.NotificationSettingUpdateReqDto;
 import com.dollyanddot.kingmaker.domain.notification.dto.response.NotificationResDto;
 import com.dollyanddot.kingmaker.domain.notification.service.NotificationService;
@@ -37,5 +38,14 @@ public class NotificationController {
     public EnvelopeResponse<Void> updateNotificationSetting(@RequestBody NotificationSettingUpdateReqDto req){
         notificationService.notificationSettingToggle(req.getMemberId(), req.getNotificationTypeId());
         return EnvelopeResponse.<Void>builder().build();
+    }
+
+    @GetMapping("/notification/{memberId}")
+    EnvelopeResponse<?> getNotificationSetting(@PathVariable Long memberId) {
+        List<NotificationSettingDto> notificationSettingDtoList
+            = notificationService.getNotificationSetting(memberId);
+        return EnvelopeResponse.builder()
+            .data(notificationSettingDtoList)
+            .build();
     }
 }

@@ -31,14 +31,11 @@ public class KingdomController {
             .build();
     }
 
-    //TODO: notificationController로 옮기기
-    @GetMapping("/notification/{memberId}")
-    EnvelopeResponse<?> getNotificationSetting(@PathVariable Long memberId) {
-        List<NotificationSettingDto> notificationSettingDtoList
-            = kingdomService.getNotificationSetting(memberId);
-        return EnvelopeResponse.builder()
-            .data(notificationSettingDtoList)
-            .build();
+    //TODO: memberController로 옮기기
+    @PatchMapping("/nickname")
+    EnvelopeResponse<?> updateNickname(@RequestBody NicknameReqDto nicknameDto) {
+        memberService.updateNickname(nicknameDto);
+        return EnvelopeResponse.builder().build();
     }
 
 }

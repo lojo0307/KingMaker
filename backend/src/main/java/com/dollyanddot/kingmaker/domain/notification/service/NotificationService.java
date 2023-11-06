@@ -1,6 +1,7 @@
 package com.dollyanddot.kingmaker.domain.notification.service;
 
 import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
+import com.dollyanddot.kingmaker.domain.notification.dto.NotificationSettingDto;
 import com.dollyanddot.kingmaker.domain.notification.dto.response.NotificationResDto;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
@@ -28,4 +29,6 @@ public interface NotificationService {
 
 //    //알림 초기 설정 함수
 //    void notificationFirstSetting(Long memberId);
+
+    List<NotificationSettingDto> getNotificationSetting(Long memberId);
 }
