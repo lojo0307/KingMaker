@@ -7,7 +7,7 @@ import com.dollyanddot.kingmaker.domain.kingdom.domain.Kingdom;
 import com.dollyanddot.kingmaker.domain.kingdom.repository.KingdomRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.FcmToken;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
-import com.dollyanddot.kingmaker.domain.member.dto.NicknameDto;
+import com.dollyanddot.kingmaker.domain.member.dto.request.NicknameReqDto;
 import com.dollyanddot.kingmaker.domain.member.dto.request.SignUpReqDto;
 import com.dollyanddot.kingmaker.domain.member.dto.response.LoginResDto;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
