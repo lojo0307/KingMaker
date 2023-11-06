@@ -1,8 +1,8 @@
 package com.dollyanddot.kingmaker.domain.kingdom.controller;
 
-import com.dollyanddot.kingmaker.domain.kingdom.dto.KingdomDto;
+import com.dollyanddot.kingmaker.domain.kingdom.dto.response.KingdomResDto;
 import com.dollyanddot.kingmaker.domain.kingdom.service.KingdomService;
-import com.dollyanddot.kingmaker.domain.member.dto.NicknameDto;
+import com.dollyanddot.kingmaker.domain.member.dto.request.NicknameReqDto;
 import com.dollyanddot.kingmaker.domain.member.service.MemberService;
 import com.dollyanddot.kingmaker.domain.notification.dto.NotificationSettingDto;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
@@ -25,7 +25,7 @@ public class KingdomController {
 
     @GetMapping("/kingdom/{memberId}")
     EnvelopeResponse<?> getKingdomDetail(@PathVariable Long memberId) {
-        KingdomDto kingdomDto = kingdomService.getKingdomDetail(memberId);
+        KingdomResDto kingdomDto = kingdomService.getKingdomDetail(memberId);
         return EnvelopeResponse.builder()
             .data(kingdomDto)
             .build();
@@ -41,10 +41,4 @@ public class KingdomController {
             .build();
     }
 
-    //TODO: memberController로 옮기기
-    @PatchMapping("/nickname")
-    EnvelopeResponse<?> updateNickname(@RequestBody NicknameDto nicknameDto) {
-        memberService.updateNickname(nicknameDto);
-        return EnvelopeResponse.builder().build();
-    }
 }

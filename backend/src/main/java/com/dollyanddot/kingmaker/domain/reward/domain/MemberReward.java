@@ -33,7 +33,7 @@ public class MemberReward extends BaseTimeEntity {
     @JoinColumn(name = "reward_id", nullable = false)
     private Reward reward;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean achievedYn;
 
 }
