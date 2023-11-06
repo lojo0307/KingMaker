@@ -19,7 +19,7 @@ public class Reward {
     private String rewardNm;
 
     @Column(nullable = false)
-    private String rewardWay;
+    private String rewardCont;
 
     @Column(nullable = false)
     private String rewardMsg;
