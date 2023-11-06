@@ -1,9 +1,10 @@
-package com.dollyanddot.kingmaker.domain.achievement.domain;
+package com.dollyanddot.kingmaker.domain.reward.domain;
 
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -11,11 +12,11 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "member_achievement")
-public class MemberAchievement extends BaseTimeEntity {
+@Entity(name = "member_reward")
+public class MemberReward extends BaseTimeEntity {
 
     @Id
-    @Column(name = "member_achievement_id")
+    @Column(name = "member_reward_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -26,7 +27,10 @@ public class MemberAchievement extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "achievement_id", nullable = false)
-    private Achievement achievement;
+    @JoinColumn(name = "reward_id", nullable = false)
+    private Reward reward;
+
+    @Column(nullable = false)
+    private boolean achievedYn;
 
 }
