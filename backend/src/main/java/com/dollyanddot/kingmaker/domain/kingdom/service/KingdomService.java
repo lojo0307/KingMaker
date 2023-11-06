@@ -38,22 +38,6 @@ public class KingdomService {
             .build();
     }
 
-    //TODO: notificationService로 옮기기
-    public List<NotificationSettingDto> getNotificationSetting(Long memberId) {
-
-        Member member = memberRepository.findById(memberId).orElseThrow(
-            () -> new MemberNotFoundException());
-        List<NotificationSetting> notificationDtoList
-            = notificationSettingRepository.findNotificationSettingsByMember(member);
-
-        return notificationDtoList.stream()
-            .map(n -> NotificationSettingDto.builder()
-            .notificationTypeId(n.getNotificationSettingId())
-            .activatedYn((byte) (n.isActivatedYn() ? 1 : 0))
-            .build())
-            .collect(Collectors.toList());
-    }
-
     public int changeCitizen(Long memberId, String sign) {
         Member member = memberRepository.findById(memberId).orElseThrow(
             () -> new MemberNotFoundException());
