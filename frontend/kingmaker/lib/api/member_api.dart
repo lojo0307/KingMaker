@@ -35,5 +35,15 @@ class MemberApi{
   void signup(MemberDto? member) async{
     //회원가입 하는 부분 back 연동 해야됨
   }
+
+  void modifyNickname(int memberId, String nickname) async{
+    final response = await dio.patch(
+      '$url/api/mypage/nickname',
+      data: {
+        "memberId" : memberId,
+        "nickname" : nickname
+      }
+    );
+  }
 }
 

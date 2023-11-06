@@ -8,11 +8,9 @@ String? url = dotenv.env['URL'];
 class TodoApi{
   Future<List<TodoDto>> getList(int memberId, String date) async{
     try{
-      print('todo1');
       final response = await dio.get(
         '$url/api/todo/list/$memberId?date=$date',
       );
-      print('todo2');
       return response.data['data'].map<TodoDto>((memberTodo) {
         return TodoDto.fromJsonToListDto(memberTodo);
       }).toList();
@@ -23,12 +21,37 @@ class TodoApi{
   }
 
   void registTodo(int memberId, TodoDto todoDto) async{
-    print(todoDto);
     final response = await dio.post(
       '$url/api/todo',
       data: todoDto.toRegistJson(memberId),
     );
   }
+
+  void modifyTodo(TodoDto todoDto) async{
+    final response = await dio.put(
+      '$url/api/todo',
+      data: todoDto.toModifytJson(),
+    );
+  }
+
+  void deleteTodo(int todoId) async{
+    final response = await dio.delete(
+      '$url/api/todo?todoId=$todoId',
+    );
+  }
+
+  void detailTodo(int todoId) async{
+    final response = await dio.get(
+      '$url/api/todo/$todoId',
+    );
+  }
+
+  void achieveTodo(int todoId) async{
+    final response = await dio.patch(
+      '$url/api/todo/$todoId',
+    );
+  }
+
 
 }
 
