@@ -20,9 +20,6 @@ class RoutineDto{
   });
 
   factory RoutineDto.fromJson(Map<String, dynamic> json) {
-    print('111111111111111111111111111');
-    print(json['startAt']);
-    print('22222222222222222222222222222');
     return RoutineDto(
       routineId: json['routineId'],
       categoryId: json['categoryId'],
@@ -34,7 +31,7 @@ class RoutineDto{
       endAt: json['endAt'],
     );
   }
-  Map<String, dynamic> toRegistJson(int memberId) {
+  toRegistJson(int memberId) {
     return {
       "memberId" : memberId,
       "categoryId" : categoryId,
@@ -46,7 +43,21 @@ class RoutineDto{
       "endAt" : endAt,
     };
   }
+
   String toString(){
     return " $routineId, $categoryId, $routineNm, $routineDetail, $period, $importantYn, $startAt, $endAt,";
+  }
+
+  toModifyJson() {
+    return {
+      "routineId" : routineId,
+      "categoryId" : categoryId,
+      "period" : period,
+      "routineNm" : routineNm,
+      "importantYn" : importantYn,
+      "routineDetail" : routineDetail,
+      "startAt" : startAt,
+      "endAt" : endAt,
+    };
   }
 }
