@@ -45,7 +45,6 @@ public class SchedulerService {
             .member(routine.getMember())
             .routine(routine)
             .achievedYn(false)
-            .monsterCd(1)
             .build())
         .collect(Collectors.toList()));
 
