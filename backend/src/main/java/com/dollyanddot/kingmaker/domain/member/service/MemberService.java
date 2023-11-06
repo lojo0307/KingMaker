@@ -9,7 +9,8 @@ import com.dollyanddot.kingmaker.domain.member.domain.FcmToken;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.dto.request.NicknameReqDto;
 import com.dollyanddot.kingmaker.domain.member.dto.request.SignUpReqDto;
-import com.dollyanddot.kingmaker.domain.member.dto.response.LoginResDto;
+import com.dollyanddot.kingmaker.domain.auth.dto.LoginResDto;
+import com.dollyanddot.kingmaker.domain.member.dto.response.SignUpResDto;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
@@ -17,6 +18,12 @@ import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
 import com.dollyanddot.kingmaker.domain.notification.dto.request.NotificationSettingReqDto;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
+import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
+import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
+import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
+import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
+import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
+import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +45,10 @@ public class MemberService {
     private final NotificationTypeRepository notificationTypeRepository;
     private final CredentialRepository credentialRepository;
     private final KingdomRepository kingdomRepository;
+    private final RewardRepository rewardRepository;
+    private final MemberRewardRepository memberRewardRepository;
 
-    public LoginResDto signUp(long credentialId, SignUpReqDto signUpReqDto) {
+    public SignUpResDto signUp(long credentialId, SignUpReqDto signUpReqDto) {
         Optional<Credential> optionalCredential = credentialRepository.findById(credentialId);
         if (optionalCredential.isEmpty()) throw new RuntimeException();
         if (optionalCredential.get().getRole().equals(Role.USER)) throw new RuntimeException();
@@ -65,12 +74,28 @@ public class MemberService {
         credential.setRole(Role.USER);
         credentialRepository.save(credential);
 
-        return LoginResDto.builder()
+        long rewaredCnt = rewardRepository.count();
+        for (int i = 1; i <= rewaredCnt; i++) {
+            MemberReward memberReward = MemberReward.builder()
+                    .member(member)
+                    .reward(rewardRepository.findById(i).get())
+                    .achievedYn(i == 10 ? true : false)
+                    .build();
+
+            memberRewardRepository.save(memberReward);
+        }
+
+        Reward reward = rewardRepository.findById(10).get();
+
+        return SignUpResDto.builder()
                 .memberId(member.getMemberId())
                 .nickname(member.getNickname())
                 .gender(member.getGender())
                 .email(credential.getEmail())
                 .provider(credential.getProvider())
+                .rewardResDto(RewardResDto.builder().isRewardAchieved(1).rewardInfoDto(
+                        RewardInfoDto.builder().rewardNm(reward.getRewardNm()).rewardId(reward.getRewardId()).rewardCond(reward.getRewardCond()).rewardMsg(reward.getRewardMsg()).build()
+                ).build())
                 .build();
     }
 

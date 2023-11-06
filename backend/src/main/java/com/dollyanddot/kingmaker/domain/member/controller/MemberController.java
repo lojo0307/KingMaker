@@ -2,7 +2,8 @@ package com.dollyanddot.kingmaker.domain.member.controller;
 
 import com.dollyanddot.kingmaker.domain.member.dto.request.NotificationFirstSettingReqDto;
 import com.dollyanddot.kingmaker.domain.member.dto.request.SignUpReqDto;
-import com.dollyanddot.kingmaker.domain.member.dto.response.LoginResDto;
+import com.dollyanddot.kingmaker.domain.auth.dto.LoginResDto;
+import com.dollyanddot.kingmaker.domain.member.dto.response.SignUpResDto;
 import com.dollyanddot.kingmaker.domain.member.service.MemberService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +20,14 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<LoginResDto> signup(Authentication authentication, @RequestBody SignUpReqDto signUpReqDto) {
+                public ResponseEntity<SignUpResDto> signup(Authentication authentication, @RequestBody SignUpReqDto signUpReqDto) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         long credentialId = Long.parseLong(userDetails.getUsername());
 
-        LoginResDto loginResDto = memberService.signUp(credentialId, signUpReqDto);
+        SignUpResDto signUpResDto = memberService.signUp(credentialId, signUpReqDto);
 
-        return ResponseEntity.ok().body(loginResDto);
+        return ResponseEntity.ok().body(signUpResDto);
     }
 
     @DeleteMapping("/leave/{memberId}")
