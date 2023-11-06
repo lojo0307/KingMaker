@@ -12,8 +12,8 @@ public class RewardInfoDto {
     private String rewardCond;
     private String rewardMsg;
 
-    public static RewardInfoDto from(int rewardId, String rewardNm, String rewardCont, String rewardMsg) {
-        return new RewardInfoDto(rewardId, rewardNm, rewardCont, rewardMsg);
+    public static RewardInfoDto from(int rewardId, String rewardNm, String rewardCond, String rewardMsg) {
+        return new RewardInfoDto(rewardId, rewardNm, rewardCond, rewardMsg);
     }
 
 }
