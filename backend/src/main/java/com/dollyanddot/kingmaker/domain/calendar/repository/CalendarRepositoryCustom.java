@@ -12,4 +12,8 @@ public interface CalendarRepositoryCustom{
     List<CountPlanDto> getTodayPlan();
 
     List<CountPlanDto> getUndonePlan();
+
+    List<Long> getMonthlyPlanExistCheck(int year, int month);
+
+    List<Long> getUndonePlanByMonth(int year,int month);
 }

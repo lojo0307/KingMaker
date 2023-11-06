@@ -2,6 +2,7 @@ package com.dollyanddot.kingmaker.domain.calendar.repository;
 
 import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -51,6 +52,17 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
     }
 
     @Override
+    public List<Long> getMonthlyPlanExistCheck(int year, int month){
+        return queryFactory
+                .select(calendar.member.memberId)
+                .from(calendar)
+                .where(calendar.calendarDate.year().eq(year).and(calendar.calendarDate.month().eq(month)))
+                .groupBy(calendar.member.memberId)
+                .orderBy(calendar.member.memberId.asc())
+                .fetch();
+    }
+
+    @Override
     public List<CountPlanDto> getUndonePlan(){
         return queryFactory
                 .select(Projections.fields(CountPlanDto.class,
@@ -62,6 +74,19 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
                 .leftJoin(calendar.memberRoutine, memberRoutine)
                 .where(calendar.calendarDate.eq(LocalDate.now()).and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse())).or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse()))))
                 .groupBy(calendar.member.memberId)
+                .fetch();
+    }
+
+    @Override
+    public List<Long> getUndonePlanByMonth(int year,int month){
+        return queryFactory
+                .select(calendar.member.memberId)
+                .from(calendar)
+                .leftJoin(calendar.todo, todo)
+                .leftJoin(calendar.memberRoutine, memberRoutine)
+                .where(calendar.calendarDate.year().eq(year).and(calendar.calendarDate.month().eq(month)).and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse())).or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse()))))
+                .groupBy(calendar.member.memberId)
+                .orderBy(calendar.member.memberId.asc())
                 .fetch();
     }
 }
