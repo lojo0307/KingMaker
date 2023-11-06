@@ -1,11 +1,11 @@
-package com.dollyanddot.kingmaker.domain.kingdom.dto;
+package com.dollyanddot.kingmaker.domain.kingdom.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class KingdomDto {
+public class KingdomResDto {
 
     private String kingdomNm;
     private int level;
