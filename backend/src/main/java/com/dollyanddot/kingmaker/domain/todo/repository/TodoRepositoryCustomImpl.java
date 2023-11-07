@@ -13,7 +13,7 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     public List<Long> countCategoryId(Long memberId){
-        return queryFactory.select(todo.category.id.count())
+        return queryFactory.select(todo.category.id)
                 .from(todo)
                 .where(todo.achievedYn.eq(true).and(todo.member.memberId.eq(memberId)))
                 .groupBy(todo.category.id)
