@@ -3,6 +3,7 @@ package com.dollyanddot.kingmaker.domain.todo.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.dollyanddot.kingmaker.domain.todo.domain.QTodo.todo;
@@ -19,5 +20,15 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
                 .groupBy(todo.category.id)
                 .orderBy(todo.category.id.asc())
                 .fetch();
+    }
+
+    @Override
+    public LocalDateTime findMostRecentAchieved() {
+        return queryFactory
+                .select(todo.modifiedAt)
+                .from(todo)
+                .where(todo.achievedYn.eq(true))
+                .orderBy(todo.modifiedAt.desc())
+                .fetchFirst();
     }
 }
