@@ -3,6 +3,7 @@ package com.dollyanddot.kingmaker.domain.reward.service;
 import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
+import com.dollyanddot.kingmaker.domain.member.dto.response.RewardListResDto;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
 import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,5 +68,29 @@ public class RewardService {
 //        }
         memberRewardRepository.saveAll(memberRewardList);
         return;
+    }
+
+    public List<RewardListResDto> getRewardList(long memberId) {
+        long rewardCnt = rewardRepository.count();
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        if (optionalMember.isEmpty()) System.out.println("회원이 존재하지 않습니다");
+        Member member = optionalMember.get();
+
+        List<RewardListResDto> response = new ArrayList<>();
+        for (int i = 1; i <= rewardCnt; i++) {
+            Reward reward = rewardRepository.findById(i).get();
+            Optional<MemberReward> optionalMemberReward = memberRewardRepository.findByMemberAndReward(member, reward);
+            if (optionalMemberReward.isEmpty()) System.out.println("업적이 존재하지 않습니다");
+            MemberReward memberReward = optionalMemberReward.get();
+
+            response.add(RewardListResDto.builder()
+                    .rewardNm(reward.getRewardNm())
+                    .rewardCond(reward.getRewardCond())
+                    .modifiedAt(memberReward.getModifiedAt())
+                    .isAchieved(memberReward.isAchievedYn())
+                    .build());
+        }
+
+        return response;
     }
 }
