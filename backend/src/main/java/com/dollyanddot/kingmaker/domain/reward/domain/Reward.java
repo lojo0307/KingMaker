@@ -27,4 +27,7 @@ public class Reward {
     @Column(nullable = false)
     private String rewardMsg;
 
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean hidden;
+
 }
