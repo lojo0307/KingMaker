@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
+import 'package:flutter_flip_card/flipcard/flip_card.dart';
+import 'package:flutter_flip_card/modal/flip_side.dart';
 
 class AchievementWidget extends StatefulWidget {
   const AchievementWidget({super.key, required this.data});
@@ -16,7 +19,8 @@ class _AchievementWidgetState extends State<AchievementWidget> {
     final Color bgColor = isAchieved ? Colors.white : Colors.grey;
     final String? rewardNmtText = isAchieved ? widget.data['reward_nm'] : "미달성 업적";
     final String? rewardContText = isAchieved ? widget.data['reward_msg'] : widget.data['reward_cont'];
-
+    final String rewardDateText = isAchieved ? '업적 달성일 : ${widget.data['modified_at']}' : " ";
+    final con = FlipCardController();
     return Container(
       height: 80,
       margin: EdgeInsets.only(bottom: 6),
@@ -32,19 +36,45 @@ class _AchievementWidgetState extends State<AchievementWidget> {
                 image: AssetImage('assets/achievement/sample.png'),
                 height: 100,
                 width: 100,
+                // color: Colors.red,
               )
           ),
           Flexible(
-              child: Container(
-                padding: EdgeInsets.only(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${rewardNmtText}', style: TextStyle(fontSize: 20)),
-                    Text('${rewardContText}') // 조건에 따른 텍스트 내용 설정
-                  ],
+              child:FlipCard(
+                rotateSide: RotateSide.right,
+                onTapFlipping: true,
+                axis: FlipAxis.horizontal,
+                controller: con,
+                frontWidget: Center(
+                  child: Container(
+                    // decoration: BoxDecoration(color: Colors.blue),
+                    padding: EdgeInsets.only(top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${rewardNmtText}', style: TextStyle(fontSize: 20)),//업적이름/미달성 업적
+                        Text('${rewardContText}'), // 조건에 따른 텍스트 내용 설정
+                        Text('${rewardDateText}',  style: TextStyle(fontSize: 10)),
+                      ],
+                    ),
+                  )
                 ),
-              )
+                backWidget: Center(
+                  child: Container(
+                    // decoration: BoxDecoration(color: Colors.blue),
+                    padding: EdgeInsets.only(top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${rewardNmtText}', style: TextStyle(fontSize: 20)),//업적이름/미달성 업적
+                        Text('뒷면 입니당', style: TextStyle(fontSize: 20)), // 조건에 따른 텍스트 내용 설정
+                        // Text('업적 달성일 : ${rewardDateText}',  style: TextStyle(fontSize: 10)),
+
+                      ],
+                    ),
+                  ),
+                )
+              ),
           )
         ],
       ),
