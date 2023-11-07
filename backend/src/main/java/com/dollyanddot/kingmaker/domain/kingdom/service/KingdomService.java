@@ -53,6 +53,20 @@ public class KingdomService {
         return changeLevel;
     }
 
+    public void penaltyCitizen(Long memberId, Long cnt) {
+        Member member = memberRepository.findById(memberId).orElseThrow(
+            () -> new MemberNotFoundException());
+        Long kingdomId = member.getKingdom().getKingdomId();
+        Kingdom kingdom = kingdomRepository.findById(kingdomId).orElseThrow(
+            () -> new KingdomNotFoundException());
+
+        int changeCitizen = kingdom.getCitizen();
+        changeCitizen -= cnt*5;
+
+        int changeLevel = changeLevel(changeCitizen);
+        kingdom.update(changeCitizen, changeLevel);
+    }
+
     private int changeLevel(int citizen) {
         if (citizen < 1000) return 1;
         if (citizen < 3000) return 2;
