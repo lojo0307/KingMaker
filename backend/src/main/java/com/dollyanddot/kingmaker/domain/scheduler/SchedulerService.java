@@ -2,6 +2,7 @@ package com.dollyanddot.kingmaker.domain.scheduler;
 
 import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
+import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepositoryCustomImpl;
 import com.dollyanddot.kingmaker.domain.notification.service.NotificationService;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
@@ -29,6 +30,7 @@ public class SchedulerService {
   private final MemberRoutineRepository memberRoutineRepository;
   private final CalendarRepository calendarRepository;
   private final NotificationService notificationService;
+  private final CalendarRepositoryCustomImpl calendarRepositoryCustomImpl;
 
   @Transactional
   @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Seoul")
@@ -99,4 +101,11 @@ public class SchedulerService {
 //    //TODO: 일정 수행 시작 한 시간 전 알림 발송
 //    notificationService.sendNotification();
 //  }
+
+  //전 날 미달성한 개수 카운트 & 백성 수 줄이기 & 레벨 변경
+  @Scheduled(cron="0 0 0 * * *", zone="Asia/Seoul")
+  public void checkNotAchievedSchedule() {
+    Long countUndonePlan = calendarRepositoryCustomImpl.getUndonePlanCntFromYesterday();
+    log.info("cnt: {}", countUndonePlan);
+  }
 }
