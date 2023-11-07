@@ -17,6 +17,7 @@ import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
 import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
+import com.dollyanddot.kingmaker.domain.routine.dto.response.PatchRoutineResDto;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PostTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PutTodoReqDto;
@@ -190,55 +191,59 @@ public class TodoServiceImpl implements TodoService {
     Todo todo = todoRepository.findById(todoId).orElseThrow();
     Member member = todo.getMember();
 
-    //TODO: MemberRoutine도 변경하기
     boolean isAchieved = todo.toggleAchieved();
-    boolean achievedYn = todo.isAchievedYn();
 
-    if (isAchieved && !memberRewardRepository.findByMemberAndReward(
-        memberRepository.findById(todo.getMember().getMemberId()).orElseThrow(MemberNotFoundException::new),
-        rewardRepository.findById(11).orElseThrow()).isAchievedYn()) {
+    //달성 시
+    if (isAchieved) {
 
-      Reward reward = rewardRepository.findById(11).orElseThrow();
-      MemberReward memberReward = memberRewardRepository.findByMemberAndReward(todo.getMember(), reward);
-
-      return PatchTodoResDto.from(isAchieved, RewardResDto.builder()
-          .rewardInfoDto(RewardInfoDto.from(
-              reward.getRewardId(),
-              reward.getRewardNm(),
-              reward.getRewardCond(),
-              reward.getRewardMsg()))
-          .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward()? 1:0)
-          .build());
-    }
-
-    if(achievedYn) {
+      //백성 수 증가
       int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
+
+      if (!memberRewardRepository.findByMemberAndReward(
+          memberRepository.findById(todo.getMember().getMemberId())
+              .orElseThrow(MemberNotFoundException::new),
+          rewardRepository.findById(11).orElseThrow()).isAchievedYn()) {
+
+        Reward reward = rewardRepository.findById(11).orElseThrow();
+        MemberReward memberReward = memberRewardRepository.findByMemberAndReward(todo.getMember(),
+            reward);
+
+        return PatchTodoResDto.from(isAchieved, RewardResDto.builder()
+            .rewardInfoDto(RewardInfoDto.from(
+                reward.getRewardId(),
+                reward.getRewardNm(),
+                reward.getRewardCond(),
+                reward.getRewardMsg()))
+            .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward() ? 1 : 0)
+            .build());
+      }
+
+      //왕국 단계 재산정 및 해당되는 업적 번호(3단게/6단계/9단계)가 있는 경우
       int rewardId = kingdomService.levelReward(changeLevel);
-      if(rewardId!=0) {
+
+      if (rewardId != 0 && !memberRewardRepository.findByMemberAndReward(
+          memberRepository.findById(member.getMemberId())
+              .orElseThrow(MemberNotFoundException::new),
+          rewardRepository.findById(rewardId).orElseThrow()).isAchievedYn()) {
+
         Reward reward = rewardRepository.findById(rewardId).orElseThrow();
+
+        //업적 달성으로 변경
+        MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
         RewardInfoDto rewardInfoDto
             = RewardInfoDto.from(rewardId, reward.getRewardNm(),
             reward.getRewardCond(), reward.getRewardMsg());
         RewardResDto rewardResDto
-            = RewardResDto.from(1, rewardInfoDto);
+            = RewardResDto.from(!memberReward.isAchievedYn() && memberReward.achieveReward() ? 1 : 0, rewardInfoDto);
 
-        MemberReward memberReward = MemberReward.builder().reward(reward).member(member).achievedYn(true).build();
-        memberRewardRepository.save(memberReward);
-        return PatchTodoResDto.from(isAchieved, rewardResDto);
-
-      } else {
-        RewardResDto rewardResDto
-            = RewardResDto.from(0, null);
         return PatchTodoResDto.from(isAchieved, rewardResDto);
       }
 
     } else {
-      kingdomService.changeCitizen(member.getMemberId(),"minus");
-      RewardResDto rewardResDto
-          = RewardResDto.from(0, null);
-      return PatchTodoResDto.from(isAchieved, rewardResDto);
+      kingdomService.changeCitizen(member.getMemberId(), "minus");
     }
 
+    return PatchTodoResDto.from(isAchieved, RewardResDto.from(0, null));
   }
 
 }
