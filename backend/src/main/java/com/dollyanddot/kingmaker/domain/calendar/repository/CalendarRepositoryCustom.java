@@ -16,4 +16,6 @@ public interface CalendarRepositoryCustom{
     List<Long> getMonthlyPlanExistCheck(int year, int month);
 
     List<Long> getUndonePlanByMonth(int year,int month);
+
+    Long getUndonePlanCntFromYesterday();
 }
