@@ -190,7 +190,7 @@ public class TodoServiceImpl implements TodoService {
 
     Todo todo = todoRepository.findById(todoId).orElseThrow();
     Member member = todo.getMember();
-
+    List<RewardResDto> rewardResDtoList=new ArrayList<>();
     boolean isAchieved = todo.toggleAchieved();
 
     //달성 시
@@ -208,7 +208,7 @@ public class TodoServiceImpl implements TodoService {
         MemberReward memberReward = memberRewardRepository.findByMemberAndReward(todo.getMember(),
             reward);
 
-        return PatchTodoResDto.from(isAchieved, RewardResDto.builder()
+        rewardResDtoList.add(RewardResDto.builder()
             .rewardInfoDto(RewardInfoDto.from(
                 reward.getRewardId(),
                 reward.getRewardNm(),
@@ -236,14 +236,15 @@ public class TodoServiceImpl implements TodoService {
         RewardResDto rewardResDto
             = RewardResDto.from(!memberReward.isAchievedYn() && memberReward.achieveReward() ? 1 : 0, rewardInfoDto);
 
-        return PatchTodoResDto.from(isAchieved, rewardResDto);
+        rewardResDtoList.add(rewardResDto);
       }
 
     } else {
       kingdomService.changeCitizen(member.getMemberId(), "minus");
     }
-
-    return PatchTodoResDto.from(isAchieved, RewardResDto.from(0, null));
+    if(rewardResDtoList.isEmpty()){
+      rewardResDtoList.add(RewardResDto.from(0, null));}
+    return PatchTodoResDto.from(isAchieved,rewardResDtoList);
   }
 
 }
