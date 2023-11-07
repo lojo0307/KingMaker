@@ -15,8 +15,11 @@ import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
 import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
+import com.dollyanddot.kingmaker.domain.reward.exception.MemberRewardNotFoundException;
+import com.dollyanddot.kingmaker.domain.reward.exception.RewardNotFoundException;
 import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
+import com.dollyanddot.kingmaker.domain.reward.service.RewardService;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.PatchRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
@@ -52,6 +55,7 @@ public class TodoServiceImpl implements TodoService {
   private final RewardRepository rewardRepository;
   private final MemberRewardRepository memberRewardRepository;
   private final RoutineRepository routineRepository;
+  private final RewardService rewardService;
 
   @Override
   public void deleteTodoByTodoId(Long todoId){
@@ -198,9 +202,30 @@ public class TodoServiceImpl implements TodoService {
     Member member = todo.getMember();
     List<RewardResDto> rewardResDtoList=new ArrayList<>();
     boolean isAchieved = todo.toggleAchieved();
-
+    Reward reward;
     //달성 시
     if (isAchieved) {
+      //중요도 상인 할일 첫 수행 시
+      if(todo.isImportantYn()){
+        MemberReward mr=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(member.getMemberId(),9).orElseThrow(()->new MemberRewardNotFoundException());
+        if(!mr.isAchievedYn()){
+          //'수행'으로 바꿈
+          memberRewardRepository.achieveMemberReward(member.getMemberId(),9);
+          reward=rewardRepository.findById(9).orElseThrow(()->new RewardNotFoundException());
+          rewardResDtoList.add(RewardResDto.builder()
+                  .rewardInfoDto(RewardInfoDto.from(
+                          reward.getRewardId(),
+                          reward.getRewardNm(),
+                          reward.getRewardCond(),
+                          reward.getRewardMsg()))
+                  .isRewardAchieved(1)
+                  .build());
+        }
+      }
+
+      //카테고리 별 하나 이상씩 달성한 경우
+      RewardResDto colorfulWorld=rewardService.colorfulWorld(member.getMemberId());
+      if(colorfulWorld.getIsRewardAchieved()==1)rewardResDtoList.add(colorfulWorld);
 
       //백성 수 증가
       int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
@@ -210,7 +235,7 @@ public class TodoServiceImpl implements TodoService {
               .orElseThrow(MemberNotFoundException::new),
           rewardRepository.findById(11).orElseThrow()).isAchievedYn()) {
 
-        Reward reward = rewardRepository.findById(11).orElseThrow();
+        reward = rewardRepository.findById(11).orElseThrow();
         MemberReward memberReward = memberRewardRepository.findByMemberAndReward(todo.getMember(),
             reward);
 
@@ -232,7 +257,7 @@ public class TodoServiceImpl implements TodoService {
               .orElseThrow(MemberNotFoundException::new),
           rewardRepository.findById(rewardId).orElseThrow()).isAchievedYn()) {
 
-        Reward reward = rewardRepository.findById(rewardId).orElseThrow();
+        reward = rewardRepository.findById(rewardId).orElseThrow();
 
         //업적 달성으로 변경
         MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
