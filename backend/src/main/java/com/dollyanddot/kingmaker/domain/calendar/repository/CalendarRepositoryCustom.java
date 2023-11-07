@@ -22,7 +22,7 @@ public interface CalendarRepositoryCustom{
 
     List<Member> getUndonePlanCntMemberList(int cnt);
 
-//    List<CountPlanDto>  getUndonePlanAllCnt();
+    List<CountPlanDto>  getUndonePlanAllCnt();
 
     List<Member> getMonsterParkMemberList();
 }

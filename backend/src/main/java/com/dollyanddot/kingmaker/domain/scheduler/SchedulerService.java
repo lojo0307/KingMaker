@@ -128,6 +128,17 @@ public class SchedulerService {
     rewardService.getUndonePlanAllCnt50();
     rewardService.getUndonePlanAllCnt100();
 
+    //TODO: 위랑 아래 둘 중에 선택하기
+
+    List<CountPlanDto> allDtoList = calendarRepository.getUndonePlanAllCnt();
+    for(CountPlanDto c : allDtoList) {
+      if(c.getCnt()==50) {
+        rewardService.getUndonePlanAllCnt(1, c);
+      } else if(c.getCnt()==100) {
+        rewardService.getUndonePlanAllCnt(2, c);
+      }
+    }
+
     //TODO: 업적 추가된 사항 전달
   }
 

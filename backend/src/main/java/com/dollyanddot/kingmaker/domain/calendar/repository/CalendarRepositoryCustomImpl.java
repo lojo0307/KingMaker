@@ -126,23 +126,26 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
             .fetch();
     }
 
-//    @Override
-//    public List<CountPlanDto> getUndonePlanAllCnt() {
-//        return queryFactory
-//            .select(Projections.fields(CountPlanDto.class,
-//                calendar.member.memberId,
-//                calendar.calendarId.count().as("cnt"))
-//            )
-//            .from(calendar)
-//            .leftJoin(calendar.todo, todo)
-//            .leftJoin(calendar.memberRoutine, memberRoutine)
-//            .where(calendar.calendarDate.before(LocalDate.now())
-//                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse()))
-//                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
-//            )
-//            .groupBy(calendar.member.memberId)
-//            .fetch();
-//    }
+    @Override
+    public List<CountPlanDto> getUndonePlanAllCnt() {
+        return queryFactory
+            .select(Projections.fields(CountPlanDto.class,
+                calendar.member.memberId,
+                calendar.calendarId.count().as("cnt"))
+            )
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.before(LocalDate.now())
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
+            )
+            .groupBy(calendar.member.memberId)
+            .having(calendar.calendarId.count().eq(50L)
+                .or(calendar.calendarId.count().eq(100L))
+            )
+            .fetch();
+    }
 
     @Override
     public List<Member> getMonsterParkMemberList() {

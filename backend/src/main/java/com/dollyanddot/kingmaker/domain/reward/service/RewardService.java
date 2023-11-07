@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.reward.service;
 
+import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
@@ -181,6 +182,18 @@ public class RewardService {
             if(!memberReward.isAchievedYn()) {
                 memberReward.achieveReward();
             }
+        }
+    }
+
+    public void getUndonePlanAllCnt(int rewardId, CountPlanDto c) {
+        Reward reward = rewardRepository.findById(rewardId).orElseThrow(RewardNotFoundException::new);
+        Member member = memberRepository.findById(c.getMemberId()).orElseThrow(MemberNotFoundException::new);
+        MemberReward memberReward = memberRewardRepository.findMemberRewardByMemberAndReward(member, reward)
+            .orElseThrow(MemberRewardNotFoundException::new);
+
+        //아직 미달성한 업적이면
+        if(!memberReward.isAchievedYn()) {
+            memberReward.achieveReward();
         }
     }
 }
