@@ -21,11 +21,13 @@ import com.dollyanddot.kingmaker.domain.routine.dto.response.PatchRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.exception.MemberRoutineNotFoundException;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
+import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +42,8 @@ public class MemberRoutineService {
   private final RewardRepository rewardRepository;
   private final MemberRewardRepository memberRewardRepository;
   private final RewardService rewardService;
+  private final TodoRepository todoRepository;
+  private final RoutineRepository routineRepository;
 
   @Transactional
   public PatchRoutineResDto changeAchievedStatement(Long memberRoutineId) {
@@ -48,6 +52,59 @@ public class MemberRoutineService {
     Routine routine=memberRoutine.getRoutine();
     Member member = memberRoutine.getMember();
     List<RewardResDto> rewardResDtoList=new ArrayList<>();
+
+    if (!memberRoutine.isAchievedYn()) {
+      // 4번 업적 확인 로직
+      Reward reward4 = rewardRepository.findById(4).get();
+      RewardInfoDto rewardInfoDto4 = RewardInfoDto
+              .builder()
+              .rewardNm(reward4.getRewardNm())
+              .rewardId(reward4.getRewardId())
+              .rewardMsg(reward4.getRewardMsg())
+              .rewardCond(reward4.getRewardCond())
+              .build();
+
+      if (!memberRewardRepository.findMemberRewardByMemberAndReward(member, reward4).get().isAchievedYn()) {
+        LocalDateTime date1 = todoRepository.findMostRecentAchieved();
+        LocalDateTime date2 = routineRepository.findMostRecentAchieved();
+        LocalDateTime lastAchievedDate = null;
+        if (date1 != null && date2 != null) {
+          lastAchievedDate = date1.isAfter(date2) ? date1 : date2;
+        } else if (date1 != null) {
+          lastAchievedDate = date1;
+        } else if (date2 != null) {
+          lastAchievedDate = date2;
+        } else {
+          lastAchievedDate = LocalDateTime.now();
+        }
+        if (Math.abs(Period.between(lastAchievedDate.toLocalDate(), LocalDateTime.now().toLocalDate()).getDays()) >= 30) {
+          rewardResDtoList.add(
+                  RewardResDto
+                          .builder()
+                          .isRewardAchieved(1)
+                          .rewardInfoDto(rewardInfoDto4)
+                          .build()
+          );
+        } else {
+          rewardResDtoList.add(
+                  RewardResDto
+                          .builder()
+                          .isRewardAchieved(0)
+                          .rewardInfoDto(rewardInfoDto4)
+                          .build()
+          );
+        }
+      } else {
+        rewardResDtoList.add(
+                RewardResDto
+                        .builder()
+                        .isRewardAchieved(0)
+                        .rewardInfoDto(rewardInfoDto4)
+                        .build()
+        );
+      }
+    }
+
     boolean isAchieved = memberRoutine.toggleAchieved();
     Reward reward;
     //달성 시
