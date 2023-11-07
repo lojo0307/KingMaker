@@ -31,10 +31,10 @@ class RegistProvider with ChangeNotifier {
   dynamic  _value = 0;
   dynamic get value => _value;
 
-  String _startTime = "";
+  String _startTime = '00:00';
   String get startTime => _startTime;
 
-  String _endTime = "";
+  String _endTime = '23:59';
   String get endTime => _endTime;
 
 
@@ -45,13 +45,13 @@ class RegistProvider with ChangeNotifier {
 
   RegistRoutine(int MemberId){
     String period = "{\"type\" : \"$_type\", \"value\": $_value}";
-    RoutineDto routine = RoutineDto(routineId: 0, categoryId: _categoryId, routineNm: _title, routineDetail: _detail, period: period, importantYn: _importantYn, startAt: '${_startAt}09:00:00', endAt: '${_endAt}23:59:59');
+    RoutineDto routine = RoutineDto(routineId: 0, categoryId: _categoryId, routineNm: _title, routineDetail: _detail, period: period, importantYn: _importantYn, startAt: "${_startAt}09:00:00", endAt: "${_endAt}23:59:59");
     _routineRepository.registRoutine(MemberId, routine);
     ResetAll();
   }
 
   RegistTodo(int MemberId){
-    TodoDto todoDto = TodoDto(todoId: 0, categoryId: _categoryId, startAt: '$_startAt$_startTime', endAt: '$_endAt$_endTime', todoNm: _title, todoDetail: _detail, todoPlace: "장소", importantYn: importantYn, achievedYn: false);
+    TodoDto todoDto = TodoDto(todoId: 0, categoryId: _categoryId, startAt: "$_startAt$_startTime", endAt: "$_endAt$_endTime", todoNm: _title, todoDetail: _detail, todoPlace: "장소", importantYn: importantYn, achievedYn: false);
     print(todoDto.startAt);
     _todoRepository.registTodo(MemberId, todoDto);
     ResetAll();
@@ -66,6 +66,8 @@ class RegistProvider with ChangeNotifier {
     _endAt = "";
     _type = "day";
     _value = 0;
+    _startTime = '00:00';
+    _endTime = '23:59';
   }
 
   void setTitle(String value) {
@@ -100,8 +102,8 @@ class RegistProvider with ChangeNotifier {
     }
   }
 
-  void setValue(dynamic selections1) {
-    _value = selections1;
+  void setValue(dynamic selections) {
+    _value = selections;
   }
 
   void changeImport() {

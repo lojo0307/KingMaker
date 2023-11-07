@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:provider/provider.dart';
@@ -266,8 +267,10 @@ class _RegistTodoState extends State<RegistTodo> {
                         flex: 14,
                         child: ElevatedButton(
                             onPressed: () async {
-                              await Provider.of<RegistProvider>(context, listen: false).RegistTodo(1);
-                              await Provider.of<ScheduleProvider>(context, listen: false).getList();
+                              int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+                              await Provider.of<RegistProvider>(context, listen: false).RegistTodo(memberId!);
+                              DateTime now = DateTime.now();
+                              Provider.of<ScheduleProvider>(context, listen: false).getList(now.year, now.month, now.day);
                               Navigator.pop(context);
                             },
                             child: Text('할 일 등록하기')

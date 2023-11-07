@@ -65,7 +65,7 @@ class _ScheduleSetState extends State<ScheduleSet> {
                   } else {
                     return const SizedBox.shrink();
                   }
-                }).toList(),
+                }).toList() + [const SizedBox(height: 70,)],
 
               ),
             ),
