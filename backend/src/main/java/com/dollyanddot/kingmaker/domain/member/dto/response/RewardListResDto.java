@@ -12,4 +12,5 @@ public class RewardListResDto {
     private String rewardCond;
     private LocalDateTime modifiedAt;
     private boolean isAchieved;
+    private int rewardPercent;
 }

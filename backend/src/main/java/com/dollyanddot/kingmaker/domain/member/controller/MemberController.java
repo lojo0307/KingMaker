@@ -30,9 +30,11 @@ public class MemberController {
         return EnvelopeResponse.<SignUpResDto>builder().data(signUpResDto).build();
     }
 
-    @DeleteMapping("/leave/{memberId}")
-    public EnvelopeResponse<Void> withdraw(@PathVariable long memberId) {
-        memberService.withDraw(memberId);
+    @DeleteMapping("/leave")
+    public EnvelopeResponse<Void> withdraw(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        long credentialId = Long.parseLong(userDetails.getUsername());
+        memberService.withDraw(credentialId);
         return EnvelopeResponse.<Void>builder().build();
     }
 
