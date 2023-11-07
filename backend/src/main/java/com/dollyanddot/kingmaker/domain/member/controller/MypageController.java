@@ -27,7 +27,7 @@ public class MypageController {
     }
 
     @GetMapping("/reward/{memberId}")
-    public ResponseEntity<List<RewardListResDto>> getRewardList(@PathVariable long memberId) {
-        return ResponseEntity.ok().body(rewardService.getRewardList(memberId));
+    public EnvelopeResponse<List<RewardListResDto>> getRewardList(@PathVariable long memberId) {
+        return EnvelopeResponse.<List<RewardListResDto>>builder().data(rewardService.getRewardList(memberId)).build();
     }
 }

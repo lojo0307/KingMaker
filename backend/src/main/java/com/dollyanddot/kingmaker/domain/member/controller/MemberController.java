@@ -20,20 +20,20 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-                public ResponseEntity<SignUpResDto> signup(Authentication authentication, @RequestBody SignUpReqDto signUpReqDto) {
+                public EnvelopeResponse<SignUpResDto> signup(Authentication authentication, @RequestBody SignUpReqDto signUpReqDto) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         long credentialId = Long.parseLong(userDetails.getUsername());
 
         SignUpResDto signUpResDto = memberService.signUp(credentialId, signUpReqDto);
 
-        return ResponseEntity.ok().body(signUpResDto);
+        return EnvelopeResponse.<SignUpResDto>builder().data(signUpResDto).build();
     }
 
     @DeleteMapping("/leave/{memberId}")
-    public ResponseEntity<Void> withdraw(@PathVariable long memberId) {
+    public EnvelopeResponse<Void> withdraw(@PathVariable long memberId) {
         memberService.withDraw(memberId);
-        return ResponseEntity.ok().build();
+        return EnvelopeResponse.<Void>builder().build();
     }
 
     @PostMapping("notification/setting")
