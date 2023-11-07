@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/calendar_provider.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/calendar/day_list_set.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarMain extends StatefulWidget {
@@ -10,42 +13,25 @@ class CalendarMain extends StatefulWidget {
 }
 
 class _CalendarMainState extends State<CalendarMain> {
-  static const List<Map<String, String>> list =[
-    // {'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '1'},{'title' : '15'}
-    {
-      'id' : '34',
-      'title' : 'title11',
-      'achieve' : '0',
-      'type' : '2',
-    },
-    {'id' : '2',
-      'title' : 'title12',
-      'achieve' : '1',
-      'type' : '2',},
-    {'id' : '3',
-      'title' : 'title13',
-      'achieve' : '0',
-      'type' : '1',},
-    {'id' : '35',
-      'title' : 'title14',
-      'achieve' : '1',
-      'type' : '1',},
-    {'id' : '34',
-      'title' : 'title15',
-      'type' : '2',
-      'achieve' : '1',},
-    {'id' : '2',
-      'title' : 'title16',
-      'achieve' : '0',
-      'type' : '1',},
-  ];
   static const calColors = [Colors.white, Color(0xFFFFE9C1),Color(0xFFFEE2AE),Color(0xFFFFD78D),Color(0xFF89B0BC),Color(0xFF6895A3), ];
   static const borColors = [Color(0xFF9FC6D2), Color(0xFFE4CEA0),Color(0xFFE4CEA0),Color(0xFFE9C16E),Color(0xFF6895A3),Color(0xFF3F4A68), ];
-  static const Map<String, int> levels = {'9' : 1, '10' : 2, '11' : 3, '12' : 4, '13' : 5, '1': 1};
   DateTime? _selectedDay = DateTime.now();
   late DateTime _focusedDay = DateTime.now();
   @override
+  void initState() {
+    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+    DateTime now = DateTime.now();
+    int year = now.year;
+    int month = now.month;
+    int day = now.day;
+    Provider.of<CalendarProvider>(context, listen: false).getData(memberId!, year, month);
+    Provider.of<CalendarProvider>(context, listen: false).getList(memberId!, year, month, day);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    Map<String, int> levels = context.watch<CalendarProvider>().data;
+    dynamic list = context.watch<CalendarProvider>().list;
     return Expanded(
         child: Container(
           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -68,8 +54,15 @@ class _CalendarMainState extends State<CalendarMain> {
                     } else {
                       _focusedDay = focusedDay;
                     }
+                    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+                    Provider.of<CalendarProvider>(context, listen: false).getList(memberId!, selectedDay.year, selectedDay.month, selectedDay.day);
                     setState(() {});
                   }
+                },
+                onPageChanged: (focusedDay) async {
+                  int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+                  await Provider.of<CalendarProvider>(context, listen: false).getData(memberId!, focusedDay.year, focusedDay.month);
+                  _focusedDay = focusedDay;
                 },
                 headerStyle: HeaderStyle(
                   titleCentered: true,
@@ -122,6 +115,22 @@ class _CalendarMainState extends State<CalendarMain> {
                       ),
                     );
                   },
+                  todayBuilder: (context, day, focusedDay) {
+                    int idx = 0;
+                    if (levels.containsKey(day.day.toString())) {
+                      idx = levels['${day.day}']!.toInt();
+                    }
+                    return Container(
+                      margin: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: calColors[idx],
+                        border: Border(top: BorderSide(color: borColors[idx], width: 2), left: BorderSide(color: borColors[idx], width: 2)),
+                      ),
+                      child: Center(
+                        child: Text(day.day.toString()),
+                      ),
+                    );
+                  },
                   selectedBuilder: (context, day, focusedDay) {
                     int idx = 0;
                     if (levels.containsKey(day.day.toString())) {
@@ -150,7 +159,6 @@ class _CalendarMainState extends State<CalendarMain> {
                       ),
                     );
                   },
-
                 ),
                 calendarStyle: const CalendarStyle(
                   defaultDecoration: BoxDecoration(
@@ -162,12 +170,6 @@ class _CalendarMainState extends State<CalendarMain> {
                       border: Border(left: BorderSide(width: 1, color: Color(0xFF9FC6D2)), top: BorderSide(width: 1, color: Color(0xFF9FC6D2)))
                   ),
                   outsideDecoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border(left: BorderSide(width: 1, color: Color(0xFF9FC6D2)), top: BorderSide(width: 1, color: Color(0xFF9FC6D2)))
-                  ),
-                  selectedTextStyle: TextStyle(color: Color(0xFF9FC6D2),),
-                  selectedDecoration: BoxDecoration(),
-                  todayDecoration: BoxDecoration(
                       color: Colors.white,
                       border: Border(left: BorderSide(width: 1, color: Color(0xFF9FC6D2)), top: BorderSide(width: 1, color: Color(0xFF9FC6D2)))
                   ),

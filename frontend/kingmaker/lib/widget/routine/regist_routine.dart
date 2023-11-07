@@ -298,7 +298,8 @@ class _RegistRoutineState extends State<RegistRoutine> {
                               print('click');
                               int? MemberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                               await Provider.of<RegistProvider>(context, listen: false).RegistRoutine(MemberId!);
-                              await Provider.of<ScheduleProvider>(context, listen: false).getList();
+                              DateTime now = DateTime.now();
+                              Provider.of<ScheduleProvider>(context, listen: false).getList(now.year, now.month, now.day);
                               Navigator.pop(context);
                             },
                             child: Text('루틴 등록하기')

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/page/todo_detail_page.dart';
+import 'package:kingmaker/provider/schedule_provider.dart';
+import 'package:provider/provider.dart';
 class CalendarTodoCard extends StatelessWidget {
   const CalendarTodoCard({super.key, required this.data});
   final Map<String, String> data;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async{
+        await Provider.of<ScheduleProvider>(context, listen: false).getDetail(int.parse(data['id']!), data['type']!);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -25,7 +28,7 @@ class CalendarTodoCard extends StatelessWidget {
               padding: EdgeInsetsDirectional.symmetric(horizontal: 20),
               child: Container(
                 decoration: BoxDecoration(
-                  color: data['achieve'] == '1' ? Colors.grey : Colors.greenAccent,
+                  color: data['achieved'] == '1' ? Colors.grey : Colors.greenAccent,
                   borderRadius: BorderRadius.circular(100),
                 ),
                 width: 15,
