@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// import 'achievement_modal.dart';
 import 'achievement_widget.dart';
 
 class AchievementPage extends StatefulWidget {
@@ -49,7 +50,17 @@ class _AchievementPageState extends State<AchievementPage> {
               Navigator.maybePop(context);
             },
           ),
-          title: const Text('업적'),
+          title: TextButton(
+            onPressed: () {
+              // AchievementModal.showAchievementDialog(
+              //   context: context,
+              //   title: '알린모찌 학살자',
+              //   content: '알린모찌를 학살 중입니다!',
+              // );
+            },
+            child: const Text('업적'),
+
+          ),
           centerTitle: true,
         ),
         body:Container( // Wrap ListView in a Container
