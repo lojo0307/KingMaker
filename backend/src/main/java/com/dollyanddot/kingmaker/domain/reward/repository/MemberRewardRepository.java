@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+public interface MemberRewardRepository extends JpaRepository<MemberReward,Long> {
+    Optional<MemberReward> findMemberRewardByMemberAndReward(Member member, Reward reward);
+}
+
 public interface MemberRewardRepository extends JpaRepository<MemberReward, Long>,
     MemberRewardRepositoryCustom {
 
