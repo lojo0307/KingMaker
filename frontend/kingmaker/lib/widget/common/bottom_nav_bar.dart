@@ -19,13 +19,13 @@ class BottomNavBar extends StatelessWidget {
       confineInSafeArea: false,
       backgroundColor: Colors.transparent, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
-      resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+      resizeToAvoidBottomInset: false, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
       stateManagement: false, // Default is true.
-      hideNavigationBarWhenKeyboardShows: false, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+      hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: const NavBarDecoration(
         colorBehindNavBar: Colors.white
       ),
-      popAllScreensOnTapOfSelectedTab: false,
+      popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
       itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
         duration: Duration(milliseconds: 200),

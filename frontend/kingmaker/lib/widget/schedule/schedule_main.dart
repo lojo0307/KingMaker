@@ -19,7 +19,8 @@ class _ScheduleMainState extends State<ScheduleMain> {
   ];
   @override
   void initState() {
-    Provider.of<ScheduleProvider>(context, listen: false).getList();
+    DateTime now = DateTime.now();
+    Provider.of<ScheduleProvider>(context, listen: false).getList(now.year, now.month, now.day);
     super.initState();
   }
   @override
