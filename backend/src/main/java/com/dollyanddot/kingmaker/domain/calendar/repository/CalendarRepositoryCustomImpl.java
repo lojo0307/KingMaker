@@ -90,30 +90,61 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
                 .fetch();
     }
 
+    //어제 미달성한 개수
     @Override
-    public Long getUndonePlanCntFromYesterday() {
-        Long todoCount = queryFactory
-            .select(calendar.calendarId.count())
+    public List<CountPlanDto> getUndonePlanCntYesterday() {
+        return queryFactory
+            .select(Projections.fields(CountPlanDto.class,
+                calendar.member.memberId,
+                calendar.calendarId.count().as("cnt"))
+            )
             .from(calendar)
             .leftJoin(calendar.todo, todo)
-            .where(calendar.calendarDate.eq(LocalDate.now().minusDays(1))
-                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse())))
-            )
-            .groupBy(calendar.member.memberId)
-            .fetchOne();
-
-        Long memberRoutineCount = queryFactory
-            .select(calendar.calendarId.count())
-            .from(calendar)
             .leftJoin(calendar.memberRoutine, memberRoutine)
             .where(calendar.calendarDate.eq(LocalDate.now().minusDays(1))
-                .and((calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
             )
             .groupBy(calendar.member.memberId)
-            .fetchOne();
+            .fetch();
+    }
 
-        long cnt = (todoCount != null ? todoCount : 0) + (memberRoutineCount != null ? memberRoutineCount : 0);
-        return cnt;
+    //어제까지 미달성한 전체 개수가 50개 이상, 100개 이상
+    @Override
+    public List<Member> getUndonePlanCntMemberList(int cnt) {
+        return queryFactory
+            .select(calendar.member)
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.before(LocalDate.now())
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
+            )
+            .groupBy(calendar.member.memberId)
+            .having(calendar.calendarId.count().gt(cnt))
+            .fetch();
+    }
+
+    @Override
+    public List<CountPlanDto> getUndonePlanAllCnt() {
+        return queryFactory
+            .select(Projections.fields(CountPlanDto.class,
+                calendar.member.memberId,
+                calendar.calendarId.count().as("cnt"))
+            )
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.before(LocalDate.now())
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
+            )
+            .groupBy(calendar.member.memberId)
+            .having(calendar.calendarId.count().eq(50L)
+                .or(calendar.calendarId.count().eq(100L))
+            )
+            .fetch();
     }
 
     @Override

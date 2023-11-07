@@ -17,11 +17,16 @@ import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RewardService {
@@ -32,6 +37,7 @@ public class RewardService {
     private final TodoRepository todoRepository;
     private final MemberRoutineRepository memberRoutineRepository;
     private final CategoryRepository categoryRepository;
+
     //TODO: 전 달 성취율 100퍼센트인 멤버들에게 업적 일괄 적용-달마다 취득
     public void getMonthlyBrandReputation(int year,int month){
         //그 달의 reward를 먼저 reward 테이블에 추가
@@ -148,5 +154,48 @@ public class RewardService {
             if(!mr.isAchievedYn()){memberRewardRepository.achieveMemberReward(m.getMemberId(),14);}
         }
         return;
+    }
+
+    public void getUndonePlanAllCnt50() {
+        Reward reward = rewardRepository.findById(1).orElseThrow(RewardNotFoundException::new);
+        List<Member> memberList = calendarRepository.getUndonePlanCntMemberList(50);
+        for(Member member : memberList) {
+            memberRepository.findById(member.getMemberId()).orElseThrow(MemberNotFoundException::new);
+
+            MemberReward memberReward = memberRewardRepository.findMemberRewardByMemberAndReward(member, reward)
+                .orElseThrow(MemberRewardNotFoundException::new);
+
+            //아직 미달성한 업적이면
+            if(!memberReward.isAchievedYn()) {
+                memberRewardRepository.achieveMemberReward(member.getMemberId(),1);
+            }
+        }
+    }
+    public void getUndonePlanAllCnt100() {
+        Reward reward = rewardRepository.findById(2).orElseThrow(RewardNotFoundException::new);
+        List<Member> memberList = calendarRepository.getUndonePlanCntMemberList(100);
+        for(Member member : memberList) {
+            memberRepository.findById(member.getMemberId()).orElseThrow(MemberNotFoundException::new);
+
+            MemberReward memberReward = memberRewardRepository.findMemberRewardByMemberAndReward(member, reward)
+                .orElseThrow(MemberRewardNotFoundException::new);
+
+            //아직 미달성한 업적이면
+            if(!memberReward.isAchievedYn()) {
+                memberRewardRepository.achieveMemberReward(member.getMemberId(),2);
+            }
+        }
+    }
+
+    public void getUndonePlanAllCnt(int rewardId, CountPlanDto c) {
+        Reward reward = rewardRepository.findById(rewardId).orElseThrow(RewardNotFoundException::new);
+        Member member = memberRepository.findById(c.getMemberId()).orElseThrow(MemberNotFoundException::new);
+        MemberReward memberReward = memberRewardRepository.findMemberRewardByMemberAndReward(member, reward)
+            .orElseThrow(MemberRewardNotFoundException::new);
+
+        //아직 미달성한 업적이면
+        if(!memberReward.isAchievedYn()) {
+            memberRewardRepository.achieveMemberReward(member.getMemberId(),rewardId);
+        }
     }
 }
