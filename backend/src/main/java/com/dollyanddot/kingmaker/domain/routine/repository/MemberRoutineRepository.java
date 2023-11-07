@@ -33,6 +33,6 @@ public interface MemberRoutineRepository extends JpaRepository<MemberRoutine, Lo
           +"WHERE member_routine.member.memberId=:memberId "
           +"AND member_routine.achievedYn=true "
           +"GROUP BY member_routine.routine.category.id "
-          +"ORDER BY routine.category.id ASC")
+          +"ORDER BY routine.category.id ASC", nativeQuery = true)
   List<Long> countCategoryId(Long memberId);
 }
