@@ -18,7 +18,11 @@ public interface CalendarRepositoryCustom{
 
     List<Long> getUndonePlanByMonth(int year,int month);
 
-    Long getUndonePlanCntFromYesterday();
+    List<CountPlanDto> getUndonePlanCntYesterday();
+
+    List<Member> getUndonePlanCntMemberList(int cnt);
+
+//    List<CountPlanDto>  getUndonePlanAllCnt();
 
     List<Member> getMonsterParkMemberList();
 }
