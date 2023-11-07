@@ -1,6 +1,6 @@
 package com.dollyanddot.kingmaker.domain.member.controller;
 
-import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarAchieveAndSumResDto;
+import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
 import com.dollyanddot.kingmaker.domain.member.dto.response.RewardListResDto;
 import com.dollyanddot.kingmaker.domain.reward.service.RewardService;
 import com.dollyanddot.kingmaker.domain.todo.service.TodoService;
@@ -19,9 +19,9 @@ public class MypageController {
     private final RewardService rewardService;
 
     @GetMapping("calendar/{memberId}")
-    public EnvelopeResponse<List<CalendarAchieveAndSumResDto>> getTodoCalendar(@PathVariable Long memberId, @RequestParam int year, @RequestParam int month){
-        List<CalendarAchieveAndSumResDto> list=todoService.getAchieveAndSum(year,month,memberId);
-        return EnvelopeResponse.<List<CalendarAchieveAndSumResDto>>builder()
+    public EnvelopeResponse<List<CalendarStreakResDto>> getTodoCalendar(@PathVariable Long memberId, @RequestParam int year, @RequestParam int month){
+        List<CalendarStreakResDto> list=todoService.getAchieveLevel(year,month,memberId);
+        return EnvelopeResponse.<List<CalendarStreakResDto>>builder()
                 .data(list)
                 .build();
     }

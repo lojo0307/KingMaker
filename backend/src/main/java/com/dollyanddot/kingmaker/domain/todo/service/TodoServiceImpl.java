@@ -2,7 +2,6 @@ package com.dollyanddot.kingmaker.domain.todo.service;
 
 import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
 import com.dollyanddot.kingmaker.domain.calendar.dto.CalendarAchieveDto;
-import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarAchieveAndSumResDto;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
@@ -78,21 +77,31 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
-  public List<CalendarAchieveAndSumResDto> getAchieveAndSum(int year, int month, Long memberId) {
+  public List<CalendarStreakResDto> getAchieveLevel(int year, int month, Long memberId) {
     List<CalendarAchieveDto> achieveList = calendarRepository.getAchieveByMonth(year, month,
         memberId);
     List<CalendarStreakResDto> sumList = calendarRepository.getPlansByMonth(year, month, memberId);
-    List<CalendarAchieveAndSumResDto> result = new ArrayList<>();
+    List<CalendarStreakResDto> result = new ArrayList<>();
     LocalDate newDate = LocalDate.of(year, month, 1);
     int lengthOfMon = newDate.lengthOfMonth();
     for (int i = 1; i <= lengthOfMon; i++) {
-      result.add(new CalendarAchieveAndSumResDto(i, 0, 0));
+      result.add(new CalendarStreakResDto(i, 0));
     }
     for (CalendarAchieveDto a : achieveList) {
-      result.get(a.getDay() - 1).setAchieve(a.getAchieve());
+      result.get(a.getDay() - 1).setLevel(a.getAchieve());
     }
     for (CalendarStreakResDto s : sumList) {
-      result.get(s.getDay() - 1).setSum(s.getLevel());
+      int achieve= result.get(s.getDay()-1).getLevel();
+      double rate=(double)achieve/(double)s.getLevel();
+      System.out.println(s.getDay()+"일의 달성률은 "+rate+"이고 achieved: "+achieve+" level: "+s.getLevel());
+      int level;
+      if(rate>0.8)level=5;
+      else if(rate>0.6)level=4;
+      else if(rate>0.4)level=3;
+      else if(rate>0.2)level=2;
+      else if(rate>0)level=1;
+      else level=0;
+      result.get(s.getDay() - 1).setLevel(level);
     }
     return result;
   }

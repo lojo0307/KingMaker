@@ -1,6 +1,5 @@
 package com.dollyanddot.kingmaker.domain.reward.service;
 
-import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
@@ -86,24 +85,26 @@ public class RewardService {
 
     public List<RewardListResDto> getRewardList(long memberId) {
         long rewardCnt = rewardRepository.count();
-        Optional<Member> optionalMember = memberRepository.findById(memberId);
-        if (optionalMember.isEmpty()) System.out.println("회원이 존재하지 않습니다");
-        Member member = optionalMember.get();
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException());
 
         List<RewardListResDto> response = new ArrayList<>();
         for (int i = 1; i <= rewardCnt; i++) {
             Reward reward = rewardRepository.findById(i).get();
-            Optional<MemberReward> optionalMemberReward = memberRewardRepository.findMemberRewardByMemberAndReward(member, reward);
-            if (optionalMemberReward.isEmpty()) System.out.println("업적이 존재하지 않습니다");
-            MemberReward memberReward = optionalMemberReward.get();
+            MemberReward memberReward = memberRewardRepository.findMemberRewardByMemberAndReward(member, reward).orElseThrow(() -> new MemberRewardNotFoundException());
 
+            int percent = (int)(memberRewardRepository.countByRewardAndAchievedYn(reward, true) * 100 / memberRewardRepository.countByReward(reward));
             response.add(RewardListResDto.builder()
                     .rewardNm(reward.getRewardNm())
                     .rewardCond(reward.getRewardCond())
                     .modifiedAt(memberReward.getModifiedAt())
                     .isAchieved(memberReward.isAchievedYn())
+                    .rewardPercent(percent)
                     .build());
         }
+
+        response.sort(Comparator
+                .comparing(RewardListResDto::isAchieved, Comparator.reverseOrder())
+                .thenComparing(RewardListResDto::getModifiedAt, Comparator.reverseOrder()));
 
         return response;
     }
