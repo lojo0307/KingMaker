@@ -46,7 +46,7 @@ class TodoDto{
       todoDetail: "",
       todoPlace: "",
       importantYn: (json['importantYn'] == 1) ? true : false,
-      achievedYn: (json['age'] == 1) ? true : false,
+      achievedYn: (json['achievedYn'] == 1) ? true : false,
     );
   }
 
