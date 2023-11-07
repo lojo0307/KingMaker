@@ -29,9 +29,11 @@ import java.util.List;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberRoutineService {
@@ -49,25 +51,24 @@ public class MemberRoutineService {
   public PatchRoutineResDto changeAchievedStatement(Long memberRoutineId) {
 
     MemberRoutine memberRoutine = memberRoutineRepository.findById(memberRoutineId).orElseThrow();
-    Routine routine=memberRoutine.getRoutine();
+    Routine routine = memberRoutine.getRoutine();
     Member member = memberRoutine.getMember();
-    List<RewardResDto> rewardResDtoList=new ArrayList<>();
+    List<RewardResDto> rewardResDtoList = new ArrayList<>();
 
+    Reward reward;
+
+    //수행으로 인한 달성 여부 변경이 발생하기 전에 확인
     if (!memberRoutine.isAchievedYn()) {
-      // 4번 업적 확인 로직
-      Reward reward4 = rewardRepository.findById(4).get();
-      RewardInfoDto rewardInfoDto4 = RewardInfoDto
-              .builder()
-              .rewardNm(reward4.getRewardNm())
-              .rewardId(reward4.getRewardId())
-              .rewardMsg(reward4.getRewardMsg())
-              .rewardCond(reward4.getRewardCond())
-              .build();
+      //4번 업적 달성 여부 확인 - 마지막 수행으로부터 30일 이상 지난 후 다시 수행을 한 경우
+      reward = rewardRepository.findById(4).orElseThrow(RewardNotFoundException::new);
 
-      if (!memberRewardRepository.findMemberRewardByMemberAndReward(member, reward4).get().isAchievedYn()) {
+      if (!memberRewardRepository.findMemberRewardByMemberAndReward(member, reward)
+          .orElseThrow(MemberRewardNotFoundException::new).isAchievedYn()) {
+
         LocalDateTime date1 = todoRepository.findMostRecentAchieved();
         LocalDateTime date2 = routineRepository.findMostRecentAchieved();
         LocalDateTime lastAchievedDate = null;
+
         if (date1 != null && date2 != null) {
           lastAchievedDate = date1.isAfter(date2) ? date1 : date2;
         } else if (date1 != null) {
@@ -77,69 +78,53 @@ public class MemberRoutineService {
         } else {
           lastAchievedDate = LocalDateTime.now();
         }
+
         if (Math.abs(Period.between(lastAchievedDate.toLocalDate(), LocalDateTime.now().toLocalDate()).getDays()) >= 30) {
-          rewardResDtoList.add(
-                  RewardResDto
-                          .builder()
-                          .isRewardAchieved(1)
-                          .rewardInfoDto(rewardInfoDto4)
-                          .build()
-          );
-        } else {
-          rewardResDtoList.add(
-                  RewardResDto
-                          .builder()
-                          .isRewardAchieved(0)
-                          .rewardInfoDto(rewardInfoDto4)
-                          .build()
-          );
+          rewardResDtoList.add(RewardResDto.builder()
+              .rewardInfoDto(RewardInfoDto.from(
+                  reward.getRewardId(),
+                  reward.getRewardNm(),
+                  reward.getRewardCond(),
+                  reward.getRewardMsg()))
+              .isRewardAchieved(1)
+              .build());
         }
-      } else {
-        rewardResDtoList.add(
-                RewardResDto
-                        .builder()
-                        .isRewardAchieved(0)
-                        .rewardInfoDto(rewardInfoDto4)
-                        .build()
-        );
       }
     }
 
+    //수행으로 인한 달성 여부 변경이 발생
     boolean isAchieved = memberRoutine.toggleAchieved();
-    Reward reward;
     //달성 시
     if (isAchieved) {
-      //중요도 상인 루틴 첫 수행 시
-      if(routine.isImportantYn()){
-        MemberReward mr=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(member.getMemberId(),9).orElseThrow(()->new MemberRewardNotFoundException());
-        if(!mr.isAchievedYn()){
-          //'업적 달성'으로 바꿈
-          memberRewardRepository.achieveMemberReward(member.getMemberId(),9);
-          reward=rewardRepository.findById(9).orElseThrow(()->new RewardNotFoundException());
-          rewardResDtoList.add(RewardResDto.builder()
-                  .rewardInfoDto(RewardInfoDto.from(
-                          reward.getRewardId(),
-                          reward.getRewardNm(),
-                          reward.getRewardCond(),
-                          reward.getRewardMsg()))
-                  .isRewardAchieved(1)
-                  .build());
-        }
+
+      //9번 업적 달성 여부 확인 - 중요도 상인 루틴 첫 수행 시
+      if(routine.isImportantYn() && !memberRewardRepository.findByMemberAndReward(
+          memberRepository.findById(member.getMemberId()).orElseThrow(MemberNotFoundException::new),
+          rewardRepository.findById(9).orElseThrow(RewardNotFoundException::new)).isAchievedYn()) {
+
+        memberRewardRepository.achieveMemberReward(member.getMemberId(),9);
+        reward=rewardRepository.findById(9).orElseThrow(RewardNotFoundException::new);
+        rewardResDtoList.add(RewardResDto.builder()
+                .rewardInfoDto(RewardInfoDto.from(
+                        reward.getRewardId(),
+                        reward.getRewardNm(),
+                        reward.getRewardCond(),
+                        reward.getRewardMsg()))
+                .isRewardAchieved(1)
+                .build());
       }
 
-      //카테고리 별 하나 이상씩 달성한 경우
+      //8번 업적 달성 여부 확인 - 카테고리 별 하나 이상씩 달성한 경우
       RewardResDto colorfulWorld=rewardService.colorfulWorld(member.getMemberId());
-      if(colorfulWorld.getIsRewardAchieved()==1)rewardResDtoList.add(colorfulWorld);
+      if(colorfulWorld.getIsRewardAchieved()==1)
+        rewardResDtoList.add(colorfulWorld);
 
-      //백성 수 증가
-      int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
-
-      //첫 몬스터 처치인 경우
+      //11번 업적 달성 여부 확인 - 첫 몬스터 처치인 경우
       if(!memberRewardRepository.findByMemberAndReward(
           memberRepository.findById(member.getMemberId()).orElseThrow(MemberNotFoundException::new),
-          rewardRepository.findById(11).orElseThrow()).isAchievedYn()) {
+          rewardRepository.findById(11).orElseThrow(RewardNotFoundException::new)).isAchievedYn()) {
 
-          reward = rewardRepository.findById(11).orElseThrow();
+          reward = rewardRepository.findById(11).orElseThrow(RewardNotFoundException::new);
           MemberReward memberReward = memberRewardRepository.findByMemberAndReward(memberRoutine.getMember(), reward);
 
           rewardResDtoList.add(RewardResDto.builder()
@@ -152,31 +137,40 @@ public class MemberRoutineService {
                 .build());
       }
 
-      //왕국 단계 재산정 및 해당되는 업적 번호(3단게/6단계/9단계)가 있는 경우
-      int rewardId = kingdomService.levelReward(changeLevel);
+      //백성 수 증가 및 레벨 변경
+      int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
 
-      //해당되는 업적이면
+      //5, 6, 7번 업적 수행 여부 확인 - 왕국 단계 재산정 및 해당되는 업적 번호(3단게/6단계/9단계)가 있는 경우
+      int rewardId = kingdomService.levelReward(changeLevel);
       if(rewardId != 0 && !memberRewardRepository.findByMemberAndReward(
           memberRepository.findById(member.getMemberId()).orElseThrow(MemberNotFoundException::new),
-          rewardRepository.findById(rewardId).orElseThrow()).isAchievedYn()) {
+          rewardRepository.findById(rewardId).orElseThrow(RewardNotFoundException::new)).isAchievedYn()) {
 
           reward = rewardRepository.findById(rewardId).orElseThrow();
 
-          //업적 달성으로 변경
           MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
-          RewardInfoDto rewardInfoDto
-              = RewardInfoDto.from(rewardId, reward.getRewardNm(),
-              reward.getRewardCond(), reward.getRewardMsg());
-          RewardResDto rewardResDto
-              = RewardResDto.from(!memberReward.isAchievedYn() && memberReward.achieveReward()? 1:0, rewardInfoDto);
-
-          rewardResDtoList.add(rewardResDto);
+          rewardResDtoList.add(RewardResDto.builder()
+              .rewardInfoDto(RewardInfoDto.from(
+                  reward.getRewardId(),
+                  reward.getRewardNm(),
+                  reward.getRewardCond(),
+                  reward.getRewardMsg()))
+              .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward()? 1:0)
+              .build());
       }
 
     } else {
-      kingdomService.changeCitizen(member.getMemberId(), "minus");
+      int originLevel = member.getKingdom().getLevel();
+
+      //백성 수 다시 차감 및 레벨 변경
+      int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "minus");
+
+      //TODO: 방금 수행함으로써 얻었던 리워드 다시 취소 해야 하는데...
     }
-    if(rewardResDtoList.isEmpty())rewardResDtoList.add(RewardResDto.from(0,null));
+
+    if(rewardResDtoList.isEmpty())
+      rewardResDtoList.add(RewardResDto.from( 0,null));
+
     return PatchRoutineResDto.from(isAchieved, rewardResDtoList);
   }
 
