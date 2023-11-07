@@ -87,7 +87,7 @@ public class RewardService {
         List<RewardListResDto> response = new ArrayList<>();
         for (int i = 1; i <= rewardCnt; i++) {
             Reward reward = rewardRepository.findById(i).get();
-            Optional<MemberReward> optionalMemberReward = memberRewardRepository.findByMemberAndReward(member, reward);
+            Optional<MemberReward> optionalMemberReward = memberRewardRepository.findMemberRewardByMemberAndReward(member, reward);
             if (optionalMemberReward.isEmpty()) System.out.println("업적이 존재하지 않습니다");
             MemberReward memberReward = optionalMemberReward.get();
 
@@ -100,6 +100,7 @@ public class RewardService {
         }
 
         return response;
+    }
 
     //TODO: 할 일 첫 달성시 "이게 내가 지닌 힘?" 업적 취득
     RewardResDto isThisMyPower(Long memberId){
