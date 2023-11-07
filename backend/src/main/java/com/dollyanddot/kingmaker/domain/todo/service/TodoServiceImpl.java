@@ -209,7 +209,7 @@ public class TodoServiceImpl implements TodoService {
       if(todo.isImportantYn()){
         MemberReward mr=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(member.getMemberId(),9).orElseThrow(()->new MemberRewardNotFoundException());
         if(!mr.isAchievedYn()){
-          //'수행'으로 바꿈
+          //'업적 달성'으로 바꿈
           memberRewardRepository.achieveMemberReward(member.getMemberId(),9);
           reward=rewardRepository.findById(9).orElseThrow(()->new RewardNotFoundException());
           rewardResDtoList.add(RewardResDto.builder()
