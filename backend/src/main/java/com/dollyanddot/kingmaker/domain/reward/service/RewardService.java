@@ -35,12 +35,13 @@ public class RewardService {
     private final MemberRoutineRepository memberRoutineRepository;
     private final CategoryRepository categoryRepository;
     //TODO: 전 달 성취율 100퍼센트인 멤버들에게 업적 일괄 적용-달마다 취득
-    void getMonthlyBrandReputation(int year,int month){
+    public void getMonthlyBrandReputation(int year,int month){
         //그 달의 reward를 먼저 reward 테이블에 추가
         Reward reward=rewardRepository.save(Reward.builder()
                 .rewardNm(year+"년 "+month+"월 국가 브랜드 평판 S")
                 .rewardCond(year+"년 "+month+"월 달성률 100%")
                 .rewardMsg("몬스터로부터 안전함을 인정받아 포브스 선정 국가 브랜드 평판 S에 선정되었습니다.")
+                .hidden(true)
                 .build());
         //등록한 일정이 하나라도 있는 멤버들의 id를 조회하는 리스트
         List<Long> rewardList=calendarRepository.getMonthlyPlanExistCheck(year,month);
@@ -117,7 +118,7 @@ public class RewardService {
     }
 
     //TODO: 카테고리별 하나 이상씩 달성시 "알록달록한 세상" 업적 취득
-    RewardResDto colorfulWorld(Long memberId){
+    public RewardResDto colorfulWorld(Long memberId){
         MemberReward mw=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(memberId,8).orElseThrow();
         if(mw.isAchievedYn()){
             return RewardResDto.from(0,null);
