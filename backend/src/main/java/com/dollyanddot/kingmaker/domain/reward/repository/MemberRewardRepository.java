@@ -16,4 +16,7 @@ public interface MemberRewardRepository extends JpaRepository<MemberReward, Long
   MemberReward findByMemberAndReward(Member member, Reward reward);
 
   Optional<MemberReward> findMemberRewardByMemberAndReward(Member member, Reward reward);
+
+  long countByReward(Reward reward);
+  long countByRewardAndAchievedYn(Reward reward, boolean AchievedYn);
 }
