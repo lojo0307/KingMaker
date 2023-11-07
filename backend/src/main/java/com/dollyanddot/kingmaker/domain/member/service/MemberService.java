@@ -2,6 +2,7 @@ package com.dollyanddot.kingmaker.domain.member.service;
 
 import com.dollyanddot.kingmaker.domain.auth.domain.Credential;
 import com.dollyanddot.kingmaker.domain.auth.domain.Role;
+import com.dollyanddot.kingmaker.domain.auth.exception.CredentialNotFoundException;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
 import com.dollyanddot.kingmaker.domain.kingdom.domain.Kingdom;
 import com.dollyanddot.kingmaker.domain.kingdom.repository.KingdomRepository;
@@ -11,6 +12,7 @@ import com.dollyanddot.kingmaker.domain.member.dto.request.NicknameReqDto;
 import com.dollyanddot.kingmaker.domain.member.dto.request.SignUpReqDto;
 import com.dollyanddot.kingmaker.domain.auth.dto.LoginResDto;
 import com.dollyanddot.kingmaker.domain.member.dto.response.SignUpResDto;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberBadRequestException;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
@@ -22,6 +24,7 @@ import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
 import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
+import com.dollyanddot.kingmaker.domain.reward.exception.RewardNotFoundException;
 import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -49,11 +52,8 @@ public class MemberService {
     private final MemberRewardRepository memberRewardRepository;
 
     public SignUpResDto signUp(long credentialId, SignUpReqDto signUpReqDto) {
-        Optional<Credential> optionalCredential = credentialRepository.findById(credentialId);
-        if (optionalCredential.isEmpty()) throw new RuntimeException();
-        if (optionalCredential.get().getRole().equals(Role.USER)) throw new RuntimeException();
-
-        Credential credential = optionalCredential.get();
+        Credential credential = credentialRepository.findById(credentialId).orElseThrow(() -> new CredentialNotFoundException());
+        if (credential .getRole().equals(Role.USER)) throw new MemberBadRequestException();
 
         Kingdom kingdom = Kingdom.builder()
                 .level(1)
@@ -74,18 +74,18 @@ public class MemberService {
         credential.setRole(Role.USER);
         credentialRepository.save(credential);
 
-        long rewaredCnt = rewardRepository.count();
-        for (int i = 1; i <= rewaredCnt; i++) {
+        long rewardCnt = rewardRepository.count();
+        for (int i = 1; i <= rewardCnt; i++) {
             MemberReward memberReward = MemberReward.builder()
                     .member(member)
-                    .reward(rewardRepository.findById(i).get())
+                    .reward(rewardRepository.findById(i).orElseThrow(() -> new RewardNotFoundException()))
                     .achievedYn(i == 10 ? true : false)
                     .build();
 
             memberRewardRepository.save(memberReward);
         }
 
-        Reward reward = rewardRepository.findById(10).get();
+        Reward reward = rewardRepository.findById(10).orElseThrow(() -> new RewardNotFoundException());
 
         return SignUpResDto.builder()
                 .memberId(member.getMemberId())
@@ -99,10 +99,10 @@ public class MemberService {
                 .build();
     }
 
-    public void withDraw(long memberId) {
-        Member member = memberRepository.findById(memberId).get();
-        memberRepository.deleteById(memberId);
-        kingdomRepository.delete(member.getKingdom());
+    public void withDraw(long credentialId) {
+        Credential credential = credentialRepository.findById(credentialId).orElseThrow(() -> new CredentialNotFoundException());
+        Member member = memberRepository.findByCredential(credential).orElseThrow(() -> new MemberNotFoundException());
+        memberRepository.delete(member);
     }
 
     @Transactional
