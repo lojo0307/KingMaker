@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.routine.repository;
 
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,4 +15,6 @@ public interface RoutineRepository extends JpaRepository<Routine, Long> {
       + "AND (date_format(r.registerAt, '%Y-%M-%d') = date_format(:today, '%Y-%M-%d') "
       + "OR r.registerDay = :day)")
   List<Routine> findAllByRegisterDateOrDay(LocalDateTime today, int day);
+
+  List<Routine> findAllByMember(Member member);
 }

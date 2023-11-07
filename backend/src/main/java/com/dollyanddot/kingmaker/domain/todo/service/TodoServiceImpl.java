@@ -1,14 +1,22 @@
 package com.dollyanddot.kingmaker.domain.todo.service;
 
+import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
 import com.dollyanddot.kingmaker.domain.calendar.dto.CalendarAchieveDto;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarAchieveAndSumResDto;
-import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
+import com.dollyanddot.kingmaker.domain.kingdom.service.KingdomService;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.service.NotificationService;
+import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
+import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
+import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
+import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
+import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
+import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PostTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PutTodoReqDto;
@@ -17,7 +25,6 @@ import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.todo.exception.TodoNotFoundException;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,6 +42,9 @@ public class TodoServiceImpl implements TodoService {
   private final MemberRepository memberRepository;
   private final CategoryRepository categoryRepository;
   private final NotificationService notificationService;
+  private final KingdomService kingdomService;
+  private final RewardRepository rewardRepository;
+  private final MemberRewardRepository memberRewardRepository;
 
   @Override
   public void deleteTodoByTodoId(Long todoId){
@@ -178,7 +188,57 @@ public class TodoServiceImpl implements TodoService {
   public PatchTodoResDto changeAchievedStatement(Long todoId){
 
     Todo todo = todoRepository.findById(todoId).orElseThrow();
+    Member member = todo.getMember();
 
-    return PatchTodoResDto.from(todo.toggleAchieved());
+    //TODO: MemberRoutine도 변경하기
+    boolean isAchieved = todo.toggleAchieved();
+    boolean achievedYn = todo.isAchievedYn();
+
+    if (isAchieved && !memberRewardRepository.findByMemberAndReward(
+        memberRepository.findById(todo.getMember().getMemberId()).orElseThrow(MemberNotFoundException::new),
+        rewardRepository.findById(11).orElseThrow()).isAchievedYn()) {
+
+      Reward reward = rewardRepository.findById(11).orElseThrow();
+      MemberReward memberReward = memberRewardRepository.findByMemberAndReward(todo.getMember(), reward);
+
+      return PatchTodoResDto.from(isAchieved, RewardResDto.builder()
+          .rewardInfoDto(RewardInfoDto.from(
+              reward.getRewardId(),
+              reward.getRewardNm(),
+              reward.getRewardCond(),
+              reward.getRewardMsg()))
+          .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward()? 1:0)
+          .build());
+    }
+
+    if(achievedYn) {
+      int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
+      int rewardId = kingdomService.levelReward(changeLevel);
+      if(rewardId!=0) {
+        Reward reward = rewardRepository.findById(rewardId).orElseThrow();
+        RewardInfoDto rewardInfoDto
+            = RewardInfoDto.from(rewardId, reward.getRewardNm(),
+            reward.getRewardCond(), reward.getRewardMsg());
+        RewardResDto rewardResDto
+            = RewardResDto.from(1, rewardInfoDto);
+
+        MemberReward memberReward = MemberReward.builder().reward(reward).member(member).achievedYn(true).build();
+        memberRewardRepository.save(memberReward);
+        return PatchTodoResDto.from(isAchieved, rewardResDto);
+
+      } else {
+        RewardResDto rewardResDto
+            = RewardResDto.from(0, null);
+        return PatchTodoResDto.from(isAchieved, rewardResDto);
+      }
+
+    } else {
+      kingdomService.changeCitizen(member.getMemberId(),"minus");
+      RewardResDto rewardResDto
+          = RewardResDto.from(0, null);
+      return PatchTodoResDto.from(isAchieved, rewardResDto);
+    }
+
   }
+
 }

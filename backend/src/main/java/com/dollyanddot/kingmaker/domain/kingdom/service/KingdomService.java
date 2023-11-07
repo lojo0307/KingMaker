@@ -7,10 +7,7 @@ import com.dollyanddot.kingmaker.domain.kingdom.repository.KingdomRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
-import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -66,6 +63,22 @@ public class KingdomService {
         if (citizen < 50000) return 7;
         if (citizen < 100000) return 8;
         return 9;
+    }
+
+    //TODO: RewardService로 옮기기
+    public int levelReward(int level) {
+        int rewardId = 0;
+        switch (level) {
+            case 3: rewardId = 5;
+                break;
+            case 6: rewardId = 6;
+                break;
+            case 9: rewardId = 7;
+                break;
+            default: rewardId = 0;
+                break;
+        }
+        return rewardId;
     }
 
 }

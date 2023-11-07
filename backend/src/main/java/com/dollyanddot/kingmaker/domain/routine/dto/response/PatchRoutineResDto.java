@@ -8,10 +8,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PatchRoutineResDto {
 
-  private boolean isAchieved;
+  private byte isAchieved;
   private RewardResDto rewardResDto;
 
   public static PatchRoutineResDto from(boolean isAchieved, RewardResDto rewardResDto){
-    return new PatchRoutineResDto(isAchieved, rewardResDto);
+    return new PatchRoutineResDto((byte) (isAchieved?1:0), rewardResDto);
   }
 }
