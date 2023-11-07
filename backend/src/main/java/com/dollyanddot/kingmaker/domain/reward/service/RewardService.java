@@ -11,6 +11,7 @@ import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
 import com.dollyanddot.kingmaker.domain.reward.exception.MemberRewardNotFoundException;
+import com.dollyanddot.kingmaker.domain.reward.exception.RewardNotFoundException;
 import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
@@ -136,5 +137,16 @@ public class RewardService {
         else{
             return RewardResDto.from(0,null);
         }
+    }
+
+    public void getMonsterPark(){
+        Reward reward=rewardRepository.findById(14).orElseThrow(()->new RewardNotFoundException());
+        List<Member> rewardList=calendarRepository.getMonsterParkMemberList();
+        for(Member m:rewardList){
+            //업적 없으면 업데이트
+            MemberReward mr=memberRewardRepository.findMemberRewardByMemberAndReward(m,reward).orElseThrow(()->new MemberRewardNotFoundException());
+            if(!mr.isAchievedYn()){memberRewardRepository.achieveMemberReward(m.getMemberId(),14);}
+        }
+        return;
     }
 }

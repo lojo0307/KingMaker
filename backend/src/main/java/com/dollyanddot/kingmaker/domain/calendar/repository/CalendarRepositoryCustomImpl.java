@@ -89,4 +89,43 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
                 .orderBy(calendar.member.memberId.asc())
                 .fetch();
     }
+
+    @Override
+    public Long getUndonePlanCntFromYesterday() {
+        Long todoCount = queryFactory
+            .select(calendar.calendarId.count())
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .where(calendar.calendarDate.eq(LocalDate.now().minusDays(1))
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse())))
+            )
+            .groupBy(calendar.member.memberId)
+            .fetchOne();
+
+        Long memberRoutineCount = queryFactory
+            .select(calendar.calendarId.count())
+            .from(calendar)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.eq(LocalDate.now().minusDays(1))
+                .and((calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
+            )
+            .groupBy(calendar.member.memberId)
+            .fetchOne();
+
+        long cnt = (todoCount != null ? todoCount : 0) + (memberRoutineCount != null ? memberRoutineCount : 0);
+        return cnt;
+    }
+
+    @Override
+    public List<Member> getMonsterParkMemberList() {
+        return queryFactory
+                .select(calendar.member)
+                .from(calendar)
+                .leftJoin(calendar.todo, todo)
+                .leftJoin(calendar.memberRoutine, memberRoutine)
+                .where(calendar.calendarDate.eq(LocalDate.now()).and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse())).or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse()))))
+                .groupBy(calendar.member.memberId)
+                .having(calendar.calendarId.count().gt(30))
+                .fetch();
+    }
 }

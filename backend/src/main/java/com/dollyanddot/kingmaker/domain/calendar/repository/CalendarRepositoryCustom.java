@@ -2,6 +2,7 @@ package com.dollyanddot.kingmaker.domain.calendar.repository;
 
 import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
 
 import java.util.List;
 
@@ -16,4 +17,8 @@ public interface CalendarRepositoryCustom{
     List<Long> getMonthlyPlanExistCheck(int year, int month);
 
     List<Long> getUndonePlanByMonth(int year,int month);
+
+    Long getUndonePlanCntFromYesterday();
+
+    List<Member> getMonsterParkMemberList();
 }

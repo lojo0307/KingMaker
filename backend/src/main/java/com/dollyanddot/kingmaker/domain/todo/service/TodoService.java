@@ -19,7 +19,7 @@ public interface TodoService {
 
     List<CalendarStreakResDto> getStreak(int year, int month, Long memberId);
 
-    List<CalendarAchieveAndSumResDto> getAchieveAndSum(int year, int month, Long memberId);
+    List<CalendarStreakResDto> getAchieveLevel(int year, int month, Long memberId);
 
     Void registerTodo(PostTodoReqDto postTodoReqDto);
 
