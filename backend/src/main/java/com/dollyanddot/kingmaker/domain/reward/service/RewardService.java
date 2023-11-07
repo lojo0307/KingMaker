@@ -18,6 +18,7 @@ import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RewardService {
@@ -165,7 +166,7 @@ public class RewardService {
 
             //아직 미달성한 업적이면
             if(!memberReward.isAchievedYn()) {
-                memberReward.achieveReward();
+                memberRewardRepository.achieveMemberReward(member.getMemberId(),1);
             }
         }
     }
@@ -180,7 +181,7 @@ public class RewardService {
 
             //아직 미달성한 업적이면
             if(!memberReward.isAchievedYn()) {
-                memberReward.achieveReward();
+                memberRewardRepository.achieveMemberReward(member.getMemberId(),2);
             }
         }
     }
@@ -193,7 +194,7 @@ public class RewardService {
 
         //아직 미달성한 업적이면
         if(!memberReward.isAchievedYn()) {
-            memberReward.achieveReward();
+            memberRewardRepository.achieveMemberReward(member.getMemberId(),rewardId);
         }
     }
 }
