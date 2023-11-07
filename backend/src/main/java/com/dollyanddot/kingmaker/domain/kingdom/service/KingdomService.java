@@ -65,7 +65,6 @@ public class KingdomService {
         return 9;
     }
 
-    //TODO: RewardService로 옮기기
     public int levelReward(int level) {
         int rewardId = 0;
         switch (level) {
@@ -74,8 +73,6 @@ public class KingdomService {
             case 6: rewardId = 6;
                 break;
             case 9: rewardId = 7;
-                break;
-            default: rewardId = 0;
                 break;
         }
         return rewardId;

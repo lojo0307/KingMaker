@@ -38,50 +38,59 @@ public class MemberRoutineService {
   public PatchRoutineResDto changeAchievedStatement(Long memberRoutineId) {
 
     MemberRoutine memberRoutine = memberRoutineRepository.findById(memberRoutineId).orElseThrow();
-
-    Long memberId = memberRoutine.getMember().getMemberId();
+    Member member = memberRoutine.getMember();
 
     boolean isAchieved = memberRoutine.toggleAchieved();
 
-    if (isAchieved && !memberRewardRepository.findByMemberAndReward(
-        memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new),
-        rewardRepository.findById(11).orElseThrow()).isAchievedYn()) {
+    //달성 시
+    if (isAchieved) {
+      //백성 수 증가
+      int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
 
-      Reward reward = rewardRepository.findById(11).orElseThrow();
-      MemberReward memberReward = memberRewardRepository.findByMemberAndReward(memberRoutine.getMember(), reward);
+      //첫 몬스터 처치인 경우
+      if(!memberRewardRepository.findByMemberAndReward(
+          memberRepository.findById(member.getMemberId()).orElseThrow(MemberNotFoundException::new),
+          rewardRepository.findById(11).orElseThrow()).isAchievedYn()) {
 
-      return PatchRoutineResDto.from(isAchieved, RewardResDto.builder()
-          .rewardInfoDto(RewardInfoDto.from(
-                  reward.getRewardId(),
-                  reward.getRewardNm(),
-                  reward.getRewardCond(),
-                  reward.getRewardMsg()))
-          .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward()? 1:0)
-          .build());
-    }
+          Reward reward = rewardRepository.findById(11).orElseThrow();
+          MemberReward memberReward = memberRewardRepository.findByMemberAndReward(memberRoutine.getMember(), reward);
 
-    if (memberRoutine.isAchievedYn()) {
-      int changeLevel = kingdomService.changeCitizen(memberId, "plus");
-      int rewardId = levelReward(changeLevel);
-      if (rewardId != 0) {
-        Reward reward = rewardRepository.findById(rewardId).orElseThrow();
-        RewardInfoDto rewardInfoDto
-            = RewardInfoDto.from(rewardId, reward.getRewardNm(),
-            reward.getRewardCond(), reward.getRewardMsg());
-        RewardResDto rewardResDto
-            = RewardResDto.from(1, rewardInfoDto);
+          return PatchRoutineResDto.from(isAchieved, RewardResDto.builder()
+                .rewardInfoDto(RewardInfoDto.from(
+                        reward.getRewardId(),
+                        reward.getRewardNm(),
+                        reward.getRewardCond(),
+                        reward.getRewardMsg()))
+                .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward()? 1:0)
+                .build());
+      }
 
-        return PatchRoutineResDto.from(isAchieved, rewardResDto);
+      //왕국 단계 재산정 및 해당되는 업적 번호(3단게/6단계/9단계)가 있는 경우
+      int rewardId = kingdomService.levelReward(changeLevel);
 
-      } else {
-        return PatchRoutineResDto.from(isAchieved, null);
+      //해당되는 업적이면
+      if(rewardId != 0 && !memberRewardRepository.findByMemberAndReward(
+          memberRepository.findById(member.getMemberId()).orElseThrow(MemberNotFoundException::new),
+          rewardRepository.findById(rewardId).orElseThrow()).isAchievedYn()) {
+
+          Reward reward = rewardRepository.findById(rewardId).orElseThrow();
+
+          //업적 달성으로 변경
+          MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
+          RewardInfoDto rewardInfoDto
+              = RewardInfoDto.from(rewardId, reward.getRewardNm(),
+              reward.getRewardCond(), reward.getRewardMsg());
+          RewardResDto rewardResDto
+              = RewardResDto.from(!memberReward.isAchievedYn() && memberReward.achieveReward()? 1:0, rewardInfoDto);
+
+          return PatchRoutineResDto.from(isAchieved, rewardResDto);
       }
 
     } else {
-      kingdomService.changeCitizen(memberId, "minus");
-      return PatchRoutineResDto.from(isAchieved, null);
+      kingdomService.changeCitizen(member.getMemberId(), "minus");
     }
 
+    return PatchRoutineResDto.from(isAchieved, RewardResDto.from(0, null));
   }
 
   @Transactional(readOnly = true)
@@ -114,22 +123,4 @@ public class MemberRoutineService {
     return GetDailyRoutinesResDto.from(memberRoutines);
   }
 
-  private int levelReward(int level) {
-    int rewardId = 0;
-    switch (level) {
-      case 3:
-        rewardId = 5;
-        break;
-      case 6:
-        rewardId = 6;
-        break;
-      case 9:
-        rewardId = 7;
-        break;
-      default:
-        rewardId = 0;
-        break;
-    }
-    return rewardId;
-  }
 }
