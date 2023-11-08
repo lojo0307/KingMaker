@@ -38,13 +38,13 @@ public class OAuth2Service {
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
 
-    public LoginResDto login(String code, String provider, HttpServletResponse response) throws IOException {
+    public LoginResDto login(String accessToken, String provider, HttpServletResponse response) throws IOException {
         log.info("로그인 로직 시작");
         ClientRegistration providerInfo = inMemoryClientRegistrationRepository.findByRegistrationId(provider);
-        ProviderTokenDto providerToken = getAccessToken(provider, code, providerInfo);
-        log.info("토큰 발급 완료 = {}", providerToken.getAccess_token());
+//        ProviderTokenDto providerToken = getAccessToken(provider, code, providerInfo);
+//        log.info("토큰 발급 완료 = {}", providerToken.getAccess_token());
 
-        Credential credential = getCredential(getUserInfo(providerToken, providerInfo, Provider.valueOf(provider.toUpperCase())), Provider.valueOf(provider.toUpperCase()));
+        Credential credential = getCredential(getUserInfo(accessToken, providerInfo, Provider.valueOf(provider.toUpperCase())), Provider.valueOf(provider.toUpperCase()));
         loginSuccess(response, credential);
         log.info("로그인 성공!");
         log.info("발급된 Access Token = {}", response.getHeader("Authorization"));
@@ -115,7 +115,7 @@ public class OAuth2Service {
     /**
      * 발급받은 엑세스 토큰으로 사용자 정보 요청
      */
-    public String getUserInfo(ProviderTokenDto token, ClientRegistration providerInfo, Provider provider) {
+    public String getUserInfo(String accessToken, ClientRegistration providerInfo, Provider provider) {
 
         log.info("사용자 정보 요청 시작");
         // 사용자 정보 요청
@@ -123,7 +123,7 @@ public class OAuth2Service {
                 .post()
                 .uri(providerInfo.getProviderDetails().getUserInfoEndpoint().getUri())
                 .headers(header -> {
-                    header.setBearerAuth(token.getAccess_token());
+                    header.setBearerAuth(accessToken);
                 })
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
 //                .body(BodyInserters.fromFormData("property_keys", "[\"kakao_account.email\"]"))
