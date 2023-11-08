@@ -179,7 +179,7 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
             .fetchOne();
     }
 
-    //모든 일정의 개수 - 일간
+    //일간
     @Override
     public Long getDailyCnt(Long memberId) {
         return queryFactory
@@ -209,7 +209,7 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
             .fetchOne();
     }
 
-    //모든 일정의 개수 - 월간
+    //월간
     @Override
     public Long getMonthlyCnt(Long memberId) {
         return queryFactory
@@ -242,7 +242,7 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
             .fetchOne();
     }
 
-    //모든 일정의 개수 - 연간
+    //연간
     @Override
     public Long getYearlyCnt(Long memberId) {
         return queryFactory
