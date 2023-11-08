@@ -6,7 +6,7 @@ class SocialRepository {
   Future<String> kakaologin() {
     return _socialApi.kakaologin();
   }
-  Future<String> googlelogin() {
+  Future<String?> googlelogin() {
     return _socialApi.googlelogin();
   }
 }
