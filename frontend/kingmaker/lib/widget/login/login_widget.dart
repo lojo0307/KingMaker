@@ -22,9 +22,8 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.GoogleLogin();
-
-
-                  // movPage(flag, context);
+                  print("로그인 위젯 플래그 값 : ${flag}");
+                  movPage(flag, context);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),

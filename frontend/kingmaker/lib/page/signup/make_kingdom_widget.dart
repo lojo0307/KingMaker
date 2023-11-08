@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
-import 'package:kingmaker/widget/profile/profile_char_image_widget.dart';
+
 import 'package:kingmaker/widget/signup/select_gender.dart';
 import 'package:kingmaker/widget/signup/signup_text.dart';
 import 'package:kingmaker/widget/signup/signup_write_kingdom.dart';
@@ -36,8 +36,8 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
                   String kdName = Provider.of<KingdomProvider>(context, listen: false).kingdomName;
                   String error = Provider.of<KingdomProvider>(context, listen: false).errorMessage;
                   if (kdName != "" && error == " "){
-                    Provider.of<MemberProvider>(context, listen: false).signup();
-                    Provider.of<KingdomProvider>(context, listen: false).makeKingdom();
+                    Provider.of<MemberProvider>(context, listen: false).signup(kdName);
+                    // Provider.of<KingdomProvider>(context, listen: false).makeKingdom();
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
