@@ -10,7 +10,7 @@ class MemberProvider with ChangeNotifier {
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
-  MemberDto? _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
+  MemberDto? _member;
   MemberDto? get member => _member;
 
   String _errorMessage = " ";
@@ -35,13 +35,21 @@ class MemberProvider with ChangeNotifier {
   }
 
   Future<int> GoogleLogin() async {
-    String token = await _socialRepository.googlelogin();
+    String? token = await _socialRepository.googlelogin();
+    if(token == null){
+      print('로그인실패');
+      //로그인 실패
+      return -1;
+    }
+
     _member = await _memberRepository.checkMemberGoogle(token);
-    if (member == null){
-      _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
+
+    if (member?.memberId == 0){
+      //신규 가입
       return 0;
     }
     else
+      //기존 회원
       return 1;
   }
 
@@ -49,7 +57,7 @@ class MemberProvider with ChangeNotifier {
     String token = await _socialRepository.kakaologin();
     _member = await _memberRepository.checkMemberKakao(token);
     if (member == null) {
-      _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
+      // _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
       return 0;
     } else
       return 1;
@@ -63,7 +71,7 @@ class MemberProvider with ChangeNotifier {
     _errorMessage = " ";
   }
 
-  void signup() async{
-    await _memberRepository.signup(_member);
+  void signup(String kdName) async{
+    await _memberRepository.signup(_member, kdName);
   }
 }
