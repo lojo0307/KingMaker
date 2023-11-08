@@ -36,6 +36,7 @@ class MemberProvider with ChangeNotifier {
 
   Future<int> GoogleLogin() async {
     String token = await _socialRepository.googlelogin();
+    // print('member_provider : token토큰: ${token}');
     _member = await _memberRepository.checkMemberGoogle(token);
     if (member == null){
       _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");

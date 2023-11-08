@@ -22,7 +22,9 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.GoogleLogin();
-                  movPage(flag, context);
+
+
+                  // movPage(flag, context);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -34,7 +36,7 @@ class LoginWidget extends StatelessWidget {
                 onTap: () async{
                   int flag = await provider.KakaoLogin();
                   print(flag);
-                 movPage(flag, context);
+                  movPage(flag, context);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
