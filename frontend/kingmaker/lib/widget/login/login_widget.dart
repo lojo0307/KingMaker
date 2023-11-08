@@ -34,7 +34,6 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.KakaoLogin();
-                  print(flag);
                   movPage(flag, context);
                 },
                 child: Container(

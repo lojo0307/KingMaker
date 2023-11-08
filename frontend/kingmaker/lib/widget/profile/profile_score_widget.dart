@@ -71,7 +71,7 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('가장 강력한 몬스터',
+                      Text('가장 약한 몬스터',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
