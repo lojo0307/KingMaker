@@ -159,4 +159,20 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
                 .having(calendar.calendarId.count().gt(30))
                 .fetch();
     }
+
+    @Override
+    public Long getDailyMonsterCnt(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count().as("cnt"))
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.eq(LocalDate.now())
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
+                .and(calendar.member.memberId.eq(memberId))
+            )
+            .fetchOne();
+    }
+
 }
