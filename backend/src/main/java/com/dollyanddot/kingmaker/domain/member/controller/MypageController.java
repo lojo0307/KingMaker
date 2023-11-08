@@ -36,4 +36,19 @@ public class MypageController {
     public EnvelopeResponse<Long> getDailyMonsterCnt(@PathVariable Long memberId) {
         return EnvelopeResponse.<Long>builder().data(calendarService.getDailyMonsterCnt(memberId)).build();
     }
+
+    @GetMapping("/daily/{memberId}")
+    public EnvelopeResponse<Integer> getDailyPercent(@PathVariable Long memberId) {
+        return EnvelopeResponse.<Integer>builder().data(calendarService.getDailyPercent(memberId)).build();
+    }
+
+    @GetMapping("/monthly/{memberId}")
+    public EnvelopeResponse<Integer> getMonthlyPercent(@PathVariable Long memberId) {
+        return EnvelopeResponse.<Integer>builder().data(calendarService.getMonthlyPercent(memberId)).build();
+    }
+
+    @GetMapping("/yearly/{memberId}")
+    public EnvelopeResponse<Integer> getYearlyPercent(@PathVariable Long memberId) {
+        return EnvelopeResponse.<Integer>builder().data(calendarService.getYearlyPercent(memberId)).build();
+    }
 }
