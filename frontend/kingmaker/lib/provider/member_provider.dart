@@ -10,7 +10,7 @@ class MemberProvider with ChangeNotifier {
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
-  MemberDto? _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
+  MemberDto? _member;
   MemberDto? get member => _member;
 
   String _errorMessage = " ";
@@ -37,22 +37,26 @@ class MemberProvider with ChangeNotifier {
   Future<int> GoogleLogin() async {
     String token = await _socialRepository.googlelogin();
     _member = await _memberRepository.checkMemberGoogle(token);
-    if (member == null){
-      _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
-      return 0;
-    }
-    else
-      return 1;
+    // if (member == null){
+    //   _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
+    //   return 0;
+    // }
+    // else
+    return 1;
   }
 
   Future<int> KakaoLogin() async{
-    String token = await _socialRepository.kakaologin();
-    _member = await _memberRepository.checkMemberKakao(token);
-    if (member == null) {
-      _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
-      return 0;
-    } else
-      return 1;
+    String? token = await _socialRepository.kakaologin();
+    if(token == null) {
+      return -1;
+    } else {
+      _member = await _memberRepository.checkMemberKakao(token!);
+      if (_member?.memberId == 0){
+        return 0;
+      } else {
+        return 1;
+      }
+    }
   }
 
   void changeGender() {

@@ -33,7 +33,6 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.KakaoLogin();
-                  print(flag);
                  movPage(flag, context);
                 },
                 child: Container(
@@ -49,6 +48,9 @@ class LoginWidget extends StatelessWidget {
   }
 
   void movPage(int flag, BuildContext context) {
+    print("flag : $flag");
+    if (flag == -1)
+      return;
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(

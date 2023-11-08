@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'dart:math';
 
 import 'package:kingmaker/dto/member_dto.dart';
+
 final dio = Dio();
 String? url = dotenv.env['URL'];
 
@@ -19,16 +20,20 @@ class MemberApi{
   Future<MemberDto?> checkGoogleToken(String code) async{
     MemberDto? res = null;
     int number = Random().nextInt(100);
-    if (number < 50)
-      res = new MemberDto(memberId: 1, credentialId: 1, kingdomId: 1, nickname: "123", gender: "M");
     return null;
   }
 
   Future<MemberDto?> checkKakaoToken(String token) async{
-    MemberDto? res = null;
-    int number = Random().nextInt(100);
-    if (number < 50)
-      res = new MemberDto(memberId: 1, credentialId: 1, kingdomId: 1, nickname: "123", gender: "M");
+    MemberDto? res;
+    try{
+      final response = await dio.get(
+        '$url/api/auth/kakao?code=$token',
+      );
+      print(response);
+      return MemberDto.responseFromJson(response.data['data']);
+    } catch(e) {
+      print(e);
+    }
     return res;
   }
 
