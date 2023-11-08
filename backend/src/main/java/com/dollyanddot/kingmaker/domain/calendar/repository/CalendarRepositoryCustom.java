@@ -25,4 +25,18 @@ public interface CalendarRepositoryCustom{
     List<CountPlanDto>  getUndonePlanAllCnt();
 
     List<Member> getMonsterParkMemberList();
+
+    Long getDailyMonsterCnt(Long memberId);
+
+    Long getDailyCnt(Long memberId);
+
+    Long getDailyAchievedCnt(Long memberId);
+
+    Long getMonthlyCnt(Long memberId);
+
+    Long getMonthlyAchievedCnt(Long memberId);
+
+    Long getYearlyCnt(Long memberId);
+
+    Long getYearlyAchievedCnt(Long memberId);
 }
