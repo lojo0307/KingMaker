@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.reward.service;
 
+import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
@@ -16,6 +17,7 @@ import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
+import java.util.Comparator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
