@@ -106,6 +106,7 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
                     .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
             )
             .groupBy(calendar.member.memberId)
+            .orderBy(calendar.member.memberId.asc())
             .fetch();
     }
 
@@ -123,6 +124,7 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
             )
             .groupBy(calendar.member.memberId)
             .having(calendar.calendarId.count().gt(cnt))
+            .orderBy(calendar.member.memberId.asc())
             .fetch();
     }
 
@@ -144,6 +146,7 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
             .having(calendar.calendarId.count().eq(50L)
                 .or(calendar.calendarId.count().eq(100L))
             )
+            .orderBy(calendar.member.memberId.asc())
             .fetch();
     }
 
@@ -159,4 +162,115 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
                 .having(calendar.calendarId.count().gt(30))
                 .fetch();
     }
+
+    //달성한 것 제외
+    @Override
+    public Long getDailyMonsterCnt(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count().as("cnt"))
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.eq(LocalDate.now())
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
+                .and(calendar.member.memberId.eq(memberId))
+            )
+            .fetchOne();
+    }
+
+    //일간
+    @Override
+    public Long getDailyCnt(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count().as("cnt"))
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.eq(LocalDate.now())
+                .and((calendar.todo.isNotNull())
+                    .or(calendar.memberRoutine.isNotNull()))
+                .and(calendar.member.memberId.eq(memberId)))
+            .fetchOne();
+    }
+
+    @Override
+    public Long getDailyAchievedCnt(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count().as("cnt"))
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.eq(LocalDate.now())
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isTrue()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isTrue())))
+                .and(calendar.member.memberId.eq(memberId))
+            )
+            .fetchOne();
+    }
+
+    //월간
+    @Override
+    public Long getMonthlyCnt(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count().as("cnt"))
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.year().eq(LocalDate.now().getYear())
+                .and(calendar.calendarDate.month().eq(LocalDate.now().getMonthValue()))
+                .and((calendar.todo.isNotNull())
+                    .or(calendar.memberRoutine.isNotNull()))
+                .and(calendar.member.memberId.eq(memberId))
+            )
+            .fetchOne();
+    }
+
+    @Override
+    public Long getMonthlyAchievedCnt(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count().as("cnt"))
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.year().eq(LocalDate.now().getYear())
+                .and(calendar.calendarDate.month().eq(LocalDate.now().getMonthValue()))
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isTrue()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isTrue())))
+                .and(calendar.member.memberId.eq(memberId))
+            )
+            .fetchOne();
+    }
+
+    //연간
+    @Override
+    public Long getYearlyCnt(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count().as("cnt"))
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.year().eq(LocalDate.now().getYear())
+                .and((calendar.todo.isNotNull())
+                    .or(calendar.memberRoutine.isNotNull()))
+                .and(calendar.member.memberId.eq(memberId))
+            )
+            .fetchOne();
+    }
+
+    @Override
+    public Long getYearlyAchievedCnt(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count().as("cnt"))
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.year().eq(LocalDate.now().getYear())
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isTrue()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isTrue())))
+                .and(calendar.member.memberId.eq(memberId))
+            )
+            .fetchOne();
+    }
+
 }
