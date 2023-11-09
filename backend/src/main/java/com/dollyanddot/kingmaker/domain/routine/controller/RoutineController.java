@@ -5,6 +5,7 @@ import com.dollyanddot.kingmaker.domain.routine.dto.request.PutRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.GetDailyRoutinesResDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.GetRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.response.PatchRoutineResDto;
+import com.dollyanddot.kingmaker.domain.routine.dto.response.PostRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.service.MemberRoutineService;
 import com.dollyanddot.kingmaker.domain.routine.service.RoutineService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
@@ -30,9 +31,9 @@ public class RoutineController {
   private final MemberRoutineService memberRoutineService;
 
   @PostMapping()
-  public EnvelopeResponse<Void> registerRoutine(@RequestBody PostRoutineReqDto postRoutineReqDto)
+  public EnvelopeResponse<PostRoutineResDto> registerRoutine(@RequestBody PostRoutineReqDto postRoutineReqDto)
       throws ParseException {
-    return EnvelopeResponse.<Void>builder()
+    return EnvelopeResponse.<PostRoutineResDto>builder()
         .data(routineService.registerRoutine(postRoutineReqDto))
         .build();
   }
