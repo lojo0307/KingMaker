@@ -301,13 +301,12 @@ public class TodoServiceImpl implements TodoService {
         rewardResDtoList.add(colorfulWorld);
 
       //11번 업적 달성 여부 확인 - 첫 몬스터 처치인 경우
-      if (!memberRewardRepository.findByMemberAndReward(
-          memberRepository.findById(member.getMemberId()).orElseThrow(MemberNotFoundException::new),
-          rewardRepository.findById(11).orElseThrow(RewardNotFoundException::new)).isAchievedYn()) {
+      reward = rewardRepository.findById(11).orElseThrow(RewardNotFoundException::new);
+      MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
 
-        reward = rewardRepository.findById(11).orElseThrow();
-        MemberReward memberReward = memberRewardRepository.findByMemberAndReward(todo.getMember(),
-            reward);
+      if (!memberReward.isAchievedYn()) {
+
+        memberReward.achieveReward();
 
         rewardResDtoList.add(RewardResDto.builder()
             .rewardInfoDto(RewardInfoDto.from(
@@ -315,7 +314,7 @@ public class TodoServiceImpl implements TodoService {
                 reward.getRewardNm(),
                 reward.getRewardCond(),
                 reward.getRewardMsg()))
-            .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward() ? 1 : 0)
+            .isRewardAchieved(memberReward.isAchievedYn() ? 1 : 0)
             .build());
       }
       int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
@@ -329,7 +328,7 @@ public class TodoServiceImpl implements TodoService {
 
         reward = rewardRepository.findById(rewardId).orElseThrow();
 
-        MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
+        memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
         rewardResDtoList.add(RewardResDto.builder()
             .rewardInfoDto(RewardInfoDto.from(
                 reward.getRewardId(),

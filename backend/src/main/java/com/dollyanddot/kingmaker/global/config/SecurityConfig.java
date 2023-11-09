@@ -42,19 +42,19 @@ public class SecurityConfig {
         .and()
         .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS).permitAll()
-//        .antMatchers("/api/auth/**").permitAll()
-        .antMatchers("/**").permitAll()
-        .anyRequest().authenticated();
+        .antMatchers("/api/auth/**").permitAll()
+//        .antMatchers("/**").permitAll()
+        .anyRequest().authenticated()
 
-//        .and()
-//        .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//            .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
+        .and()
+        .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
     return httpSecurity.build();
   }
 
-//  @Bean
-//  public JwtAuthenticationFilter jwtAuthenticationFilter() {
-//    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtService, credentialRepository, refreshTokenRepository);
-//    return jwtAuthenticationFilter;
-//  }
+  @Bean
+  public JwtAuthenticationFilter jwtAuthenticationFilter() {
+    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtService, credentialRepository, refreshTokenRepository);
+    return jwtAuthenticationFilter;
+  }
 }
