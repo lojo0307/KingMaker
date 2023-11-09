@@ -38,7 +38,8 @@ class MemberDto{
     );
   }
   String toString(){
-    return "$memberId, $credentialId, $kingdomId, $nickname ";
+    return "memberID:${memberId}, credentialId: ${credentialId},"
+        " kingdomId: ${kingdomId}, nickname: ${nickname}, gender:${gender}, email:${email}, provider:${provider}";
   }
 
   toModifytJson() {

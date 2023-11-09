@@ -25,6 +25,11 @@ class MemberApi{
       final response = await dio.get(
         '$url/api/auth/google?code=${code}',
       );
+      print(response.headers);
+      print('Headers:');
+      response.headers.forEach((k, v) => print('$k: $v'));
+      storage.write(key: "authorization", value: '${response.headers['authorization']?.first}');
+      storage.write(key: "authorization-refresh", value: '${response.headers['authorization-refresh']}');
       print('checkGoogleToken - response: ${response.data['data']}');
       res = MemberDto.responseFromJson(response.data['data']);
       return res;
@@ -57,6 +62,9 @@ class MemberApi{
   void signup(MemberDto? member, String kdName) async{
     //회원가입 하는 부분 back 연동 해야됨
     MemberDto? res;
+    dynamic authorization =await storage.read(key:'authorization');
+    print('signup header : ${authorization}');
+    print('signup :  ${member} /kdName : ${kdName}');
     try {
       var data = {
         "nickname": member?.nickname,
@@ -65,17 +73,17 @@ class MemberApi{
       };
       var headers = {
         "Content-Type": "application/json",
-        // "Authorization": "Bearer ${token}",
+        "Authorization": "Bearer ${authorization}",
       };
       // dio를 사용하여 요청을 보냅니다.
       final response = await dio.post(
-        '$url/api/todo',
+        '$url/api/member/signup',
         data: data,
         options: Options(headers: headers),
       );
       // 응답으로부터 MemberDto 객체를 생성합니다.
       res = MemberDto.responseFromJson(response.data['data']);
-
+      print('회원가입 성공 : ${res}');
 
     }catch (e) {
       print(e);

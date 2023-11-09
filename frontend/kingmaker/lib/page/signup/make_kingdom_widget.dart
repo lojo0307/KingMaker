@@ -36,8 +36,9 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
                   String kdName = Provider.of<KingdomProvider>(context, listen: false).kingdomName;
                   String error = Provider.of<KingdomProvider>(context, listen: false).errorMessage;
                   if (kdName != "" && error == " "){
+                    print('건국하기 버튼 클릭 잘됨 if 안');
                     Provider.of<MemberProvider>(context, listen: false).signup(kdName);
-                    // Provider.of<KingdomProvider>(context, listen: false).makeKingdom();
+                    Provider.of<KingdomProvider>(context, listen: false).makeKingdom();
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
