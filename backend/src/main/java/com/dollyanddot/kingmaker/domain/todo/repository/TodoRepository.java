@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.todo.repository;
 
+import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
@@ -22,4 +23,6 @@ public interface TodoRepository extends JpaRepository<Todo,Long>,TodoRepositoryC
 
     @Query(name = "getTodoStreak", nativeQuery = true)
     List<CalendarStreakResDto> getTodoStreak(String targetMonth, Long memberId);
+
+    List<Todo> findAllByMember(Member member);
 }
