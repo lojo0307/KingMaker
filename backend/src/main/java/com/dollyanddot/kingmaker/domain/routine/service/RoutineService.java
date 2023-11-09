@@ -113,11 +113,13 @@ public class RoutineService {
     // 12번 업적 달성
     Reward reward = rewardRepository.findById(12).orElseThrow();
     MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
-    if (memberReward == null) {
+
+    if (!memberReward.isAchievedYn()) {
       List<Routine> routines = routineRepository.findAllByMember(member);
+
       // 루틴 20개 이상 등록했는지 체크
       if (routines.size() >= 20) {
-        memberRewardRepository.save(MemberReward.builder().member(member).reward(reward).build());
+        memberReward.achieveReward();
 
         rewardResDtoList.add(RewardResDto.builder().isRewardAchieved(1).rewardInfoDto(
             RewardInfoDto.from(

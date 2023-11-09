@@ -165,11 +165,11 @@ public class TodoServiceImpl implements TodoService {
     // 13번 업적 달성
     Reward reward = rewardRepository.findById(13).orElseThrow();
     MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
-    if (memberReward == null) {
+    if (!memberReward.isAchievedYn()) {
       List<Todo> todos = todoRepository.findAllByMember(member);
       // 할일 100개 이상 등록했는지 체크
       if (todos.size() >= 100) {
-        memberRewardRepository.save(MemberReward.builder().member(member).reward(reward).build());
+        memberReward.achieveReward();
 
         rewardResDtoList.add(RewardResDto.builder().isRewardAchieved(1).rewardInfoDto(
             RewardInfoDto.from(
