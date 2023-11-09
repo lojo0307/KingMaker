@@ -13,6 +13,9 @@ class CalendarProvider with ChangeNotifier {
   Map<String, int> _data = {};
   Map<String, int> get data => _data;
 
+  Map<String, int> _mypage = {};
+  Map<String, int> get mypage => _mypage;
+
   List<Map<String, String>> _list = [];
   List<Map<String, String>> get list => _list;
   List<MemberRoutineDto> _rList = [];
@@ -27,7 +30,13 @@ class CalendarProvider with ChangeNotifier {
   }
 
   getData(int memberId, int year, int month) async {
-    _data = await _calendarRepository.getList(memberId, year, month);
+    _data = await _calendarRepository.getData(memberId, year, month);
+    notifyListeners();
+  }
+
+  getMyCal(int memberId, int year, int month) async {
+    _mypage = await _calendarRepository.getMyCal(memberId, year, month);
+    print(_mypage);
     notifyListeners();
   }
 

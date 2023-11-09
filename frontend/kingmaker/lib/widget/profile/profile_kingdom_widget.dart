@@ -11,21 +11,16 @@ class ProfileKingdomWidget extends StatefulWidget {
 }
 
 class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
-  // Map<String, String> kingdom = {
-  //   'kingdomName' : "버섯 왕국",
-  //   'level':"6",
-  //   'citizen' : "2145"
-  // };
   @override
   Widget build(BuildContext context) {
-    KingdomDto? kingdom = Provider.of<KingdomProvider>(context, listen: false).kingdomDto;
-    print(kingdom);
+    KingdomDto? kingdom = context.watch<KingdomProvider>().kingdomDto;
     return LayoutBuilder(builder: (ctx, constraints) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             width: constraints.maxWidth - 40,
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(13),
@@ -35,10 +30,12 @@ class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
               ),
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(
-                  child: Image(image: AssetImage('assets/castle/tower.png'),
-                    fit: BoxFit.cover,
+                SizedBox(
+                  child: Image(image: AssetImage('assets/images/castle/Lv${kingdom?.level}.png',),
+                    height: 100,
                   ),
                 ),
                 SizedBox(

@@ -9,9 +9,14 @@ import 'package:kingmaker/provider/test_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 void main() async{
   await dotenv.load(fileName: ".env");
+  KakaoSdk.init(
+    nativeAppKey: dotenv.env['NATIVE_APP_KEY'],
+  );
+
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider<CalendarProvider>(
