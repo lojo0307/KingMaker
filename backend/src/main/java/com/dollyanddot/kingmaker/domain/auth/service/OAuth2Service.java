@@ -4,10 +4,13 @@ import com.dollyanddot.kingmaker.domain.auth.domain.Credential;
 import com.dollyanddot.kingmaker.domain.auth.domain.Provider;
 import com.dollyanddot.kingmaker.domain.auth.domain.Role;
 import com.dollyanddot.kingmaker.domain.auth.dto.ProviderTokenDto;
+import com.dollyanddot.kingmaker.domain.auth.exception.CredentialBadRequestException;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.auth.dto.LoginResDto;
+import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
+import com.dollyanddot.kingmaker.global.exception.domain.BadRequestException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -15,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -23,6 +27,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -41,6 +46,7 @@ public class OAuth2Service {
     public LoginResDto login(String accessToken, String provider, HttpServletResponse response) throws IOException {
         log.info("로그인 로직 시작");
         ClientRegistration providerInfo = inMemoryClientRegistrationRepository.findByRegistrationId(provider);
+        if (providerInfo == null) throw new CredentialBadRequestException();
 //        ProviderTokenDto providerToken = getAccessToken(provider, code, providerInfo);
 //        log.info("토큰 발급 완료 = {}", providerToken.getAccess_token());
 
@@ -51,12 +57,11 @@ public class OAuth2Service {
 
         if (credential.getRole().equals(Role.GUEST)) return LoginResDto.builder().build();
 
-        Optional<Member> member = memberRepository.findByCredential(credential);
-        if (member.isEmpty()) throw new RuntimeException();
+        Member member = memberRepository.findByCredential(credential).orElseThrow(() -> new MemberNotFoundException());
         return LoginResDto.builder()
-                .memberId(member.get().getMemberId())
-                .nickname(member.get().getNickname())
-                .gender(member.get().getGender())
+                .memberId(member.getMemberId())
+                .nickname(member.getNickname())
+                .gender(member.getGender())
                 .email(credential.getEmail())
                 .provider(credential.getProvider())
                 .build();
@@ -126,8 +131,11 @@ public class OAuth2Service {
                     header.setBearerAuth(accessToken);
                 })
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .body(BodyInserters.fromFormData("property_keys", "[\"kakao_account.email\"]"))
                 .retrieve()
+                .onStatus(HttpStatus::isError, res -> {
+                    return res.bodyToMono(String.class)
+                            .flatMap(errorBody -> Mono.error(new BadRequestException("1700", "잘못된 토큰입니다")));
+                })
                 .bodyToMono(String.class)
                 .block();
 

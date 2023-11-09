@@ -2,7 +2,7 @@ package com.dollyanddot.kingmaker.domain.auth;
 
 import com.dollyanddot.kingmaker.domain.auth.domain.Credential;
 import com.dollyanddot.kingmaker.domain.auth.domain.RefreshToken;
-import com.dollyanddot.kingmaker.domain.auth.exception.JwtExceptionList;
+import com.dollyanddot.kingmaker.domain.auth.exception.*;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
 import com.dollyanddot.kingmaker.domain.auth.repository.RefreshTokenRepository;
 import com.dollyanddot.kingmaker.domain.auth.service.JwtService;
@@ -66,12 +66,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
         refreshTokenRepository.findById(refreshToken)
                 .ifPresentOrElse(token -> {
-                    Optional<Credential> credential = credentialRepository.findById(Long.parseLong(token.getCredentialId()));
-                    if (credential.isEmpty()) throw new JwtException(JwtExceptionList.UNAUTHORIZED.getMessage());
+                    Credential credential = credentialRepository.findById(Long.parseLong(token.getCredentialId())).orElseThrow(() -> {
+                        throw new CredentialNotFoundException();
+                    });
+                    refreshTokenRepository.delete(token);
                     String reIssuedRefreshToken = reIssueRefreshToken(token);
-                    jwtService.sendAccessAndRefreshToken(response, jwtService.generateAccessToken(credential.get().getCredentialId()), reIssuedRefreshToken);
+                    jwtService.sendAccessAndRefreshToken(response, jwtService.generateAccessToken(credential.getCredentialId()), reIssuedRefreshToken);
                 }, () -> {
-                    throw new JwtException(JwtExceptionList.TOKEN_EXCEPTION.getMessage());
+                    throw new InvalidTokenException();
                 });
     }
 
@@ -84,13 +86,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("AccessToken을 확인하고 인증을 진행");
+
+        String token = jwtService.extractAccessToken(request).orElseThrow(() -> new TokenNotFoundException());
+
+        if (jwtService.isTokenExpired(token)) throw new ExpiredTokenException();
+
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
                 .ifPresentOrElse(accessToken -> jwtService.extractCredentialId(accessToken)
                         .ifPresentOrElse(credentialId -> credentialRepository.findById(credentialId)
-                                .ifPresentOrElse(this::saveAuthentication, () -> {throw new JwtException(JwtExceptionList.UNAUTHORIZED.getMessage());})
-                        , () -> {throw new JwtException(JwtExceptionList.UNAUTHORIZED.getMessage());})
-                        , () -> {throw new JwtException(JwtExceptionList.TOKEN_NOTFOUND.getMessage());});
+                                .ifPresentOrElse(this::saveAuthentication, () -> {throw new CredentialNotFoundException();})
+                        , () -> {throw new JwtException(JwtExceptionList.TOKEN_EXCEPTION.getMessage());})
+                        , () -> {throw new TokenNotFoundException();});
         filterChain.doFilter(request, response);
     }
 
