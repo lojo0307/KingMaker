@@ -24,6 +24,7 @@ import com.dollyanddot.kingmaker.domain.todo.domain.Todo;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PostTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.request.PutTodoReqDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.PatchTodoResDto;
+import com.dollyanddot.kingmaker.domain.todo.dto.response.PostTodoResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoDetailResDto;
 import com.dollyanddot.kingmaker.domain.todo.dto.response.TodoListResDto;
 import com.dollyanddot.kingmaker.domain.todo.exception.TodoNotFoundException;
@@ -134,9 +135,10 @@ public class TodoServiceImpl implements TodoService {
 
   @Override
   @Transactional
-  public Void registerTodo(PostTodoReqDto postTodoReqDto) {
+  public PostTodoResDto registerTodo(PostTodoReqDto postTodoReqDto) {
 
     Member member = memberRepository.findById(postTodoReqDto.getMemberId()).orElseThrow();
+    List<RewardResDto> rewardResDtoList = new ArrayList<>();
 
     Todo todo = todoRepository.save(new Todo().builder()
         .member(member)
@@ -160,9 +162,33 @@ public class TodoServiceImpl implements TodoService {
             .calendarDate(date)
             .build()));
 
+    // 13번 업적 달성
+    Reward reward = rewardRepository.findById(13).orElseThrow();
+    MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
+    if (!memberReward.isAchievedYn()) {
+      List<Todo> todos = todoRepository.findAllByMember(member);
+      // 할일 100개 이상 등록했는지 체크
+      if (todos.size() >= 100) {
+        memberReward.achieveReward();
+
+        rewardResDtoList.add(RewardResDto.builder().isRewardAchieved(1).rewardInfoDto(
+            RewardInfoDto.from(
+                reward.getRewardId(),
+                reward.getRewardNm(),
+                reward.getRewardCond(),
+                reward.getRewardMsg())
+        ).build());
+      }
+    }
+
     //알림 생성
     notificationService.generateTodoNotificationTmp(todo.getTodoId());
-    return null;
+
+    if(rewardResDtoList.size() == 0){
+      return PostTodoResDto.from(null);
+    }
+
+    return PostTodoResDto.from(rewardResDtoList);
   }
 
   @Override
@@ -292,8 +318,6 @@ public class TodoServiceImpl implements TodoService {
             .isRewardAchieved(!memberReward.isAchievedYn() && memberReward.achieveReward() ? 1 : 0)
             .build());
       }
-
-      //백성 수 증가 및 레벨 변경
       int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "plus");
 
       //5, 6, 7번 업적 수행 여부 확인 - 왕국 단계 재산정 및 해당되는 업적 번호(3단게/6단계/9단계)가 있는 경우
@@ -325,8 +349,9 @@ public class TodoServiceImpl implements TodoService {
       //TODO: 방금 수행함으로써 얻었던 리워드 다시 취소 해야 하는데...
     }
 
-    if(rewardResDtoList.isEmpty())
-      rewardResDtoList.add(RewardResDto.from(0, null));
+    if(rewardResDtoList.isEmpty()){
+      return PatchTodoResDto.from(isAchieved, null);
+    };
 
     return PatchTodoResDto.from(isAchieved,rewardResDtoList);
   }
