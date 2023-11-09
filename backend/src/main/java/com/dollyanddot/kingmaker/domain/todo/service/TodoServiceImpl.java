@@ -323,8 +323,9 @@ public class TodoServiceImpl implements TodoService {
       //TODO: 방금 수행함으로써 얻었던 리워드 다시 취소 해야 하는데...
     }
 
-    if(rewardResDtoList.isEmpty())
-      rewardResDtoList.add(RewardResDto.from(0, null));
+    if(rewardResDtoList.isEmpty()){
+      return PatchTodoResDto.from(isAchieved, null);
+    };
 
     return PatchTodoResDto.from(isAchieved,rewardResDtoList);
   }

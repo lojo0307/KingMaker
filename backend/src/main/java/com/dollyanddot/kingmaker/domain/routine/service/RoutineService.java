@@ -7,16 +7,20 @@ import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
 import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
+import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
+import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
 import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PostRoutineReqDto;
 import com.dollyanddot.kingmaker.domain.routine.dto.request.PutRoutineReqDto;
+import com.dollyanddot.kingmaker.domain.routine.dto.response.PostRoutineResDto;
 import com.dollyanddot.kingmaker.domain.routine.exception.RoutineNotFoundException;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,12 +44,13 @@ public class RoutineService {
   private final MemberRewardRepository memberRewardRepository;
 
   @Transactional
-  public Void registerRoutine(PostRoutineReqDto postRoutineReqDto) throws ParseException {
+  public PostRoutineResDto registerRoutine(PostRoutineReqDto postRoutineReqDto) throws ParseException {
 
     Category category = categoryRepository.findById(postRoutineReqDto.getCategoryId())
         .orElseThrow();
     Member member = memberRepository.findById(postRoutineReqDto.getMemberId()).orElseThrow(
         MemberNotFoundException::new);
+    List<RewardResDto> rewardResDtoList = new ArrayList<>();
     LocalDateTime today = LocalDateTime.now();
 
     JSONParser jsonParser = new JSONParser();
@@ -105,17 +110,30 @@ public class RoutineService {
           .build());
     }
 
+    // 12번 업적 달성
     Reward reward = rewardRepository.findById(12).orElseThrow();
     MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
     if (memberReward == null) {
       List<Routine> routines = routineRepository.findAllByMember(member);
+      // 루틴 20개 이상 등록했는지 체크
       if (routines.size() >= 20) {
         memberRewardRepository.save(MemberReward.builder().member(member).reward(reward).build());
+
+        rewardResDtoList.add(RewardResDto.builder().isRewardAchieved(1).rewardInfoDto(
+            RewardInfoDto.from(
+                reward.getRewardId(),
+                reward.getRewardNm(),
+                reward.getRewardCond(),
+                reward.getRewardMsg())
+        ).build());
       }
     }
-    // responseDto 추가해서 해야 함... 루틴 20개 이상 되면 업적 달성하는 로직은 추가했으나 프론트에 반환하기 위한 ResponseDto가 없습니다.
-    // 혹시라도 제가 없는 동안 하실 생각이라면 그부분을 하시면 됩니다.
-    return null;
+
+    if(rewardResDtoList.size() == 0){
+      return PostRoutineResDto.from(null);
+    }
+
+    return PostRoutineResDto.from(rewardResDtoList);
   }
 
   @Transactional
