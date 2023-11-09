@@ -55,6 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (refreshToken != null) {
             log.info("요청 헤더에 Refresh 토큰 존재 = {}", refreshToken);
             checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
+            filterChain.doFilter(request, response);
             return;
         }
 
@@ -69,6 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     Credential credential = credentialRepository.findById(Long.parseLong(token.getCredentialId())).orElseThrow(() -> {
                         throw new CredentialNotFoundException();
                     });
+                    saveAuthentication(credential);
                     refreshTokenRepository.delete(token);
                     String reIssuedRefreshToken = reIssueRefreshToken(token);
                     jwtService.sendAccessAndRefreshToken(response, jwtService.generateAccessToken(credential.getCredentialId()), reIssuedRefreshToken);
