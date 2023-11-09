@@ -27,7 +27,7 @@ class _SelectGenderState extends State<SelectGender> {
               height: 150,
               width: 150,
               child: Image(
-                image: (provider.member?.gender == "W")? AssetImage('assets/character/charWoman.png') : AssetImage('assets/character/charMan.png'),
+                image: (provider.member?.gender == "WOMAN")? AssetImage('assets/character/charWoman.png') : AssetImage('assets/character/charMan.png'),
               ),
             ),
           );
