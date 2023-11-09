@@ -1,15 +1,43 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class SocialApi{
+<<<<<<< cf14c84a6b19d077275b1545f8a513b86973507e
 
   Future<String> kakaologin() async {
     String token = "";
     // 인가코드
 
     return token;
+=======
+  final storage = const FlutterSecureStorage();
+  Future<String?> kakaologin() async {
+    try {
+      bool isInstalled = await isKakaoTalkInstalled();
+      if (isInstalled) { // 카톡이 있는 경우
+        try {
+          OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
+          print(token.accessToken);
+          return token.accessToken;
+        } catch (e) {
+          return null;
+        }
+      } else { // 카톡이 없는 경우
+        try {
+          OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+          print(token.accessToken);
+          return token.accessToken;
+        } catch (e) {
+          return null;
+        }
+      }
+    } catch (e) {
+      return null;
+    }
+>>>>>>> a71dfb828728bb25e15ccb0b130cd28110f725ca
   }
+
   Future<String?> googlelogin() async {
     final GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: [
