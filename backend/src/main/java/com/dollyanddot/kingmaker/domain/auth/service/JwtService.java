@@ -3,6 +3,7 @@ package com.dollyanddot.kingmaker.domain.auth.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.dollyanddot.kingmaker.domain.auth.domain.RefreshToken;
+import com.dollyanddot.kingmaker.domain.auth.exception.InvalidTokenException;
 import com.dollyanddot.kingmaker.domain.auth.exception.JwtExceptionList;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
 import com.dollyanddot.kingmaker.domain.auth.repository.RefreshTokenRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.file.AccessDeniedException;
 import java.util.Date;
 import java.util.Optional;
 
@@ -125,8 +127,7 @@ public class JwtService {
                     .getClaim("credentialId") // claim(Emial) 가져오기
                     .asLong());
         } catch (Exception e) {
-            log.error("액세스 토큰이 유효하지 않습니다.");
-            return Optional.empty();
+            throw new JwtException(JwtExceptionList.TOKEN_EXCEPTION.getMessage());
         }
     }
 
@@ -140,6 +141,16 @@ public class JwtService {
                 .ttl(refresh_expiration).build());
     }
 
+    public boolean isTokenExpired(String token) {
+        try {
+            Date expiration = JWT.decode(token).getExpiresAt();
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
+            throw new InvalidTokenException();
+        }
+    }
+
     public boolean isTokenValid(String token) {
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
@@ -147,7 +158,7 @@ public class JwtService {
             return true;
         } catch (Exception e) {
             log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
-            throw new JwtException(JwtExceptionList.TOKEN_NOTFOUND.getMessage());
+            throw new InvalidTokenException();
         }
     }
 }

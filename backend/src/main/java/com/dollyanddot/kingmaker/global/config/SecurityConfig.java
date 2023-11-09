@@ -1,9 +1,11 @@
 package com.dollyanddot.kingmaker.global.config;
 
+import com.dollyanddot.kingmaker.domain.auth.ExceptionHandlerFilter;
 import com.dollyanddot.kingmaker.domain.auth.JwtAuthenticationFilter;
 import com.dollyanddot.kingmaker.domain.auth.repository.CredentialRepository;
 import com.dollyanddot.kingmaker.domain.auth.repository.RefreshTokenRepository;
 import com.dollyanddot.kingmaker.domain.auth.service.JwtService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Slf4j
 @Configuration
@@ -25,6 +26,7 @@ public class SecurityConfig {
   private final JwtService jwtService;
   private final CredentialRepository credentialRepository;
   private final RefreshTokenRepository refreshTokenRepository;
+  private final ObjectMapper objectMapper;
 
   @Bean
   protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -45,8 +47,8 @@ public class SecurityConfig {
         .anyRequest().authenticated()
 
         .and()
-        .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
+        .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
     return httpSecurity.build();
   }
 
