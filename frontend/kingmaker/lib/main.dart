@@ -14,7 +14,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 Future<void> main() async{
   await dotenv.load(fileName: ".env");
   KakaoSdk.init(
-    nativeAppKey: '35d48fe78a4ae625ef1d0f37dd18c93f',
+    nativeAppKey: dotenv.env['NATIVE_APP_KEY'],
   );
   runApp(MultiProvider(
       providers: [
