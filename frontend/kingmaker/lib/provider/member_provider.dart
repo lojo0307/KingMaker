@@ -54,13 +54,17 @@ class MemberProvider with ChangeNotifier {
   }
 
   Future<int> KakaoLogin() async{
-    String token = await _socialRepository.kakaologin();
-    _member = await _memberRepository.checkMemberKakao(token);
-    if (member == null) {
-      // _member = new MemberDto(memberId: 1, credentialId: 0, kingdomId: 0, nickname: "", gender: "M");
-      return 0;
-    } else
-      return 1;
+    String? token = await _socialRepository.kakaologin();
+    if(token == null) {
+      return -1;
+    } else {
+      _member = await _memberRepository.checkMemberKakao(token!);
+      if (_member?.memberId == 0){
+        return 0;
+      } else {
+        return 1;
+      }
+    }
   }
 
   void changeGender() {

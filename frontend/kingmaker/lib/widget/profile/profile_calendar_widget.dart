@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/calendar_provider.dart';
+import 'package:kingmaker/provider/member_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ProfileCalendarWidget extends StatefulWidget {
@@ -9,12 +12,22 @@ class ProfileCalendarWidget extends StatefulWidget {
 }
 
 class _ProfileCalendarWidgetState extends State<ProfileCalendarWidget> {
-  static const calColors = [Colors.white, Color(0xFFFFF0CF),Color(0xFFFEE1CF),Color(0xFFFED0D0),Color(0xFFFFBFCF),Color(0xFFFEADDE), Color(0xFFFEADCE),];
-  static const Map<String, int> levels = {'9' : 1, '10' : 2, '11' : 3, '12' : 4, '13' : 5, '1': 6};
+  static const calColors = [Colors.white, Color(0xFFFFF0CF),Color(0xFFFEE1CF),Color(0xFFFFBFCF),Color(0xFFFFA9E0),Color(0xFFFFACF0),];
   DateTime? _selectedDay = DateTime.now();
   late DateTime _focusedDay = DateTime.now();
   @override
+  void initState() {
+    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+    DateTime now = DateTime.now();
+    int year = now.year;
+    int month = now.month;
+    int day = now.day;
+    Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, year, month);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    Map<String, int> levels = context.watch<CalendarProvider>().mypage;
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20),
       decoration: BoxDecoration(
@@ -26,6 +39,12 @@ class _ProfileCalendarWidgetState extends State<ProfileCalendarWidget> {
         firstDay: DateTime.utc(2010, 10, 16),
         lastDay: DateTime.utc(2030, 3, 14),
         focusedDay: _focusedDay,
+        onPageChanged: (focusedDay) async {
+          int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+          await Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, focusedDay.year, focusedDay.month);
+          _focusedDay = focusedDay;
+        },
+
         headerStyle: HeaderStyle(
           titleCentered: true,
           formatButtonVisible: false,
