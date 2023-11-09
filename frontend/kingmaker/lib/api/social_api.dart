@@ -3,7 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 
 class SocialApi{
-  final storage = const FlutterSecureStorage();
+
   Future<String> kakaologin() async {
     String token = "";
     // 인가코드
@@ -34,7 +34,8 @@ class SocialApi{
           return "ddd";
         } else {
           //accessToken을 저장
-          storage.write(key: "accessToken", value: "accessToken");
+          print(googleSignInAuthentication.accessToken);
+
           return googleSignInAuthentication.accessToken;
         }
       };

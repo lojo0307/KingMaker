@@ -43,6 +43,7 @@ class MemberProvider with ChangeNotifier {
     }
 
     _member = await _memberRepository.checkMemberGoogle(token);
+    _member?.gender ="MAN";
 
     if (member?.memberId == 0){
       //신규 가입
@@ -64,7 +65,7 @@ class MemberProvider with ChangeNotifier {
   }
 
   void changeGender() {
-    _member?.gender = _member?.gender == "W" ? "M" : "W";
+    _member?.gender = _member?.gender == "WOMAN" ? "MAM" : "WOMAN";
   }
 
   void setErrorFirst() {
