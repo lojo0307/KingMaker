@@ -36,9 +36,10 @@ class LoginWidget extends StatelessWidget {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () async{
-                  int flag = await provider.KakaoLogin();
-                  print(flag);
-                  movPage(flag, context);
+                  // int flag = await provider.KakaoLogin();
+                  // print(flag);
+                  // movPage(flag, context);
+                  fcmApi.getFcmToken().then((value) => print(value),);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
