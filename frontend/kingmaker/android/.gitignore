@@ -13,3 +13,4 @@ gradle.properties
 **/*.keystore
 **/*.jks
 /app/build.gradle
+/app/google-services.json
