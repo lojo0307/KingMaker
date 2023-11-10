@@ -3,12 +3,14 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/main/main_camera_focus.dart';
 import 'package:flame/extensions.dart';
 import 'package:kingmaker/widget/main/main_castle.dart';
 import 'package:kingmaker/widget/main/main_monster_position.dart';
+import 'package:provider/provider.dart';
 
-import '../../page/todo_detail_page.dart';
+import '../../provider/member_provider.dart';
 import 'main_background.dart';
 import 'main_player.dart';
 
@@ -110,7 +112,14 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     // 다른 컴포넌트 로드...
 
     // 경험치 바 로드 및 설정
-
+    //
+    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+    DateTime now = DateTime.now();
+    int year = now.year;
+    int month = now.month;
+    int day = now.day;
+    Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
+    print(Provider.of<ScheduleProvider>(context, listen: false).rList);
   }
 }
 
@@ -130,11 +139,6 @@ class MyWorld extends World {
     final bgSprite = await Sprite.load('background.png');
     background = GameBackground(bgSprite, backgroundSize);
     add(background);
-
-
-
-
-
 
     //성
     add(Castle(game, {'level': '9'}));

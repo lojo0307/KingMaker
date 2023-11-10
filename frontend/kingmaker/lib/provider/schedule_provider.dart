@@ -22,11 +22,12 @@ class ScheduleProvider with ChangeNotifier {
     _todoRepository = TodoRepository();
   }
 
-  getList(int year, int month, int day) async{
+  getList(int memberId, int year, int month, int day) async{
     String monStr = month < 10 ? '0$month' : month.toString();
     String daytr = day < 10 ? '0$day' : day.toString();
-    _rList = await _routineRepository.getList(1, '$year-$monStr-$daytr 00:00:00');
-    _tList = await _todoRepository.getList(1, '${year%100}$monStr$daytr');
+    _rList = await _routineRepository.getList(memberId, '$year-$monStr-$daytr 00:00:00');
+    _tList = await _todoRepository.getList(memberId, '${year%100}$monStr$daytr');
+    print('ScheduleProvider - getList : $_rList');
     make(list);
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/schedule/schedule_set.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,8 @@ class _ScheduleMainState extends State<ScheduleMain> {
   @override
   void initState() {
     DateTime now = DateTime.now();
-    Provider.of<ScheduleProvider>(context, listen: false).getList(now.year, now.month, now.day);
+    int? memberId = Provider.of<MemberProvider>(context,listen: false).member?.memberId;
+    Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, now.year, now.month, now.day);
     super.initState();
   }
   @override
