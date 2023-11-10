@@ -1,26 +1,13 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kingmaker/api/total_api.dart';
 import 'package:kingmaker/dto/todo_dto.dart';
 
-final dio = Dio();
-String? url = dotenv.env['URL'];
-
 class TodoApi{
-  final storage = const FlutterSecureStorage();
-  Future<List<TodoDto>> getList(int memberId, String date) async{
-    dynamic authorization =await storage.read(key:'authorization');
-    var headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ${authorization}",
-    };
-
+  final TotalApi totalApi = TotalApi();
+  Future<List<TodoDto>> getList(int memberId, String date) async {
+    print('todo');
     try{
-      final response = await dio.get(
-        '$url/api/todo/list/$memberId?date=$date',
-        options: Options(headers: headers),
-      );
-      print('TodoApi - getList ${response.data}');
+      final response = await totalApi.getApi('/api/todo/list/$memberId?date=$date',);
       return response.data['data'].map<TodoDto>((memberTodo) {
         return TodoDto.fromJsonToListDto(memberTodo);
       }).toList();
@@ -29,33 +16,21 @@ class TodoApi{
       return [];
     }
   }
-
-  void registTodo(int memberId, TodoDto todoDto) async{
-    final response = await dio.post(
-      '$url/api/todo',
-      data: todoDto.toRegistJson(memberId),
-    );
+  void registTodo(int memberId, TodoDto todoDto) async {
+    final response = await totalApi.postApi('/api/todo', todoDto.toRegistJson(memberId),);
   }
 
   void modifyTodo(TodoDto todoDto) async{
-    final response = await dio.put(
-      '$url/api/todo',
-      data: todoDto.toModifytJson(),
-    );
+    final response = await totalApi.putApi('/api/todo', todoDto.toModifytJson(),);
   }
 
   void deleteTodo(int todoId) async{
-    final response = await dio.delete(
-      '$url/api/todo?todoId=$todoId',
-    );
+    final response = await dio.delete('/api/todo?todoId=$todoId',);
   }
 
   Future<TodoDto> detailTodo(int todoId) async{
     try{
-      final response = await dio.get(
-        '$url/api/todo/$todoId',
-      );
-      print(response.data['data']);
+      final response = await totalApi.getApi('/api/todo/$todoId',);
       return TodoDto.fromJson(todoId, response.data['data']);
     } catch (e) {
       print(e);
@@ -64,9 +39,7 @@ class TodoApi{
   }
 
   void achieveTodo(int todoId) async{
-    final response = await dio.patch(
-      '$url/api/todo/$todoId',
-    );
+    final response = await totalApi.patchApi1('/api/todo/$todoId',);
   }
 }
 

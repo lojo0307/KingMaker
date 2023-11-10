@@ -36,10 +36,8 @@ class LoginWidget extends StatelessWidget {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () async{
-                  // int flag = await provider.KakaoLogin();
-                  // print(flag);
-                  // movPage(flag, context);
-                  fcmApi.getFcmToken().then((value) => print(value),);
+                  int flag = await provider.KakaoLogin();
+                  movPage(flag, context, provider.member!.memberId, providerKing);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -56,6 +54,9 @@ class LoginWidget extends StatelessWidget {
   void movPage(int flag, BuildContext context) {
     if (flag == -1)
       return;
+    if (flag == 1){
+      providerKing.getKingdom(memberId!);
+    }
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(

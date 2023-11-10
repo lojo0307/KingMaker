@@ -1,32 +1,16 @@
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kingmaker/api/total_api.dart';
 import 'package:kingmaker/dto/member_routine_dto.dart';
 import 'package:kingmaker/dto/routine_dto.dart';
 
-final dio = Dio();
-String? url = dotenv.env['URL'];
-
 class RoutineApi{
-  final storage = const FlutterSecureStorage();
+  final TotalApi totalApi = TotalApi();
   Future <List<MemberRoutineDto>> getData(int memberId, String date) async{
-    dynamic authorization =await storage.read(key:'authorization');
-    var headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ${authorization}",
-    };
-    print('RoutineApi-- date: ${date}, memberId: ${memberId}');
     try{
-      final response = await dio.get(
-        '$url/api/routine/$memberId?date=$date',
-        options: Options(headers: headers),
-      );
+      final response = await totalApi.getApi('/api/routine/$memberId?date=$date',);
       print('RoutineApi-- getData: ${response}');
       return response.data['data']['dailyRoutines'].map<MemberRoutineDto>((memberRoutine) {
         return MemberRoutineDto.fromJson(memberRoutine);
       }).toList();
-
     }catch (e) {
       print(e);
       return [];
@@ -34,36 +18,24 @@ class RoutineApi{
   }
 
   void registRoutine(int memberId, RoutineDto routine) async {
-    final response = await dio.post(
-      '$url/api/routine',
-      data: routine.toRegistJson(memberId),
-    );
+    final response = await totalApi.postApi('/api/routine', routine.toRegistJson(memberId),);
   }
 
   void modifyRoutine(RoutineDto routine) async {
-    final response = await dio.put(
-      '$url/api/routine',
-      data: routine.toModifyJson(),
-    );
+    final response = await totalApi.putApi('/api/routine', routine.toModifyJson(),);
   }
 
   void deleteRoutine(int routineId) async {
-    final response = await dio.delete(
-      '$url/api/routine/$routineId',
-    );
+    final response = await totalApi.deleteApi('/api/routine/$routineId',);
   }
 
   void acheiveRoutine(int memberRoutineId) async {
-    final response = await dio.patch(
-      '$url/api/routine/$memberRoutineId',
-    );
+    final response = await totalApi.patchApi1('/api/routine/$memberRoutineId',);
   }
 
   Future <MemberRoutineDto> getDetailRoutine(int memberRoutineId) async {
     try{
-      final response = await dio.get(
-        '$url/api/routine/detail/$memberRoutineId',
-      );
+      final response = await totalApi.getApi('/api/routine/detail/$memberRoutineId',);
       return MemberRoutineDto.fromJson(response.data['data']);
     } catch (e) {
       print(e);
