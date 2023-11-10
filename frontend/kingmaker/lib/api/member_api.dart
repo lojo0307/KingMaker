@@ -85,21 +85,12 @@ class MemberApi{
         data: data,
         options: Options(headers: headers),
       );
-<<<<<<< 3667b2d2a3b432aec782ec2c776fc2005ab8d9fe
       // 응답으로부터 MemberDto 객체를 생성합니다.
       _member = MemberDto.responseFromJson(response.data['data']);
-      // Provider.of<MemberProvider>()
-=======
-      print('응답으로부터 MemberDto 객체를 생성합니다.');
-      res = MemberDto.responseFromJson(response.data['data']);
->>>>>>> 3401886f0a4d92a79a839de1fcb9953db29d2e9e
-      print('회원가입 성공 : ${res}');
-
     }catch (e) {
       print(e);
       return null;
     }
-
   }
 
   void modifyNickname(int memberId, String nickname) async{
