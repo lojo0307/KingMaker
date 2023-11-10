@@ -60,7 +60,9 @@ class MemberProvider with ChangeNotifier {
       return -1;
     } else {
       _member = await _memberRepository.checkMemberKakao(token!);
-      if (_member?.memberId == 0){
+      if (_member == null)
+        return -1;
+      else if (_member?.memberId == 0){
         return 0;
       } else {
         return 1;
