@@ -45,7 +45,7 @@ class RegistProvider with ChangeNotifier {
 
   RegistRoutine(int MemberId){
     String period = "{\"type\" : \"$_type\", \"value\": $_value}";
-    RoutineDto routine = RoutineDto(routineId: 0, categoryId: _categoryId, routineNm: _title, routineDetail: _detail, period: period, importantYn: _importantYn, startAt: "${_startAt}09:00:00", endAt: "${_endAt}23:59:59");
+    RoutineDto routine = RoutineDto(routineId: 0, categoryId: _categoryId, routineNm: _title, routineDetail: _detail, period: period, importantYn: _importantYn, startAt: "${_startAt}00:00:00", endAt: "${_endAt}23:59:59");
     _routineRepository.registRoutine(MemberId, routine);
     ResetAll();
   }

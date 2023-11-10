@@ -170,7 +170,7 @@ flutter:
   fonts:
     - family: PretendardBold
       fonts:
-        - asset: assets/fonts/NeoDunggeunmoPro-Regular.ttf
+        - asset: assets/fonts/esamanru Light.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
