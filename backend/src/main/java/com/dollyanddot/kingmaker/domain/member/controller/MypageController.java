@@ -2,6 +2,8 @@ package com.dollyanddot.kingmaker.domain.member.controller;
 
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
 import com.dollyanddot.kingmaker.domain.calendar.service.CalendarService;
+import com.dollyanddot.kingmaker.domain.category.dto.CategoryDto;
+import com.dollyanddot.kingmaker.domain.category.service.CategoryService;
 import com.dollyanddot.kingmaker.domain.member.dto.response.RewardListResDto;
 import com.dollyanddot.kingmaker.domain.reward.service.RewardService;
 import com.dollyanddot.kingmaker.domain.todo.service.TodoService;
@@ -18,6 +20,7 @@ public class MypageController {
     private final TodoService todoService;
     private final RewardService rewardService;
     private final CalendarService calendarService;
+    private final CategoryService categoryService;
 
     @GetMapping("calendar/{memberId}")
     public EnvelopeResponse<List<CalendarStreakResDto>> getTodoCalendar(@PathVariable Long memberId, @RequestParam int year, @RequestParam int month){
@@ -50,5 +53,15 @@ public class MypageController {
     @GetMapping("/yearly/{memberId}")
     public EnvelopeResponse<Integer> getYearlyPercent(@PathVariable Long memberId) {
         return EnvelopeResponse.<Integer>builder().data(calendarService.getYearlyPercent(memberId)).build();
+    }
+
+    @GetMapping("/category/min/{memberId}")
+    public EnvelopeResponse<CategoryDto> getMinCategory(@PathVariable Long memberId) {
+        return EnvelopeResponse.<CategoryDto>builder().data(categoryService.getMinCategory(memberId)).build();
+    }
+
+    @GetMapping("/category/max/{memberId}")
+    public EnvelopeResponse<CategoryDto> getMaxCategory(@PathVariable Long memberId) {
+        return EnvelopeResponse.<CategoryDto>builder().data(categoryService.getMaxCategory(memberId)).build();
     }
 }
