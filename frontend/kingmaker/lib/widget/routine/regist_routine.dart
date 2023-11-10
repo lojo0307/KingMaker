@@ -299,7 +299,7 @@ class _RegistRoutineState extends State<RegistRoutine> {
                               int? MemberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                               await Provider.of<RegistProvider>(context, listen: false).RegistRoutine(MemberId!);
                               DateTime now = DateTime.now();
-                              Provider.of<ScheduleProvider>(context, listen: false).getList(now.year, now.month, now.day);
+                              Provider.of<ScheduleProvider>(context, listen: false).getList(MemberId,now.year, now.month, now.day);
                               Navigator.pop(context);
                             },
                             child: Text('루틴 등록하기')

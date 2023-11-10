@@ -270,7 +270,7 @@ class _RegistTodoState extends State<RegistTodo> {
                               int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                               await Provider.of<RegistProvider>(context, listen: false).RegistTodo(memberId!);
                               DateTime now = DateTime.now();
-                              Provider.of<ScheduleProvider>(context, listen: false).getList(now.year, now.month, now.day);
+                              Provider.of<ScheduleProvider>(context, listen: false).getList(memberId, now.year, now.month, now.day);
                               Navigator.pop(context);
                             },
                             child: Text('할 일 등록하기')

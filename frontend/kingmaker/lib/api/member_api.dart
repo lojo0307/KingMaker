@@ -1,9 +1,11 @@
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:math';
 
 import 'package:kingmaker/dto/member_dto.dart';
+
 final dio = Dio();
 String? url = dotenv.env['URL'];
 
@@ -61,17 +63,17 @@ class MemberApi{
     return res;
   }
 
-  void signup(MemberDto? member, String kdName) async{
+  void signup(MemberDto? _member, String kdName) async{
     //회원가입 하는 부분 back 연동 해야됨
     MemberDto? res;
     dynamic authorization =await storage.read(key:'authorization');
     print('signup header : ${authorization}');
-    print('signup :  ${member} /kdName : ${kdName}');
+    print('signup :  ${_member} /kdName : ${kdName}');
     try {
       var data = {
-        "nickname": member?.nickname,
+        "nickname": _member?.nickname,
         "kingdomName": kdName,
-        "gender": member?.gender
+        "gender": _member?.gender
       };
       var headers = {
         "Content-Type": "application/json",
@@ -83,8 +85,14 @@ class MemberApi{
         data: data,
         options: Options(headers: headers),
       );
+<<<<<<< 3667b2d2a3b432aec782ec2c776fc2005ab8d9fe
+      // 응답으로부터 MemberDto 객체를 생성합니다.
+      _member = MemberDto.responseFromJson(response.data['data']);
+      // Provider.of<MemberProvider>()
+=======
       print('응답으로부터 MemberDto 객체를 생성합니다.');
       res = MemberDto.responseFromJson(response.data['data']);
+>>>>>>> 3401886f0a4d92a79a839de1fcb9953db29d2e9e
       print('회원가입 성공 : ${res}');
 
     }catch (e) {

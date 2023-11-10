@@ -1,16 +1,26 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kingmaker/dto/todo_dto.dart';
 
 final dio = Dio();
 String? url = dotenv.env['URL'];
 
 class TodoApi{
+  final storage = const FlutterSecureStorage();
   Future<List<TodoDto>> getList(int memberId, String date) async{
+    dynamic authorization =await storage.read(key:'authorization');
+    var headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${authorization}",
+    };
+
     try{
       final response = await dio.get(
         '$url/api/todo/list/$memberId?date=$date',
+        options: Options(headers: headers),
       );
+      print('TodoApi - getList ${response.data}');
       return response.data['data'].map<TodoDto>((memberTodo) {
         return TodoDto.fromJsonToListDto(memberTodo);
       }).toList();
