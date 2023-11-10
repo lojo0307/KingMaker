@@ -20,5 +20,4 @@ public class PostTodoReqDto {
   private String todoDetail;
   private String todoPlace;
   private boolean importantYn;
-  private int monsterCd;
 }

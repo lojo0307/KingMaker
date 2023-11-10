@@ -19,5 +19,4 @@ public class TodoListResDto {
     LocalDateTime endAt;
     byte importantYn;
     byte achievedYn;
-    int monsterCd;
 }

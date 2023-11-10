@@ -127,7 +127,6 @@ public class TodoServiceImpl implements TodoService {
             .importantYn(importantYn)
             .startAt(todo.getStartAt())
             .endAt(todo.getEndAt())
-            .monsterCd(todo.getMonsterCd())
             .categoryId(todo.getCategory().getId())
             .build();
     return detail;
@@ -149,7 +148,6 @@ public class TodoServiceImpl implements TodoService {
         .todoDetail(postTodoReqDto.getTodoDetail())
         .todoPlace(postTodoReqDto.getTodoPlace())
         .importantYn(postTodoReqDto.isImportantYn())
-        .monsterCd(postTodoReqDto.getMonsterCd())
         .build());
 
     LocalDate startDate = postTodoReqDto.getStartAt().toLocalDate();
