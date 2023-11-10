@@ -46,7 +46,7 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
                 )
                 .from(todo)
                 .where(todo.achievedYn.eq(true)
-                    .and(todo.member.memberId.eq(memberId)))
+                    .and(todo.member.memberId.eq(memberId)), todo.category.id.ne(6L))
                 .groupBy(todo.category)
                 .orderBy(todo.category.count().asc(), todo.modifiedAt.desc())
                 .limit(1)
@@ -54,7 +54,7 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
 
             return c;
         } catch (NullPointerException e) {
-            return null;
+            return CategoryCntResDto.builder().categoryId(-1L).cnt(Long.MAX_VALUE).build();
         }
 
     }
@@ -71,7 +71,7 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
             )
             .from(todo)
             .where(todo.achievedYn.eq(true)
-                .and(todo.member.memberId.eq(memberId)))
+                .and(todo.member.memberId.eq(memberId)), todo.category.id.ne(6L))
             .groupBy(todo.category)
             .orderBy(todo.category.count().desc(), todo.modifiedAt.desc())
             .limit(1)
@@ -79,7 +79,7 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
 
             return c;
         } catch (NullPointerException e) {
-            return null;
+            return CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
         }
     }
 }
