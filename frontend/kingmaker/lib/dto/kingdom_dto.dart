@@ -10,7 +10,7 @@ class KingdomDto{
   });
   factory KingdomDto.fromJson(Map<String, dynamic> json) {
     return KingdomDto(
-      level: int.parse(json['level']),
+      level: json['level'],
       kingdomNm: json['kingdomNm'],
       citizen: json['citizen'],
     );

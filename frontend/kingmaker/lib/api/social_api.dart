@@ -7,7 +7,6 @@ class SocialApi{
   Future<String?> kakaologin() async {
     try {
       bool isInstalled = await isKakaoTalkInstalled();
-      print('API');
       if (isInstalled) { // 카톡이 있는 경우
         try {
           OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
