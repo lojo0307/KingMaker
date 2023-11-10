@@ -3,14 +3,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class SocialApi{
-<<<<<<< cf14c84a6b19d077275b1545f8a513b86973507e
-
-  Future<String> kakaologin() async {
-    String token = "";
-    // 인가코드
-
-    return token;
-=======
   final storage = const FlutterSecureStorage();
   Future<String?> kakaologin() async {
     try {
@@ -35,7 +27,6 @@ class SocialApi{
     } catch (e) {
       return null;
     }
->>>>>>> a71dfb828728bb25e15ccb0b130cd28110f725ca
   }
 
   Future<String?> googlelogin() async {
@@ -66,18 +57,12 @@ class SocialApi{
 
           return googleSignInAuthentication.accessToken;
         }
-      };
-
-
-
-
+      }
     } catch (error) {
       // 오류 처리
       print('Error while signing in with Google: $error');
       return 'Failed to sign in with Google';
     }
-
-
   }
 }
 
