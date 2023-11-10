@@ -4,12 +4,15 @@ import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 
+import '../../api/fcm_api.dart';
+
 class LoginWidget extends StatelessWidget {
   const LoginWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MemberProvider>(context);
+    final FcmApi fcmApi=FcmApi();
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
