@@ -32,7 +32,7 @@ class MemberDto{
       credentialId: 0,
       kingdomId: 0,
       nickname: json['nickname'] ?? "",
-      gender: json['gender'] ?? "",
+      gender: json['gender'] ?? "MAN",
       email: json['email'] ?? "",
       provider: json['provider'] ?? "",
     );
