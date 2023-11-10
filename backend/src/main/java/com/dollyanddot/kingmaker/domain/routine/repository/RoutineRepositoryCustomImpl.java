@@ -36,7 +36,7 @@ public class RoutineRepositoryCustomImpl implements RoutineRepositoryCustom {
             )
             .from(memberRoutine)
             .where(memberRoutine.achievedYn.eq(true)
-                .and(memberRoutine.member.memberId.eq(memberId)))
+                .and(memberRoutine.member.memberId.eq(memberId)), memberRoutine.routine.category.id.ne(6L))
             .groupBy(memberRoutine.routine.category)
             .orderBy(memberRoutine.routine.category.count().asc(), todo.modifiedAt.desc())
             .limit(1)
@@ -44,7 +44,7 @@ public class RoutineRepositoryCustomImpl implements RoutineRepositoryCustom {
 
             return c;
         } catch (NullPointerException e) {
-            return null;
+            return CategoryCntResDto.builder().categoryId(-1L).cnt(Long.MAX_VALUE).build();
         }
     }
 
@@ -59,7 +59,7 @@ public class RoutineRepositoryCustomImpl implements RoutineRepositoryCustom {
                 )
                 .from(memberRoutine)
                 .where(memberRoutine.achievedYn.eq(true)
-                    .and(memberRoutine.member.memberId.eq(memberId)))
+                    .and(memberRoutine.member.memberId.eq(memberId)), memberRoutine.routine.category.id.ne(6L))
                 .groupBy(memberRoutine.routine.category)
                 .orderBy(memberRoutine.routine.category.count().desc(), todo.modifiedAt.desc())
                 .limit(1)
@@ -67,7 +67,7 @@ public class RoutineRepositoryCustomImpl implements RoutineRepositoryCustom {
 
             return c;
         } catch (NullPointerException e) {
-            return null;
+            return CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
         }
     }
 }
