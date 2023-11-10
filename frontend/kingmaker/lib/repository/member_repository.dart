@@ -16,7 +16,7 @@ class MemberRepository {
     return _memberApi.checkKakaoToken(token);
   }
 
-  signup(MemberDto? member, String kdName) {
-    _memberApi.signup(member, kdName);
+  signup(MemberDto? _member, String kdName) {
+    _memberApi.signup(_member, kdName);
   }
 }
