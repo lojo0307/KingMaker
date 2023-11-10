@@ -52,7 +52,9 @@ class MemberApi{
       final response = await dio.get(
         '$url/api/auth/kakao?code=$token',
       );
-      print(response);
+      response.headers.forEach((k, v) => print('$k: $v'));
+      storage.write(key: "authorization", value: '${response.headers['authorization']?.first}');
+      storage.write(key: "authorization-refresh", value: '${response.headers['authorization-refresh']}');
       return MemberDto.responseFromJson(response.data['data']);
     } catch(e) {
       print(e);
@@ -77,15 +79,20 @@ class MemberApi{
         "Content-Type": "application/json",
         "Authorization": "Bearer ${authorization}",
       };
-      // dio를 사용하여 요청을 보냅니다.
+      print('dio를 사용하여 요청을 보냅니다.');
       final response = await dio.post(
         '$url/api/member/signup',
         data: data,
         options: Options(headers: headers),
       );
+<<<<<<< 3667b2d2a3b432aec782ec2c776fc2005ab8d9fe
       // 응답으로부터 MemberDto 객체를 생성합니다.
       _member = MemberDto.responseFromJson(response.data['data']);
       // Provider.of<MemberProvider>()
+=======
+      print('응답으로부터 MemberDto 객체를 생성합니다.');
+      res = MemberDto.responseFromJson(response.data['data']);
+>>>>>>> 3401886f0a4d92a79a839de1fcb9953db29d2e9e
       print('회원가입 성공 : ${res}');
 
     }catch (e) {

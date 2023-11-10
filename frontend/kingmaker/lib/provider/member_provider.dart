@@ -41,10 +41,7 @@ class MemberProvider with ChangeNotifier {
       //로그인 실패
       return -1;
     }
-
     _member = await _memberRepository.checkMemberGoogle(token);
-    _member?.gender ="MAN";
-
     if (member?.memberId == 0){
       //신규 가입
       return 0;
@@ -60,7 +57,9 @@ class MemberProvider with ChangeNotifier {
       return -1;
     } else {
       _member = await _memberRepository.checkMemberKakao(token!);
-      if (_member?.memberId == 0){
+      if (_member == null)
+        return -1;
+      else if (_member?.memberId == 0){
         return 0;
       } else {
         return 1;

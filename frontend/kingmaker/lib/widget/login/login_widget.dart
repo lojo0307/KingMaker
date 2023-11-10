@@ -50,6 +50,8 @@ class LoginWidget extends StatelessWidget {
   }
 
   void movPage(int flag, BuildContext context) {
+    if (flag == -1)
+      return;
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
