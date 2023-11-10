@@ -10,9 +10,11 @@ import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async{
   await dotenv.load(fileName: ".env");
+  await Firebase.initializeApp();
   KakaoSdk.init(
     nativeAppKey: dotenv.env['NATIVE_APP_KEY'],
   );
