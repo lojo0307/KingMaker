@@ -71,6 +71,14 @@ class MemberProvider with ChangeNotifier {
     _member?.gender = _member?.gender == "WOMAN" ? "MAM" : "WOMAN";
   }
 
+  void genderToMale() {
+    _member?.gender = "MAN";
+  }
+
+  void genderToFemale() {
+    _member?.gender = "WOMAN";
+  }
+
   void setErrorFirst() {
     _errorMessage = " ";
   }
