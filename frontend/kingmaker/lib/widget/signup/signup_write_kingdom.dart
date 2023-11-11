@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +20,7 @@ class _SignupWriteKingdomState extends State<SignupWriteKingdom> {
   Widget build(BuildContext context) {
     return Consumer<KingdomProvider>(
         builder: (context, provider, child) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Column(
+          return Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -29,13 +28,13 @@ class _SignupWriteKingdomState extends State<SignupWriteKingdom> {
                   children: [
                     Flexible(
                       child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Container(
-                            color: Colors.white,
+                        child: Container(
+                            height: 48.0,
                             child: TextField(
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
+                                filled: true,
+                                fillColor: WHITE_COLOR,
                               ),
                               onChanged: (value) {
                                 provider.setName(value);
@@ -43,7 +42,6 @@ class _SignupWriteKingdomState extends State<SignupWriteKingdom> {
                               },
                             ),
                           ),
-                        ),
                       ),
                     ),
                   ],
@@ -56,8 +54,7 @@ class _SignupWriteKingdomState extends State<SignupWriteKingdom> {
                   ),
                 ),
               ],
-            )
-          );
+            );
         }
     );
   }
