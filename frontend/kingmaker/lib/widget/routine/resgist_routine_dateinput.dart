@@ -1,6 +1,7 @@
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:provider/provider.dart';
 class DateInput extends StatefulWidget {
@@ -25,13 +26,10 @@ class _DateInput extends State<DateInput> {
               ).format(selectedDate!)),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
+                elevation: 0,
+                backgroundColor: WHITE_COLOR,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(13),
+                  borderRadius: BorderRadius.circular(8),
                 ),
 
               ),
