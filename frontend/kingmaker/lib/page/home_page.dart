@@ -14,47 +14,54 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future< List<Map<String, String>>>? _loadDataFuture;
   @override
   void initState()  {
 
     super.initState();
-    loadData();
+    _loadDataFuture = _loadData();
   }
-  void loadData() {
+  Future< List<Map<String, String>>> _loadData() async {
     DateTime now = DateTime.now();
-    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
-    // memberId가 null이 아닐 때만 getList를 호출합니다.
+    int? memberId = await Provider.of<MemberProvider>(context, listen: false).member?.memberId;
     if (memberId != null) {
-      Provider.of<ScheduleProvider>(context, listen: false)
-          .getList(memberId, now.year, now.month, now.day)
-          .then((_) {
-            print('getList 완료 !!!!!!!!!!!');
-            setState(() {
-            });
-        // 데이터 로딩이 완료된 후 수행할 작업을 여기에 넣습니다.
-        // 예를 들어, setState를 호출하여 UI를 업데이트할 수 있습니다.
-      }).catchError((error) {
-        // 여기에서 에러를 처리합니다.
-      });
+      await Provider.of<ScheduleProvider>(context, listen: false).getMainList(memberId, now.year, now.month, now.day);
+      List<Map<String, String>> data =await Provider.of<ScheduleProvider>(context, listen: false).list;
+      print('######_loadData : $data');
+      return data;
     }
+    throw Exception('Member ID is null');
   }
-  // print(Provider);
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> data = context.watch<ScheduleProvider>().list;
-    print('_HomePageState -data :  $data');
     return Align(
       alignment: Alignment.center,
-      child: Stack(
-        children: [
+      child: FutureBuilder< List<Map<String, String>>>(
+        future: _loadDataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            print('### homepage_build : $snapshot.data');
+            return Stack(
+              children: [
+                GameWidget.controlled(
+                  gameFactory: () => MyGame(context, snapshot.data!),
+                ),
+                ExpBar(),
+              ],
+            );
+          } else {
+            // 데이터 로딩에 실패했거나, 아직 데이터가 없을 때
+            return Text('No data available');
+          }
+        },
+      ),
 
-          GameWidget.controlled(
-              gameFactory:()=> MyGame(context, data),
-          ),
-          ExpBar(),
-        ],
-      )
     );
   }
+
 }
 

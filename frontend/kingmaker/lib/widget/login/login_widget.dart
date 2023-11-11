@@ -25,6 +25,9 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.GoogleLogin();
+                  if(flag != 0){
+                     Provider.of<KingdomProvider>(context, listen: false).getKingdom(flag);
+                  }
                   print("로그인 위젯 플래그 값 : ${flag}");
                   movPage(flag, context);
                 },
@@ -37,7 +40,11 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.KakaoLogin();
-                  movPage(flag, context, provider.member!.memberId, providerKing);
+                  print(flag);
+                  movPage(flag, context);
+                  if(flag != 0){
+                    Provider.of<KingdomProvider>(context, listen: false).getKingdom(flag);
+                  }
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -54,9 +61,6 @@ class LoginWidget extends StatelessWidget {
   void movPage(int flag, BuildContext context) {
     if (flag == -1)
       return;
-    if (flag == 1){
-      providerKing.getKingdom(memberId!);
-    }
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(

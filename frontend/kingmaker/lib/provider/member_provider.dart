@@ -46,9 +46,11 @@ class MemberProvider with ChangeNotifier {
       //신규 가입
       return 0;
     }
-    else
+    else {
       //기존 회원
-      return 1;
+      return member!.memberId;
+    }
+
   }
 
   Future<int> KakaoLogin() async{
@@ -62,7 +64,7 @@ class MemberProvider with ChangeNotifier {
       else if (_member?.memberId == 0){
         return 0;
       } else {
-        return 1;
+        return member!.memberId;
       }
     }
   }

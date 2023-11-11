@@ -29,8 +29,8 @@ class MemberApi{
       final response = await dio.get(
         '$url/api/auth/google?code=${code}',
       );
-      print(response.headers);
-      print('Headers:');
+      // print(response.headers);
+      // print('Headers:');
       response.headers.forEach((k, v) => print('$k: $v'));
       storage.write(key: "authorization", value: '${response.headers['authorization']?.first}');
       storage.write(key: "authorization-refresh", value: '${response.headers['authorization-refresh']}');
