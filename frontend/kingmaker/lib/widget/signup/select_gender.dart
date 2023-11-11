@@ -58,20 +58,20 @@ class _SelectGenderState extends State<SelectGender> {
                 SizedBox(width: 8),
                 GestureDetector(
                   onTap: () {
-                    provider.genderToMale();
+                    provider.genderToFemale();
                     setState(() {});
                   },
                   child: Container(
                     padding: EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
-                      color: !(provider.member?.gender == "WOMAN")
+                      color: (provider.member?.gender == "MAN")
                           ? null
                           : DARK_BLUE_COLOR,
                     ),
                     child: SvgPicture.asset(
                       'assets/icon/ic_female.svg',
-                      color: !(provider.member?.gender == "WOMAN")
+                      color: (provider.member?.gender == "MAN")
                           ? GREY_COLOR
                           : WHITE_COLOR,
                     ),
