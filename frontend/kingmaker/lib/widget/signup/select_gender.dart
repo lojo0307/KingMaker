@@ -15,20 +15,37 @@ class _SelectGenderState extends State<SelectGender> {
     return Consumer<MemberProvider>(
         builder: (context, provider, child) {
           return GestureDetector(
-            onTap: () {
-              provider.changeGender();
-              setState(() {});
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              height: 150,
-              width: 150,
-              child: Image(
-                image: (provider.member?.gender == "WOMAN")? AssetImage('assets/character/charWoman.png') : AssetImage('assets/character/charMan.png'),
-              ),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  height: 150,
+                  width: 150,
+                  child: Image(
+                    image: (provider.member?.gender == "WOMAN")? AssetImage('assets/character/charWoman.png') : AssetImage('assets/character/charMan.png'),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(onPressed: (){
+                      provider.genderToMale();
+                      setState(() {});
+                    }, child: Text('남',),
+                      style:  ElevatedButton.styleFrom(backgroundColor:  (provider.member?.gender == "WOMAN") ? null : Colors.amberAccent)
+                      ),
+                    SizedBox(width: 8),
+                    ElevatedButton(onPressed: (){
+                      provider.genderToFemale();
+                      setState(() {});
+                    }, child: Text('여'),
+                    style:  ElevatedButton.styleFrom(backgroundColor:  (provider.member?.gender == "MAN") ? null : Colors.amberAccent)),
+                  ],
+                ),
+              ],
             ),
           );
         });
