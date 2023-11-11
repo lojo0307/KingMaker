@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/signup/gender_img.dart';
 import 'package:kingmaker/widget/signup/next_button.dart';
@@ -21,20 +22,27 @@ class _MakeMynamePageState extends State<MakeMynamePage> {
     print(context.read<MemberProvider>());
     return SafeArea(
       child: const Scaffold(
-        backgroundColor: Color(0xFFEDF1FF),
+        backgroundColor: LIGHTEST_BLUE_COLOR,
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: 40,),
-              SelectGender(),
-              SignupText(line1: 'Your majesty,', line2: '당신의 존함을 알려주십시오.',),
-              SignupWriteName(),
-
-              NextButton(),
-            ],
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 80,),
+                SelectGender(),
+                SizedBox(height: 40),
+                SignupText(line1: 'Your majesty,', line2: '당신의 존함을 알려주십시오.',),
+                SizedBox(height: 40,),
+                SignupWriteName(),
+              ],
+            ),
           ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.all(20),
+          child: NextButton(),
         ),
       ),
     );

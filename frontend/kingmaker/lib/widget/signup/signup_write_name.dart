@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -15,52 +16,56 @@ class _SignupWriteNameState extends State<SignupWriteName> {
     Provider.of<MemberProvider>(context, listen: false).setErrorFirst();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<MemberProvider>(
-        builder: (context, provider, child) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Container(
-                            color: Colors.white,
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                provider.setNickName(value);
-                                setState(() {});
-                              },
-                            ),
-                          ),
+    return Consumer<MemberProvider>(builder: (context, provider, child) {
+      return Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Center(
+                  child: Container(
+                    height: 48.0,
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          // borderRadius: BorderRadius.circular(10),
                         ),
+                        filled: true,
+                        fillColor: WHITE_COLOR,
                       ),
+                      onChanged: (value) {
+                        provider.setNickName(value);
+                        setState(() {});
+                      },
                     ),
-                    TextButton(onPressed: () {
-                    }, child: const Text("랜덤 생성")),
-                  ],
-                ),
-                Text(provider.errorMessage,
-                  style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red
                   ),
                 ),
-              ],
-            ),
-          );
-        }
-    );
+              ),
+              SizedBox(width: 8,),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text("랜덤 생성", style: TextStyle(color: BLUE_BLACK_COLOR),),
+                style: ElevatedButton.styleFrom(
+                    minimumSize: Size(100, 48),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),padding: EdgeInsets.symmetric(horizontal: 16),backgroundColor: LIGHT_YELLOW_COLOR),
+
+              ),
+            ],
+          ),
+          Text(
+            provider.errorMessage,
+            style: const TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
+          ),
+        ],
+      );
+    });
   }
 }
