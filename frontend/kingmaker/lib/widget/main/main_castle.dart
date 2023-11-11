@@ -33,34 +33,34 @@ class Castle extends SpriteComponent {
     );
     await textComponent.onLoad();
     final textWidth = textComponent.width;
-    if(clevel=='1'||clevel=='2'){
+    if(clevel==1||clevel==2){
       //텐트일 때
       size = Vector2.all(250.0);
-      position = Vector2(350, 90);
+      position = Vector2(350, 100);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           size.y-5);
       add(textComponent);
-    }else if(clevel=='3'||clevel=='4'||clevel=='5'){
+    }else if(clevel==3||clevel==4||clevel==5){
       size = Vector2.all(270.0);
-      position = Vector2(350, 90);
+      position = Vector2(350, 100);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           size.y-15);
       add(textComponent);
-    }else if(clevel=='6'){
+    }else if(clevel==6){
       size = Vector2.all(290.0);
-      position = Vector2(350, 30);
+      position = Vector2(350, 40);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           size.y-5);
       add(textComponent);
-    }else if(clevel=='7'){
-      size = Vector2.all(300.0);
-      position = Vector2(350, 50);
+    }else if(clevel==7){
+      size = Vector2.all(290.0);
+      position = Vector2(350, 60);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           size.y-35);
       add(textComponent);
-    }else if(clevel=='8'||clevel=='9'){
-      size = Vector2.all(300.0);
-      position = Vector2(350, 30);
+    }else if(clevel==8||clevel==9){
+      size = Vector2.all(290.0);
+      position = Vector2(350, 40);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           size.y-10);
       add(textComponent);

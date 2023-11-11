@@ -5,6 +5,7 @@ import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../api/fcm_api.dart';
+import '../../provider/kingdom_provider.dart';
 
 class LoginWidget extends StatelessWidget {
   const LoginWidget({super.key});
@@ -40,11 +41,11 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.KakaoLogin();
-                  print(flag);
-                  movPage(flag, context);
                   if(flag != 0){
                     Provider.of<KingdomProvider>(context, listen: false).getKingdom(flag);
                   }
+                  print(flag);
+                  movPage(flag, context);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),

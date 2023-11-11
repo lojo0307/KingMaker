@@ -38,13 +38,18 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
     this.animation = animation;
     this.size = spriteSize;
     monsterPosition = parent as MonsterPosition;
-
+    Color textColor;
+    if (monsterInfo['important'] == '1') {
+      textColor = Colors.red; // for important monsters
+    } else {
+      textColor = Colors.white; // for non-important monsters
+    }
     textComponent=TextComponent(
         text: "${monsterInfo['title']}",
         textRenderer: TextPaint(
           style:TextStyle(
             fontFamily: 'PretendardBold',
-            color: Colors.red,
+            color: textColor,
             fontSize: 18,
             backgroundColor: Colors.black38,
           ),

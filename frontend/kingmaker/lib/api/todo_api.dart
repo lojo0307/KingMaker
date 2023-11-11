@@ -8,6 +8,7 @@ class TodoApi{
     print('todo');
     try{
       final response = await totalApi.getApi('/api/todo/list/$memberId?date=$date',);
+      // print('!!!!!!!!!!!response : ${response.data['data']}');
       return response.data['data'].map<TodoDto>((memberTodo) {
         return TodoDto.fromJsonToListDto(memberTodo);
       }).toList();
