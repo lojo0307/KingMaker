@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:time_picker_sheet/widget/sheet.dart';
@@ -58,18 +59,15 @@ class _TimeInputState extends State<TimeInput> {
           children: <Widget>[
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
+                elevation: 0,
+                backgroundColor: WHITE_COLOR,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(13),
+                  borderRadius: BorderRadius.circular(8),
                 ),
 
               ),
               onPressed: () => _openTimePickerSheet(context),
-              child: Text('${getHourString(dateTimeSelected.hour)}시 ${dateTimeSelected.minute}분'),
+              child: Text('${getHourString(dateTimeSelected.hour)}시 ${dateTimeSelected.minute}분', style: TextStyle(color: BLUE_BLACK_COLOR),),
             ),
           ],
         );

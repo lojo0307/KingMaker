@@ -1,6 +1,7 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -21,11 +22,11 @@ class _CategoryButtonState extends State<CategoryButton> {
     return Column(
       children: [
         CustomRadioButton(
-          unSelectedBorderColor: Color(0x0000000),
-          selectedBorderColor: Color(0x0000000),
+          unSelectedBorderColor: LIGHTEST_BLUE_COLOR,
+          selectedBorderColor: LIGHTEST_BLUE_COLOR,
           elevation: 0,
           width: 80,
-          height: 30,
+          // height: 30,
           buttonLables: category,
           buttonValues: categoryId,
           radioButtonValue: (value) {
@@ -34,8 +35,8 @@ class _CategoryButtonState extends State<CategoryButton> {
               selectedValue = value;
             });
           },
-          unSelectedColor: const Color(0xFFD9D9D9),
-          selectedColor: const Color(0xFF5792A4),
+          unSelectedColor: GREY_COLOR,
+          selectedColor: BLUE_COLOR,
           enableButtonWrap: true, // 중요: 버튼 래핑 비활성화
           defaultSelected: selectedValue,
           // ... 기타 속성들
