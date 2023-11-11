@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
+import 'package:kingmaker/widget/signup/gender_img.dart';
 
 import 'package:kingmaker/widget/signup/select_gender.dart';
 import 'package:kingmaker/widget/signup/signup_text.dart';
@@ -29,7 +30,7 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SelectGender(),
+                const GenderImg(),
                 const SignupText(line1: '당신은 왕국의 태조입니다.', line2: '왕국의 이름은?',),
                 const SignupWriteKingdom(),
                 ElevatedButton(onPressed: () {

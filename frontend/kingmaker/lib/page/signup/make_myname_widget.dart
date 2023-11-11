@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/provider/member_provider.dart';
+import 'package:kingmaker/widget/signup/gender_img.dart';
 import 'package:kingmaker/widget/signup/next_button.dart';
 import 'package:kingmaker/widget/signup/select_gender.dart';
 import 'package:kingmaker/widget/signup/signup_text.dart';
@@ -18,18 +19,22 @@ class _MakeMynamePageState extends State<MakeMynamePage> {
   Widget build(BuildContext context) {
     print('makepage');
     print(context.read<MemberProvider>());
-    return const Scaffold(
-      backgroundColor: Color(0xFFEDF1FF),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SelectGender(),
-            SignupText(line1: 'Your majesty,', line2: '당신의 존함을 알려주십시오.',),
-            SignupWriteName(),
-            NextButton(),
-          ],
+    return SafeArea(
+      child: const Scaffold(
+        backgroundColor: Color(0xFFEDF1FF),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 40,),
+              SelectGender(),
+              SignupText(line1: 'Your majesty,', line2: '당신의 존함을 알려주십시오.',),
+              SignupWriteName(),
+
+              NextButton(),
+            ],
+          ),
         ),
       ),
     );
