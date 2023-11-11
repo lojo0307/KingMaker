@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/page/login_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -12,9 +13,16 @@ import 'package:provider/provider.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+//background 상태에서 메시지를 수신할 수 있게 하는 핸들러
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
+}
+
 void main() async{
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   KakaoSdk.init(
     nativeAppKey: dotenv.env['NATIVE_APP_KEY'],
   );
