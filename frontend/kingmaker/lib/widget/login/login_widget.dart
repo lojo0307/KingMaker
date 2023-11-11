@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/page/story_page.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
+
+import '../../api/fcm_api.dart';
 
 class LoginWidget extends StatelessWidget {
   const LoginWidget({super.key});
@@ -10,6 +13,8 @@ class LoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MemberProvider>(context);
+    final providerKing = Provider.of<KingdomProvider>(context);
+    final FcmApi fcmApi=FcmApi();
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
@@ -23,7 +28,7 @@ class LoginWidget extends StatelessWidget {
                 onTap: () async{
                   int flag = await provider.GoogleLogin();
                   print("로그인 위젯 플래그 값 : ${flag}");
-                  movPage(flag, context);
+                  movPage(flag, context, provider.member!.memberId, providerKing);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -34,8 +39,7 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.KakaoLogin();
-                  print(flag);
-                  movPage(flag, context);
+                  movPage(flag, context, provider.member!.memberId, providerKing);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -49,9 +53,12 @@ class LoginWidget extends StatelessWidget {
     );
   }
 
-  void movPage(int flag, BuildContext context) {
+  void movPage(int flag, BuildContext context, int memberId, KingdomProvider providerKing) {
     if (flag == -1)
       return;
+    if (flag == 1){
+      providerKing.getKingdom(memberId!);
+    }
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
