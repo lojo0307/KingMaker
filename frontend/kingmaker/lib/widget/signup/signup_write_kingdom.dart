@@ -32,7 +32,16 @@ class _SignupWriteKingdomState extends State<SignupWriteKingdom> {
                             height: 48.0,
                             child: TextField(
                               decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
+                                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0), // 상하 패딩 조절
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none, // 일반 상태에서는 테두리 없음
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none, // 비활성화 상태에서도 테두리 없음
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 1), // 포커스 상태에서 두꺼운 테두리
+                                ),
                                 filled: true,
                                 fillColor: WHITE_COLOR,
                               ),
