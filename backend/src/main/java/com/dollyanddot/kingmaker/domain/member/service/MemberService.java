@@ -126,6 +126,17 @@ public class MemberService {
                 .token(token)
                 .member(memberRepository.findById(memberId).get())
                 .build();
+        List<String> tokenContainer=new ArrayList<>();
+        tokenContainer.add(token);
+        FirebaseMessaging messaging = FirebaseMessaging.getInstance();
+        try{
+            messaging.subscribeToTopic(tokenContainer,"MORNING");
+            messaging.subscribeToTopic(tokenContainer,"TODO");
+            messaging.subscribeToTopic(tokenContainer,"ROUTINE");
+            messaging.subscribeToTopic(tokenContainer,"EVENING");
+        }catch (FirebaseMessagingException e){
+            e.printStackTrace();
+        }
         fcmTokenRepository.save(newToken);
     }
 
@@ -134,11 +145,12 @@ public class MemberService {
         //토픽마다 구독 취소
         List<String> tokenContainer=new ArrayList<>();
         tokenContainer.add(token);
+        FirebaseMessaging messaging = FirebaseMessaging.getInstance();
         try {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(tokenContainer, "MORNING");
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(tokenContainer, "TODO");
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(tokenContainer, "ROUTINE");
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(tokenContainer, "EVENING");
+            messaging.unsubscribeFromTopic(tokenContainer, "MORNING");
+            messaging.unsubscribeFromTopic(tokenContainer, "TODO");
+            messaging.unsubscribeFromTopic(tokenContainer, "ROUTINE");
+            messaging.unsubscribeFromTopic(tokenContainer, "EVENING");
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }

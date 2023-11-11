@@ -104,11 +104,12 @@ public class SchedulerService {
     notificationService.sendEveningNotification();
   }
 
-//  @Scheduled(cron="0 0/1 * * * *",zone="Asia/Seoul")
-//  public void sendPlanNotification() throws Exception{
-//    //TODO: 일정 수행 시작 한 시간 전 알림 발송
-//    notificationService.sendNotification();
-//  }
+  @Transactional
+  @Scheduled(cron="0 0/1 * * * *",zone="Asia/Seoul")
+  public void sendPlanNotification() throws Exception{
+    //TODO: 일정 수행 시작 한 시간 전 알림 발송
+    notificationService.sendNotification();
+  }
 
   @Scheduled(cron="0 0 0 * * *", zone="Asia/Seoul")
   public void checkNotAchievedPlanFromYesterday() {

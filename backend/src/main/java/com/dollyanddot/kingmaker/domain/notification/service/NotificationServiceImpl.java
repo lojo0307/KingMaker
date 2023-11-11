@@ -66,17 +66,17 @@ public class NotificationServiceImpl implements NotificationService{
                         .member(nt.getMember())
                         .build();
                 notificationList.add(n);
-                Optional<List<FcmToken>> fcmTokenList=fcmTokenRepository.findFcmTokensByMember_MemberId(nt.getMember().getMemberId());
-                if(fcmTokenList.isPresent()){
-                    for(FcmToken token:fcmTokenList.get()){
+                List<FcmToken> fcmTokenList=fcmTokenRepository.findFcmTokensByMember_MemberId(nt.getMember().getMemberId()).orElseThrow(()->new TokenNotFoundException());
+                if(!fcmTokenList.isEmpty()){
+                    for(FcmToken token:fcmTokenList){
                         Message m=Message.builder()
                                 .setToken(token.getToken())
-                                .setTopic(Type.TODO.name())
                                 .setNotification(com.google.firebase.messaging.Notification.builder()
                                         .setBody(nt.getMessage())
                                         .setTitle("일정 수행 전입니다.")
                                         .build())
                                 .build();
+                        System.out.println(m.toString());
                         messageList.add(m);
                     }
                 }
@@ -86,7 +86,7 @@ public class NotificationServiceImpl implements NotificationService{
             if(messageList.isEmpty())return;
             //푸시 알림 발송
             firebaseMessaging.sendAll(messageList);
-        }catch(FirebaseMessagingException e){
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
@@ -100,7 +100,6 @@ public class NotificationServiceImpl implements NotificationService{
                 for(FcmToken ft:tokenList.get()){
                     Message message=Message.builder()
                             .setToken(ft.getToken())
-                            .setTopic(Type.MORNING.name())
                             .setNotification(com.google.firebase.messaging.Notification.builder()
                                     .setBody("Your majesty, 오늘 처리해야 하는 업무가 "+t.getCnt()+"건 있습니다.")
                                     .setTitle("아침 문안인사 드립니다.")
@@ -112,7 +111,6 @@ public class NotificationServiceImpl implements NotificationService{
                 for(FcmToken ft:tokenList.get()){
                     Message message=Message.builder()
                             .setToken(ft.getToken())
-                            .setTopic(Type.EVENING.name())
                             .setNotification(com.google.firebase.messaging.Notification.builder()
                                     .setBody("Your majesty, 아직 처리하지 못한 업무가 "+t.getCnt()+"건 있습니다.")
                                     .setTitle("저녁 문안인사 드립니다.")
