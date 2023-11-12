@@ -108,6 +108,7 @@ flutter:
     - assets/images/slime_left.png
     - assets/images/slime_right.png
     - assets/character/
+    - assets/character/calendarlist/
     - assets/user_level/
     - assets/icon/
     - .env

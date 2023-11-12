@@ -105,7 +105,9 @@ class CalendarProvider with ChangeNotifier {
       'id' : dto.memberRoutineId.toString(),
       'memberId' : dto.routine.routineId.toString(),
       'title' : dto.routine.routineNm,
+      'category' : dto.routine.categoryId.toString(),
       'type' : '2',
+      'important' : dto.importantYn? '1':'0',
       'achieved' : dto.achievedYn? '1' : '0',
     };
   }
@@ -114,7 +116,9 @@ class CalendarProvider with ChangeNotifier {
     return {
       'id' : dto.todoId.toString(),
       'title' : dto.todoNm,
+      'category' : dto.categoryId.toString(),
       'type' : '1',
+      'important' : dto.importantYn? '1':'0',
       'achieved' : dto.achievedYn? '1' : '0',
     };
   }

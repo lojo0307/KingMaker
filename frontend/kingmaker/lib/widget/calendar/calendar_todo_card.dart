@@ -7,6 +7,8 @@ class CalendarTodoCard extends StatelessWidget {
   final Map<String, String> data;
   @override
   Widget build(BuildContext context) {
+    print('CalendarTodoCard : $data');
+    final Color bgColor = data['achieved']=='0' ? Colors.white : Colors.grey;
     return GestureDetector(
       onTap: () async{
         await Provider.of<ScheduleProvider>(context, listen: false).getDetail(int.parse(data['id']!), data['type']!);
@@ -18,21 +20,19 @@ class CalendarTodoCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: bgColor,
         ),
-        padding: EdgeInsetsDirectional.symmetric(vertical: 15),
-        margin: EdgeInsetsDirectional.symmetric(vertical: 10),
+        padding: EdgeInsetsDirectional.symmetric(vertical: 10),
+        margin: EdgeInsetsDirectional.symmetric(vertical: 5),
         child: Row(
           children: [
             Container(
               padding: EdgeInsetsDirectional.symmetric(horizontal: 20),
               child: Container(
-                decoration: BoxDecoration(
-                  color: data['achieved'] == '1' ? Colors.grey : Colors.greenAccent,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                width: 15,
-                height: 15,
+                child: Image.asset('assets/character/calendarlist/${data['category']}.gif',scale: 1.1),
+                width: 40,
+                height: 40,
+                margin: EdgeInsets.only(right: 1),
               ),
             ),
             Text('${data['title']}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
