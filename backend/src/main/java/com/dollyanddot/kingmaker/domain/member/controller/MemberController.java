@@ -45,4 +45,9 @@ public class MemberController {
                 .build();
     }
 
+    @GetMapping("/check")
+    public EnvelopeResponse<Void> check() {
+        return EnvelopeResponse.<Void>builder().build();
+    }
+
 }
