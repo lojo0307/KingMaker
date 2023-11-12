@@ -26,12 +26,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, String>> data = context.watch<ScheduleProvider>().list;
-    print('_HomePageState -data :  $data');
     return Align(
       alignment: Alignment.center,
       child: Stack(
         children: [
-
           GameWidget.controlled(
               gameFactory:()=> MyGame(context,)
           ),

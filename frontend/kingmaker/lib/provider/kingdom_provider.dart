@@ -25,10 +25,6 @@ class KingdomProvider with ChangeNotifier {
       _errorMessage = " ";
   }
 
-  void makeKingdom() async {
-    _kingdomRepository.makeKingdom(_kingdomName);
-    _kingdomDto = new KingdomDto(level: 1, kingdomNm: _kingdomName, citizen: 0);
-  }
   void getKingdom(int memberId) async{
     _kingdomDto = await _kingdomRepository.getKingdom(memberId);
   }
