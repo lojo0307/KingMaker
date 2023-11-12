@@ -37,7 +37,6 @@ class MemberProvider with ChangeNotifier {
   Future<int> GoogleLogin() async {
     String? token = await _socialRepository.googlelogin();
     if(token == null){
-      print('로그인실패');
       //로그인 실패
       return -1;
     }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScoreWidget extends StatefulWidget {
   const ProfileScoreWidget({super.key});
@@ -10,6 +12,11 @@ class ProfileScoreWidget extends StatefulWidget {
 class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
   @override
   Widget build(BuildContext context) {
+    String maxCategory = context.watch<AchievementProvider>().maxCategory;
+    String minCategory = context.watch<AchievementProvider>().minCategory;
+    int dailyRate = context.watch<AchievementProvider>().dailyRate;
+    int monthlyRate = context.watch<AchievementProvider>().monthlyRate;
+    int yearRate = context.watch<AchievementProvider>().yearRate;
     return LayoutBuilder(builder: (ctx, constraints) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -38,10 +45,11 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                         ),
                       ),
                       Container(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Text('일간도표'),
-                            Text('월간도표'),
+                            Text('일간:$dailyRate%'),
+                            Text('월간:$monthlyRate%'),
+                            Text('연간:$yearRate%')
                           ],
                         ),
                       )
@@ -49,16 +57,16 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                   ),
                 ),
                 Container(
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('가장 강력한 몬스터',
+                      const Text('가장 강력한 몬스터',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),),
-                      Text('빨래널기',
-                        style: TextStyle(
+                      Text(maxCategory,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.red,
@@ -68,17 +76,17 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                   ),
                 ),
                 Container(
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('가장 약한 몬스터',
+                      const Text('가장 약한 몬스터',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text('늦잠자기',
-                        style: TextStyle(
+                      Text(minCategory,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
