@@ -17,7 +17,8 @@ class ScheduleInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(data['title'].toString(),
+          Text(
+            _truncateText(data['title'].toString(), 10),
             style: TextStyle(
               fontSize: 20,
               decoration: (data['achieved'] == '1') ? TextDecoration.lineThrough : TextDecoration.none,
@@ -28,4 +29,14 @@ class ScheduleInfo extends StatelessWidget {
       ),
     );
   }
+
+  //10자가 넘어가면 ...으로 처리
+  String _truncateText(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return text.substring(0, maxLength) + '...';
+    }
+  }
 }
+
