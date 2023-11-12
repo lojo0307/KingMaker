@@ -3,6 +3,7 @@ import 'package:kingmaker/provider/calendar_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class ProfileCalendarWidget extends StatefulWidget {
   const ProfileCalendarWidget({super.key});
@@ -91,7 +92,27 @@ class _ProfileCalendarWidgetState extends State<ProfileCalendarWidget> {
                 color: calColors[idx],
               ),
               child: Center(
-                child: Text(day.day.toString()),
+                child: ListView(
+                  children: <Widget>[
+                    new CircularPercentIndicator(
+                    radius: 120.0,
+                    lineWidth: 5.0,
+                    animation: true,
+                    percent: 0.7,
+                    center: new Text(
+                      day.day.toString(),
+                      style:
+                      new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+                    ),
+                    footer: new Text(
+                      "Sales this week",
+                      style:
+                      new TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+                    ),
+                    circularStrokeCap: CircularStrokeCap.round,
+                    progressColor: Colors.purple,
+                  ),]
+                )
               ),
             );
           },
