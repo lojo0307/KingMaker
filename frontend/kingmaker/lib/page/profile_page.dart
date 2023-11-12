@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/profile/profile_calendar_widget.dart';
 import 'package:kingmaker/widget/profile/profile_char_image_widget.dart';
 import 'package:kingmaker/widget/profile/profile_kingdom_widget.dart';
 import 'package:kingmaker/widget/profile/profile_score_widget.dart';
 import 'package:kingmaker/widget/profile/profile_name_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../widget/profile/profile_achievement_widget.dart';
 
@@ -15,6 +18,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    int? memberId = Provider.of<MemberProvider>(context,listen: false).member?.memberId;
+    Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (ctx, constraints) {

@@ -5,7 +5,6 @@ import 'package:kingmaker/dto/todo_dto.dart';
 class TodoApi{
   final TotalApi totalApi = TotalApi();
   Future<List<TodoDto>> getList(int memberId, String date) async {
-    print('todo');
     try{
       final response = await totalApi.getApi('/api/todo/list/$memberId?date=$date',);
       return response.data['data'].map<TodoDto>((memberTodo) {

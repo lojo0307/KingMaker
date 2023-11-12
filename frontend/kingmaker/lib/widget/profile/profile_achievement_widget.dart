@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/dto/reward_dto.dart';
+import 'package:kingmaker/provider/achievement_provider.dart';
 import 'package:kingmaker/widget/achievement/achievement_page.dart';
 import 'package:kingmaker/widget/profile/profile_achievement_icon_widget.dart';
+import 'package:provider/provider.dart';
 
 class ProfileAchievementWidget extends StatefulWidget {
   const ProfileAchievementWidget({super.key});
@@ -11,15 +14,9 @@ class ProfileAchievementWidget extends StatefulWidget {
 }
 
 class _ProfileAchievementWidgetState extends State<ProfileAchievementWidget> {
-  List<Map<String,String>> list = [
-    {'award_nm': '알린모찌호소인1','award_img': 'sample'},
-    {'award_nm': '알린모찌호소인2','award_img': 'sample'},
-    {'award_nm': '알린모찌호소인3','award_img': 'sample'}
-  ];
-
-
   @override
   Widget build(BuildContext context) {
+    List<RewardDto> list = context.watch<AchievementProvider>().list;
     return LayoutBuilder(builder: (ctx, constraints) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -95,9 +92,7 @@ class _ProfileAchievementWidgetState extends State<ProfileAchievementWidget> {
                 Wrap(
                   spacing: 11.0, // 각 아이콘 사이의 가로 간격
                   runSpacing: 7.0, // 각 아이콘 줄 사이의 세로 간격
-                  children: list.map((Map<String, String> info) {
-                    return ProfileAchievementIconWidget(data: info);
-                  }).toList(),
+                  children: getMyRewardThree(list),
                 ),
               ],
             ),
@@ -105,5 +100,22 @@ class _ProfileAchievementWidgetState extends State<ProfileAchievementWidget> {
         ],
       );
     });
+  }
+
+  getMyRewardThree(List<RewardDto> list) {
+    List<Widget> resList = [];
+    if (list.isEmpty) {
+      return [Container()];
+    }
+    for(int i = 0 ; i < 3 ; i++){
+      RewardDto now = list.elementAt(i);
+      if (now.achieved) {
+        resList.add(ProfileAchievementIconWidget(data: now));
+      }
+    }
+    if (resList.isEmpty) {
+      return[Container()];
+    }
+    return resList;
   }
 }
