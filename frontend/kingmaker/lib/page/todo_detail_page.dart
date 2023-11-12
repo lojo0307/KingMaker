@@ -85,28 +85,38 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/pixel_star.png',
-                                          height: 30,
-                                          width: 30,
-                                        ),
-                                        SizedBox(
-                                          width: 8,
-                                        ),
-                                        Text(data['title']!,
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            )),
-                                      ],
+                                  Expanded(
+                                    child: Container(
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/pixel_star.png',
+                                            height: 30,
+                                            width: 30,
+                                          ),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
+                                          Expanded(
+                                            child: Wrap(
+                                              direction: Axis.horizontal,
+                                              children: [
+                                                Text(
+                                                  data['title']!,
+                                                  style: TextStyle(fontSize: 25),
+                                                  softWrap: true,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Container(
                                       height: 32,
                                       padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
+                                      EdgeInsets.symmetric(horizontal: 10),
                                       decoration: BoxDecoration(
                                         color: BLUE_COLOR,
                                         borderRadius: BorderRadius.circular(
@@ -116,7 +126,7 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                                       child: Center(
                                         child: Text(
                                             category[
-                                                int.parse(data['category']!)],
+                                            int.parse(data['category']!)],
                                             style: TextStyle(
                                                 color: WHITE_COLOR,
                                                 fontSize: 16)),
