@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kingmaker/page/login_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:kingmaker/provider/alarm_provider.dart';
 import 'package:kingmaker/provider/calendar_provider.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
@@ -53,6 +54,9 @@ void main() async{
 
   runApp(MultiProvider(
       providers: [
+        ChangeNotifierProvider<AlarmProvider>(
+          create: (context) => AlarmProvider(),
+        ),
         ChangeNotifierProvider<AchievementProvider>(
           create: (context) => AchievementProvider(),
         ),
