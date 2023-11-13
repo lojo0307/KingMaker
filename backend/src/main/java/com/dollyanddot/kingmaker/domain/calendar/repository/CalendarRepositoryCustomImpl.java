@@ -273,4 +273,34 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
             .fetchOne();
     }
 
+    @Override
+    public Long getPlusSchedule(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count())
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.eq(LocalDate.now().minusDays(1))
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isTrue()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isTrue())))
+                .and(calendar.member.memberId.eq(memberId))
+            )
+            .fetchOne();
+    }
+
+    @Override
+    public Long getMinusSchedule(Long memberId) {
+        return queryFactory
+            .select(calendar.calendarId.count())
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.eq(LocalDate.now().minusDays(1))
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isFalse()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isFalse())))
+                .and(calendar.member.memberId.eq(memberId))
+            )
+            .fetchOne();
+    }
+
 }
