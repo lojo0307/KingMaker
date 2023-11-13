@@ -1,24 +1,9 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:dio/dio.dart';
-
-final dio = Dio();
-String? url = dotenv.env['URL'];
+import 'package:kingmaker/api/total_api.dart';
 
 class AlarmApi{
+  final TotalApi totalApi = TotalApi();
   void getAlarmState(int memberId) async{
-    final response = await dio.get(
-      '$url/api/mypage/notification/$memberId',
-    );
-  }
-
-  void setAlarm(int memberId, int notificationTypeId) async{
-    final response = await dio.get(
-      '$url/api/notification/setting',
-      data: {
-        "memberId" : memberId,
-        "notificationTypeId" : notificationTypeId,
-      }
-    );
+    final response = await totalApi.getApi('/api/mypage/notification/$memberId',);
   }
 
   void getAlarm(int memberId) async{

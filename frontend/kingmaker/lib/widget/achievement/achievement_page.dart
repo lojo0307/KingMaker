@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/dto/reward_dto.dart';
+import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:provider/provider.dart';
 
 // import 'achievement_modal.dart';
 import 'achievement_widget.dart';
@@ -38,6 +41,7 @@ class _AchievementPageState extends State<AchievementPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<RewardDto> list = context.watch<AchievementProvider>().list;
     return LayoutBuilder(builder: (context, constraints){
       return Scaffold(
         backgroundColor: Color(0xFFEDF1FF),

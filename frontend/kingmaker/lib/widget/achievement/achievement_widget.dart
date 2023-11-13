@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:flutter_flip_card/flipcard/flip_card.dart';
 import 'package:flutter_flip_card/modal/flip_side.dart';
+import 'package:kingmaker/dto/reward_dto.dart';
 
 class AchievementWidget extends StatefulWidget {
   const AchievementWidget({super.key, required this.data});
-  final Map<String, String> data;
+  final RewardDto data;
   @override
   State<AchievementWidget> createState() => _AchievementWidgetState();
 }
@@ -15,11 +16,11 @@ class _AchievementWidgetState extends State<AchievementWidget> {
   @override
   Widget build(BuildContext context) {
     // 위젯의 'achieved_yn' 값에 따라 배경색과 텍스트 내용을 결정합니다.
-    final bool isAchieved = widget.data['achieved_yn'] == '1';
+    final bool isAchieved = widget.data.achieved;
     final Color bgColor = isAchieved ? Colors.white : Colors.grey;
-    final String? rewardNmtText = isAchieved ? widget.data['reward_nm'] : "미달성 업적";
-    final String? rewardContText = isAchieved ? widget.data['reward_msg'] : widget.data['reward_cont'];
-    final String rewardDateText = isAchieved ? '업적 달성일 : ${widget.data['modified_at']}' : " ";
+    final String rewardNmtText = isAchieved ? widget.data.rewardNm : "미달성 업적";
+    final String rewardContText = isAchieved ? widget.data.rewardCond : '${widget.data.rewardPercent}% 달성';
+    final String rewardDateText = isAchieved ? '업적 달성일 : ${widget.data.modifiedAt}' : " ";
     final con = FlipCardController();
     return FlipCard(
         controller: con,

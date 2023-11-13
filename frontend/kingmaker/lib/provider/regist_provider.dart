@@ -52,7 +52,6 @@ class RegistProvider with ChangeNotifier {
 
   RegistTodo(int MemberId){
     TodoDto todoDto = TodoDto(todoId: 0, categoryId: _categoryId, startAt: "$_startAt$_startTime", endAt: "$_endAt$_endTime", todoNm: _title, todoDetail: _detail, todoPlace: "장소", importantYn: importantYn, achievedYn: false);
-    print(todoDto.startAt);
     _todoRepository.registTodo(MemberId, todoDto);
     ResetAll();
   }

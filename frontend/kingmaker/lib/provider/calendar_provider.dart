@@ -36,7 +36,6 @@ class CalendarProvider with ChangeNotifier {
 
   getMyCal(int memberId, int year, int month) async {
     _mypage = await _calendarRepository.getMyCal(memberId, year, month);
-    print(_mypage);
     notifyListeners();
   }
 
