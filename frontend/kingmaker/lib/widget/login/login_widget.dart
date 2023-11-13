@@ -32,7 +32,7 @@ class LoginWidget extends StatelessWidget {
                      Provider.of<KingdomProvider>(context, listen: false).getKingdom(flag);
                   }
                   print("로그인 위젯 플래그 값 : ${flag}");
-                  movPage(flag, context, provider.member!.memberId, providerKing);
+                  movPage(flag, context, providerKing);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -43,7 +43,7 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.KakaoLogin();
-                  movPage(flag, context, provider.member!.memberId, providerKing);
+                  movPage(flag, context, providerKing);
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -57,11 +57,11 @@ class LoginWidget extends StatelessWidget {
     );
   }
 
-  void movPage(int flag, BuildContext context, int memberId, KingdomProvider providerKing) {
+  void movPage(int flag, BuildContext context, KingdomProvider providerKing) async {
     if (flag == -1)
       return;
-    if (flag == 1){
-      providerKing.getKingdom(memberId!);
+    else {
+      Provider.of<KingdomProvider>(context, listen: false).getKingdom(flag);
     }
     Navigator.pushAndRemoveUntil(
         context,
