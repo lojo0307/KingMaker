@@ -103,7 +103,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
       _showDialog('수정 실패!', '닉네임에는 특수 문자나 아이콘을 사용할 수 없습니다');
     } else {
       try {
-        Provider.of<MemberProvider>(context, listen: false).setNickName(nickname);
+        Provider.of<MemberProvider>(context, listen: false).modifyNickName(nickname);
         // 업데이트 성공 후 성공 메시지를 보여주고 이전 페이지로 닉네임을 전달합니다.
         _showDialog('성공', '닉네임을 수정했습니다');
         Navigator.pop(context, nickname); // 변경된 닉네임을 결과로 전달합니다.
