@@ -19,7 +19,7 @@ class _ScheduleSetState extends State<ScheduleSet> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.all(10),
+          margin: EdgeInsets.all(12),
           padding: EdgeInsets.only(top: 5),
           height: 50.0,
           child: ListView(

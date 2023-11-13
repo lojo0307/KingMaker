@@ -35,7 +35,13 @@ class CalendarTodoCard extends StatelessWidget {
                 margin: EdgeInsets.only(right: 1),
               ),
             ),
-            Text('${data['title']}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            Expanded(
+              child: Text(
+                '${data['title']}',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                softWrap: true,
+              ),
+            ),
           ],
         ),
       ),
