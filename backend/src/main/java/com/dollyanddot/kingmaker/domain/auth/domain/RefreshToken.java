@@ -15,9 +15,10 @@ import java.util.concurrent.TimeUnit;
 @RedisHash(value = "refresh_token")
 public class RefreshToken {
 
+    @Id
     private String credentialId;
 
-    @Id
+    @Indexed
     private String refreshToken;
 
     @TimeToLive(unit = TimeUnit.MILLISECONDS)
