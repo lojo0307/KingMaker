@@ -13,12 +13,8 @@ import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-<<<<<<< bd255d85a702689ee2bbe942e61ab82d48f54788
-=======
 import 'firebase_options.dart';
 
->>>>>>> e4b3a8d3f8dab1d6d1cbcea9c099f1b19c5340dc
 //background 상태에서 메시지를 수신할 수 있게 하는 핸들러
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -27,11 +23,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async{
   await dotenv.load(fileName: ".env");
-<<<<<<< bd255d85a702689ee2bbe942e61ab82d48f54788
-  await Firebase.initializeApp();
-=======
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
->>>>>>> e4b3a8d3f8dab1d6d1cbcea9c099f1b19c5340dc
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   KakaoSdk.init(
     nativeAppKey: dotenv.env['NATIVE_APP_KEY'],
