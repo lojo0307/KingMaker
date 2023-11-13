@@ -7,6 +7,10 @@ class RoutineApi{
   Future <List<MemberRoutineDto>> getData(int memberId, String date) async{
     try{
       final response = await totalApi.getApi('/api/routine/$memberId?date=$date',);
+<<<<<<< bd255d85a702689ee2bbe942e61ab82d48f54788
+      print('RoutineApi-- getData: ${response}');
+=======
+>>>>>>> e4b3a8d3f8dab1d6d1cbcea9c099f1b19c5340dc
       return response.data['data']['dailyRoutines'].map<MemberRoutineDto>((memberRoutine) {
         return MemberRoutineDto.fromJson(memberRoutine);
       }).toList();

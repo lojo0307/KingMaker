@@ -1,12 +1,13 @@
 
-
 import 'package:flame/text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 
 import 'package:kingmaker/widget/main/main_game.dart';
+import 'package:provider/provider.dart';
 
 import 'main_speech_bubble.dart';
 
@@ -17,15 +18,17 @@ class MainPlayer extends SpriteComponent with TapCallbacks {
   late SpriteComponent spriteComponent;
   late TextComponent textComponent;
   late MainSpeechBubble? speechBubble;
-  MainPlayer(this.game);
+  final BuildContext context;
+  MainPlayer(this.context, this.game);
 
   @override
   Future<void> onLoad() async {
+      String? name = await Provider.of<MemberProvider>(context, listen: false).member?.nickname;
       sprite = await Sprite.load('male.png');
       size = Vector2(65,110);
       position = Vector2(272, 300);
       textComponent=TextComponent(
-          text: "엄준식",
+          text: name,
           textRenderer: TextPaint(
             style:TextStyle(
               fontFamily: 'PretendardBold',
