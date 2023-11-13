@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/page/alarm_page.dart';
 import 'package:kingmaker/page/calendar_page.dart';
 import 'package:kingmaker/page/home_page.dart';
@@ -52,29 +54,34 @@ List<Widget> _buildScreens() {
 List<PersistentBottomNavBarItem> _navBarsItems() {
   return [
     PersistentBottomNavBarItem(
-      icon: Image.asset('assets/icon/todo.png', color: Colors.black,scale: 0.7,),
+      icon: SvgPicture.asset('assets/icon/ic_todo.svg'),
+      // icon: Image.asset('assets/icon/todo.png', color: Colors.black,scale: 0.7,),
       // title: ("Todo"),
-      inactiveIcon: Image.asset('assets/icon/todo.png', color: Colors.black87),
+      inactiveIcon: SvgPicture.asset('assets/icon/ic_todo.svg', color: DARK_GREY_COLOR,),
     ),
     PersistentBottomNavBarItem(
-      icon: Image.asset('assets/icon/calendar.png', color: Colors.black,scale: 0.7,),
+      icon: SvgPicture.asset('assets/icon/ic_calendar.svg'),
+      // icon: Image.asset('assets/icon/calendar.png', color: Colors.black,scale: 0.7,),
       // title: ("Calendar"),
-      inactiveIcon: Image.asset('assets/icon/calendar.png', color: Colors.black87),
+      inactiveIcon: SvgPicture.asset('assets/icon/ic_calendar.svg', color: DARK_GREY_COLOR,),
     ),
     PersistentBottomNavBarItem(
-      icon: Image.asset('assets/icon/home.png', color: Colors.black,scale: 0.7,),
+      icon: SvgPicture.asset('assets/icon/ic_home.svg'),
+      // icon: Image.asset('assets/icon/home.png', color: Colors.black,scale: 0.7,),
       // title: ("Home"),
-      inactiveIcon: Image.asset('assets/icon/home.png', color: Colors.black87),
+      inactiveIcon: SvgPicture.asset('assets/icon/ic_home.svg', color: DARK_GREY_COLOR,),
     ),
     PersistentBottomNavBarItem(
-      icon: Image.asset('assets/icon/alarm.png', color: Colors.black,scale: 0.7,),
+      icon: SvgPicture.asset('assets/icon/ic_alarm.svg'),
+      // icon: Image.asset('assets/icon/alarm.png', color: Colors.black,scale: 0.7,),
       // title: ("Alarm"),
-      inactiveIcon: Image.asset('assets/icon/alarm.png', color: Colors.black87),
+      inactiveIcon: SvgPicture.asset('assets/icon/ic_alarm.svg', color: DARK_GREY_COLOR,),
     ),
     PersistentBottomNavBarItem(
-      icon: Image.asset('assets/icon/profile.png', color: Colors.black,scale: 0.7,),
+      icon: SvgPicture.asset('assets/icon/ic_profile.svg'),
+      // icon: Image.asset('assets/icon/profile.png', color: Colors.black,scale: 0.7,),
       // title: ("Profile"),
-      inactiveIcon: Image.asset('assets/icon/profile.png', color: Colors.black87),
+      inactiveIcon: SvgPicture.asset('assets/icon/ic_profile.svg', color: DARK_GREY_COLOR,),
     ),
   ];// NOTE: You CAN declare your own model here instead of `PersistentBottomNavBarItem`.
 }
