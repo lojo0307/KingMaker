@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/alarm/alarm_main.dart';
 import 'package:kingmaker/widget/common/header.dart';
@@ -16,17 +17,18 @@ class _AlarmPageState extends State<AlarmPage> {
     return Consumer<MemberProvider>(
       builder: (context, provider, child) {
         return const Scaffold(
-        backgroundColor: Color(0xFFEDF1FF),
-        body: Stack(
-          children: [
-            Column(
+          backgroundColor: LIGHTEST_BLUE_COLOR,
+        body: SafeArea(
+            child: Stack(
               children: [
-                SizedBox(height: 20,),
-                Header(title: '알 림'),
+                Column(
+                  children: [
+                    Header(title: '알 림'),
+                  ],
+                ),
+                AlarmMain(),
               ],
             ),
-            AlarmMain(),
-          ],
         ),
       );
     },

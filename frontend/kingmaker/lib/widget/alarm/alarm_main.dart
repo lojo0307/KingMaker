@@ -32,7 +32,6 @@ class _AlarmMainState extends State<AlarmMain> {
             backgroundColor: Colors.transparent,
             body: Column(
               children: [
-                SizedBox(height: 20,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                 children:[

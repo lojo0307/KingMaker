@@ -20,23 +20,24 @@ class _MakeMynamePageState extends State<MakeMynamePage> {
   Widget build(BuildContext context) {
     print('makepage');
     print(context.read<MemberProvider>());
-    return SafeArea(
-      child: const Scaffold(
+    return const Scaffold(
         backgroundColor: LIGHTEST_BLUE_COLOR,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 80,),
-                SelectGender(),
-                SizedBox(height: 40),
-                SignupText(line1: 'Your majesty,', line2: '당신의 존함을 알려주십시오.',),
-                SizedBox(height: 40,),
-                SignupWriteName(),
-              ],
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 80,),
+                  SelectGender(),
+                  SizedBox(height: 40),
+                  SignupText(line1: 'Your majesty,', line2: '당신의 존함을 알려주십시오.',),
+                  SizedBox(height: 40,),
+                  SignupWriteName(),
+                ],
+              ),
             ),
           ),
         ),
@@ -44,25 +45,6 @@ class _MakeMynamePageState extends State<MakeMynamePage> {
           padding: EdgeInsets.all(20),
           child: NextButton(),
         ),
-      ),
-    );
+      );
   }
-}
-class MyCustomCliper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path()
-      ..moveTo(0, size.height)
-      ..quadraticBezierTo(20, size.height, 20, 40)
-      ..quadraticBezierTo(20, 20, 40, 20)
-      ..lineTo(size.width - 20, 20)
-      ..quadraticBezierTo(size.width, 20, size.width, 0)
-      ..lineTo(size.width, size.height)
-      ..close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
