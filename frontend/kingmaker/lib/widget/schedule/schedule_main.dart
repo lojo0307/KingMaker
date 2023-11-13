@@ -56,12 +56,17 @@ class _ScheduleMainState extends State<ScheduleMain> {
                       }).toList(),
                     ),
                     Expanded(
-                      child: TabBarView(
-                        children:
-                        myTabs.map((obj) {
-                          final String type = obj["type"].toString();
-                          return ScheduleSet(type: type, list: data,);
-                        }).toList(),
+                      child: Consumer<ScheduleProvider>(
+                        builder: (BuildContext context, ScheduleProvider value, Widget? child)
+                        { return TabBarView(
+                          children:
+                          myTabs.map((obj) {
+                            final String type = obj["type"].toString();
+                            return ScheduleSet(type: type, list: data,);
+                          }).toList(),
+                        );
+
+                        },
                       ),
                     ),
                   ],
