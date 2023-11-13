@@ -13,4 +13,5 @@ public class RewardListResDto {
     private LocalDateTime modifiedAt;
     private boolean isAchieved;
     private int rewardPercent;
+    private int rewardId;
 }
