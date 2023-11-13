@@ -21,4 +21,8 @@ class RoutineRepository {
   Future<MemberRoutineDto> getDetail(int id) {
     return _routineApi.getDetailRoutine(id);
   }
+
+  void deleteRoutine(int id) {
+    return _routineApi.deleteRoutine(id);
+  }
 }

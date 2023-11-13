@@ -200,4 +200,15 @@ class ScheduleProvider with ChangeNotifier {
   void changeAchieve() {
     _detail['achievedYn'] = (_detail['achievedYn'] == 'true')? 'false' : 'true';
   }
+  deleteSchedule(){
+    int id = 0;
+    if (_detail['type'] == '2'){
+      id = int .parse(_detail['id']!);
+      _routineRepository.deleteRoutine(id);
+    } else {
+      id = int .parse(_detail['id']!);
+      _todoRepository.deleteTodo(id);
+    }
+
+  }
 }
