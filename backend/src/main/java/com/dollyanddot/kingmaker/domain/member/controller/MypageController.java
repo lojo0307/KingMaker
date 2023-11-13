@@ -54,14 +54,8 @@ public class MypageController {
     public EnvelopeResponse<Integer> getYearlyPercent(@PathVariable Long memberId) {
         return EnvelopeResponse.<Integer>builder().data(calendarService.getYearlyPercent(memberId)).build();
     }
-
-    @GetMapping("/category/min/{memberId}")
-    public EnvelopeResponse<CategoryDto> getMinCategory(@PathVariable Long memberId) {
-        return EnvelopeResponse.<CategoryDto>builder().data(categoryService.getMinCategory(memberId)).build();
-    }
-
-    @GetMapping("/category/max/{memberId}")
-    public EnvelopeResponse<CategoryDto> getMaxCategory(@PathVariable Long memberId) {
-        return EnvelopeResponse.<CategoryDto>builder().data(categoryService.getMaxCategory(memberId)).build();
+    @GetMapping("/category/{memberId}")
+    public EnvelopeResponse<List<CategoryDto>> getMaxCategory(@PathVariable Long memberId) {
+        return EnvelopeResponse.<List<CategoryDto>>builder().data(categoryService.getMaxCategory(memberId)).build();
     }
 }
