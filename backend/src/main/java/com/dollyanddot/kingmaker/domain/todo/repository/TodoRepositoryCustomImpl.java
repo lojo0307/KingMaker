@@ -3,14 +3,16 @@ package com.dollyanddot.kingmaker.domain.todo.repository;
 import com.dollyanddot.kingmaker.domain.category.dto.response.CategoryCntResDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 import static com.dollyanddot.kingmaker.domain.todo.domain.QTodo.todo;
 
-
+@Slf4j
 @RequiredArgsConstructor
 public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
     private final JPAQueryFactory queryFactory;
@@ -35,51 +37,35 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
     }
 
     @Override
-    public CategoryCntResDto getMinTodoCategory(Long memberId) {
+    public List<CategoryCntResDto> getMaxTodoCategory(Long memberId) {
         try {
-            CategoryCntResDto c = queryFactory.select(
-                    Projections.fields(CategoryCntResDto.class,
-                        todo.category.id.as("categoryId"),
-                        todo.modifiedAt.as("modifiedAt"),
-                        todo.category.count().as("cnt")
-                    )
-                )
-                .from(todo)
-                .where(todo.achievedYn.eq(true)
-                    .and(todo.member.memberId.eq(memberId)), todo.category.id.ne(6L))
-                .groupBy(todo.category)
-                .orderBy(todo.category.count().asc(), todo.modifiedAt.desc())
-                .limit(1)
-                .fetchOne();
-
-            return c;
-        } catch (NullPointerException e) {
-            return CategoryCntResDto.builder().categoryId(-1L).cnt(Long.MAX_VALUE).build();
-        }
-
-    }
-
-    @Override
-    public CategoryCntResDto getMaxTodoCategory(Long memberId) {
-        try {
-            CategoryCntResDto c = queryFactory.select(
+            List<CategoryCntResDto> categoryCntResDtoList = queryFactory.select(
                 Projections.fields(CategoryCntResDto.class,
                     todo.category.id.as("categoryId"),
-                    todo.modifiedAt.as("modifiedAt"),
-                    todo.category.count().as("cnt")
+                    todo.category.id.count().as("cnt"),
+                    todo.modifiedAt.as("modifiedAt")
                 )
             )
             .from(todo)
             .where(todo.achievedYn.eq(true)
-                .and(todo.member.memberId.eq(memberId)), todo.category.id.ne(6L))
-            .groupBy(todo.category)
-            .orderBy(todo.category.count().desc(), todo.modifiedAt.desc())
-            .limit(1)
-            .fetchOne();
+                .and(todo.member.memberId.eq(memberId)),
+                todo.category.id.ne(6L))
+            .groupBy(todo.category.id)
+            .orderBy(todo.category.id.count().desc(), todo.modifiedAt.desc())
+            .fetch();
 
-            return c;
+            if(categoryCntResDtoList.size()==0) {
+                CategoryCntResDto c = CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
+                categoryCntResDtoList.add(c);
+            }
+            return categoryCntResDtoList;
+
         } catch (NullPointerException e) {
-            return CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
+            log.info("todo null");
+            List<CategoryCntResDto> categoryCntResDtoList = new ArrayList<>();
+            CategoryCntResDto c = CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
+            categoryCntResDtoList.add(c);
+            return categoryCntResDtoList;
         }
     }
 }

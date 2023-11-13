@@ -7,6 +7,8 @@ import com.dollyanddot.kingmaker.domain.category.exception.CategoryNotFoundExcep
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
 import com.dollyanddot.kingmaker.domain.todo.repository.TodoRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,79 +21,111 @@ public class CategoryService {
     private final TodoRepository todoRepository;
     private final RoutineRepository routineRepository;
     private final CategoryRepository categoryRepository;
+    public List<CategoryDto> getMaxCategory(Long memberId) {
+        List<CategoryCntResDto> todoList = todoRepository.getMaxTodoCategory(memberId);
+        List<CategoryCntResDto> routineList = routineRepository.getMaxRoutineCategory(memberId);
+        log.info("size1: {}", todoList.size());
+        log.info("size2: {}", routineList.size());
 
-    public CategoryDto getMinCategory(Long memberId) {
-        CategoryCntResDto todo = todoRepository.getMinTodoCategory(memberId);
-        log.info("todo 번호: {}", todo.getCategoryId());
-        log.info("todo 개수: {}", todo.getCnt());
-        log.info("todo 수정일: {}", todo.getModifiedAt());
-
-        CategoryCntResDto routine = routineRepository.getMinRoutineCategory(memberId);
-        log.info("routine 번호: {}", routine.getCategoryId());
-        log.info("routine 개수: {}", routine.getCnt());
-        log.info("routine 수정일: {}", routine.getModifiedAt());
-
-        //둘 다 달성한 개수가 없는 경우
-        if(todo.getCnt()==-1 && routine.getCnt()==-1) {
-            return CategoryDto.builder().categoryId(-1L).categoryNm(
-                "달성한 일정이 없음").build();
-        }
-
-        Category category;
-        //둘 중에 하나라도 달성한 게 있으면 개수 비교
-        if(todo.getCnt()==routine.getCnt()) {
-            //최신순
-            if(todo.getModifiedAt().isAfter(routine.getModifiedAt())) {
-                category = categoryRepository.findById(
-                    todo.getCategoryId()).orElseThrow(CategoryNotFoundException::new);
-            } else {
-                category = categoryRepository.findById(
-                    routine.getCategoryId()).orElseThrow(CategoryNotFoundException::new);
+        List<CategoryDto> category = new ArrayList<>();
+        //둘 다 달성한 게 하나도 없는 경우
+        if(todoList.size()==1 && routineList.size()==1) {
+            if(todoList.get(0).getCnt()==-1 && routineList.get(0).getCnt()==-1) {
+                CategoryDto c1 = CategoryDto.builder().categoryId(-1L).categoryNm(
+                    "달성한 일정이 없음").type("MAX").build();
+                category.add(c1);
+                CategoryDto c2 = CategoryDto.builder().categoryId(-1L).categoryNm(
+                    "달성한 일정이 없음").type("MIN").build();
+                category.add(c2);
+                return category;
             }
-        } else {
-            Long categoryId = todo.getCnt()<routine.getCnt()? todo.getCategoryId() : routine.getCategoryId();
-            category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         }
 
-        return CategoryDto.builder().categoryId(category.getId()).categoryNm(
-            category.getName()).build();
-    }
-
-    public CategoryDto getMaxCategory(Long memberId) {
-        CategoryCntResDto todo = todoRepository.getMaxTodoCategory(memberId);
-        log.info("todo 번호: {}", todo.getCategoryId());
-        log.info("todo 개수: {}", todo.getCnt());
-        log.info("todo 수정일: {}", todo.getModifiedAt());
-
-        CategoryCntResDto routine = routineRepository.getMaxRoutineCategory(memberId);
-        log.info("routine 번호: {}", routine.getCategoryId());
-        log.info("routine 개수: {}", routine.getCnt());
-        log.info("routine 수정일: {}", routine.getModifiedAt());
-
-        //둘 다 달성한 개수가 없는 경우
-        if(todo.getCnt()==-1 && routine.getCnt()==-1) {
-            return CategoryDto.builder().categoryId(-1L).categoryNm(
-                "달성한 일정이 없음").build();
+        //1개인데 -1이 아닌 경우(null이 아니었던 경우-최소 비교를 위해 넣기)
+        if(todoList.size()==1 && todoList.get(0).getCnt()!=-1) {
+            CategoryCntResDto c = CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
+            todoList.add(c);
+        }
+        for(CategoryCntResDto todo : todoList) {
+            log.info("todo 번호: {}", todo.getCategoryId());
+            log.info("todo 개수: {}", todo.getCnt());
         }
 
-        Category category;
-        //둘 중에 하나라도 달성한 게 있으면 개수 비교
-        if(todo.getCnt()==routine.getCnt()) {
+        //1개인데 -1이 아닌 경우(null이 아니었던 경우-최소 비교를 위해 넣기)
+        if(routineList.size()==1 && routineList.get(0).getCnt()!=-1) {
+            CategoryCntResDto c = CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
+            routineList.add(c);
+        }
+        for(CategoryCntResDto routine : routineList) {
+            log.info("routine 번호: {}", routine.getCategoryId());
+            log.info("routine 개수: {}", routine.getCnt());
+        }
+
+        //둘 중에 하나라도 달성한 게 있으면 우선 max값 비교
+        if(todoList.get(0).getCnt()==routineList.get(0).getCnt()) {
             //최신순
-            if(todo.getModifiedAt().isAfter(routine.getModifiedAt())) {
-                category = categoryRepository.findById(
-                    todo.getCategoryId()).orElseThrow(CategoryNotFoundException::new);
+            if(todoList.get(0).getModifiedAt().isAfter(routineList.get(0).getModifiedAt())) {
+                Category c = categoryRepository.findById(todoList.get(0).getCategoryId())
+                    .orElseThrow(CategoryNotFoundException::new);
+                category.add(CategoryDto.from(c, "MAX"));
             } else {
-                category = categoryRepository.findById(
-                    routine.getCategoryId()).orElseThrow(CategoryNotFoundException::new);
+                Category c = categoryRepository.findById(routineList.get(0).getCategoryId())
+                    .orElseThrow(CategoryNotFoundException::new);
+                category.add(CategoryDto.from(c, "MAX"));
             }
+
         } else {
-            Long categoryId = todo.getCnt()>routine.getCnt()? todo.getCategoryId() : routine.getCategoryId();
-            category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
+            Long categoryId = todoList.get(0).getCnt()>routineList.get(0).getCnt()
+                    ? todoList.get(0).getCategoryId() : routineList.get(0).getCategoryId();
+            Category c = categoryRepository.findById(categoryId)
+                .orElseThrow(CategoryNotFoundException::new);
+            category.add(CategoryDto.from(c, "MAX"));
         }
 
-        return CategoryDto.builder().categoryId(category.getId()).categoryNm(
-            category.getName()).build();
+        //min값 비교
+        int tLen = todoList.size()-1;
+        int rLen = routineList.size()-1;
+
+        //근데 -1은 걸러
+        if(todoList.get(tLen).getCnt()==-1 && routineList.get(rLen).getCnt()!=-1) {
+            Category c =  categoryRepository.findById(routineList.get(rLen).getCategoryId())
+                .orElseThrow(CategoryNotFoundException::new);
+            category.add(CategoryDto.from(c, "MIN"));
+
+        } else if(todoList.get(tLen).getCnt()!=-1 && routineList.get(rLen).getCnt()==-1) {
+            Category c = categoryRepository.findById(todoList.get(tLen).getCategoryId())
+                .orElseThrow(CategoryNotFoundException::new);
+            category.add(CategoryDto.from(c, "MIN"));
+
+        } else if(todoList.get(tLen).getCnt()==-1 && routineList.get(rLen).getCnt()==-1) {
+            CategoryDto c = CategoryDto.builder().categoryId(-1L).categoryNm(
+                "달성한 일정이 없음").type("MIN").build();
+            category.add(c);
+
+        } else {
+            if (todoList.get(tLen).getCnt() == routineList.get(rLen).getCnt()) {
+                //최신순
+                if (todoList.get(tLen).getModifiedAt()
+                    .isAfter(routineList.get(rLen).getModifiedAt())) {
+                    Category c = categoryRepository.findById(todoList.get(tLen).getCategoryId())
+                        .orElseThrow(CategoryNotFoundException::new);
+                    category.add(CategoryDto.from(c, "MIN"));
+                } else {
+                    Category c = categoryRepository.findById(routineList.get(rLen).getCategoryId())
+                        .orElseThrow(CategoryNotFoundException::new);
+                    category.add(CategoryDto.from(c, "MIN"));
+                }
+
+            } else {
+                Long categoryId = todoList.get(tLen).getCnt() < routineList.get(rLen).getCnt()
+                    ? todoList.get(tLen).getCategoryId() : routineList.get(rLen).getCategoryId();
+                Category c = categoryRepository.findById(categoryId)
+                    .orElseThrow(CategoryNotFoundException::new);
+                category.add(CategoryDto.from(c, "MIN"));
+            }
+        }
+
+        return category;
     }
 
 }

@@ -6,10 +6,14 @@ import static com.dollyanddot.kingmaker.domain.todo.domain.QTodo.todo;
 import com.dollyanddot.kingmaker.domain.category.dto.response.CategoryCntResDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class RoutineRepositoryCustomImpl implements RoutineRepositoryCustom {
 
@@ -24,50 +28,35 @@ public class RoutineRepositoryCustomImpl implements RoutineRepositoryCustom {
                 .orderBy(memberRoutine.modifiedAt.desc())
                 .fetchFirst();
     }
-
-    public CategoryCntResDto getMinRoutineCategory(Long memberId) {
+    public List<CategoryCntResDto> getMaxRoutineCategory(Long memberId) {
         try {
-        CategoryCntResDto c = queryFactory.select(
-                Projections.fields(CategoryCntResDto.class,
-                    memberRoutine.routine.category.id.as("categoryId"),
-                    memberRoutine.modifiedAt.as("modifiedAt"),
-                    memberRoutine.routine.category.count().as("cnt")
-                )
-            )
-            .from(memberRoutine)
-            .where(memberRoutine.achievedYn.eq(true)
-                .and(memberRoutine.member.memberId.eq(memberId)), memberRoutine.routine.category.id.ne(6L))
-            .groupBy(memberRoutine.routine.category)
-            .orderBy(memberRoutine.routine.category.count().asc(), todo.modifiedAt.desc())
-            .limit(1)
-            .fetchOne();
-
-            return c;
-        } catch (NullPointerException e) {
-            return CategoryCntResDto.builder().categoryId(-1L).cnt(Long.MAX_VALUE).build();
-        }
-    }
-
-    public CategoryCntResDto getMaxRoutineCategory(Long memberId) {
-        try {
-            CategoryCntResDto c = queryFactory.select(
+            List<CategoryCntResDto> categoryCntResDtoList = queryFactory.select(
                     Projections.fields(CategoryCntResDto.class,
                         memberRoutine.routine.category.id.as("categoryId"),
-                        memberRoutine.modifiedAt.as("modifiedAt"),
-                        memberRoutine.routine.category.count().as("cnt")
+                        memberRoutine.routine.category.id.count().as("cnt"),
+                        memberRoutine.modifiedAt.as("modifiedAt")
                     )
                 )
                 .from(memberRoutine)
                 .where(memberRoutine.achievedYn.eq(true)
-                    .and(memberRoutine.member.memberId.eq(memberId)), memberRoutine.routine.category.id.ne(6L))
-                .groupBy(memberRoutine.routine.category)
-                .orderBy(memberRoutine.routine.category.count().desc(), todo.modifiedAt.desc())
-                .limit(1)
-                .fetchOne();
+                    .and(memberRoutine.member.memberId.eq(memberId)),
+                    memberRoutine.routine.category.id.ne(6L))
+                .groupBy(memberRoutine.routine.category.id)
+                .orderBy(memberRoutine.routine.category.id.count().desc(), todo.modifiedAt.desc())
+                .fetch();
 
-            return c;
+            if(categoryCntResDtoList.size()==0) {
+                CategoryCntResDto c = CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
+                categoryCntResDtoList.add(c);
+            }
+            return categoryCntResDtoList;
+
         } catch (NullPointerException e) {
-            return CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
+            log.info("routine null");
+            List<CategoryCntResDto> categoryCntResDtoList = new ArrayList<>();
+            CategoryCntResDto c = CategoryCntResDto.builder().categoryId(-1L).cnt(-1L).build();
+            categoryCntResDtoList.add(c);
+            return categoryCntResDtoList;
         }
     }
 }
