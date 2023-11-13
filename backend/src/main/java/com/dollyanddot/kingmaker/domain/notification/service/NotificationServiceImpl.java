@@ -136,6 +136,7 @@ public class NotificationServiceImpl implements NotificationService{
                         .member(memberRepository.findById(t.getMemberId()).get())
                         .message("Your majesty, 오늘 처리해야 하는 업무가 "+t.getCnt()+"건 있습니다.")
                         .build();
+                notifications.add(temp);
             }
             notificationRepository.saveAll(notifications);
             //fcm 발송
