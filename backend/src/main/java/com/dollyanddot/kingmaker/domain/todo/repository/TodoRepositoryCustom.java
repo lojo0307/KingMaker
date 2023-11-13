@@ -9,7 +9,5 @@ public interface TodoRepositoryCustom {
 
     LocalDateTime findMostRecentAchieved();
 
-    CategoryCntResDto getMinTodoCategory(Long memberId);
-
-    CategoryCntResDto getMaxTodoCategory(Long memberId);
+    List<CategoryCntResDto> getMaxTodoCategory(Long memberId);
 }

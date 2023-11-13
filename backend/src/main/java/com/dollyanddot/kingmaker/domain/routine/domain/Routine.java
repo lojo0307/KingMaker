@@ -17,6 +17,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @SuperBuilder
@@ -35,6 +37,7 @@ public class Routine extends BaseTimeEntity {
   private Category category;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @OnDelete(action= OnDeleteAction.CASCADE)
   @JoinColumn(name = "member_id", nullable = false)
   private Member member;
 
