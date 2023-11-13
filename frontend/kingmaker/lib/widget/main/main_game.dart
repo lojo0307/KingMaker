@@ -25,7 +25,9 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
 
   MyGame(this.context, List<Map<String, String>> data) {
     data.forEach((element) {
-      monsterList.add(MonsterPosition(this, element));
+      if(element['achieved']=='0'){
+        monsterList.add(MonsterPosition(this, element));
+      }
     });
     camera.viewport.size = Vector2(1024, 1024);
     player = MainPlayer(context, this);
