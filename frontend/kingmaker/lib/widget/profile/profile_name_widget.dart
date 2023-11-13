@@ -33,7 +33,16 @@ class _ProfileNameWidgetState extends State<ProfileNameWidget> {
   }
 
 
-  void _showUpdateModal() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfileUpdatePage()));
+  void _showUpdateModal() async {
+    final updatedNickname = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ProfileUpdatePage()),
+    );
+
+    if (updatedNickname != null) {
+      setState(() {
+        Provider.of<MemberProvider>(context, listen: false).member!.nickname = updatedNickname;
+      });
+    }
   }
 }
