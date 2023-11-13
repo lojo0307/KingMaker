@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.kingdom.service;
 
+import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.kingdom.domain.Kingdom;
 import com.dollyanddot.kingmaker.domain.kingdom.dto.response.KingdomResDto;
 import com.dollyanddot.kingmaker.domain.kingdom.exception.KingdomNotFoundException;
@@ -9,8 +10,10 @@ import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class KingdomService {
@@ -18,6 +21,7 @@ public class KingdomService {
     private final KingdomRepository kingdomRepository;
     private final MemberRepository memberRepository;
     private final NotificationSettingRepository notificationSettingRepository;
+    private final CalendarRepository calendarRepository;
 
     public KingdomResDto getKingdomDetail(Long memberId) {
 
@@ -65,6 +69,16 @@ public class KingdomService {
 
         int changeLevel = changeLevel(changeCitizen);
         kingdom.update(changeCitizen, changeLevel);
+    }
+
+    public Integer getChangeCitizen(Long memberId) {
+        Long achieved = calendarRepository.getPlusSchedule(memberId);
+        Long unAchieved = calendarRepository.getMinusSchedule(memberId);
+        log.info("달성 개수: {}", achieved);
+        log.info("미달성 개수: {}", unAchieved);
+        int change = (int) (achieved*10 -  unAchieved*5);
+        log.info("백성 변경: {}", change);
+        return change;
     }
 
     private int changeLevel(int citizen) {

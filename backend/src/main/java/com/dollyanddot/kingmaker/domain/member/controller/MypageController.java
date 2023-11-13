@@ -4,6 +4,7 @@ import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResD
 import com.dollyanddot.kingmaker.domain.calendar.service.CalendarService;
 import com.dollyanddot.kingmaker.domain.category.dto.CategoryDto;
 import com.dollyanddot.kingmaker.domain.category.service.CategoryService;
+import com.dollyanddot.kingmaker.domain.kingdom.service.KingdomService;
 import com.dollyanddot.kingmaker.domain.member.dto.response.RewardListResDto;
 import com.dollyanddot.kingmaker.domain.reward.service.RewardService;
 import com.dollyanddot.kingmaker.domain.todo.service.TodoService;
@@ -21,6 +22,7 @@ public class MypageController {
     private final RewardService rewardService;
     private final CalendarService calendarService;
     private final CategoryService categoryService;
+    private final KingdomService kingdomService;
 
     @GetMapping("calendar/{memberId}")
     public EnvelopeResponse<List<CalendarStreakResDto>> getTodoCalendar(@PathVariable Long memberId, @RequestParam int year, @RequestParam int month){
@@ -57,5 +59,10 @@ public class MypageController {
     @GetMapping("/category/{memberId}")
     public EnvelopeResponse<List<CategoryDto>> getMaxCategory(@PathVariable Long memberId) {
         return EnvelopeResponse.<List<CategoryDto>>builder().data(categoryService.getMaxCategory(memberId)).build();
+    }
+
+    @GetMapping("/citizen/{memberId}")
+    public EnvelopeResponse<Integer> getChangeCitizen(@PathVariable Long memberId) {
+        return EnvelopeResponse.<Integer>builder().data(kingdomService.getChangeCitizen(memberId)).build();
     }
 }

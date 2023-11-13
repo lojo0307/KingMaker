@@ -39,4 +39,8 @@ public interface CalendarRepositoryCustom{
     Long getYearlyCnt(Long memberId);
 
     Long getYearlyAchievedCnt(Long memberId);
+
+    Long getPlusSchedule(Long memberId);
+
+    Long getMinusSchedule(Long memberId);
 }
