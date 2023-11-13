@@ -15,6 +15,13 @@ class MemberProvider with ChangeNotifier {
 
   String _errorMessage = " ";
   String get errorMessage => _errorMessage;
+
+  String? _token = "";
+  String? get token => _token;
+
+  String? _social = "";
+  String? get social => _social;
+
   MemberProvider() {
     _memberRepository = MemberRepository();
     _socialRepository = SocialRepository();
@@ -38,12 +45,13 @@ class MemberProvider with ChangeNotifier {
   }
 
   Future<int> GoogleLogin() async {
-    String? token = await _socialRepository.googlelogin();
+    _social = "G";
+    _token = await _socialRepository.googlelogin();
     if(token == null){
       //로그인 실패
       return -1;
     }
-    _member = await _memberRepository.checkMemberGoogle(token);
+    _member = await _memberRepository.checkMemberGoogle(token!);
     if (member?.memberId == 0){
       //신규 가입
       return 0;
@@ -56,7 +64,8 @@ class MemberProvider with ChangeNotifier {
   }
 
   Future<int> KakaoLogin() async{
-    String? token = await _socialRepository.kakaologin();
+    _social = "K";
+    _token = await _socialRepository.kakaologin();
     if(token == null) {
       return -1;
     } else {
@@ -89,5 +98,13 @@ class MemberProvider with ChangeNotifier {
 
   signup(String kdName) async{
     await _memberRepository.signup(_member, kdName);
+  }
+
+  getMember() async {
+    if (_social == "G") {
+      _member = await _memberRepository.checkMemberGoogle(token!);
+    } else {
+      _member = await _memberRepository.checkMemberKakao(token!);
+    }
   }
 }
