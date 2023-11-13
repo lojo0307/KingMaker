@@ -77,10 +77,13 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
                 String error =
                     Provider.of<KingdomProvider>(context, listen: false)
                         .errorMessage;
+                int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                 if (kdName != "" && error == " ") {
                   print('건국하기 버튼 클릭 잘됨 if 안');
                   Provider.of<MemberProvider>(context, listen: false)
                       .signup(kdName);
+                  Provider.of<KingdomProvider>(context, listen: false)
+                      .getKingdom(memberId!);
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(

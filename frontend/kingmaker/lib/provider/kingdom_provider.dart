@@ -25,7 +25,7 @@ class KingdomProvider with ChangeNotifier {
       _errorMessage = " ";
   }
 
-  void getKingdom(int memberId) async{
+  getKingdom(int memberId) async{
     _kingdomDto = await _kingdomRepository.getKingdom(memberId);
   }
 }

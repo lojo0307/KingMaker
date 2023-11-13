@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kingmaker/page/login_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
@@ -14,7 +13,6 @@ import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'firebase_options.dart';
 
 //background 상태에서 메시지를 수신할 수 있게 하는 핸들러

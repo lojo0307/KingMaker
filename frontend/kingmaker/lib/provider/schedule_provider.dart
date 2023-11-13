@@ -29,6 +29,23 @@ class ScheduleProvider with ChangeNotifier {
     _tList = await _todoRepository.getList(memberId, '${year%100}$monStr$daytr');
     make(list);
   }
+ getMainList(int memberId, int year, int month, int day) async {
+    try {
+      String monStr = month < 10 ? '0$month' : month.toString();
+      String dayStr = day < 10 ? '0$day' : day.toString();
+      _rList = await _routineRepository.getList(memberId, '$year-$monStr-$dayStr 00:00:00');
+      _tList = await _todoRepository.getList(memberId, '${year%100}$monStr$dayStr');
+      // 데이터를 가져오는 데 성공했습니다.
+
+      print('ScheduleProvider - getList : $_tList');
+      make(list);
+      print('ScheduleProvider - getList2 :$_list');
+    } catch (e) {
+      // 에러가 발생했습니다.
+      print("error getMainList 발생 $e");
+    }
+  }
+
 
   void make(List<Map<String, String>> list) {
     int ridx = 0;
@@ -79,6 +96,7 @@ class ScheduleProvider with ChangeNotifier {
       tidx++;
     }
     _list = noneAchiveList + achiveList;
+    print("#########makelist : $_list");
     notifyListeners();
   }
 
@@ -91,6 +109,7 @@ class ScheduleProvider with ChangeNotifier {
       'category' : dto.routine.categoryId.toString(),
       'start' : makeTime(dto.routine.startAt),
       'end' : makeTime(dto.routine.endAt),
+      'important' : dto.importantYn? '1':'0',
       'achieved' : dto.achievedYn? '1' : '0',
     };
   }
@@ -103,6 +122,7 @@ class ScheduleProvider with ChangeNotifier {
       'category' : dto.categoryId.toString(),
       'start' : makeTime(dto.startAt),
       'end' : makeTime(dto.endAt),
+      'important' : dto.importantYn? '1':'0',
       'achieved' : dto.achievedYn? '1' : '0',
     };
   }

@@ -14,29 +14,54 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future< List<Map<String, String>>>? _loadDataFuture;
   @override
-  void initState() {
-    DateTime now = DateTime.now();
-    int? memberId = Provider.of<MemberProvider>(context,listen: false).member?.memberId;
-    Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, now.year, now.month, now.day);
-    super.initState();
-  }
+  void initState()  {
 
-  // print(Provider);
+    super.initState();
+    _loadDataFuture = _loadData();
+  }
+  Future< List<Map<String, String>>> _loadData() async {
+    DateTime now = DateTime.now();
+    int? memberId = await Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+    if (memberId != null) {
+      await Provider.of<ScheduleProvider>(context, listen: false).getMainList(memberId, now.year, now.month, now.day);
+      List<Map<String, String>> data =await Provider.of<ScheduleProvider>(context, listen: false).list;
+      print('######_loadData : $data');
+      return data;
+    }
+    throw Exception('Member ID is null');
+  }
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> data = context.watch<ScheduleProvider>().list;
     return Align(
       alignment: Alignment.center,
-      child: Stack(
-        children: [
-          GameWidget.controlled(
-              gameFactory:()=> MyGame(context,)
-          ),
-          ExpBar(),
-        ],
-      )
+      child: FutureBuilder< List<Map<String, String>>>(
+        future: _loadDataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            print('### homepage_build : $snapshot.data');
+            return Stack(
+              children: [
+                GameWidget.controlled(
+                  gameFactory: () => MyGame(context, snapshot.data!),
+                ),
+                ExpBar(),
+              ],
+            );
+          } else {
+            // 데이터 로딩에 실패했거나, 아직 데이터가 없을 때
+            return Text('No data available');
+          }
+        },
+      ),
+
     );
   }
+
 }
 
