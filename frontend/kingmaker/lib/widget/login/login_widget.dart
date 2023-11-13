@@ -43,15 +43,7 @@ class LoginWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.KakaoLogin();
-<<<<<<< bd255d85a702689ee2bbe942e61ab82d48f54788
-                  if(flag != 0){
-                    Provider.of<KingdomProvider>(context, listen: false).getKingdom(flag);
-                  }
-                  print(flag);
-                  movPage(flag, context);
-=======
                   movPage(flag, context, provider.member!.memberId, providerKing);
->>>>>>> e4b3a8d3f8dab1d6d1cbcea9c099f1b19c5340dc
                 },
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),

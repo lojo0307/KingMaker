@@ -27,10 +27,6 @@ class ScheduleProvider with ChangeNotifier {
     String daytr = day < 10 ? '0$day' : day.toString();
     _rList = await _routineRepository.getList(memberId, '$year-$monStr-$daytr 00:00:00');
     _tList = await _todoRepository.getList(memberId, '${year%100}$monStr$daytr');
-<<<<<<< bd255d85a702689ee2bbe942e61ab82d48f54788
-    // print('ScheduleProvider - getList : $_rList');
-=======
->>>>>>> e4b3a8d3f8dab1d6d1cbcea9c099f1b19c5340dc
     make(list);
   }
  getMainList(int memberId, int year, int month, int day) async {
