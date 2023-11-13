@@ -14,6 +14,7 @@ import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'api/fcm_api.dart';
 import 'firebase_options.dart';
 
 //background 상태에서 메시지를 수신할 수 있게 하는 핸들러
@@ -41,6 +42,11 @@ void main() async{
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await flutterLocalNotificationsPlugin.initialize(
+    const InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+    ),
+  );
   KakaoSdk.init(
     nativeAppKey: dotenv.env['NATIVE_APP_KEY'],
   );
