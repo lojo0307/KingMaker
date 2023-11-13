@@ -101,6 +101,7 @@ public class RewardService {
                     .modifiedAt(memberReward.getModifiedAt())
                     .isAchieved(memberReward.isAchievedYn())
                     .rewardPercent(percent)
+                    .rewardId(reward.getRewardId())
                     .build());
         }
 
