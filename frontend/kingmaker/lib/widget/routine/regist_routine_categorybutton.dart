@@ -1,6 +1,7 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,7 @@ class _CategoryButtonState extends State<CategoryButton> {
           },
           unSelectedColor: GREY_COLOR,
           selectedColor: BLUE_COLOR,
+          buttonTextStyle: ButtonTextStyle(selectedColor: WHITE_COLOR, unSelectedColor: DARKER_GREY_COLOR),
           enableButtonWrap: true, // 중요: 버튼 래핑 비활성화
           defaultSelected: selectedValue,
           // ... 기타 속성들
