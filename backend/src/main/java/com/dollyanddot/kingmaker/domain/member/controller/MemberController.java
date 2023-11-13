@@ -46,7 +46,6 @@ public class MemberController {
                 .build();
     }
 
-
     @PostMapping("fcmtoken")
     public EnvelopeResponse<Void> registFcmToken(@RequestBody FcmTokenReqDto fcmTokenReqDto){
         memberService.getFcmToken(fcmTokenReqDto.getMemberId(),fcmTokenReqDto.getToken());
@@ -60,4 +59,10 @@ public class MemberController {
         return EnvelopeResponse.<Void>builder()
                 .build();
     }
+
+    @GetMapping("/check")
+    public EnvelopeResponse<Void> check() {
+        return EnvelopeResponse.<Void>builder().build();
+    }
+
 }
