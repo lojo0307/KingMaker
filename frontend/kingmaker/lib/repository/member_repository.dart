@@ -19,4 +19,8 @@ class MemberRepository {
   signup(MemberDto? _member, String kdName) {
     _memberApi.signup(_member, kdName);
   }
+
+  Future<bool> modifyNick(int i, String name){
+    return _memberApi.modifyNickname(i, name);
+  }
 }

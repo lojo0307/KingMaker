@@ -76,14 +76,19 @@ class MemberApi{
     }
   }
 
-  void modifyNickname(int memberId, String nickname) async{
-    final response = await dio.patch(
-      '$url/api/mypage/nickname',
-      data: {
+  Future<bool> modifyNickname(int memberId, String nickname) async{
+    final response = await totalApi.patchApi2(
+      '/api/mypage/nickname',
+      {
         "memberId" : memberId,
         "nickname" : nickname
       }
     );
+    if(response.statusCode=='200'){
+      return true;
+    }
+    print(response.statusCode);
+    return false;
   }
 }
 
