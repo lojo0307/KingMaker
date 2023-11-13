@@ -22,7 +22,7 @@ class _DateInput extends State<DateInput> {
           children: [
             if (selectedDate != null)
               Text(DateFormat(
-                'MMM dd, yy',
+                'MM dd, yy',
               ).format(selectedDate!)),
             ElevatedButton(
               style: ElevatedButton.styleFrom(

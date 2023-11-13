@@ -125,30 +125,17 @@ class _RegistTodoState extends State<RegistTodo> {
                         SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: ImportanceCheck(),
-                            )
-                          ],
-                        ),
+                        ImportanceCheck(),
                         SizedBox(
                           height: 24,
                         ),
-                        Column(
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('분류',
-                                style: TextStyle(
-                                    fontSize: 16, color: BLUE_BLACK_COLOR)),
-                            Divider(color: DARKER_GREY_COLOR, thickness: 0.3),
-                            Container(
-                              width: double.infinity,
-                              child: CategoryButton(),
-                            ),
-                          ],
+                        Text('분류',
+                            style: TextStyle(
+                                fontSize: 16, color: BLUE_BLACK_COLOR)),
+                        Divider(color: DARKER_GREY_COLOR, thickness: 0.3),
+                        Container(
+                          width: double.infinity,
+                          child: CategoryButton(),
                         ),
                         SizedBox(
                           height: 24,
