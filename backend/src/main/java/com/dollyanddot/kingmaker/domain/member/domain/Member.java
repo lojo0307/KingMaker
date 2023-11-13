@@ -2,20 +2,20 @@ package com.dollyanddot.kingmaker.domain.member.domain;
 
 import com.dollyanddot.kingmaker.domain.auth.domain.Credential;
 import com.dollyanddot.kingmaker.domain.kingdom.domain.Kingdom;
+import com.dollyanddot.kingmaker.global.common.BaseTimeEntity;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import lombok.experimental.SuperBuilder;
 
-@Data
+@Getter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Member {
+@SuperBuilder
+public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
@@ -33,9 +33,6 @@ public class Member {
 
     @Column(nullable = false)
     private Gender gender;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
 
     public void update(String nickname) {
         this.nickname = nickname;
