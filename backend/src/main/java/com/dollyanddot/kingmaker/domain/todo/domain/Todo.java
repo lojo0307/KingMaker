@@ -55,7 +55,6 @@ import java.time.LocalDateTime;
                         @ColumnResult(name = "end_at", type = LocalDateTime.class),
                         @ColumnResult(name = "important_yn", type = byte.class),
                         @ColumnResult(name = "achieved_yn", type = byte.class),
-                        @ColumnResult(name = "monster_cd",type= Integer.class)
                 }
         )
 )
