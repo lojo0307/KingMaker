@@ -19,6 +19,7 @@ class MonsterPosition extends PositionComponent {
   Vector2 velocity = Vector2.zero();
   Map<String, String> monsterInfo;
   MonsterPosition(this.game, this.monsterInfo) {
+    // print('MonsterPosition : $monsterInfo');
     setRandomVelocity();
     this.size = Vector2(144,144);
   }
@@ -32,7 +33,7 @@ class MonsterPosition extends PositionComponent {
   void onLoad() {
     super.onLoad();
     position = position = getRandomPositionOutsideRestrictedArea();
-    categoryId = int.tryParse(monsterInfo['category_id'] ?? '') ?? 0;
+    categoryId = int.tryParse(monsterInfo['category']!)!;
     monster = Monster(this.game, monsterInfo);
     monsterText = MonsterText(monsterInfo);
 
@@ -143,7 +144,7 @@ class MonsterText extends TextComponent{
   MonsterText(this.monsterInfo) {
     textPainter = TextPainter(textDirection: TextDirection.ltr);
     final textSpan = TextSpan(
-      text: monsterInfo['todo_nm'],
+      text: monsterInfo['title'],
       style: TextStyle(color: Colors.black, fontSize: 16.0),
     );
     textPainter.text = textSpan;

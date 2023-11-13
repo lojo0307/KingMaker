@@ -81,6 +81,11 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
                   print('건국하기 버튼 클릭 잘됨 if 안');
                   Provider.of<MemberProvider>(context, listen: false)
                       .signup(kdName);
+<<<<<<< bd255d85a702689ee2bbe942e61ab82d48f54788
+                  Provider.of<KingdomProvider>(context, listen: false)
+                      .makeKingdom();
+=======
+>>>>>>> e4b3a8d3f8dab1d6d1cbcea9c099f1b19c5340dc
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(

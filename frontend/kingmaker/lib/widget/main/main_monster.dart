@@ -26,7 +26,7 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
   late Vector2 spriteSize;
   @override
   Future<void> onLoad() async {
-    int categoryId = int.tryParse(monsterInfo['category_id'] ?? '') ?? 0;
+    int categoryId = int.tryParse(monsterInfo['category'] ?? '') ?? 0;
     final spriteImage = await Flame.images.load('${categorytList[categoryId-1]}_right.png');
     spriteSize = Vector2(sizeX[categoryId-1], sizeY[categoryId-1]);
     spriteSheet = SpriteSheet(
@@ -38,13 +38,18 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
     this.animation = animation;
     this.size = spriteSize;
     monsterPosition = parent as MonsterPosition;
-
+    Color textColor;
+    if (monsterInfo['important'] == '1') {
+      textColor = Colors.red; // for important monsters
+    } else {
+      textColor = Colors.white; // for non-important monsters
+    }
     textComponent=TextComponent(
-        text: "${monsterInfo['todo_nm']}",
+        text: "${monsterInfo['title']}",
         textRenderer: TextPaint(
           style:TextStyle(
             fontFamily: 'PretendardBold',
-            color: Colors.red,
+            color: textColor,
             fontSize: 18,
             backgroundColor: Colors.black38,
           ),
