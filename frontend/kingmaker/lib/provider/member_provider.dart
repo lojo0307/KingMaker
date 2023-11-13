@@ -28,16 +28,19 @@ class MemberProvider with ChangeNotifier {
     checkToken();
   }
   void setNickName(String name){
-    int? memberId =  _member?.memberId;
-
     if (name.length > 10)
       _errorMessage = "존함은 10자 이하로 지어주십시오.";
     else if (name.isEmpty)
       _errorMessage = "존함을 작성 하셔야 합니다.";
-    else
-      _memberRepository.modifyNick(memberId!, name);
+    else {
       _member?.nickname = name;
-      _errorMessage = "닉네임 수정완료";
+      _errorMessage = " ";
+    }
+  }
+  void modifyNickName(String name){
+    int? memberId =  _member?.memberId;
+    _memberRepository.modifyNick(memberId!, name);
+
   }
 
   void checkToken() async {
