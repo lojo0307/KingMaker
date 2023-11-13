@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/dto/reward_dto.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
 import 'package:provider/provider.dart';
@@ -44,9 +45,9 @@ class _AchievementPageState extends State<AchievementPage> {
     List<RewardDto> list = context.watch<AchievementProvider>().list;
     return LayoutBuilder(builder: (context, constraints){
       return Scaffold(
-        backgroundColor: Color(0xFFEDF1FF),
+        backgroundColor: LIGHTEST_BLUE_COLOR,
         appBar: AppBar(
-          backgroundColor: Color(0xFFEDF1FF),
+          backgroundColor: LIGHTEST_BLUE_COLOR,
           leading: IconButton(
             icon: const Icon(Icons.navigate_before,),
             tooltip: '이전 페이지',

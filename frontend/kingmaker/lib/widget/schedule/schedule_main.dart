@@ -28,43 +28,47 @@ class _ScheduleMainState extends State<ScheduleMain> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, String>> data = context.watch<ScheduleProvider>().list;
-      return DefaultTabController(
-          length: myTabs.length,
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Column(
-              children: [
-                SizedBox(height: 20,),
-                Header(title: '일 정'),
-                TabBar(
-                  indicatorColor: Colors.black,
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.grey,
-                  dividerColor: Colors.transparent,
-                  labelStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
-                  ),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  tabs: myTabs.map((obj) {
-                    String title = obj['text'].toString();
-                    return Tab(
-                      text: title,
-                    );
-                  }).toList(),
+      return Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child:  DefaultTabController(
+              length: myTabs.length,
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: Column(
+                  children: [
+                    Header(title: '일 정'),
+                    TabBar(
+                      indicatorColor: Colors.black,
+                      labelColor: Colors.black,
+                      unselectedLabelColor: Colors.grey,
+                      dividerColor: Colors.transparent,
+                      labelStyle: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                      ),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      tabs: myTabs.map((obj) {
+                        String title = obj['text'].toString();
+                        return Tab(
+                          text: title,
+                        );
+                      }).toList(),
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children:
+                        myTabs.map((obj) {
+                          final String type = obj["type"].toString();
+                          return ScheduleSet(type: type, list: data,);
+                        }).toList(),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: TabBarView(
-                    children:
-                    myTabs.map((obj) {
-                      final String type = obj["type"].toString();
-                      return ScheduleSet(type: type, list: data,);
-                    }).toList(),
-                  ),
-                ),
-              ],
-            ),
-          )
+              )
+          ),
+        ),
       );
   }
 }

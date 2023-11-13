@@ -4,9 +4,7 @@ import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
-
 import '../../api/fcm_api.dart';
-import '../../provider/kingdom_provider.dart';
 
 class LoginWidget extends StatelessWidget {
   const LoginWidget({super.key});
