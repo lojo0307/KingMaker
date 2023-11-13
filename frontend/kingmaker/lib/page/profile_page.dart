@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/profile/profile_calendar_widget.dart';
 import 'package:kingmaker/widget/profile/profile_char_image_widget.dart';
@@ -22,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     int? memberId = Provider.of<MemberProvider>(context,listen: false).member?.memberId;
     Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
+    Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
     super.initState();
   }
   @override

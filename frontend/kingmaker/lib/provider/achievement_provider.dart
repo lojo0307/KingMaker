@@ -41,14 +41,23 @@ class AchievementProvider with ChangeNotifier {
   }
   getDailyRate(memberId) async {
     _dailyRate = await _achievementRepository.getDailyRate(memberId);
+    if (_dailyRate == -1) {
+      _dailyRate = 0;
+    }
     notifyListeners();
   }
   getMonthlyRate(memberId) async {
     _monthlyRate = await _achievementRepository.getMonthlyRate(memberId);
+    if (_monthlyRate == -1) {
+      _monthlyRate = 0;
+    }
     notifyListeners();
   }
   getYearRate(memberId) async {
     _yearRate = await _achievementRepository.getYearRate(memberId);
+    if (_yearRate == -1) {
+      _yearRate = 0;
+    }
     notifyListeners();
   }
   getAchieveList(memberId) async {
