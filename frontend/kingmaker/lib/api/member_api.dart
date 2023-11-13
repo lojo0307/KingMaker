@@ -57,14 +57,12 @@ class MemberApi{
 
   void signup(MemberDto? _member, String kdName) async{
     //회원가입 하는 부분 back 연동 해야됨
-    print('signup :  ${_member} /kdName : ${kdName}');
     try {
       var data = {
         "nickname": _member?.nickname,
         "kingdomName": kdName,
         "gender": _member?.gender
       };
-      print('dio를 사용하여 요청을 보냅니다.');
       final response = await totalApi.postApi(
         '/api/member/signup', data,
       );
