@@ -27,6 +27,7 @@ class ScheduleProvider with ChangeNotifier {
     String daytr = day < 10 ? '0$day' : day.toString();
     _rList = await _routineRepository.getList(memberId, '$year-$monStr-$daytr 00:00:00');
     _tList = await _todoRepository.getList(memberId, '${year%100}$monStr$daytr');
+    notifyListeners();
     make(list);
   }
  getMainList(int memberId, int year, int month, int day) async {
@@ -36,7 +37,7 @@ class ScheduleProvider with ChangeNotifier {
       _rList = await _routineRepository.getList(memberId, '$year-$monStr-$dayStr 00:00:00');
       _tList = await _todoRepository.getList(memberId, '${year%100}$monStr$dayStr');
       // 데이터를 가져오는 데 성공했습니다.
-
+      notifyListeners();
       print('ScheduleProvider - getList : $_tList');
       make(list);
       print('ScheduleProvider - getList2 :$_list');
