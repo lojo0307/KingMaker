@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
@@ -31,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return LayoutBuilder(builder: (ctx, constraints) {
       return
         Scaffold(
-        backgroundColor: const Color(0xFFEDF1FF),
+          backgroundColor: LIGHTEST_BLUE_COLOR,
         body: SingleChildScrollView(
           child: Stack(
             children: <Widget>[

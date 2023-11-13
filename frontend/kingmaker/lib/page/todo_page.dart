@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/widget/common/add_content.dart';
 import 'package:kingmaker/widget/schedule/schedule_main.dart';
 
@@ -12,7 +13,7 @@ class _TodoPageState extends State<TodoPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Color(0xFFEDF1FF),
+      backgroundColor: LIGHTEST_BLUE_COLOR,
       body: Stack(
         children: [
           ScheduleMain(),

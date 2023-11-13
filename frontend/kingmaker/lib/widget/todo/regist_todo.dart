@@ -21,16 +21,13 @@ class RegistTodo extends StatefulWidget {
 class _RegistTodoState extends State<RegistTodo> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: LIGHTEST_BLUE_COLOR,
-          body: SingleChildScrollView(
+    return Scaffold(
+        backgroundColor: LIGHTEST_BLUE_COLOR,
+        body:SafeArea(
+          child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
               children: [
-                SizedBox(
-                  height: 20,
-                ),
                 Stack(
                   children: [
                     Container(
@@ -88,7 +85,7 @@ class _RegistTodoState extends State<RegistTodo> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide:
-                                  BorderSide(width: 1), // 포커스 상태에서 두꺼운 테두리
+                              BorderSide(width: 1), // 포커스 상태에서 두꺼운 테두리
                             ),
                             filled: true,
                             fillColor: WHITE_COLOR,
@@ -116,7 +113,7 @@ class _RegistTodoState extends State<RegistTodo> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide:
-                                  BorderSide(width: 1), // 포커스 상태에서 두꺼운 테두리
+                              BorderSide(width: 1), // 포커스 상태에서 두꺼운 테두리
                             ),
                             filled: true,
                             fillColor: WHITE_COLOR,
@@ -200,30 +197,33 @@ class _RegistTodoState extends State<RegistTodo> {
               ],
             ),
           ),
-          bottomNavigationBar: Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-              child: ElevatedButton(
-                  onPressed: () async {
-                    int? memberId =
-                        Provider.of<MemberProvider>(context, listen: false)
-                            .member
-                            ?.memberId;
-                    await Provider.of<RegistProvider>(context, listen: false)
-                        .RegistTodo(memberId!);
-                    DateTime now = DateTime.now();
-                    Provider.of<ScheduleProvider>(context, listen: false)
-                        .getList(memberId, now.year, now.month, now.day);
-                    Navigator.pop(context);
-                  },
-                  child: Text('할 일 등록하기',
-                      style: TextStyle(color: WHITE_COLOR, fontSize: 16)),
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: Size(100, 56),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      backgroundColor: BLUE_COLOR)))),
+        ),
+        bottomNavigationBar: Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+            child: ElevatedButton(
+                onPressed: () async {
+                  int? memberId =
+                      Provider.of<MemberProvider>(context, listen: false)
+                          .member
+                          ?.memberId;
+                  await Provider.of<RegistProvider>(context, listen: false)
+                      .RegistTodo(memberId!);
+                  DateTime now = DateTime.now();
+                  Provider.of<ScheduleProvider>(context, listen: false)
+                      .getList(memberId, now.year, now.month, now.day);
+                  Navigator.pop(context);
+                },
+                child: Text('할 일 등록하기',
+                    style: TextStyle(color: WHITE_COLOR, fontSize: 16)),
+                style: ElevatedButton.styleFrom(
+                    minimumSize: Size(100, 56),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    backgroundColor: BLUE_COLOR)
+            )
+        )
     );
   }
 }
