@@ -53,6 +53,7 @@ dependencies:
   kakao_flutter_sdk: ^1.6.1
   flutter_svg: ^2.0.9 # svg 벡터파일 사용을 위함
   firebase_messaging: ^14.7.4
+  flutter_svg: ^2.0.9 # svg 벡터파일 사용을 위함
   flutter_local_notifications: ^16.1.0
   firebase_core: ^2.22.0
 
@@ -108,6 +109,7 @@ flutter:
     - assets/images/slime_left.png
     - assets/images/slime_right.png
     - assets/character/
+    - assets/character/calendarlist/
     - assets/user_level/
     - assets/icon/
     - .env
