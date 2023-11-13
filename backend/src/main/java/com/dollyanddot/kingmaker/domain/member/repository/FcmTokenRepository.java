@@ -22,6 +22,5 @@ public interface FcmTokenRepository extends JpaRepository<FcmToken,Long> {
     @Query("UPDATE fcm_token ft SET ft.member.memberId=:memberId WHERE ft.token=:token")
     void updateFcmTokenMember(Long memberId,String token);
 
-    @Transactional
-    void deleteFcmTokenByToken(String token);
+    int deleteFcmTokensByToken(String token);
 }

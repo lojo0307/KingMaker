@@ -119,12 +119,13 @@ public class MemberService {
         //이미 있을 경우 갱신
         Optional<FcmToken> existingToken = fcmTokenRepository.findFcmTokenByToken(token);
         if (existingToken.isPresent()) {
+            System.out.println("있음");
             fcmTokenRepository.updateFcmTokenMember(memberId, token);
         }
         //없으면 새로 등록
         FcmToken newToken = FcmToken.builder()
                 .token(token)
-                .member(memberRepository.findById(memberId).get())
+                .member(memberRepository.findById(memberId).orElseThrow(()->new MemberNotFoundException()))
                 .build();
         List<String> tokenContainer=new ArrayList<>();
         tokenContainer.add(token);
@@ -141,6 +142,7 @@ public class MemberService {
     }
 
     //TODO: 로그아웃 시 기기의 FCM 토큰 삭제: 이 때 토픽 매핑도 삭제해야 함
+    @Transactional
     public void deleteFcmToken(String token) {
         //토픽마다 구독 취소
         List<String> tokenContainer=new ArrayList<>();
@@ -155,7 +157,7 @@ public class MemberService {
             e.printStackTrace();
         }
         //DB에서 토큰 삭제
-        fcmTokenRepository.deleteFcmTokenByToken(token);
+        fcmTokenRepository.deleteFcmTokensByToken(token);
     }
     
     //TODO: 회원가입 시 알림 최초 설정
