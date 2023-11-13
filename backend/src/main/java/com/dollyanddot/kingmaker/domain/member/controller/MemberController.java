@@ -1,5 +1,6 @@
 package com.dollyanddot.kingmaker.domain.member.controller;
 
+import com.dollyanddot.kingmaker.domain.member.dto.request.FcmTokenReqDto;
 import com.dollyanddot.kingmaker.domain.member.dto.request.NotificationFirstSettingReqDto;
 import com.dollyanddot.kingmaker.domain.member.dto.request.SignUpReqDto;
 import com.dollyanddot.kingmaker.domain.auth.dto.LoginResDto;
@@ -41,6 +42,20 @@ public class MemberController {
     @PostMapping("notification/setting")
     public EnvelopeResponse<Void> notificationFirstSetting(@RequestBody NotificationFirstSettingReqDto req){
         memberService.notificationFirstSetting(req.getMemberId(),req.getSetting());
+        return EnvelopeResponse.<Void>builder()
+                .build();
+    }
+
+    @PostMapping("fcmtoken")
+    public EnvelopeResponse<Void> registFcmToken(@RequestBody FcmTokenReqDto fcmTokenReqDto){
+        memberService.getFcmToken(fcmTokenReqDto.getMemberId(),fcmTokenReqDto.getToken());
+        return EnvelopeResponse.<Void>builder()
+                .build();
+    }
+
+    @DeleteMapping("fcmtoken")
+    public EnvelopeResponse<Void> deleteFcmToken(@RequestParam String token){
+        memberService.deleteFcmToken(token);
         return EnvelopeResponse.<Void>builder()
                 .build();
     }
