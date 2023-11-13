@@ -84,7 +84,7 @@ class MemberProvider with ChangeNotifier {
     _errorMessage = " ";
   }
 
-  void signup(String kdName) async{
+  signup(String kdName) async{
     await _memberRepository.signup(_member, kdName);
   }
 }

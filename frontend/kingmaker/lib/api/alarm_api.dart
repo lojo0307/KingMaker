@@ -1,4 +1,5 @@
 import 'package:kingmaker/api/total_api.dart';
+import 'package:kingmaker/dto/alarm_dto.dart';
 
 class AlarmApi{
   final TotalApi totalApi = TotalApi();
@@ -6,16 +7,22 @@ class AlarmApi{
     final response = await totalApi.getApi('/api/mypage/notification/$memberId',);
   }
 
-  void getAlarm(int memberId) async{
-    final response = await dio.get(
-        '$url/api/notification/$memberId',
-    );
+  Future <List<AlarmDto>> getAlarm(int memberId) async{
+    print('AlarmApi - fetAlarm');
+    try{
+      final response = await totalApi.getApi('/api/notification/$memberId',);
+      print(response);
+      return response.data['data'].map<AlarmDto>((alarm) {
+        return AlarmDto.fromJson(alarm);
+      }).toList();
+    }catch (e) {
+      print(e);
+      return [];
+    }
   }
 
   void deleteAlarm(int notificationId) async{
-    final response = await dio.get(
-      '$url/api/notification/$notificationId',
-    );
+    final response = await totalApi.deleteApi('/api/notification/$notificationId',);
   }
 }
 
