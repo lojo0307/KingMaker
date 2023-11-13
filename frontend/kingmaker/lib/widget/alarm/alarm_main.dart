@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/dto/alarm_dto.dart';
+import 'package:kingmaker/provider/alarm_provider.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/alarm/alarm_list.dart';
+import 'package:provider/provider.dart';
 class AlarmMain extends StatefulWidget {
   const AlarmMain({super.key});
   @override
@@ -12,47 +16,16 @@ class _AlarmMainState extends State<AlarmMain> {
     {'text': '할 일', 'type': 1,},
     {'text': '루 틴', 'type': 2,},
   ];
-  static const List<Map<String, String>>data =[
-    {
-      'title' : '빨래널기1',
-      'type' : '1',
-      'time' : '1시간전',
-      'message' : 'Your Majesty, 몬스터들이 습격해오고 있습니다. 얼른 [ 빨래널기1 ] 를 수행해 놈들을 막아주십시오.',
-    },
-    {
-      'title' : '빨래널기2',
-      'type' : '2',
-      'time' : '2시간전',
-      'message' : '저으어어엉너ㅓ하 몬스터들이 습격해오고 있습니다. 얼른 [ 빨래널기2 ] 를 수행해 놈들을 막아주  십시오.',
-    },
-    {
-      'title' : '빨래널기3',
-      'type' : '2',
-      'time' : '12시간전',
-      'message' : '저으어어엉너ㅓ하 몬스터들이 습격해오고 있습니다. 얼른 [ 빨래널기3 ] 를 수행해 놈들을 막아주  십시오.',
-    },
-    {
-      'title' : '빨래널기4',
-      'type' : '1',
-      'time' : '19시간 전',
-      'message' : '저으어어엉너ㅓ하 몬스터들이 습격해오고 있습니다. 얼른 [ 빨래널기4 ] 를 수행해 놈들을 막아주  십시오.',
-    },
-    {
-      'title' : '빨래널기5',
-      'type' : '1',
-      'time' : '하루 전',
-      'message' : 'Your Majesty, 몬스터들이 습격해오고 있습니다. 얼른 [ 빨래널기5 ] 를 수행해 놈들을 막아주십시오.',
-    },
-    {
-      'title' : '빨래널기6',
-      'type' : '2',
-      'time' : '하루 전',
-      'message' : 'Your Majesty, 몬스터들이 습격해오고 있습니다. 얼른 [ 빨래널기6 ] 를 수행해 놈들을 막아주십시오.',
-    },
-  ];
   static bool delFlag = false;
   @override
+  void initState() {
+    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+    Provider.of<AlarmProvider>(context, listen: false).getAlarm(memberId!);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    List<AlarmDto> list = context.watch<AlarmProvider>().list;
     return DefaultTabController(
           length: myTabs.length,
           child: Scaffold(
@@ -71,7 +44,9 @@ class _AlarmMainState extends State<AlarmMain> {
                   )
                       : const SizedBox.shrink(),
                   Spacer(),
-                  (delFlag)? TextButton(onPressed: () {
+                  (delFlag)? TextButton(onPressed: () async {
+                    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+                    await Provider.of<AlarmProvider>(context, listen: false).deleteAll();
                     delFlag = false;
                     setState(() {});
                     }, child: Text('전체삭제'))
@@ -81,32 +56,9 @@ class _AlarmMainState extends State<AlarmMain> {
                           }, child: Image.asset('assets/icon/trash.png', scale: 0.7),),
                   ],
                 ),
-                TabBar(
-                  indicatorColor: Colors.black,
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.grey,
-                  labelStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
-                  ),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  tabs: myTabs.map((obj) {
-                    String title = obj['text'].toString();
-                    return Tab(
-                      text: title,
-                      height: 50,
-                    );
-                  }).toList(),
-                ),
                 const SizedBox(height: 30),
                 Expanded(
-                  child: TabBarView(
-                    children:
-                      myTabs.map((obj) {
-                        final String type = obj["type"].toString();
-                        return AlarmList(type: type, list: data, delFlag: delFlag,);
-                      }).toList(),
-                  ),
+                  child: AlarmList(list: list, delFlag: delFlag,),
                 ),
               ],
             ),

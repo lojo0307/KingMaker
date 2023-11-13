@@ -70,19 +70,19 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
         bottomNavigationBar: Padding(
           padding: EdgeInsets.fromLTRB(20, 20, 20, 84),
           child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async{
                 String kdName =
-                    Provider.of<KingdomProvider>(context, listen: false)
+                  Provider.of<KingdomProvider>(context, listen: false)
                         .kingdomName;
                 String error =
-                    Provider.of<KingdomProvider>(context, listen: false)
+                  Provider.of<KingdomProvider>(context, listen: false)
                         .errorMessage;
                 int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                 if (kdName != "" && error == " ") {
                   print('건국하기 버튼 클릭 잘됨 if 안');
-                  Provider.of<MemberProvider>(context, listen: false)
+                  await Provider.of<MemberProvider>(context, listen: false)
                       .signup(kdName);
-                  Provider.of<KingdomProvider>(context, listen: false)
+                  await Provider.of<KingdomProvider>(context, listen: false)
                       .getKingdom(memberId!);
                   Navigator.pushAndRemoveUntil(
                       context,
