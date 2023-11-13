@@ -18,7 +18,22 @@ import 'firebase_options.dart';
 //background 상태에서 메시지를 수신할 수 있게 하는 핸들러
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
+  // 로컬 알림을 표시하는 로직
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    'channel_id',
+    'channel_name',
+    channelDescription: 'channel_description',
+    importance: Importance.max,
+    priority: Priority.high,
+  );
+  const NotificationDetails notificationDetails = NotificationDetails(android: androidDetails);
+  await flutterLocalNotificationsPlugin.show(
+    0, // 알림 ID
+    message.notification?.title, // 알림 제목
+    message.notification?.body, // 알림 내용
+    notificationDetails,
+  );
 }
 
 void main() async{
