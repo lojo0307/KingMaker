@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,7 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                           ),
                           tooltip: '이 전 페이지',
                           onPressed: () {
-                            print("click");
+                            Navigator.pop(context,);
                           },
                           iconSize: 30,
                         ),
@@ -57,12 +58,12 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                       ),
                     ],
                   ),
-
-                  Image.asset(
-                    'assets/images/Slime.png',
-                    height: 150,
-                    width: 150,
-                  ),
+                  Image.asset('assets/character/calendarlist/${int.parse(data['category']!)}.gif',scale: 0.25),
+                  // Image.asset(
+                  //   'assets/images/Slime.png',
+                  //   height: 150,
+                  //   width: 150,
+                  // ),
                   // 이미지 경로를 수정하세요.
                   Container(
                     padding: EdgeInsets.all(16),
@@ -265,7 +266,13 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                             SizedBox(width: 8,),
                             Expanded(
                               child: ElevatedButton(
-                                  onPressed: () => print("버튼 클릭"),
+                                  onPressed: () {
+                                    Provider.of<ScheduleProvider>(context, listen: false).deleteSchedule();
+                                    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+                                    DateTime now = DateTime.now();
+                                    Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, now.year, now.month, now.day);
+                                    Navigator.pop(context,);
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: Size(100, 45), // 여기서 원하는 크기로 조절
                                     shape: RoundedRectangleBorder(

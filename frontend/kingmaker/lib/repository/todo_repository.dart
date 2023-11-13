@@ -20,4 +20,8 @@ class TodoRepository {
     return _todoApi.detailTodo(id);
   }
 
+  void deleteTodo(int id) {
+    return _todoApi.deleteTodo(id);
+  }
+
 }

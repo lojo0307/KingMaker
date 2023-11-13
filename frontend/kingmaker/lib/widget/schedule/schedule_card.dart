@@ -43,9 +43,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
                 ),
                 height: 100,
                 width: 100,
-                child: const Image(
-                  image: AssetImage('assets/images/Slime.png'),
-                ),
+                child: Image.asset('assets/character/calendarlist/${widget.data['category']}.gif',scale: 0.2),
               ),
             ),
             ScheduleInfo(data: widget.data,),

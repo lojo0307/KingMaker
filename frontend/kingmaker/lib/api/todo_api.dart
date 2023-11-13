@@ -24,7 +24,7 @@ class TodoApi{
   }
 
   void deleteTodo(int todoId) async{
-    final response = await dio.delete('/api/todo?todoId=$todoId',);
+    final response = await totalApi.deleteApi('/api/todo?todoId=$todoId',);
   }
 
   Future<TodoDto> detailTodo(int todoId) async{
