@@ -6,30 +6,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =  FlutterLocalNotificationsPlugin();
 
 class FcmApi{
-  //TODO: 첫 로그인 시 권한 요청하고 토큰 발급하는 함수-권한 수락했을 때에만 토큰 서버에 전송하도록...
-  Future<String?> generateFcmToken() async{
-    //알림 허용
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-    
-    //TODO: 권한 체크하고 토큰 발급
-    // NotificationSettings settings = await messaging.requestPermission(
-    //   alert: true,
-    //   badge: true,
-    //   sound: true,
-    //   provisional: false,
-    // );
-    //
-    // if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    //   return getFcmToken();
-    // }
-    // else{
-    //   print("권한 요청이 거절됨");
-    //   return null;
-    // }
-
-    return getFcmToken();
-  }
-
   //TODO: 앱 로그인 시 fcmToken 갱신하는 함수
   Future<String?> getFcmToken() async {
     String? _fcmToken = await FirebaseMessaging.instance.getToken();
@@ -89,11 +65,5 @@ class FcmApi{
       provisional: false,
       sound: true,
     );
-  
-    //앱 시작 시점에 initialize하는 함수
-    // await flutterLocalNotificationsPlugin.initialize(const InitializationSettings(
-    //   android: AndroidInitializationSettings("@mipmap/ic_launcher"),
-    // ));
   }
-
 }
