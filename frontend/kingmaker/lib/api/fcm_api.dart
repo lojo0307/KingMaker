@@ -3,8 +3,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class FcmApi{
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =  FlutterLocalNotificationsPlugin();
 
+class FcmApi{
   //TODO: 첫 로그인 시 권한 요청하고 토큰 발급하는 함수-권한 수락했을 때에만 토큰 서버에 전송하도록...
   Future<String?> generateFcmToken() async{
     //알림 허용
@@ -78,4 +79,42 @@ class FcmApi{
   }
 
   //TODO: 메시지 수신 시 처리하는 함수
+  static Future<void> showNotification() async {
+    const AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails('channel id', 'channel name',
+        channelDescription: 'channel description',
+        importance: Importance.max,
+        priority: Priority.max,
+        showWhen: false);
+
+    const NotificationDetails notificationDetails = NotificationDetails(
+        android: androidNotificationDetails,
+        iOS: DarwinNotificationDetails(badgeNumber: 1));
+    await flutterLocalNotificationsPlugin.show(
+        0, 'test title', 'test body', notificationDetails,
+        payload: "HELLOWORLD");
+  }
+
+  //! Foreground 상태(앱이 열린 상태에서 받은 경우)
+  static void onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) async {
+    //! Payload(전송 데이터)를 Stream에 추가합니다.
+    final String payload = notificationResponse.payload ?? "";
+    if (notificationResponse.payload != null ||
+        notificationResponse.payload!.isNotEmpty) {
+      print('FOREGROUND PAYLOAD: $payload');
+      // streamController.add(payload);
+    }
+  }
+  //! Background 상태(앱이 닫힌 상태에서 받은 경우)
+  static void onBackgroundNotificationResponse() async {
+    final NotificationAppLaunchDetails? notificationAppLaunchDetails =
+    await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    //! 앱이 Notification을 통해서 열린 경우라면 Payload(전송 데이터)를 Stream에 추가합니다.
+    if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+      String payload = notificationAppLaunchDetails!.notificationResponse?.payload ?? "";
+      print("BACKGROUND PAYLOAD: $payload");
+      // streamController.add(payload);
+    }
+  }
 }
