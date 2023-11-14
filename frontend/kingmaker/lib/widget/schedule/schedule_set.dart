@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/widget/schedule/schedule_card.dart';
 class ScheduleSet extends StatefulWidget {
   const ScheduleSet({super.key, this.type, required this.list});
@@ -10,7 +12,7 @@ class ScheduleSet extends StatefulWidget {
 }
 
 class _ScheduleSetState extends State<ScheduleSet> {
-  static const category = ['전체', '집안일' ,'일 상', '학 습', '건 강', '업 무', '기 타'];
+  static const category = ['전체', '집안일' ,'일상', '학습', '건강', '업무', '기타'];
   static const idxs = ['0', '1' ,'2', '3', '4', '5', '6'];
   String idx = '0';
 
@@ -19,14 +21,13 @@ class _ScheduleSetState extends State<ScheduleSet> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.all(12),
-          padding: EdgeInsets.only(top: 5),
-          height: 50.0,
+          height: 44.0,
           child: ListView(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.all(3),
             children: [
-              for (int i = 0; i < 6; i++)
+              SizedBox(width: 20,),
+              for (int i = 0; i < 7; i++)
                 _buildButton(context, category[i], idxs[i], i),
             ],
           ),
@@ -64,9 +65,11 @@ class _ScheduleSetState extends State<ScheduleSet> {
 
 
         ),
+        SizedBox(height: 8.0,),
         Expanded(
           child: SingleChildScrollView(
-            child: Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children:
                 widget.list.map ((Map<String, String> res){
@@ -90,42 +93,30 @@ class _ScheduleSetState extends State<ScheduleSet> {
   }
   Widget _buildButton(BuildContext context, String label, String value, int imageIndex) {
     bool isSelected = value == idx;
-    String imagePath = 'assets/images/category/$imageIndex.png';
+    String imagePath = 'assets/icon/category/ic_category_$imageIndex.svg';
 
     return InkWell(
       onTap: () {
         idx = value;
         setState(() {});
       },
-      customBorder: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      splashFactory: InkRipple.splashFactory,
-      radius: 20,
 
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5),
-        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+        margin: EdgeInsets.symmetric(horizontal: 4),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         decoration: BoxDecoration(
-          color: isSelected ? Color(0xFF5792A4) : Colors.transparent,
-          border: Border.all(
-            color: const Color(0xFF5792A4),
-          ),
-          borderRadius: BorderRadius.circular(20),
+          color: isSelected ? DARKER_BLUE_COLOR : LIGHT_BLUE_COLOR,
+          borderRadius: BorderRadius.circular(24),
         ),
         child: Row(
           children: [
-            Image.asset(
-              imagePath,
-              color: isSelected ? Colors.white : Colors.black,
-              width: 24,
-              height: 24,
-            ),
+            SvgPicture.asset(imagePath, color: isSelected ? WHITE_COLOR : BLUE_BLACK_COLOR),
+            SizedBox(width: 4.0,),
             Text(
               label,
               style: TextStyle(
-                fontSize: 16,
-                color: isSelected ? Colors.white : Colors.black,
+                fontSize: 12,
+                color: isSelected ? WHITE_COLOR : BLUE_BLACK_COLOR,
               ),
             ),
           ],

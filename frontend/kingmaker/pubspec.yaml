@@ -160,13 +160,13 @@ flutter:
     - assets/images/expbar/expicon.png
     - assets/images/expbar/monstericon.png
     - assets/achievement/sample.png
-    - assets/images/category/0.png
-    - assets/images/category/1.png
-    - assets/images/category/2.png
-    - assets/images/category/3.png
-    - assets/images/category/4.png
-    - assets/images/category/5.png
-    - assets/images/category/6.png
+    - assets/icon/category/ic_category_0.svg
+    - assets/icon/category/ic_category_1.svg
+    - assets/icon/category/ic_category_2.svg
+    - assets/icon/category/ic_category_3.svg
+    - assets/icon/category/ic_category_4.svg
+    - assets/icon/category/ic_category_5.svg
+    - assets/icon/category/ic_category_6.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -184,6 +184,12 @@ flutter:
     - family: PretendardBold
       fonts:
         - asset: assets/fonts/esamanru Light.ttf
+    - family: EsamanruMedium
+      fonts:
+        - asset: assets/fonts/esamanru Medium.ttf
+    - family: EsamanruBold
+      fonts:
+        - asset: assets/fonts/esamanru Bold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
