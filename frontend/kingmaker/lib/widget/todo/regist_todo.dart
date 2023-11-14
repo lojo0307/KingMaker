@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
+import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:kingmaker/provider/calendar_provider.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
@@ -213,6 +216,15 @@ class _RegistTodoState extends State<RegistTodo> {
                   await Provider.of<RegistProvider>(context, listen: false)
                       .RegistTodo(memberId!);
                   DateTime now = DateTime.now();
+                  int year = now.year;
+                  int month = now.month;
+                  int day = now.day;
+                  Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, year, month);
+                  Provider.of<CalendarProvider>(context, listen: false).getData(memberId!, year, month);
+                  Provider.of<CalendarProvider>(context, listen: false).getList(memberId!, year, month, day);
+                  Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
+                  Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
+                  Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
                   Provider.of<ScheduleProvider>(context, listen: false)
                       .getList(memberId, now.year, now.month, now.day);
                   Navigator.pop(context);

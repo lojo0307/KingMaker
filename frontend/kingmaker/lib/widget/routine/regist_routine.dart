@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
+import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:kingmaker/provider/calendar_provider.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
@@ -192,6 +195,16 @@ class _RegistRoutineState extends State<RegistRoutine> {
                 DateTime now = DateTime.now();
                 Provider.of<ScheduleProvider>(context, listen: false)
                     .getList(MemberId, now.year, now.month, now.day);
+                int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+                int year = now.year;
+                int month = now.month;
+                int day = now.day;
+                Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, year, month);
+                Provider.of<CalendarProvider>(context, listen: false).getData(memberId!, year, month);
+                Provider.of<CalendarProvider>(context, listen: false).getList(memberId!, year, month, day);
+                Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
+                Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
+                Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
                 Navigator.pop(context);
               },
               child: Text('루틴 등록하기',
