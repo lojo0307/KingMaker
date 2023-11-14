@@ -10,8 +10,6 @@ import 'package:flame/extensions.dart';
 import 'package:kingmaker/widget/main/main_castle.dart';
 import 'package:kingmaker/widget/main/main_monster_position.dart';
 import 'package:provider/provider.dart';
-
-import '../../provider/member_provider.dart';
 import 'main_background.dart';
 import 'main_player.dart';
 
@@ -21,7 +19,7 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
   late MainPlayer player;
   List<MonsterPosition> monsterList=[];
   final BuildContext context;
-
+  late MyWorld myWorld; // MyWorld 객체를 참조하기 위한 필드
 
   MyGame(this.context, List<Map<String, String>> data) {
     data.forEach((element) {
@@ -31,7 +29,7 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     });
     camera.viewport.size = Vector2(1024, 1024);
     player = MainPlayer(context, this);
-    world = MyWorld(context, this, player, monsterList);
+    world =  myWorld = MyWorld(context, this, player, monsterList); // MyWorld 객체 초기화
     backgroundSize = Vector2(1024, 1024);
     focusArea = FocusArea();
     focusArea.position = backgroundSize / 2;
@@ -94,17 +92,31 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
   Future<void> onLoad() async {
     // TODO: implement onLoad
     super.onLoad();
+    Provider.of<ScheduleProvider>(context, listen: false).addListener(_updateMonstersFromProvider);
     // 다른 컴포넌트 로드...
     // 경험치 바 로드 및 설정
     //
-    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
-    DateTime now = DateTime.now();
-    int year = now.year;
-    int month = now.month;
-    int day = now.day;
-    Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
-    print(Provider.of<ScheduleProvider>(context, listen: false).rList);
+    // int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+    // DateTime now = DateTime.now();
+    // int year = now.year;
+    // int month = now.month;
+    // int day = now.day;
+    // Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
   }
+
+  void _updateMonstersFromProvider() {
+    List<Map<String, String>> data = Provider.of<ScheduleProvider>(context, listen: false).list;
+    // 기존 몬스터 목록을 비우고 새로운 데이터로 몬스터를 추가합니다.
+    monsterList.clear();
+    data.forEach((element) {
+      print("_updateMonstersFromProvider --- $element");
+      if (element['achieved'] == '0') {
+        monsterList.add(MonsterPosition(this, element));
+      }
+    });
+    myWorld.updateMonsters(monsterList);
+  }
+
 }
 
 class MyWorld extends World {
@@ -115,6 +127,16 @@ class MyWorld extends World {
   final MainPlayer player;
   final BuildContext context;
   MyWorld(this.context, this.game, this.player, this.monsterList);
+
+
+  void updateMonsters(List<MonsterPosition> newMonsterList) {
+    children.whereType<MonsterPosition>().forEach(remove);
+    for (MonsterPosition monster in newMonsterList) {
+      print('add updateMonsters');
+      add(monster);
+    }
+  }
+
 
   @override
   Future<void> onLoad() async {
