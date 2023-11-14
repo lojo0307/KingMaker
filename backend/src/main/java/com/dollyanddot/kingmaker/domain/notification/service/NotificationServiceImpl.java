@@ -2,17 +2,16 @@ package com.dollyanddot.kingmaker.domain.notification.service;
 
 import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
+import com.dollyanddot.kingmaker.domain.kingdom.service.KingdomService;
 import com.dollyanddot.kingmaker.domain.member.domain.FcmToken;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.exception.TokenNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
-import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.domain.Notification;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationTmp;
-import com.dollyanddot.kingmaker.domain.notification.domain.Type;
 import com.dollyanddot.kingmaker.domain.notification.dto.response.NotificationSettingResDto;
 import com.dollyanddot.kingmaker.domain.notification.exception.*;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationRepository;
@@ -28,14 +27,15 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.TopicManagementResponse;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService{
@@ -48,6 +48,7 @@ public class NotificationServiceImpl implements NotificationService{
     private final FcmTokenRepository fcmTokenRepository;
     private final NotificationSettingRepository notificationSettingRepository;
     private final TodoRepository todoRepository;
+    private final KingdomService kingdomService;
 
     //발송 전 알림 보낸 후, 발송된 알림 테이블로 데이터 이동
     @Override
@@ -266,5 +267,66 @@ public class NotificationServiceImpl implements NotificationService{
                 .activatedYn((byte) (n.isActivatedYn() ? 1 : 0))
                 .build())
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public void sendChangeCitizenNotification() throws Exception {
+        //멤버 별로 어제 완료하지 못한 일 있으면 백성 수 차감
+        List<CountPlanDto> undoneList = calendarRepository.getUndonePlanCntYesterday();
+        for(CountPlanDto c : undoneList) {
+            if(c.getCnt()>0) {
+                memberRepository.findById(c.getMemberId()).orElseThrow(MemberNotFoundException::new);
+                kingdomService.penaltyCitizen(c.getMemberId(), c.getCnt());
+            }
+        }
+
+        //알림
+        List<Notification> notifications=new ArrayList<>();
+        try{
+            for(CountPlanDto t:undoneList){
+                if(t.getCnt()>0) {
+                    Notification temp = Notification.builder()
+                        .notificationType(notificationTypeRepository.findById(1).get())
+                        .member(memberRepository.findById(t.getMemberId()).orElseThrow(MemberNotFoundException::new))
+                        .message("Your majesty, 어제 미달성한 업무 "+t.getCnt()+"건으로 인해 백성 "
+                            + (t.getCnt()*10) + "명이 왕국을 떠났습니다. "
+                            + "여신님이 항상 당신을 지켜보고 있음을 기억하고, 일정 수행을 위해 힘내주세요!")
+                        .build();
+                    log.info("확인1: {}", temp);
+                    notifications.add(temp);
+                }
+            }
+            notificationRepository.saveAll(notifications);
+
+            List<Message> messageList=new ArrayList<>();
+            for(CountPlanDto t:undoneList) {
+                if (t.getCnt()>0) {
+                    Optional<List<FcmToken>> tokenList = fcmTokenRepository.findFcmTokensByMember_MemberId(
+                        t.getMemberId());
+                    if (tokenList.isEmpty())
+                        throw new TokenNotFoundException();
+
+                    for (FcmToken ft : tokenList.get()) {
+                        Message message = Message.builder()
+                            .setToken(ft.getToken())
+                            .setNotification(com.google.firebase.messaging.Notification.builder()
+                                .setBody("Your majesty, 어제 미달성한 업무 "+t.getCnt()+"건으로 인해 백성 "
+                                    + (t.getCnt()*10) + "명이 왕국을 떠났습니다. "
+                                    + "여신님이 항상 당신을 지켜보고 있음을 기억하고, 일정 수행을 위해 힘내주세요!")
+                                .setTitle("어제의 일정 수행 결과 보고 드립니다.")
+                                .build())
+                            .build();
+
+                        log.info("확인2: {}", message);
+                        messageList.add(message);
+                    }
+                }
+            }
+
+            if(messageList.isEmpty()) return;
+            firebaseMessaging.sendAll(messageList);
+        }catch(FirebaseMessagingException e){
+            e.printStackTrace();
+        }
     }
 }
