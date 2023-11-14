@@ -18,6 +18,7 @@ class _DaysPickerState extends State<DaysPicker> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(height: 48.0,),
         Text('  매 '),
