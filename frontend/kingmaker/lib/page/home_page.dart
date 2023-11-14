@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 Container(
-                  margin: EdgeInsets.only(top: 75, left: 7),
+                  margin: EdgeInsets.only(top: 110, left: 7),
                   child: MuteButton(),
                 ),
                 ExpBar(),
