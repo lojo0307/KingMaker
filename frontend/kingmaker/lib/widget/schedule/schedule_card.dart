@@ -76,8 +76,10 @@ class _ScheduleCardState extends State<ScheduleCard> {
                     int month = now.month;
                     int day = now.day;
                     Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, year, month);
-                    Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
+                    Provider.of<CalendarProvider>(context, listen: false).getData(memberId!, year, month);
+                    Provider.of<CalendarProvider>(context, listen: false).getList(memberId!, year, month, day);
                     Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
+                    Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
                     Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
                   },
                   child: (widget.data['achieved'] == '0')

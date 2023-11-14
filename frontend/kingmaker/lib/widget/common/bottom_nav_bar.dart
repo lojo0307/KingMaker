@@ -6,7 +6,13 @@ import 'package:kingmaker/page/calendar_page.dart';
 import 'package:kingmaker/page/home_page.dart';
 import 'package:kingmaker/page/profile_page.dart';
 import 'package:kingmaker/page/todo_page.dart';
+import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:kingmaker/provider/calendar_provider.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
+import 'package:kingmaker/provider/member_provider.dart';
+import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -46,6 +52,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
         duration: Duration(milliseconds: 200),
         curve: Curves.ease,
       ),
+      onItemSelected: (value) {
+        int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+        DateTime now = DateTime.now();
+        int year = now.year;
+        int month = now.month;
+        int day = now.day;
+        Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, year, month);
+        Provider.of<CalendarProvider>(context, listen: false).getData(memberId!, year, month);
+        Provider.of<CalendarProvider>(context, listen: false).getList(memberId!, year, month, day);
+        Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
+        Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
+        Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
+      },
       screenTransitionAnimation: const ScreenTransitionAnimation(
         animateTabTransition: true,
         curve: Curves.ease,
