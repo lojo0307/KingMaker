@@ -20,10 +20,10 @@ class _ImportanceCheckState extends State<ImportanceCheck> {
             setState(() {});
             print(Provider.of<RegistProvider>(context, listen: false).importantYn);
           },
-          child: (Provider.of<RegistProvider>(context, listen: false).importantYn)? Image.asset('assets/images/check.png',width: 33,) :Image.asset('assets/images/uncheck.png',width: 33,),
+          child: (Provider.of<RegistProvider>(context, listen: false).importantYn)? Image.asset('assets/images/check.png',width: 24,) :Image.asset('assets/images/uncheck.png',width: 24                ,),
         ),
         SizedBox(width: 10,),
-        Text('중요한 일정')
+        Text('중요한 일정', style: TextStyle(fontSize: 12),)
       ],
     );
   }

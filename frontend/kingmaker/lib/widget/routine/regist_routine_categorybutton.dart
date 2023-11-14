@@ -14,7 +14,7 @@ class CategoryButton extends StatefulWidget {
 }
 
 class _CategoryButtonState extends State<CategoryButton> {
-  static const category = ['집안일', '일 상', '학 습', '건 강', '업 무', '기타'];
+  static const category = ['집안일', '일상', '학습', '건강', '업무', '기타'];
   static const categoryId = [1, 2, 3, 4, 5, 6];
   int selectedValue = categoryId.first; // '전체'로 초기값 설정
   @override
@@ -26,7 +26,7 @@ class _CategoryButtonState extends State<CategoryButton> {
           unSelectedBorderColor: LIGHTEST_BLUE_COLOR,
           selectedBorderColor: LIGHTEST_BLUE_COLOR,
           elevation: 0,
-          width: 80,
+          width: 72,
           // height: 30,
           buttonLables: category,
           buttonValues: categoryId,
@@ -38,7 +38,7 @@ class _CategoryButtonState extends State<CategoryButton> {
           },
           unSelectedColor: GREY_COLOR,
           selectedColor: BLUE_COLOR,
-          buttonTextStyle: ButtonTextStyle(selectedColor: WHITE_COLOR, unSelectedColor: DARKER_GREY_COLOR),
+          buttonTextStyle: ButtonTextStyle(selectedColor: WHITE_COLOR, unSelectedColor: DARKER_GREY_COLOR, textStyle: TextStyle(fontSize: 12)),
           enableButtonWrap: true, // 중요: 버튼 래핑 비활성화
           defaultSelected: selectedValue,
           // ... 기타 속성들
