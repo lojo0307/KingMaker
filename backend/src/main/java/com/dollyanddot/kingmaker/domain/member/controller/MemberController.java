@@ -61,8 +61,10 @@ public class MemberController {
     }
 
     @GetMapping("/check")
-    public EnvelopeResponse<Void> check() {
-        return EnvelopeResponse.<Void>builder().build();
+    public EnvelopeResponse<LoginResDto> check(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        long credentialId = Long.parseLong(userDetails.getUsername());
+        return EnvelopeResponse.<LoginResDto>builder().data(memberService.getMemberInfo(credentialId)).build();
     }
 
 }
