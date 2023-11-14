@@ -2,19 +2,30 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:kingmaker/api/total_api.dart';
+import 'package:kingmaker/dto/fcm_dto.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =  FlutterLocalNotificationsPlugin();
 
 class FcmApi{
+  final TotalApi totalApi = TotalApi();
   //TODO: 앱 로그인 시 fcmToken 갱신하는 함수
-  Future<String?> getFcmToken() async {
+  void registFcmToken(int memberId) async {
     String? _fcmToken = await FirebaseMessaging.instance.getToken();
-    return _fcmToken;
+    FcmDto fcmDto=FcmDto(memberId: memberId, token: _fcmToken!);
+    final response = await totalApi.postApi('/api/member/fcmtoken',fcmDto.toRegistJson());
+    return;
   }
 
-  //TODO: 토큰 재발급 등의 이슈로 기기의 토큰을 삭제해야 할 때
-  void deleteFcmToken(){
+  //TODO: 토큰 재발급 등의 이슈로 "기기의" 토큰을 삭제해야 할 때
+  void deleteDeviceFcmToken(){
     FirebaseMessaging.instance.deleteToken();
+    return;
+  }
+  
+  void deleteFcmTokenFromDB() async{
+    String? _fcmToken = await FirebaseMessaging.instance.getToken();
+    final response=await totalApi.deleteApi('api/member/fcmtoken?token=$_fcmToken');
     return;
   }
 
