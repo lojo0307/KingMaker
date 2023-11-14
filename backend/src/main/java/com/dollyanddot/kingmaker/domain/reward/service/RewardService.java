@@ -98,6 +98,7 @@ public class RewardService {
             response.add(RewardListResDto.builder()
                     .rewardNm(reward.getRewardNm())
                     .rewardCond(reward.getRewardCond())
+                    .rewardMsg(reward.getRewardMsg())
                     .modifiedAt(memberReward.getModifiedAt())
                     .isAchieved(memberReward.isAchievedYn())
                     .rewardPercent(percent)
