@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/schedule/schedule_set.dart';
@@ -43,12 +44,12 @@ class _ScheduleMainState extends State<ScheduleMain> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, String>> data = context.watch<ScheduleProvider>().list;
-    return SafeArea(
-      child: DefaultTabController(
-          length: myTabs.length,
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Column(
+    return DefaultTabController(
+        length: myTabs.length,
+        child: Scaffold(
+          backgroundColor: LIGHTEST_BLUE_COLOR,
+          body: SafeArea(
+            child: Column(
               children: [
                 Text(
                   '일정',
@@ -101,7 +102,8 @@ class _ScheduleMainState extends State<ScheduleMain> {
                 )
               ],
             ),
-          )),
+          ),
+        )
     );
   }
 }
