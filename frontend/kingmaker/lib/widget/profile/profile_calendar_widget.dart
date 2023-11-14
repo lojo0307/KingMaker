@@ -19,12 +19,7 @@ class _ProfileCalendarWidgetState extends State<ProfileCalendarWidget> {
   late DateTime _focusedDay = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
-    DateTime now = DateTime.now();
-    int year = now.year;
-    int month = now.month;
-    int day = now.day;
-    Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, year, month);
+
     Map<String, int> levels = context.watch<CalendarProvider>().mypage;
     return Container(
       padding: EdgeInsets.all(24),
