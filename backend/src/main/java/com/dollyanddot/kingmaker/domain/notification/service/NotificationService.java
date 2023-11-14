@@ -31,4 +31,6 @@ public interface NotificationService {
 //    void notificationFirstSetting(Long memberId);
 
     List<NotificationSettingResDto> getNotificationSetting(Long memberId);
+
+    void sendChangeCitizenNotification() throws Exception;
 }
