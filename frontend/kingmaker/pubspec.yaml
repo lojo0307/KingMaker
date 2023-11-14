@@ -174,6 +174,15 @@ flutter:
     - assets/icon/category/ic_category_4.svg
     - assets/icon/category/ic_category_5.svg
     - assets/icon/category/ic_category_6.svg
+    - assets/castle/lv1.png
+    - assets/castle/lv2.png
+    - assets/castle/lv3.png
+    - assets/castle/lv4.png
+    - assets/castle/lv5.png
+    - assets/castle/lv6.png
+    - assets/castle/lv7.png
+    - assets/castle/lv8.png
+    - assets/castle/lv9.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
