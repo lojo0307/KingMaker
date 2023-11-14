@@ -29,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   @override
   Widget build(BuildContext context) {
+    int? data = context.watch<KingdomProvider>().kingdomDto?.level;
     return LayoutBuilder(builder: (ctx, constraints) {
       return
         Scaffold(
@@ -37,7 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Stack(
             children: <Widget>[
               Image(
-                image: const AssetImage('assets/castle/castle.png'),fit: BoxFit.cover, width: constraints.maxWidth * 1,height: 300,
+                image: AssetImage('assets/castle/lv${data}.png'),fit: BoxFit.cover, width: constraints.maxWidth * 1,height: 300,
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 24),

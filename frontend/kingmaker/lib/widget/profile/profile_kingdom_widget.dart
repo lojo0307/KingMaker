@@ -15,7 +15,7 @@ class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
   @override
   Widget build(BuildContext context) {
     KingdomDto? kingdom = context.watch<KingdomProvider>().kingdomDto;
-    int citizen = 100;
+    int? citizen = context.watch<KingdomProvider>().citizenDif;
     int mem = citizen < 0 ? -citizen : citizen;
     return LayoutBuilder(builder: (ctx, constraints) {
       return Row(

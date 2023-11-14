@@ -64,7 +64,7 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                             duration: const Duration(seconds: 3),
                             borderRadius: BorderRadius.circular(10),
                             gradientColor: const LinearGradient(
-                                colors: [LIGHT_BLUE_COLOR, BLUE_COLOR]),
+                                colors: [Color(0xFFFEB692), Color(0xFFEA5455)]),
                           ),
                           Text('  $dailyRate%', style: TextStyle(fontSize: 12),),
                         ],),
@@ -81,7 +81,7 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                             duration: const Duration(seconds: 3),
                             borderRadius: BorderRadius.circular(10),
                             gradientColor: const LinearGradient(
-                                colors: [BLUE_COLOR, DARK_BLUE_COLOR]),
+                                colors: [Color(0xFF90F7EC), Color(0xFF32CCBC)]),
                           ),
                           Text('  $monthlyRate%', style: TextStyle(fontSize: 12),),
                         ],
@@ -99,7 +99,7 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                             duration: const Duration(seconds: 3),
                             borderRadius: BorderRadius.circular(10),
                             gradientColor: const LinearGradient(
-                                colors: [DARK_BLUE_COLOR, DARKER_BLUE_COLOR]),
+                                colors: [Color(0xFFE2B0FF), Color(0xFF9F44D3)]),
                           ),
                           Text('  $yearRate%', style: TextStyle(fontSize: 12),),
                         ],),
@@ -110,7 +110,7 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('가장 강력한 몬스터',
+                        const Text('최다 달성 카테고리',
                           style: TextStyle(
                             fontSize: 14,
                           ),),
@@ -128,7 +128,7 @@ class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('가장 약한 몬스터',
+                        const Text('최소 달성 카테고리',
                           style: TextStyle(
                             fontSize: 14,
                           ),
