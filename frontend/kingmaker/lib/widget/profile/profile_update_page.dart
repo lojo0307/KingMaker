@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/profile/profile_char_image_widget.dart';
@@ -34,16 +35,17 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
         return Scaffold(
           backgroundColor: LIGHTEST_BLUE_COLOR,
           appBar: AppBar(
-            title: const Text('닉네임 수정'),
+            centerTitle: true,
+            title: Text('닉네임 수정', style: TextStyle(fontSize: 16, fontFamily: 'EsamanruMedium'),),
             backgroundColor: LIGHTEST_BLUE_COLOR,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
+              icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24,),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ),
           body: SingleChildScrollView( // SingleChildScrollView 추가
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 36),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: maxHeight), // 최소 높이를 설정하여 오버플로우 방지
                 child: IntrinsicHeight( // IntrinsicHeight를 사용하여 높이를 자식 내용에 맞춤
@@ -54,25 +56,37 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                       ProfileCharImageWidget(),
                       SizedBox(height: maxHeight * 0.1),
                       Container(
-                        width: maxWidth * 0.8,
                         child: TextFormField(
                           controller: _nicknameController,
-                          decoration: const InputDecoration(
-                            hintText: '닉네임',
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            hintText: '닉네임을 입력해주세요.',
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16.0, horizontal: 16.0),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none, // 일반 상태에서는 테두리 없음
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none, // 비활성화 상태에서도 테두리 없음
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(width: 1), // 포커스 상태에서 두꺼운 테두리
+                            ),
+                            filled: true,
+                            fillColor: WHITE_COLOR,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 24),
                       ElevatedButton(
                         onPressed: _updateProfileInformation,
-                        style: ButtonStyle(
-                          minimumSize: MaterialStateProperty.all(Size(maxWidth * 0.8, 40)),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          ),
-                          backgroundColor: MaterialStateProperty.all(Colors.white),
-                        ),
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 56),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            backgroundColor: LIGHT_YELLOW_COLOR),
                         child: const Text(
                           '닉네임 수정하기',
                           style: TextStyle(color: Colors.black),
