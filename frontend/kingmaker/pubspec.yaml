@@ -57,6 +57,8 @@ dependencies:
   firebase_core: ^2.22.0
   simple_animation_progress_bar: "^1.6.0"
   percent_indicator: ^4.2.3
+  assets_audio_player: ^3.1.1
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +86,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - assets/audios/
     - assets/images/uncheck.png
     - assets/images/check.png
     - assets/
