@@ -7,7 +7,6 @@ class CalendarTodoCard extends StatelessWidget {
   final Map<String, String> data;
   @override
   Widget build(BuildContext context) {
-    print('CalendarTodoCard : $data');
     final Color bgColor = data['achieved']=='0' ? Colors.white : Colors.grey;
     return GestureDetector(
       onTap: () async{

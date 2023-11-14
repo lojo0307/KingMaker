@@ -34,9 +34,6 @@ class AchievementProvider with ChangeNotifier {
     List<String> categories = await _achievementRepository.getCategory(memberId);
     _maxCategory = categories.first;
     _minCategory = categories.last;
-    print(categories);
-    print(_maxCategory);
-    print(_minCategory);
     notifyListeners();
   }
   getDailyRate(memberId) async {
