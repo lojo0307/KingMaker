@@ -1,5 +1,7 @@
 package com.dollyanddot.kingmaker.domain.routine.service;
 
+import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
+import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
@@ -42,6 +44,7 @@ public class RoutineService {
   private final MemberRoutineRepository memberRoutineRepository;
   private final RewardRepository rewardRepository;
   private final MemberRewardRepository memberRewardRepository;
+  private final CalendarRepository calendarRepository;
 
   @Transactional
   public PostRoutineResDto registerRoutine(PostRoutineReqDto postRoutineReqDto) throws ParseException {
@@ -103,11 +106,17 @@ public class RoutineService {
 
     if ((routine.getStartAt().isBefore(today) && routine.getEndAt().isAfter(today)) &&
         (!type.equals("day") || (type.equals("day") && isToday))) {
-      memberRoutineRepository.save(new MemberRoutine().builder()
+      MemberRoutine memberRoutine = memberRoutineRepository.save(new MemberRoutine().builder()
           .member(member)
           .routine(routine)
           .achievedYn(false)
           .build());
+
+      calendarRepository.save(Calendar.builder()
+              .member(memberRoutine.getMember())
+              .memberRoutine(memberRoutine)
+              .calendarDate(today.toLocalDate())
+              .build());
     }
 
     // 12번 업적 달성
