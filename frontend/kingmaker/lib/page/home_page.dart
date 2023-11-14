@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/member_provider.dart';
 import '../provider/schedule_provider.dart';
+import '../widget/bgm/mute_button.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -21,13 +22,16 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _loadDataFuture = _loadData();
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
   Future< List<Map<String, String>>> _loadData() async {
     DateTime now = DateTime.now();
     int? memberId = await Provider.of<MemberProvider>(context, listen: false).member?.memberId;
     if (memberId != null) {
       await Provider.of<ScheduleProvider>(context, listen: false).getMainList(memberId, now.year, now.month, now.day);
       List<Map<String, String>> data =await Provider.of<ScheduleProvider>(context, listen: false).list;
-      print('######_loadData : $data');
       return data;
     }
     throw Exception('Member ID is null');
@@ -46,11 +50,16 @@ class _HomePageState extends State<HomePage> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
-                print('### homepage_build : $snapshot.data');
+                // print('### homepage_build : $snapshot.data');
                 return Stack(
                   children: [
                     GameWidget.controlled(
                       gameFactory: () => MyGame(context, snapshot.data!),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 75, left: 7),
+                      child: MuteButton(),
                     ),
                     ExpBar(),
                   ],

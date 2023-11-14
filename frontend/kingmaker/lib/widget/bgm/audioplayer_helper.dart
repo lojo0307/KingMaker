@@ -1,7 +1,14 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 
 class AudioPlayerHelper {
+  static final AudioPlayerHelper _instance = AudioPlayerHelper._internal();
   final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer.newPlayer();
+
+  factory AudioPlayerHelper() {
+    return _instance;
+  }
+
+  AudioPlayerHelper._internal();
 
   void playLoginMusic(String title) {
     _assetsAudioPlayer.open(
