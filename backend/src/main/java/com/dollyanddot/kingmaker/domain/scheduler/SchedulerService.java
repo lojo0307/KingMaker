@@ -114,22 +114,19 @@ public class SchedulerService {
   @Scheduled(cron="0 0 0 * * *", zone="Asia/Seoul")
   public void checkNotAchievedPlanFromYesterday() {
     //어제 일정 미달성한 개수 카운트 & 백성 수 줄이기
-    List<CountPlanDto> yesterdayDtoList = calendarRepository.getUndonePlanCntYesterday();
+    //TODO 알림에 추가
+    List<CountPlanDto> undoneList = calendarRepository.getUndonePlanCntYesterday();
+    //어제 일정 달성한 개수 카운트
+    //TODO 알림에 추가
+    List<CountPlanDto> DoneList = calendarRepository.getUndonePlanCntYesterday();
 
     //백성 수 차감 및 레벨 변경
-    for(CountPlanDto c : yesterdayDtoList) {
+    for(CountPlanDto c : undoneList) {
       if(c.getCnt()>0) {
         memberRepository.findById(c.getMemberId()).orElseThrow(MemberNotFoundException::new);
         kingdomService.penaltyCitizen(c.getMemberId(), c.getCnt());
       }
      }
-
-    //TODO: 아침 알림 메시지에 몬스터로 인해 백성이 이주했다는 메시지 추가
-
-    rewardService.getUndonePlanAllCnt50();
-    rewardService.getUndonePlanAllCnt100();
-
-    //TODO: 위랑 아래 둘 중에 선택하기
 
     List<CountPlanDto> allDtoList = calendarRepository.getUndonePlanAllCnt();
     for(CountPlanDto c : allDtoList) {
@@ -139,8 +136,6 @@ public class SchedulerService {
         rewardService.getUndonePlanAllCnt(2, c);
       }
     }
-
-    //TODO: 업적 추가된 사항 전달
   }
 
   //오늘 할 일(그 중에서도 미달성인) 30개 이상이면 몬스터 파크 개장 업적 부여

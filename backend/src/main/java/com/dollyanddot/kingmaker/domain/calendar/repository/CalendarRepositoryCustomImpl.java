@@ -110,6 +110,25 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
             .fetch();
     }
 
+    @Override
+    public List<CountPlanDto> getDonePlanCntYesterday() {
+        return queryFactory
+            .select(Projections.fields(CountPlanDto.class,
+                calendar.member.memberId,
+                calendar.calendarId.count().as("cnt"))
+            )
+            .from(calendar)
+            .leftJoin(calendar.todo, todo)
+            .leftJoin(calendar.memberRoutine, memberRoutine)
+            .where(calendar.calendarDate.eq(LocalDate.now().minusDays(1))
+                .and((calendar.todo.isNotNull().and(calendar.todo.achievedYn.isTrue()))
+                    .or(calendar.memberRoutine.isNotNull().and(calendar.memberRoutine.achievedYn.isTrue())))
+            )
+            .groupBy(calendar.member.memberId)
+            .orderBy(calendar.member.memberId.asc())
+            .fetch();
+    }
+
     //어제까지 미달성한 전체 개수가 50개 이상, 100개 이상
     @Override
     public List<Member> getUndonePlanCntMemberList(int cnt) {

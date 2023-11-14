@@ -20,6 +20,8 @@ public interface CalendarRepositoryCustom{
 
     List<CountPlanDto> getUndonePlanCntYesterday();
 
+    List<CountPlanDto> getDonePlanCntYesterday();
+
     List<Member> getUndonePlanCntMemberList(int cnt);
 
     List<CountPlanDto>  getUndonePlanAllCnt();
