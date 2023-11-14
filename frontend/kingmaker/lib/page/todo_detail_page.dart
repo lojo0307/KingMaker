@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
+import 'package:kingmaker/provider/achievement_provider.dart';
 import 'package:kingmaker/provider/calendar_provider.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:provider/provider.dart';
@@ -228,8 +230,13 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                                   .changeAchieve();
                               DateTime now = DateTime.now();
                               int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
-                              Provider.of<CalendarProvider>(context, listen: false)
-                                  .getList(memberId!, now.year, now.month, now.day);
+                              int year = now.year;
+                              int month = now.month;
+                              int day = now.day;
+                              Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, year, month);
+                              Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
+                              Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
+                              Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
                             },
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(double.infinity, 50), // 여기서 원하는 크기로 조절
