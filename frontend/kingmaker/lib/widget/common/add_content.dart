@@ -25,7 +25,9 @@ class _AddContentState extends State<AddContent> {
             },
             child: Scaffold(
               backgroundColor: Colors.black.withOpacity(0.2),
-              body: addPage(),
+              body: SafeArea(
+                child: addPage(),
+              ),
             ),
           )
         : addPage();

@@ -38,41 +38,37 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Align(
-          alignment: Alignment.center,
-          child: FutureBuilder< List<Map<String, String>>>(
-            future: _loadDataFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else if (snapshot.hasData) {
-                // print('### homepage_build : $snapshot.data');
-                return Stack(
-                  children: [
-                    GameWidget.controlled(
-                      gameFactory: () => MyGame(context, snapshot.data!),
-                    ),
+    return Align(
+      alignment: Alignment.center,
+      child: FutureBuilder< List<Map<String, String>>>(
+        future: _loadDataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            // print('### homepage_build : $snapshot.data');
+            return Stack(
+              children: [
+                GameWidget.controlled(
+                  gameFactory: () => MyGame(context, snapshot.data!),
+                ),
 
-                    Container(
-                      margin: EdgeInsets.only(top: 75, left: 7),
-                      child: MuteButton(),
-                    ),
-                    ExpBar(),
-                  ],
-                );
-              } else {
-                // 데이터 로딩에 실패했거나, 아직 데이터가 없을 때
-                return Text('No data available');
-              }
-            },
-          ),
-
-        ),
+                Container(
+                  margin: EdgeInsets.only(top: 75, left: 7),
+                  child: MuteButton(),
+                ),
+                ExpBar(),
+              ],
+            );
+          } else {
+            // 데이터 로딩에 실패했거나, 아직 데이터가 없을 때
+            return Text('No data available');
+          }
+        },
       ),
+
     );
   }
 
