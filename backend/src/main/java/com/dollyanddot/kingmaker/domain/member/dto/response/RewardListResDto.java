@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class RewardListResDto {
     private String rewardNm;
     private String rewardCond;
+    private String rewardMsg;
     private LocalDateTime modifiedAt;
     private boolean isAchieved;
     private int rewardPercent;
