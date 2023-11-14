@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/calendar_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
@@ -26,17 +27,15 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 16,
-                  ),
+                  // SizedBox(
+                  //   height: 16,
+                  // ),
                   Stack(
                     children: [
                       Container(
                         height: 40,
                         child: IconButton(
-                          icon: const Icon(
-                            Icons.navigate_before,
-                          ),
+                          icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24,),
                           tooltip: '이 전 페이지',
                           onPressed: () {
                             Navigator.pop(context,);
@@ -52,7 +51,7 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                             child: Text(
                               '몬스터 정보',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
+                                  fontSize: 16, fontFamily: 'EsamanruMedium'),
                             ),
                           ),
                         ),
@@ -66,151 +65,149 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                   //   width: 150,
                   // ),
                   // 이미지 경로를 수정하세요.
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    width: 350,
-                    // height: 200,
-                    decoration: BoxDecoration(
-                      color: WHITE_COLOR,
-                      borderRadius: BorderRadius.circular(8), //모서리를 둥글게
-                      // border: Border.all(color: Colors.black, width: 3), //테두리
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/pixel_star.png',
-                                            height: 30,
-                                            width: 30,
-                                          ),
-                                          SizedBox(
-                                            width: 8,
-                                          ),
-                                          Expanded(
-                                            child: Wrap(
-                                              direction: Axis.horizontal,
-                                              children: [
-                                                Text(
-                                                  data['title']!,
-                                                  style: TextStyle(fontSize: 25),
-                                                  softWrap: true,
-                                                ),
-                                              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      // width: 350,
+                      // height: 200,
+                      decoration: BoxDecoration(
+                        color: WHITE_COLOR,
+                        borderRadius: BorderRadius.circular(8), //모서리를 둥글게
+                        // border: Border.all(color: Colors.black, width: 3), //테두리
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        child: Row(
+                                          children: [
+                                            SvgPicture.asset('assets/icon/ic_star.svg'),
+                                            SizedBox(
+                                              width: 8,
                                             ),
-                                          ),
-                                        ],
+                                            Expanded(
+                                              child: Wrap(
+                                                direction: Axis.horizontal,
+                                                children: [
+                                                  Text(
+                                                    data['title']!,
+                                                    style: TextStyle(fontSize: 20),
+                                                    softWrap: true,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                      height: 32,
-                                      padding:
-                                      EdgeInsets.symmetric(horizontal: 10),
-                                      decoration: BoxDecoration(
-                                        color: BLUE_COLOR,
-                                        borderRadius: BorderRadius.circular(
-                                            10), //모서리를 둥글게
-                                        // border: Border.all(color: Colors.black, width: 3), //테두리
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                            category[
-                                            int.parse(data['category']!)],
-                                            style: TextStyle(
-                                                color: WHITE_COLOR,
-                                                fontSize: 16)),
-                                      )),
-                                ],
-                              ),
-                              (data['place'] == null) ? SizedBox() : SizedBox(height: 4,),
-                              (data['place'] == null)
-                                  ? SizedBox()
-                                  : Text(data['place']!),
-                            ],
+                                    Container(
+                                        height: 32,
+                                        padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                        decoration: BoxDecoration(
+                                          color: BLUE_COLOR,
+                                          borderRadius: BorderRadius.circular(
+                                              10), //모서리를 둥글게
+                                          // border: Border.all(color: Colors.black, width: 3), //테두리
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                              category[
+                                              int.parse(data['category']!)],
+                                              style: TextStyle(
+                                                  color: WHITE_COLOR,
+                                                  fontSize: 14)),
+                                        )),
+                                  ],
+                                ),
+                                (data['place'] == null) ? SizedBox() : SizedBox(height: 4,),
+                                (data['place'] == null)
+                                    ? SizedBox()
+                                    : Text(data['place']!),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          margin: EdgeInsetsDirectional.only(top: 12),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 24),
-                          decoration: BoxDecoration(
-                            color: LIGHTEST_GREY_COLOR,
-                            borderRadius: BorderRadius.circular(10), //모서리를 둥글게
-                            // border: Border.all(color: Colors.black, width: 3), //테두리
+                          Container(
+                            width: double.infinity,
+                            margin: EdgeInsetsDirectional.only(top: 12),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 24),
+                            decoration: BoxDecoration(
+                              color: LIGHTEST_GREY_COLOR,
+                              borderRadius: BorderRadius.circular(10), //모서리를 둥글게
+                              // border: Border.all(color: Colors.black, width: 3), //테두리
+                            ),
+                            child: Text(data['detail']!, style: TextStyle(fontSize: 14),),
                           ),
-                          child: Text(data['detail']!),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "시작일자",
-                                    style: TextStyle(
-                                        color: DARKER_GREY_COLOR, fontSize: 16),
-                                  ),
-                                  SizedBox(
-                                    width: 28,
-                                  ),
-                                  Text(
-                                    data['startAt']!,
-                                    style: TextStyle(
-                                        color: BLUE_BLACK_COLOR, fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "종료일자",
-                                    style: TextStyle(
-                                        color: DARKER_GREY_COLOR, fontSize: 16),
-                                  ),
-                                  SizedBox(
-                                    width: 28,
-                                  ),
-                                  Text(
-                                    data['endAt']!,
-                                    style: TextStyle(
-                                        color: BLUE_BLACK_COLOR, fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          SizedBox(
+                            height: 16,
                           ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "시작일자",
+                                      style: TextStyle(
+                                          color: DARKER_GREY_COLOR, fontSize: 14),
+                                    ),
+                                    SizedBox(
+                                      width: 28,
+                                    ),
+                                    Text(
+                                      data['startAt']!,
+                                      style: TextStyle(
+                                          color: BLUE_BLACK_COLOR, fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "종료일자",
+                                      style: TextStyle(
+                                          color: DARKER_GREY_COLOR, fontSize: 14),
+                                    ),
+                                    SizedBox(
+                                      width: 28,
+                                    ),
+                                    Text(
+                                      data['endAt']!,
+                                      style: TextStyle(
+                                          color: BLUE_BLACK_COLOR, fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 5.0),
                   Container(
-                    padding: EdgeInsets.all(5),
+                    padding: EdgeInsets.symmetric(horizontal: 24),
                     margin: EdgeInsetsDirectional.only(top: 10),
-                    width: 350,
                     child: Column(
                       children: [
                         ElevatedButton(
