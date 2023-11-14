@@ -44,8 +44,10 @@ class RewardApi{
   Future <List<String>> getCategory(int memberId) async {
     try{
       final response = await totalApi.getApi('/api/mypage/category/$memberId',);
+      print(response);
       String max = response.data['data'].first['categoryId'] == -1 ? "없음" : response.data['data'].first['categoryNm'];
       String min = response.data['data'].last['categoryId'] == -1 ? "없음" : response.data['data'].last['categoryNm'];
+      print('$max $min');
       return [max, min];
     } catch (e) {
         print(e);

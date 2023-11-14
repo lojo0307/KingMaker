@@ -29,6 +29,7 @@ class AchievementProvider with ChangeNotifier {
     getMonthlyRate(memberId);
     getYearRate(memberId);
     getAchieveList(memberId);
+    notifyListeners();
   }
   getCategory(memberId) async {
     List<String> categories = await _achievementRepository.getCategory(memberId);
