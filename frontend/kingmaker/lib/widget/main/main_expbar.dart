@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/dto/kingdom_dto.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
+import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:provider/provider.dart';
 
 class ExpBar extends StatefulWidget {
   const ExpBar({super.key});
@@ -12,10 +16,12 @@ class ExpBar extends StatefulWidget {
 class _ExpBarState extends State<ExpBar> {
   @override
   Widget build(BuildContext context) {
+    KingdomDto? kingdomDto = context.watch<KingdomProvider>().kingdomDto;
+    int leftMonster = context.watch<ScheduleProvider>().leftMonster;
     return LayoutBuilder(builder: (context, constraints) {
       final double maxWidth = constraints.maxWidth;
       return Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
 
         width: maxWidth,
@@ -51,8 +57,8 @@ class _ExpBarState extends State<ExpBar> {
 
                 //백성 수 연결하기!
                 //백성 수/100000 을 나타내기
-                percent: 50000/100000,
-                center: Text("50000명"),
+                percent: kingdomDto!.citizen/100000 > 1.0 ? 1.0 : kingdomDto!.citizen/100000,
+                center: Text("${kingdomDto?.citizen}명"),
 
                 progressColor: Colors.green,
                 barRadius: Radius.circular(10),
@@ -77,7 +83,7 @@ class _ExpBarState extends State<ExpBar> {
               padding: EdgeInsets.only(left: 10,top: 3),
               height: 40,
 
-              child: Text('X 10', style: TextStyle(fontSize: 20),),
+              child: Text('X $leftMonster', style: TextStyle(fontSize: 20),),
             ),
 
           ],
