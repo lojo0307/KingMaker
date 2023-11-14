@@ -26,7 +26,7 @@ class _WeekDayButtonState extends State<WeekDayButton> {
         CustomRadioButton(
           width: MediaQuery.of(context).size.width / 3 - 24,
           padding: 1,
-          height: 30,
+          height: 36,
           buttonLables: category,
           buttonValues: category,
           radioButtonValue: (value) {
