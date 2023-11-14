@@ -67,7 +67,7 @@ class _TimeInputState extends State<TimeInput> {
 
               ),
               onPressed: () => _openTimePickerSheet(context),
-              child: Text('${getHourString(dateTimeSelected.hour)}시 ${dateTimeSelected.minute}분', style: TextStyle(color: BLUE_BLACK_COLOR),),
+              child: Text('${getHourString(dateTimeSelected.hour)}시 ${dateTimeSelected.minute}분', style: TextStyle(color: BLUE_BLACK_COLOR, fontSize: 12),),
             ),
           ],
         );
