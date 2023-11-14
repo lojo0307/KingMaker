@@ -13,15 +13,15 @@ class TodoDetailPage extends StatefulWidget {
 }
 
 class _TodoDetailPageState extends State<TodoDetailPage> {
-  static const category = ['집안일', '일상', '학습', '건강', '업무', '기타'];
+  static const category = ['', '집안일', '일상', '학습', '건강', '업무', '기타'];
 
   @override
   Widget build(BuildContext context) {
     Map<String, String> data = context.watch<ScheduleProvider>().detail;
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: LIGHTEST_BLUE_COLOR,
-          body: SingleChildScrollView(
+    return Scaffold(
+        backgroundColor: LIGHTEST_BLUE_COLOR,
+        body: SafeArea(
+          child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
@@ -84,7 +84,7 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: Container(
@@ -213,35 +213,35 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                     child: Column(
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            print(data);
-                            int id = int.parse(data['id']!);
-                            if (data['type'] == '2') {
-                              Provider.of<ScheduleProvider>(context,
-                                      listen: false)
-                                  .achieveRoutine(id);
-                            } else {
-                              Provider.of<ScheduleProvider>(context,
-                                      listen: false)
-                                  .achieveTodo(id);
-                            }
-                            Provider.of<ScheduleProvider>(context,
+                            onPressed: () {
+                              print(data);
+                              int id = int.parse(data['id']!);
+                              if (data['type'] == '2') {
+                                Provider.of<ScheduleProvider>(context,
                                     listen: false)
-                                .changeAchieve();
-                            print("버튼 클릭");
-                          },
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 50), // 여기서 원하는 크기로 조절
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                                    .achieveRoutine(id);
+                              } else {
+                                Provider.of<ScheduleProvider>(context,
+                                    listen: false)
+                                    .achieveTodo(id);
+                              }
+                              Provider.of<ScheduleProvider>(context,
+                                  listen: false)
+                                  .changeAchieve();
+                              print("버튼 클릭");
+                            },
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size(double.infinity, 50), // 여기서 원하는 크기로 조절
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 0.0, vertical: 14.0),
+                              backgroundColor: LIGHT_YELLOW_COLOR,
                             ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 0.0, vertical: 14.0),
-                            backgroundColor: LIGHT_YELLOW_COLOR,
-                          ),
-                          child: data['achievedYn'] == 'true'
-                              ? Text('수행취소', style: TextStyle(color: BLUE_BLACK_COLOR, fontSize: 16),)
-                              : Text('수행하기', style: TextStyle(color: BLUE_BLACK_COLOR, fontSize: 16),)
+                            child: data['achievedYn'] == 'true'
+                                ? Text('수행취소', style: TextStyle(color: BLUE_BLACK_COLOR, fontSize: 16),)
+                                : Text('수행하기', style: TextStyle(color: BLUE_BLACK_COLOR, fontSize: 16),)
                         ),
                         SizedBox(
                           height: 8,
@@ -290,7 +290,8 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                     ),
                   )
                 ],
-              ))),
+              )),
+        ),
     );
   }
 }
