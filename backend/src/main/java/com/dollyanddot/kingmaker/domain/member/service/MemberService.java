@@ -183,4 +183,17 @@ public class MemberService {
 //            }
         }
     }
+
+    public LoginResDto getMemberInfo(long credentialId) {
+        Credential credential = credentialRepository.findById(credentialId).orElseThrow(() -> new CredentialNotFoundException());
+        Member member = memberRepository.findByCredential(credential).orElseThrow(() -> new MemberNotFoundException());
+
+        return LoginResDto.builder()
+                .memberId(member.getMemberId())
+                .email(credential.getEmail())
+                .gender(member.getGender())
+                .nickname(member.getNickname())
+                .provider(credential.getProvider())
+                .build();
+    }
 }
