@@ -226,12 +226,10 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                               Provider.of<ScheduleProvider>(context,
                                   listen: false)
                                   .changeAchieve();
-
                               DateTime now = DateTime.now();
                               int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                               Provider.of<CalendarProvider>(context, listen: false)
                                   .getList(memberId!, now.year, now.month, now.day);
-                              print("버튼 클릭");
                             },
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(double.infinity, 50), // 여기서 원하는 크기로 조절

@@ -87,7 +87,6 @@ class MemberProvider with ChangeNotifier {
       //기존 회원
       return member!.memberId;
     }
-
   }
 
   Future<int> KakaoLogin() async{
