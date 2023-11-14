@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/api/fcm_api.dart';
 import 'package:kingmaker/dto/member_dto.dart';
+import 'package:kingmaker/repository/fcm_repository.dart';
 import 'package:kingmaker/repository/member_repository.dart';
 import 'package:kingmaker/repository/social_repository.dart';
 
 class MemberProvider with ChangeNotifier {
   late final MemberRepository _memberRepository;
   late final SocialRepository _socialRepository;
+  late final FcmRepository _fcmRepository;
 
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
@@ -25,6 +28,7 @@ class MemberProvider with ChangeNotifier {
   MemberProvider() {
     _memberRepository = MemberRepository();
     _socialRepository = SocialRepository();
+    _fcmRepository=FcmRepository();
     checkToken();
   }
   void setNickName(String name){
@@ -37,6 +41,26 @@ class MemberProvider with ChangeNotifier {
       _errorMessage = " ";
     }
   }
+
+  void initializeNoficiationSetting(){
+    _fcmRepository.initializeNotification();
+  }
+
+  void registFcmToken(){
+    int? memberId =  _member?.memberId;
+    _fcmRepository.registFcmToken(memberId!);
+  }
+
+  void deleteDeviceFcmToken(){
+    //재발급 등의 이유로 기기의 FCM 토큰을 삭제할 때 사용
+    //백 DB에서 삭제하려면, deleteFcmTokenFromDB 사용하세요
+    _fcmRepository.deleteDevicecFcmToken();
+  }
+
+  void deleteFcmTokenFromDB(){
+    _fcmRepository.deleteFcmTokenFromDB();
+  }
+
   void modifyNickName(String name){
     int? memberId =  _member?.memberId;
     _memberRepository.modifyNick(memberId!, name);
