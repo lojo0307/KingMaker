@@ -13,12 +13,22 @@ class _AlarmListState extends State<AlarmList> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 24,),
       child: Center(
         child: Column(
           children:
-          widget.list.map ((AlarmDto res){
-              return AlarmCard(data: res, delFlag: widget.delFlag,);
+          widget.list.asMap().entries.map((entry) {
+            int idx = entry.key;
+            AlarmDto res = entry.value;
+            bool isLast = idx == widget.list.length - 1; // 마지막 요소인지 확인
+
+            return AlarmCard(
+              data: res,
+              delFlag: widget.delFlag,
+              lastIdx: isLast, // 마지막 요소일 경우 true 전달
+            );
           }).toList(),
+
 
         ),
       ),

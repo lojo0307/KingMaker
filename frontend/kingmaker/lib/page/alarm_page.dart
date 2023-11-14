@@ -23,7 +23,7 @@ class _AlarmPageState extends State<AlarmPage> {
               children: [
                 Column(
                   children: [
-                    Header(title: '알 림'),
+                    Header(title: '알림'),
                   ],
                 ),
                 AlarmMain(),
