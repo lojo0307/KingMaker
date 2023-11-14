@@ -20,7 +20,6 @@ class Castle extends SpriteComponent {
     String? castleName = await Provider.of<KingdomProvider>(context, listen: false).kingdomDto?.kingdomNm;
     print("성성성성 레벨  : $clevel");
     sprite = await Sprite.load('castle/Lv${clevel}.png');
-
     textComponent=TextComponent(
         text: "Lv.${clevel} ${castleName}",
         textRenderer: TextPaint(
@@ -41,26 +40,27 @@ class Castle extends SpriteComponent {
           size.y-5);
       add(textComponent);
     }else if(clevel==3||clevel==4||clevel==5){
-      size = Vector2.all(270.0);
+      size = Vector2.all(240.0);
       position = Vector2(350, 100);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           size.y-15);
       add(textComponent);
     }else if(clevel==6){
-      size = Vector2.all(290.0);
-      position = Vector2(350, 40);
+      size = Vector2.all(250.0);
+      position = Vector2(350, 110);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           size.y-5);
       add(textComponent);
     }else if(clevel==7){
-      size = Vector2.all(290.0);
-      position = Vector2(350, 60);
+      size = Vector2.all(270.0);
+      position = Vector2(350, 140);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           size.y-35);
       add(textComponent);
     }else if(clevel==8||clevel==9){
-      size = Vector2.all(290.0);
-      position = Vector2(350, 40);
+      print('여기');
+      size = Vector2.all(230.0);
+      position = Vector2(350, 150);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           size.y-10);
       add(textComponent);
