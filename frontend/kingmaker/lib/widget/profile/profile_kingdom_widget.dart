@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/dto/kingdom_dto.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProfileKingdomWidget extends StatefulWidget {
@@ -12,8 +13,17 @@ class ProfileKingdomWidget extends StatefulWidget {
 
 class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
   @override
+  void initState() {
+    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+    Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     KingdomDto? kingdom = context.watch<KingdomProvider>().kingdomDto;
+    // int? citizen = context.watch<KingdomProvider>().citizenDif;
+    int citizen = 100;
+    int mem = citizen < 0 ? -citizen : citizen;
     return LayoutBuilder(builder: (ctx, constraints) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,11 +68,31 @@ class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
                         ),
                       ),
                       const SizedBox(height: 5,),
-                      Text('백성 : ${kingdom?.citizen} 명',
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('백성 : ${kingdom?.citizen} 명',
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(' (',
+                            style: TextStyle(
+                              color: citizen > 0 ? Colors.red : citizen == 0 ? Colors.black : Colors.blue,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          getIcone(citizen),
+                          Text('${mem == 0 ? "" : mem} )',
+                            style: TextStyle(
+                              color: citizen > 0 ? Colors.red : citizen == 0 ? Colors.black : Colors.blue,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -72,5 +102,15 @@ class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
           )],
       );
     });
+  }
+
+  getIcone(int citizen) {
+    if (citizen < 0) {
+      return const Icon(Icons.arrow_drop_down, color: Colors.blue,);
+    } else if (citizen > 0){
+      return const Icon(Icons.arrow_drop_up, color: Colors.red,);
+    } else{
+      return const Text(" -", style: TextStyle(fontWeight: FontWeight.bold),);
+    }
   }
 }

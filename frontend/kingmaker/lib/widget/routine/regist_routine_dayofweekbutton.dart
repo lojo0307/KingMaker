@@ -13,8 +13,7 @@ class DayOfWeekButton extends StatefulWidget {
 
 class _DayOfWeekButtonState extends State<DayOfWeekButton> {
   Widget roundedButton({required Widget child, required bool isSelected}) {
-    return Expanded(
-      child: Container(
+    return Container(
         width: MediaQuery.of(context).size.width / 7 - 17,
         margin: EdgeInsets.symmetric(horizontal: 5),
         height: 30,
@@ -24,8 +23,7 @@ class _DayOfWeekButtonState extends State<DayOfWeekButton> {
           // border: Border.all(color: Color(0xFFA7D790)),
         ),
         child: child,
-      ),
-    );
+      );
   }
 
 
@@ -34,33 +32,35 @@ class _DayOfWeekButtonState extends State<DayOfWeekButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ToggleButtons(
-          onPressed: (int index) {
-            setState(() {
-              _selections1[index] = !_selections1[index];
-              Provider.of<RegistProvider>(context, listen: false).setValue(_selections1);
-            });
-          },
-          isSelected: _selections1,
-          renderBorder: false,
-          borderRadius: BorderRadius.all(Radius.circular(13)),
-          fillColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          selectedColor: Colors.black,
+    return Expanded(
+        child: Row(
+          children: [
+            ToggleButtons(
+              onPressed: (int index) {
+                setState(() {
+                  _selections1[index] = !_selections1[index];
+                  Provider.of<RegistProvider>(context, listen: false).setValue(_selections1);
+                });
+              },
+              isSelected: _selections1,
+              renderBorder: false,
+              borderRadius: BorderRadius.all(Radius.circular(13)),
+              fillColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              selectedColor: Colors.black,
 
-          children: <Widget>[
-            roundedButton(child: Center(child: Text('일', style: TextStyle(color: _selections1[0] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[0]),
-            roundedButton(child: Center(child: Text('월', style: TextStyle(color: _selections1[1] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[1]),
-            roundedButton(child: Center(child: Text('화', style: TextStyle(color: _selections1[2] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[2]),
-            roundedButton(child: Center(child: Text('수', style: TextStyle(color: _selections1[3] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[3]),
-            roundedButton(child: Center(child: Text('목', style: TextStyle(color: _selections1[4] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[4]),
-            roundedButton(child: Center(child: Text('금', style: TextStyle(color: _selections1[5] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[5]),
-            roundedButton(child: Center(child: Text('토', style: TextStyle(color: _selections1[6] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[6]),
+              children: <Widget>[
+                roundedButton(child: Center(child: Text('일', style: TextStyle(color: _selections1[0] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[0]),
+                roundedButton(child: Center(child: Text('월', style: TextStyle(color: _selections1[1] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[1]),
+                roundedButton(child: Center(child: Text('화', style: TextStyle(color: _selections1[2] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[2]),
+                roundedButton(child: Center(child: Text('수', style: TextStyle(color: _selections1[3] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[3]),
+                roundedButton(child: Center(child: Text('목', style: TextStyle(color: _selections1[4] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[4]),
+                roundedButton(child: Center(child: Text('금', style: TextStyle(color: _selections1[5] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[5]),
+                roundedButton(child: Center(child: Text('토', style: TextStyle(color: _selections1[6] ? WHITE_COLOR : DARKER_GREY_COLOR)),), isSelected: _selections1[6]),
+              ],
+            ),
           ],
-        ),
-      ],
+        )
     );
   }
 }
