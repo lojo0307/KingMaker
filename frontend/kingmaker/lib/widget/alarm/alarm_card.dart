@@ -14,6 +14,7 @@ class AlarmCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           // color: Colors.white,
           border: Border(
@@ -24,27 +25,41 @@ class AlarmCard extends StatelessWidget {
           ),
         ),
         margin: EdgeInsets.fromLTRB(0.0,2.0,0.0,2.0),
-        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-        child: Column(
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        child: Row(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        height: 20,
-                        width: 30,
-                        child: Image.asset('assets/images/Slime.png')),
-                    Text(type[data.type], style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: BLUE_BLACK_COLOR),),
-                  ],
+                 Container(
+                   margin: EdgeInsets.fromLTRB(0.0,2.0,10.0,2.0),
+                   child: Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     crossAxisAlignment: CrossAxisAlignment.center,
+                     children: [
+                       Container(
+                         margin: EdgeInsets.fromLTRB(7.0,0.0,7.0,0.0),
+                         padding: EdgeInsets.all(7),
+                         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
+                           height: 60,
+                           width: 60,
+                           child: Image.asset('assets/images/notification/noti_butler_${data.notificationTypeId}.png')),
+                     ],
+                   )
                 ),
+              ],
+            ),
+            Expanded(child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(data.sendtime, style: const TextStyle(fontSize: 14, color: DARK_GREY_COLOR ),),
+                    Text(type[data.notificationTypeId], style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: BLUE_BLACK_COLOR),),
+                    Text(data.sendtime, style: const TextStyle(fontSize: 15, color: DARK_GREY_COLOR ),),
                     (delFlag)? TextButton( onPressed: () async {
                       int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                       await Provider.of<AlarmProvider>(context, listen: false).deleteAlarm(data.notificationId);
@@ -52,11 +67,16 @@ class AlarmCard extends StatelessWidget {
                     }, child: Image.asset('assets/icon/delete.png',), ): const SizedBox.shrink()
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: Container(child: Text(data.message, style: const TextStyle(fontSize: 14, color: BLUE_BLACK_COLOR),),),),
+                  ],
+                ),
               ],
+              ),
             ),
-            SizedBox(height: 4),
-            Text(data.message, style: const TextStyle(fontSize: 13, color: BLUE_BLACK_COLOR
-            ),),
           ],
         ),
       );
