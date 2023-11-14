@@ -103,7 +103,7 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 radius: 50,
-                backgroundImage: AssetImage('assets/achievement/sample.png'),
+                backgroundImage: AssetImage('assets/achievement/0.png'),
               ),
             ),
           ],
