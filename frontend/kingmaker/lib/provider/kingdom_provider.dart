@@ -14,6 +14,9 @@ class KingdomProvider with ChangeNotifier {
   String _kingdomName = "";
   String get kingdomName => _kingdomName;
 
+  int _citizenDif = 0;
+  int get citizenDif => _citizenDif;
+
   KingdomProvider() {
     _kingdomRepository = KingdomRepository();
   }
@@ -27,5 +30,6 @@ class KingdomProvider with ChangeNotifier {
 
   getKingdom(int memberId) async{
     _kingdomDto = await _kingdomRepository.getKingdom(memberId);
+    _citizenDif = await _kingdomRepository.getCitizen(memberId);
   }
 }

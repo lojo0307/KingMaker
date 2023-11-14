@@ -3,12 +3,8 @@ import 'package:kingmaker/api/reward_api.dart';
 class AchievementRepository {
   final RewardApi _rewardApiApi = RewardApi();
 
-  Future<String> getMaxCategory(int memberId) {
-    return _rewardApiApi.getMaxCategory(memberId);
-  }
-
-  Future<String> getMinCategory(int memberId){
-    return _rewardApiApi.getMinCategory(memberId);
+  Future<List<String>> getCategory(int memberId) {
+    return _rewardApiApi.getCategory(memberId);
   }
 
   getDailyRate(int memberId) {

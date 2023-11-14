@@ -24,19 +24,19 @@ class AchievementProvider with ChangeNotifier {
   }
 
   void getAllData(int memberId) {
-    getMaxCategory(memberId);
-    getMinCategory(memberId);
+    getCategory(memberId);
     getDailyRate(memberId);
     getMonthlyRate(memberId);
     getYearRate(memberId);
     getAchieveList(memberId);
   }
-  getMaxCategory(memberId) async {
-    _maxCategory = await _achievementRepository.getMaxCategory(memberId);
-    notifyListeners();
-  }
-  getMinCategory(memberId) async {
-    _minCategory = await _achievementRepository.getMinCategory(memberId);
+  getCategory(memberId) async {
+    List<String> categories = await _achievementRepository.getCategory(memberId);
+    _maxCategory = categories.first;
+    _minCategory = categories.last;
+    print(categories);
+    print(_maxCategory);
+    print(_minCategory);
     notifyListeners();
   }
   getDailyRate(memberId) async {

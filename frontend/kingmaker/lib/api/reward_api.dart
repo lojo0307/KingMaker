@@ -41,22 +41,15 @@ class RewardApi{
       return -1;
     }
   }
-  Future <String> getMaxCategory(int memberId) async {
+  Future <List<String>> getCategory(int memberId) async {
     try{
-      final response = await totalApi.getApi('/api/mypage/category/max/$memberId',);
-      return response.data['data']['categoryNm'];
+      final response = await totalApi.getApi('/api/mypage/category/$memberId',);
+      String max = response.data['data'].first['categoryId'] == -1 ? "없음" : response.data['data'].first['categoryNm'];
+      String min = response.data['data'].last['categoryId'] == -1 ? "없음" : response.data['data'].last['categoryNm'];
+      return [max, min];
     } catch (e) {
-      print(e);
-      return "";
-    }
-  }
-  Future <String> getMinCategory(int memberId) async {
-    try{
-      final response = await totalApi.getApi('/api/mypage/category/min/$memberId',);
-      return response.data['data']['categoryNm'];
-    } catch (e) {
-      print(e);
-      return "";
+        print(e);
+      return [""];
     }
   }
 }

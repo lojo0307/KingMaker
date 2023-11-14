@@ -12,5 +12,15 @@ class KingdomApi{
       return;
     }
   }
+
+  getCitizen(int memberId) async {
+    try{
+      final response = await totalApi.getApi('/api/mypage/citizen/$memberId',);
+      return response.data['data'];
+    }catch (e){
+      print(e);
+      return;
+    }
+  }
 }
 
