@@ -21,7 +21,7 @@ class _ExpBarState extends State<ExpBar> {
     return LayoutBuilder(builder: (context, constraints) {
       final double maxWidth = constraints.maxWidth;
       return Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        margin: EdgeInsets.fromLTRB(10, 55, 10, 0),
         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
 
         width: maxWidth,

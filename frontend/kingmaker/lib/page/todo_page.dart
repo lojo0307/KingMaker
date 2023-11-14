@@ -12,16 +12,11 @@ class TodoPage extends StatefulWidget {
 class _TodoPageState extends State<TodoPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: LIGHTEST_BLUE_COLOR,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            ScheduleMain(),
-            AddContent(),
-          ],
-        ),
-      ),
+    return const Stack(
+      children: [
+        ScheduleMain(),
+        AddContent(),
+      ],
     );
   }
 }

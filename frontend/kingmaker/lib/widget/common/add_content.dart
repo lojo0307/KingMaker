@@ -32,7 +32,6 @@ class _AddContentState extends State<AddContent> {
           )
         : addPage();
   }
-
   Widget addPage() {
     return Column(
       children: [
