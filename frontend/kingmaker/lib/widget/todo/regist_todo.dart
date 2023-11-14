@@ -28,6 +28,7 @@ class _RegistTodoState extends State<RegistTodo> {
             scrollDirection: Axis.vertical,
             child: Column(
               children: [
+                SizedBox(height: 12,),
                 Stack(
                   children: [
                     Container(
@@ -52,9 +53,9 @@ class _RegistTodoState extends State<RegistTodo> {
                           child: Text(
                             '할 일 등록',
                             style: TextStyle(
-                                fontSize: 20,
-                                color: BLUE_BLACK_COLOR,
-                                fontWeight: FontWeight.w500),
+                                fontSize: 16,
+                                fontFamily: 'EsamanruMedium',
+                                color: BLUE_BLACK_COLOR,),
                           ),
                         ),
                       ),
@@ -101,7 +102,10 @@ class _RegistTodoState extends State<RegistTodo> {
                             Provider.of<RegistProvider>(context, listen: false)
                                 .setDetail(value);
                           },
+                          style: TextStyle(fontSize: 12),
                           decoration: InputDecoration(
+                            hintStyle: TextStyle(fontSize: 12),
+
                             hintText: '상세내용',
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 16.0),
@@ -128,7 +132,7 @@ class _RegistTodoState extends State<RegistTodo> {
                         ),
                         Text('분류',
                             style: TextStyle(
-                                fontSize: 16, color: BLUE_BLACK_COLOR)),
+                                fontSize: 14, color: BLUE_BLACK_COLOR)),
                         Divider(color: DARKER_GREY_COLOR, thickness: 0.3),
                         Container(
                           width: double.infinity,
@@ -142,7 +146,7 @@ class _RegistTodoState extends State<RegistTodo> {
                           children: [
                             Text('시작 일자   ~   종료 일자',
                                 style: TextStyle(
-                                    fontSize: 16, color: BLUE_BLACK_COLOR)),
+                                    fontSize: 14, color: BLUE_BLACK_COLOR)),
                             Divider(color: DARKER_GREY_COLOR, thickness: 0.3),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
