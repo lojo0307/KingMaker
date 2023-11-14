@@ -85,6 +85,8 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
                 await Provider.of<MemberProvider>(context, listen: false).getMember();
                 memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                 Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
+                Provider.of<MemberProvider>(context,listen:false).initializeNoficiationSetting();
+                Provider.of<MemberProvider>(context,listen:false).registFcmToken();
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
