@@ -1,9 +1,12 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kingmaker/api/total_api.dart';
 import 'package:kingmaker/dto/todo_dto.dart';
+import 'package:kingmaker/widget/achievement/test_modal.dart';
 
 class TodoApi{
   final TotalApi totalApi = TotalApi();
+  final TestModal testModal = TestModal();
+
   Future<List<TodoDto>> getList(int memberId, String date) async {
     try{
       final response = await totalApi.getApi('/api/todo/list/$memberId?date=$date',);

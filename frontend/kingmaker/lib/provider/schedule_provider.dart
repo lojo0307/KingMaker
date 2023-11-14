@@ -145,7 +145,7 @@ class ScheduleProvider with ChangeNotifier {
     return "$hour시 $min분";
   }
 
-  void achieveRoutine(int memberRoutineId) {
+  achieveRoutine(int memberRoutineId) {
     _routineRepository.achieve(memberRoutineId);
     for(int i = 0 ; i < _rList.length; i++){
       if (_rList.elementAt(i).memberRoutineId == memberRoutineId){
@@ -156,7 +156,7 @@ class ScheduleProvider with ChangeNotifier {
     make(list);
   }
 
-  void achieveTodo(int todoId) {
+  achieveTodo(int todoId) {
     _todoRepository.achieve(todoId);
     for(int i = 0 ; i < _tList.length; i++){
       if (_tList.elementAt(i).todoId == todoId){

@@ -6,6 +6,8 @@ import 'package:kingmaker/api/total_api.dart';
 import 'dart:math';
 
 import 'package:kingmaker/dto/member_dto.dart';
+import 'package:kingmaker/dto/reward_dto.dart';
+import 'package:kingmaker/widget/achievement/test_modal.dart';
 
 final dio = Dio();
 String? url = dotenv.env['URL'];
@@ -13,6 +15,8 @@ String? url = dotenv.env['URL'];
 class MemberApi{
   final storage = const FlutterSecureStorage();
   final TotalApi totalApi = TotalApi();
+  final TestModal testModal = TestModal();
+
   Future<bool> checkToken() async{
     bool res = true;
     int number = Random().nextInt(100);
@@ -68,6 +72,13 @@ class MemberApi{
       );
       // 응답으로부터 MemberDto 객체를 생성합니다.
       _member = MemberDto.responseFromJson(response.data['data']);
+      if (response.data['data']['rewardResDtoList'] != null){
+        for(int i = 0 ; i < response.data['data']['rewardResDtoList'].length ; i++){
+          testModal.getViewModel(
+              RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementsAt(i))
+          );
+        }
+      }
     }catch (e) {
       print(e);
       return null;

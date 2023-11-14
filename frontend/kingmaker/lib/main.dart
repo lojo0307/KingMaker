@@ -40,6 +40,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     notificationDetails,
   );
 }
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -99,6 +100,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'PretendardBold',
         useMaterial3: true,
       ),
+      navigatorKey: navigatorKey,
       home: Consumer<MemberProvider>(
             builder: (context, provider, child) {
             var isLoggedIn = provider.isLoggedIn;
