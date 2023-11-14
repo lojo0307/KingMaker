@@ -9,13 +9,13 @@ class SignupText extends StatelessWidget {
       children: [
         Text(line1,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
         ),
         Text(line2,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
         ),

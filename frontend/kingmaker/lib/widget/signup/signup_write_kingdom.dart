@@ -32,7 +32,7 @@ class _SignupWriteKingdomState extends State<SignupWriteKingdom> {
                             height: 48.0,
                             child: TextField(
                               decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0), // 상하 패딩 조절
+                                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0), // 상하 패딩 조절
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide.none, // 일반 상태에서는 테두리 없음
                                 ),
@@ -55,12 +55,17 @@ class _SignupWriteKingdomState extends State<SignupWriteKingdom> {
                     ),
                   ],
                 ),
-                Text(provider.errorMessage,
-                  style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red
-                  ),
+                SizedBox(height: 8.0,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(provider.errorMessage,
+                      style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.red
+                      ),
+                    ),
+                  ],
                 ),
               ],
             );
