@@ -31,5 +31,6 @@ class KingdomProvider with ChangeNotifier {
   getKingdom(int memberId) async{
     _kingdomDto = await _kingdomRepository.getKingdom(memberId);
     _citizenDif = await _kingdomRepository.getCitizen(memberId);
+    notifyListeners();
   }
 }
