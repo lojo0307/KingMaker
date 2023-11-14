@@ -16,6 +16,8 @@ class ScheduleProvider with ChangeNotifier {
   List<TodoDto> get tList => _tList;
   Map<String, String> _detail = {};
   Map<String, String> get detail => _detail;
+  int _leftMonster = 0;
+  int get leftMonster => _leftMonster;
 
   ScheduleProvider() {
     _routineRepository = RoutineRepository();
@@ -96,6 +98,7 @@ class ScheduleProvider with ChangeNotifier {
       }
       tidx++;
     }
+    _leftMonster = noneAchiveList.length;
     _list = noneAchiveList + achiveList;
     print("#########makelist : $_list");
     notifyListeners();

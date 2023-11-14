@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
+import 'package:kingmaker/provider/calendar_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:provider/provider.dart';
@@ -228,6 +229,11 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                               Provider.of<ScheduleProvider>(context,
                                   listen: false)
                                   .changeAchieve();
+
+                              DateTime now = DateTime.now();
+                              int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+                              Provider.of<CalendarProvider>(context, listen: false)
+                                  .getList(memberId!, now.year, now.month, now.day);
                               print("버튼 클릭");
                             },
                             style: ElevatedButton.styleFrom(
