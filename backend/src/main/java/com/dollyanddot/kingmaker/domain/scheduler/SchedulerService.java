@@ -13,9 +13,13 @@ import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
 import com.dollyanddot.kingmaker.domain.routine.domain.Routine;
 import com.dollyanddot.kingmaker.domain.routine.repository.MemberRoutineRepository;
 import com.dollyanddot.kingmaker.domain.routine.repository.RoutineRepository;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.google.type.DateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -142,5 +146,13 @@ public class SchedulerService {
   @Scheduled(cron="0 0 8 * * ?",zone="Asia/Seoul")
   public void grantMonsterPark(){
     rewardService.getMonsterPark();
+  }
+
+  //매달 1일마다, 전 달의 국가 브랜드 평판 S급 업적 부여
+  @Scheduled(cron="0 0 8 1 * ?",zone="Asia/Seoul")
+  public void getMonthlyBrandReputation(){
+    int year=LocalDate.now().getYear();
+    int month= LocalDate.now().getMonthValue()-1;
+    rewardService.getMonthlyBrandReputation(year,month);
   }
 }
