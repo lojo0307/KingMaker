@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/profile/profile_update_page.dart';
 import 'package:provider/provider.dart';
@@ -21,12 +23,12 @@ class _ProfileNameWidgetState extends State<ProfileNameWidget> {
         SizedBox(width: 10,),
         Text(
           Provider.of<MemberProvider>(context, listen: false).member!.nickname,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),
+          style: const TextStyle(fontSize: 20, fontFamily: 'EsamanruMedium',),
         ),
         SizedBox(width: 10,),
         GestureDetector(
           onTap: _showUpdateModal, // Call this method when the icon is tapped
-          child: const Icon(CupertinoIcons.gear_alt_fill, color: Colors.grey),
+          child: SvgPicture.asset('assets/icon/ic_settings.svg', color: DARK_GREY_COLOR, height: 24),
         ),
       ],
     );
