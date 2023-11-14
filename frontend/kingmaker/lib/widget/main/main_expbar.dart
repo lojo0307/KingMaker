@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ExpBar extends StatefulWidget {
@@ -13,9 +12,6 @@ class ExpBar extends StatefulWidget {
 class _ExpBarState extends State<ExpBar> {
   @override
   Widget build(BuildContext context) {
-    //상태표시줄
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
     return LayoutBuilder(builder: (context, constraints) {
       final double maxWidth = constraints.maxWidth;
       return Container(
