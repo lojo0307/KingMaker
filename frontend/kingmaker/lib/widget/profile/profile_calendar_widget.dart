@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/calendar_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
@@ -29,11 +31,10 @@ class _ProfileCalendarWidgetState extends State<ProfileCalendarWidget> {
   Widget build(BuildContext context) {
     Map<String, int> levels = context.watch<CalendarProvider>().mypage;
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20),
+      padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 1, color: Colors.grey),
-        borderRadius: BorderRadius.circular(13),
+        color: WHITE_COLOR,
+        borderRadius: BorderRadius.circular(20),
       ),
       child: TableCalendar(
         firstDay: DateTime.utc(2010, 10, 16),
@@ -48,16 +49,16 @@ class _ProfileCalendarWidgetState extends State<ProfileCalendarWidget> {
         headerStyle: HeaderStyle(
           titleCentered: true,
           formatButtonVisible: false,
-          headerPadding:EdgeInsets.only(bottom: 10),
-          leftChevronIcon: Image.asset('assets/icon/left.png'),
-          rightChevronIcon: Image.asset('assets/icon/right.png'),
+          headerPadding:EdgeInsets.only(bottom: 8),
+          leftChevronIcon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24),
+          rightChevronIcon: SvgPicture.asset('assets/icon/ic_right.svg', height: 24),
         ),
         calendarBuilders: CalendarBuilders(
           headerTitleBuilder: (context, day) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("${day.year}년 ${day.month}월", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)
+                Text("${day.year}년 ${day.month}월", style: TextStyle(fontSize: 16),),
               ],
             );
           },
