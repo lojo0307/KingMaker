@@ -13,10 +13,10 @@ class AudioPlayerHelper {
   void playLoginMusic(String title) {
     _assetsAudioPlayer.open(
       Audio("assets/audios/$title"),
-      loopMode: LoopMode.single,
+      loopMode: LoopMode.playlist,
       autoStart: true,
       showNotification: false,
-      volume: 0.5, // 볼륨 설정 (0.0 무음 ~ 1.0 최대 볼륨)
+      volume: 1, // 볼륨 설정 (0.0 무음 ~ 1.0 최대 볼륨)
     );
   }
 
