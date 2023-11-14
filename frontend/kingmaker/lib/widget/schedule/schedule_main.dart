@@ -50,9 +50,6 @@ class _ScheduleMainState extends State<ScheduleMain> {
             backgroundColor: Colors.transparent,
             body: Column(
               children: [
-                SizedBox(
-                  height: 20,
-                ),
                 Text(
                   '일정',
                   style: const TextStyle(
