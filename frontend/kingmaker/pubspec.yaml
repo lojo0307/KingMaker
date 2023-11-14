@@ -109,6 +109,10 @@ flutter:
     - assets/images/male.png
     - assets/images/slime_left.png
     - assets/images/slime_right.png
+    - assets/images/notification/noti_butler_1.png
+    - assets/images/notification/noti_butler_2.png
+    - assets/images/notification/noti_butler_3.png
+    - assets/images/notification/noti_butler_4.png
     - assets/character/
     - assets/character/calendarlist/
     - assets/user_level/
