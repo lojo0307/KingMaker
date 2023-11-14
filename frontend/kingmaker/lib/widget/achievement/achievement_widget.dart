@@ -18,8 +18,10 @@ class _AchievementWidgetState extends State<AchievementWidget> {
     // 위젯의 'achieved_yn' 값에 따라 배경색과 텍스트 내용을 결정합니다.
     final bool isAchieved = widget.data.achieved;
     final Color bgColor = isAchieved ? Colors.white : Colors.grey;
+    final int rewardId = isAchieved ? widget.data.rewardId : 0;
     final String rewardNmtText = isAchieved ? widget.data.rewardNm : "미달성 업적";
     final String rewardContText = isAchieved ? widget.data.rewardCond : '${widget.data.rewardPercent}% 달성';
+    final String rewardMsgText = isAchieved ? widget.data.rewardMsg : " ";
     final String rewardDateText = isAchieved ? '업적 달성일 : ${widget.data.modifiedAt}' : " ";
     final con = FlipCardController();
     return FlipCard(
@@ -37,9 +39,9 @@ class _AchievementWidgetState extends State<AchievementWidget> {
           ),
           child: Row(
             children: [
-              const Flexible(
+               Flexible(
                   child: Image(
-                    image: AssetImage('assets/achievement/sample.png'),
+                    image: AssetImage('assets/achievement/${rewardId}.png'),
                     height: 100,
                     width: 100,
                     // color: Colors.red,
@@ -81,12 +83,19 @@ class _AchievementWidgetState extends State<AchievementWidget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // Text('${rewardNmtText}', style: TextStyle(fontSize: 20)),//업적이름/미달성 업적
-                        Center(
-                          child: Text('${rewardContText}',
-                                style: TextStyle(fontSize: 30,
-                                      color: Colors.black)
-                                  ),
-                        )
+                          Expanded(
+                            child: Text(
+                              '${rewardMsgText}',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                              ),
+                              textAlign: TextAlign.center,
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                          ),
+
                         // Text('${rewardDateText}',  style: TextStyle(fontSize: 10)),
                       ],
                     ),
