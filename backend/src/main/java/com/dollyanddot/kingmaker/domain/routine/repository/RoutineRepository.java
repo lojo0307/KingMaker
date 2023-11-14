@@ -11,7 +11,7 @@ public interface RoutineRepository extends JpaRepository<Routine, Long>, Routine
 
   @Query(value = "SELECT r "
       + "FROM routine r "
-      + "WHERE r.startAt >= :today "
+      + "WHERE r.startAt <= :today AND r.endAt >= :today "
       + "AND (date_format(r.registerAt, '%Y-%M-%d') = date_format(:today, '%Y-%M-%d') "
       + "OR r.registerDay = :day)")
   List<Routine> findAllByRegisterDateOrDay(LocalDateTime today, int day);

@@ -50,6 +50,7 @@ public class SchedulerService {
     JSONParser jsonParser = new JSONParser();
 
     LocalDateTime today = LocalDateTime.now();
+
     List<Routine> todayRoutines = routineRepository.findAllByRegisterDateOrDay(today,
         today.getDayOfWeek().getValue());
 
