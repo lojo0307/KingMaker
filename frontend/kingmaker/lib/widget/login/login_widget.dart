@@ -61,10 +61,20 @@ class LoginWidget extends StatelessWidget {
     else {
       Provider.of<KingdomProvider>(context, listen: false).getKingdom(flag);
     }
-    Navigator.pushAndRemoveUntil(
+
+
+    if(flag == 0) {
+      Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => (flag == 0 ? StoryPage() : BottomNavBar())), (route) => false
-    );
+        MaterialPageRoute(builder: (context) => StoryPage()),
+      );
+    } else {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => BottomNavBar()),
+            (route) => false,
+      );
+    }
+
   }
 }
