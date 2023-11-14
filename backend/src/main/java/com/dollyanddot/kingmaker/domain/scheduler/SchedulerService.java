@@ -4,7 +4,6 @@ import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
 import com.dollyanddot.kingmaker.domain.calendar.dto.CountPlanDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.kingdom.service.KingdomService;
-import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.service.NotificationService;
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
@@ -116,22 +115,13 @@ public class SchedulerService {
   }
 
   @Scheduled(cron="0 0 0 * * *", zone="Asia/Seoul")
-  public void checkNotAchievedPlanFromYesterday() {
+  public void checkNotAchievedPlanFromYesterday() throws Exception {
     //어제 일정 미달성한 개수 카운트 & 백성 수 줄이기
-    //TODO 알림에 추가
-    List<CountPlanDto> undoneList = calendarRepository.getUndonePlanCntYesterday();
+//    List<CountPlanDto> undoneList = calendarRepository.getUndonePlanCntYesterday();
     //어제 일정 달성한 개수 카운트
-    //TODO 알림에 추가
-    List<CountPlanDto> DoneList = calendarRepository.getUndonePlanCntYesterday();
+//    List<CountPlanDto> DoneList = calendarRepository.getUndonePlanCntYesterday();
 
-    //백성 수 차감 및 레벨 변경
-    for(CountPlanDto c : undoneList) {
-      if(c.getCnt()>0) {
-        memberRepository.findById(c.getMemberId()).orElseThrow(MemberNotFoundException::new);
-        kingdomService.penaltyCitizen(c.getMemberId(), c.getCnt());
-      }
-     }
-
+    //업적 달성 시
     List<CountPlanDto> allDtoList = calendarRepository.getUndonePlanAllCnt();
     for(CountPlanDto c : allDtoList) {
       if(c.getCnt()==50) {
@@ -140,6 +130,9 @@ public class SchedulerService {
         rewardService.getUndonePlanAllCnt(2, c);
       }
     }
+
+    //어제 미달성한 업무 관련 밤 12시에 알림
+//    notificationService.sendChangeCitizenNotification();
   }
 
   //오늘 할 일(그 중에서도 미달성인) 30개 이상이면 몬스터 파크 개장 업적 부여
