@@ -6,26 +6,22 @@ class ScheduleInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-        // border: Border(
-        //   left: BorderSide(color: Colors.black, width: 1),
-        // ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _truncateText(data['title'].toString(), 10),
-            style: TextStyle(
-              fontSize: 20,
-              decoration: (data['achieved'] == '1') ? TextDecoration.lineThrough : TextDecoration.none,
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _truncateText(data['title'].toString(), 10),
+              style: TextStyle(
+                fontSize: 16,
+                decoration: (data['achieved'] == '1') ? TextDecoration.lineThrough : TextDecoration.none,
+              ),
             ),
-          ),
-          Text(data['start'].toString() + " ~ " + data['end'].toString(),),
-        ],
+            Text(data['start'].toString() + " ~ " + data['end'].toString(), style: TextStyle(fontSize: 9),),
+          ],
+        ),
       ),
     );
   }
@@ -39,4 +35,3 @@ class ScheduleInfo extends StatelessWidget {
     }
   }
 }
-
