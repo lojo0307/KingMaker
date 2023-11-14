@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
@@ -14,6 +15,8 @@ class ProfileScoreWidget extends StatefulWidget {
 class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
   @override
   Widget build(BuildContext context) {
+    int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
+    Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
     String maxCategory = context.watch<AchievementProvider>().maxCategory;
     String minCategory = context.watch<AchievementProvider>().minCategory;
     int dailyRate = context.watch<AchievementProvider>().dailyRate;

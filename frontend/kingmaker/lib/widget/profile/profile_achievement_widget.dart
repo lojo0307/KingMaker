@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/dto/reward_dto.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/achievement/achievement_page.dart';
 import 'package:kingmaker/widget/profile/profile_achievement_icon_widget.dart';
 import 'package:provider/provider.dart';

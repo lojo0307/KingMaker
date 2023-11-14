@@ -13,15 +13,10 @@ class ProfileKingdomWidget extends StatefulWidget {
 
 class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
   @override
-  void initState() {
+  Widget build(BuildContext context) {
     int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
     Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
     KingdomDto? kingdom = context.watch<KingdomProvider>().kingdomDto;
-    // int? citizen = context.watch<KingdomProvider>().citizenDif;
     int citizen = 100;
     int mem = citizen < 0 ? -citizen : citizen;
     return LayoutBuilder(builder: (ctx, constraints) {
