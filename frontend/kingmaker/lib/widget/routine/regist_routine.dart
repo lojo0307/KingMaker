@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
@@ -33,7 +34,7 @@ class _RegistRoutineState extends State<RegistRoutine> {
                       Container(
                         height: 40,
                         child: IconButton(
-                          icon: Image.asset('assets/icon/left.png'),
+                          icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24.0,),
                           tooltip: '이 전 페이지',
                           onPressed: () {
                             print("click");
@@ -52,9 +53,9 @@ class _RegistRoutineState extends State<RegistRoutine> {
                             child: Text(
                               '루틴 등록',
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 16.0,
                                   color: BLUE_BLACK_COLOR,
-                                  fontWeight: FontWeight.w500),
+                                  fontFamily: 'EsamanruMedium'),
                             ),
                           ),
                         ),
@@ -101,7 +102,9 @@ class _RegistRoutineState extends State<RegistRoutine> {
                           },
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
+                          style: TextStyle(fontSize: 12),
                           decoration: InputDecoration(
+                            hintStyle: TextStyle(fontSize: 12),
                             hintText: '상세내용',
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 16.0),
@@ -132,7 +135,7 @@ class _RegistRoutineState extends State<RegistRoutine> {
                           children: [
                             Text('분류',
                                 style: TextStyle(
-                                    fontSize: 16, color: BLUE_BLACK_COLOR)),
+                                    fontSize: 14, color: BLUE_BLACK_COLOR)),
                             Divider(color: DARKER_GREY_COLOR, thickness: 0.3),
                             Container(
                               width: double.infinity,
@@ -143,7 +146,7 @@ class _RegistRoutineState extends State<RegistRoutine> {
                         SizedBox(
                           height: 24,
                         ),
-                        Text('시작 일자 ~ 종료 일자', style: TextStyle(fontSize: 15)),
+                        Text('시작 일자 ~ 종료 일자', style: TextStyle(fontSize: 14)),
                         Divider(color: DARKER_GREY_COLOR, thickness: 0.3),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -163,7 +166,7 @@ class _RegistRoutineState extends State<RegistRoutine> {
                         SizedBox(
                           height: 24,
                         ),
-                        Text('주기', style: TextStyle(fontSize: 15)),
+                        Text('주기', style: TextStyle(fontSize: 14)),
                         Divider(color: DARK_GREY_COLOR, thickness: 0.3),
                         WeekDayButton(),
                         SizedBox(
