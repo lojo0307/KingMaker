@@ -23,7 +23,7 @@ class _ProfileCharImageWidgetState extends State<ProfileCharImageWidget> {
           height: 150,
           width: 150,
           child: Image(
-            image: (Provider.of<MemberProvider>(context, listen: false).member?.gender == "W") ? AssetImage('assets/character/charWoman.png'): AssetImage('assets/character/charMan.png'),
+            image: (Provider.of<MemberProvider>(context, listen: false).member?.gender == "WOMAN") ? AssetImage('assets/character/charWoman.png'): AssetImage('assets/character/charMan.png'),
           ),
         )],
     );
