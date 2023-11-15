@@ -38,12 +38,13 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
           backgroundColor: LIGHTEST_BLUE_COLOR,
           appBar: AppBar(
             centerTitle: true,
-            title: Text('회원 정보', style: TextStyle(fontSize: 16, fontFamily: 'EsamanruMedium'),),
+            title: Text('회원 정보', style: TextStyle(fontSize: 16, fontFamily: 'EsamanruMedium', color: BLUE_BLACK_COLOR),),
             backgroundColor: LIGHTEST_BLUE_COLOR,
             leading: IconButton(
               icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24,),
               onPressed: () => Navigator.of(context).pop(),
             ),
+            elevation: 0,
           ),
           body: SingleChildScrollView( // SingleChildScrollView 추가
             child: Padding(
@@ -94,7 +95,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                           style: TextStyle(color: Colors.black),
                         ),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
                           Provider.of<MemberProvider>(context,listen: false).deleteMember();

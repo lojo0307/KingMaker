@@ -103,6 +103,11 @@ class MyApp extends StatelessWidget {
       ),
       navigatorKey: navigatorKey,
       home: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'PretendardBold',
+          // useMaterial3: true,
+        ),
         navigatorKey: navigatorKey1,
         home: Consumer<MemberProvider>(
           builder: (context, provider, child) {

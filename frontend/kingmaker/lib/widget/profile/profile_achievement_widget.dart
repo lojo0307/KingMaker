@@ -67,11 +67,10 @@ class _ProfileAchievementWidgetState extends State<ProfileAchievementWidget> {
                   ),
                   SizedBox(height: 16,),
                   //이 부분에 위젯이 들어가야해
-                  Wrap(
-                    spacing: 11.0, // 각 아이콘 사이의 가로 간격
-                    runSpacing: 7.0, // 각 아이콘 줄 사이의 세로 간격
-                    children: getMyRewardThree(list),
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [...getMyRewardFour(list)],
+                  )
                 ],
               ),
             ),
@@ -81,15 +80,17 @@ class _ProfileAchievementWidgetState extends State<ProfileAchievementWidget> {
     });
   }
 
-  getMyRewardThree(List<RewardDto> list) {
+  getMyRewardFour(List<RewardDto> list) {
     List<Widget> resList = [];
     if (list.isEmpty) {
       return [Container()];
     }
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       RewardDto now = list.elementAt(i);
       if (now.achieved) {
         resList.add(ProfileAchievementIconWidget(data: now));
+      } else {
+        resList.add(SizedBox(width: MediaQuery.of(context).size.width / 4 - 36,));
       }
     }
     if (resList.isEmpty) {
