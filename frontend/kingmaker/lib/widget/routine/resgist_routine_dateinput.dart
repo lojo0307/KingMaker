@@ -35,6 +35,18 @@ class _DateInput extends State<DateInput> {
               ),
               onPressed: () async {
                 final date = await showDatePickerDialog(
+                  // barrierColor: Colors.transparent,
+                  disbaledCellColor: BLUE_BLACK_COLOR,
+                  enabledCellTextStyle: TextStyle(fontSize: 12),
+                  currentDateTextStyle: TextStyle(fontSize: 12, color: DARKER_BLUE_COLOR),
+                  currentDateDecoration: BoxDecoration(color: Colors.transparent, shape: BoxShape.circle, border: Border.all(color: DARKER_BLUE_COLOR)),
+                  selectedCellTextStyle: TextStyle(fontSize: 12),
+                  selectedCellDecoration: BoxDecoration(color: BLUE_COLOR, shape: BoxShape.circle),
+                  padding: EdgeInsets.symmetric(horizontal: 48),
+                  leadingDateTextStyle: TextStyle(color: DARKEST_BLUE_COLOR, fontFamily: 'EsamanruMedium', fontSize: 16),
+                  contentPadding: EdgeInsets.all(24),
+                  daysNameTextStyle: TextStyle(fontSize: 11, color: DARKER_GREY_COLOR),
+                  slidersColor: DARKER_GREY_COLOR,
                   context: context,
                   initialDate: DateTime.now(),
                   maxDate: DateTime.now().add(const Duration(days: 365 * 3)),
