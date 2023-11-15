@@ -60,19 +60,20 @@ class _ProfileKingdomWidgetState extends State<ProfileKingdomWidget> {
                             Text('백성 : ${kingdom?.citizen} 명',
                               style: const TextStyle(
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(' (',
                               style: TextStyle(
                                 color: citizen > 0 ? Colors.red : citizen == 0 ? Colors.black : Colors.blue,
                                 fontSize: 12,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             getIcone(citizen),
                             Text('${mem == 0 ? "" : mem} )',
                               style: TextStyle(
                                 color: citizen > 0 ? Colors.red : citizen == 0 ? Colors.black : Colors.blue,
+                                fontWeight: FontWeight.bold,
                                 fontSize: 12,
                               ),
                             ),
