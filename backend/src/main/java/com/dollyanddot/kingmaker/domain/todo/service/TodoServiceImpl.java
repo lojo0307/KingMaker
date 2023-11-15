@@ -38,9 +38,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TodoServiceImpl implements TodoService {
@@ -186,6 +188,13 @@ public class TodoServiceImpl implements TodoService {
 
     if(rewardResDtoList.size() == 0){
       return PostTodoResDto.from(null);
+    } else {
+      log.info("달성 업적");
+      for(RewardResDto r: rewardResDtoList) {
+        log.info("업적명: {}", r.getRewardInfoDto().getRewardNm());
+        log.info("업적 조건: {}", r.getRewardInfoDto().getRewardCond());
+        log.info("업적 메시지: {}", r.getRewardInfoDto().getRewardMsg());
+      }
     }
 
     return PostTodoResDto.from(rewardResDtoList);
@@ -349,13 +358,19 @@ public class TodoServiceImpl implements TodoService {
 
       //백성 수 다시 차감 및 레벨 변경
       int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "minus");
-
-      //TODO: 방금 수행함으로써 얻었던 리워드 다시 취소 해야 하는데...
     }
 
     if(rewardResDtoList.isEmpty()){
       return PatchTodoResDto.from(isAchieved, null);
-    };
+    } else {
+      log.info("달성 업적 리스트");
+      for(RewardResDto r: rewardResDtoList) {
+        log.info("업적명: {}", r.getRewardInfoDto().getRewardNm());
+        log.info("업적 조건: {}", r.getRewardInfoDto().getRewardCond());
+        log.info("업적 메시지: {}", r.getRewardInfoDto().getRewardMsg());
+        log.info("------------------------------------------------");
+      }
+    }
 
     return PatchTodoResDto.from(isAchieved,rewardResDtoList);
   }
