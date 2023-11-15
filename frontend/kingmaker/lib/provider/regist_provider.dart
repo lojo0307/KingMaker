@@ -37,8 +37,15 @@ class RegistProvider with ChangeNotifier {
   String _endTime = '23:59';
   String get endTime => _endTime;
 
-  String _error = "";
-  String get error => _error;
+  String _error1 = "";
+  String get error1 => _error1;
+  String _error2 = "";
+  String get error2 => _error2;
+  String _error3 = "";
+  String get error3 => _error3;
+  String _error4 = "";
+  String get error4 => _error4;
+
 
   RegistProvider() {
     _routineRepository = RoutineRepository();
@@ -46,15 +53,28 @@ class RegistProvider with ChangeNotifier {
   }
 
   RegistRoutine(int MemberId){
+    print(value);
+    print(value.runtimeType);
     if (_title == "")
-      _error = "제목을 작성해 주세요.";
-    else if(_detail == "")
-      _error = "상세 내용을 작성해 주세요.";
-    else if(_startAt == "" || _endAt == "")
-      _error = "날짜를 입력해 주세요.";
-    else if (_type != "day" && _value == 0)
-      _error = "주기를 작성해 주세요.";
-    if (_error != ""){
+      _error1 = "제목을 작성해 주세요.";
+    if(_detail == "")
+      _error2 = "상세 내용을 작성해 주세요.";
+    if(_startAt == "" || _endAt == "")
+      _error3 = "날짜를 입력해 주세요.";
+    if (_type != "day" && (_value == '0' || value == 0 || value.runtimeType == List<bool>))
+      _error4 = "주기를 작성해 주세요.";
+    if (_type == "day" && value.runtimeType != List<bool>)
+      _error4 = "요일을 작성해 주세요.";
+    if (_type == "day" && value.runtimeType == List<bool>){
+      bool flag = false;
+      for(int i = 0 ; i < 7 ; i++){
+        if (value[i])
+          flag = true;
+      }
+      if (!flag)
+        _error4 = "요일을 작성해 주세요.";
+    }
+    if (_error1 != "" || _error2 != "" || _error3 != "" || _error4 != ""){
       notifyListeners();
       return -1;
     }
@@ -67,14 +87,12 @@ class RegistProvider with ChangeNotifier {
 
   RegistTodo(int MemberId){
     if (_title == "")
-      _error = "제목을 작성해 주세요.";
-    else if(_detail == "")
-      _error = "상세 내용을 작성해 주세요.";
-    else if(_startAt == "" || _endAt == "")
-      _error = "날짜를 입력해 주세요.";
-    else if (_type != "day" && _value == 0)
-      _error = "주기를 작성해 주세요.";
-    if (_error != ""){
+      _error1 = "제목을 작성해 주세요.";
+    if(_detail == "")
+      _error2 = "상세 내용을 작성해 주세요.";
+    if(_startAt == "" || _endAt == "")
+      _error3 = "날짜를 입력해 주세요.";
+    if (_error1 != "" || _error2 != "" || _error3 != ""){
       notifyListeners();
       return -1;
     }
@@ -95,30 +113,36 @@ class RegistProvider with ChangeNotifier {
     _value = 0;
     _startTime = '00:00';
     _endTime = '23:59';
-    _error = "";
+    _error1 = "";
+    _error2 = "";
+    _error3 = "";
+    _error4 = "";
   }
 
   void setTitle(String value) {
     _title = value;
-    _error = "";
+    _error1 = "";
+    notifyListeners();
   }
 
   void setDetail(String value) {
     _detail = value;
-    _error = "";
+    _error2 = "";
+    notifyListeners();
   }
 
   void setCategoryId(int value) {
     _categoryId = value;
-    _error = "";
   }
   void setStart(String format) {
     _startAt = format;
-    _error = "";
+    _error3 = "";
+    notifyListeners();
   }
   void setEnd(String format) {
     _endAt = format;
-    _error = "";
+    _error3 = "";
+    notifyListeners();
   }
 
   void setType(String value) {
@@ -133,26 +157,25 @@ class RegistProvider with ChangeNotifier {
         _type = 'month';
         break;
     }
-    _error = "";
+    _error4 = "";
+    notifyListeners();
   }
 
   void setValue(dynamic selections) {
     _value = selections;
-    _error = "";
+    _error4 = "";
+    notifyListeners();
   }
 
   void changeImport() {
     _importantYn = !_importantYn;
-    _error = "";
   }
 
   void setStartTime(String format) {
     _startTime = format;
-    _error = "";
   }
 
   void setEndTime(String format) {
     _endTime = format;
-    _error = "";
   }
 }

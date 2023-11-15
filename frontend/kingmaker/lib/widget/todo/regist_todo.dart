@@ -26,7 +26,9 @@ class RegistTodo extends StatefulWidget {
 class _RegistTodoState extends State<RegistTodo> {
   @override
   Widget build(BuildContext context) {
-    String error = context.watch<RegistProvider>().error;
+    String error1 = context.watch<RegistProvider>().error1;
+    String error2 = context.watch<RegistProvider>().error2;
+    String error3 = context.watch<RegistProvider>().error3;
     return Scaffold(
         backgroundColor: LIGHTEST_BLUE_COLOR,
         body:SafeArea(
@@ -84,8 +86,12 @@ class _RegistTodoState extends State<RegistTodo> {
                             fillColor: WHITE_COLOR,
                           ),
                         ),
+                        Container(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(error1, style: TextStyle(fontSize: 12, color: Colors.red,),),
+                        ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         TextFormField(
                           keyboardType: TextInputType.multiline,
@@ -115,8 +121,12 @@ class _RegistTodoState extends State<RegistTodo> {
                             fillColor: WHITE_COLOR,
                           ),
                         ),
+                        Container(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(error2, style: TextStyle(fontSize: 12, color: Colors.red,),),
+                        ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         ImportanceCheck(),
                         SizedBox(
@@ -185,10 +195,16 @@ class _RegistTodoState extends State<RegistTodo> {
                             )
                           ],
                         ),
+                        Container(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(error3, style: TextStyle(fontSize: 12, color: Colors.red,),),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         SizedBox(
                           height: 24,
                         ),
-                        Text(error, style: TextStyle(fontSize: 12, color: Colors.red),)
                       ],
                     )
                 ),
