@@ -5,6 +5,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/page/todo_detail_page.dart';
+import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/main/main_camera_focus.dart';
 import 'package:flame/extensions.dart';
@@ -102,6 +103,7 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     // TODO: implement onLoad
     super.onLoad();
     Provider.of<ScheduleProvider>(context, listen: true).addListener(_updateMonstersFromProvider);
+
   }
 
   void _updateMonstersFromProvider() {
@@ -145,6 +147,19 @@ class MyWorld extends World {
     }
   }
 
+  @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+  }
+  void updateCastle() {
+    // children.whereType<MonsterPosition>().forEach(remove);
+    children.whereType<Castle>().forEach((element) {
+      remove(element);
+    });
+    add(Castle(context, game, {'level': '9'}));
+    update(1);
+  }
 
   @override
   Future<void> onLoad() async {
@@ -155,7 +170,11 @@ class MyWorld extends World {
     add(background);
 
     //성
+    Provider.of<KingdomProvider>(context, listen:false).addListener(updateCastle);
     add(Castle(context, game, {'level': '9'}));
+
+
+
     FocusArea focusArea = FocusArea();
     add(focusArea);
     game.setFocusArea(focusArea);  // MyGame의 focusArea 설정
