@@ -75,7 +75,7 @@ class MemberApi{
       _member = MemberDto.responseFromJson(response.data['data']);
       print('this is MemberAPi');
       print(response.data['data']);
-      print('${response.data['data']['rewardResDto'].length > 0}');
+      print('${response.data  ['data']['rewardResDto'].length > 0}');
       if (response.data['data']['rewardResDto'] != null){
         print('여기 들어 왔냐?${response.data['data']['rewardResDto']}');
         testModal.getViewModel(
