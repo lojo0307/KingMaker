@@ -17,6 +17,7 @@ class AlarmCard extends StatelessWidget {
     return
       Container(
         width: double.infinity,
+        height: 88,
         decoration: BoxDecoration(
           border: lastIdx ? Border() : Border(
             bottom: BorderSide(
@@ -26,9 +27,10 @@ class AlarmCard extends StatelessWidget {
           ),
 
         ),
-        margin: EdgeInsets.fromLTRB(0.0,2.0,0.0,2.0),
         padding: EdgeInsets.symmetric(vertical: 12.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -48,10 +50,17 @@ class AlarmCard extends StatelessWidget {
                     SizedBox(height: 4,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(type[data.notificationTypeId], style: const TextStyle(fontSize: 16, color: BLUE_BLACK_COLOR),),
-                        Text(data.sendtime, style: const TextStyle(fontSize: 12, color: DARK_GREY_COLOR ),),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(data.sendtime, style: const TextStyle(fontSize: 12, color: DARK_GREY_COLOR ),),
+                            ],
+                          ),
+                        ),
                         (delFlag)? GestureDetector(
                           onTap: () async {
                             int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
