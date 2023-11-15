@@ -53,8 +53,16 @@ public class NotificationServiceImpl implements NotificationService{
     //발송 전 알림 보낸 후, 발송된 알림 테이블로 데이터 이동
     @Override
     public void sendNotification(){
+        log.info("알림 보내기 시작");
+
         LocalDateTime time=LocalDateTime.now();
+        log.info("헌재시각: {}", time);
+
         List<NotificationTmp> list=notificationTmpRepository.getNotificationTmpsBySendTimeLessThanEqual(time);
+        log.info("tmpList 사이즈: {}", list.size());
+        if(!list.isEmpty())
+        log.info("tmp 첫번째 메시지 내용: {}", list.get(0).getMessage());
+
         List<Notification> notificationList=new ArrayList<>();
         List<Message> messageList=new ArrayList<>();
         try{
@@ -67,6 +75,7 @@ public class NotificationServiceImpl implements NotificationService{
                         .member(nt.getMember())
                         .build();
                 notificationList.add(n);
+
                 List<FcmToken> fcmTokenList=fcmTokenRepository.findFcmTokensByMember_MemberId(nt.getMember().getMemberId()).orElseThrow(()->new TokenNotFoundException());
                 if(!fcmTokenList.isEmpty()){
                     for(FcmToken token:fcmTokenList){
@@ -82,6 +91,9 @@ public class NotificationServiceImpl implements NotificationService{
                     }
                 }
             }
+            log.info("notificationList 사이즈: {}", notificationList.size());
+            log.info("messageList 사이즈: {}", messageList.size());
+
             notificationRepository.saveAll(notificationList);
             notificationTmpRepository.deleteNotificationTmpsBySendTimeLessThanEqual(time);
             if(messageList.isEmpty())return;
