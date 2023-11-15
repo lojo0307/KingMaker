@@ -97,14 +97,18 @@ public class SchedulerService {
   }
 
   @Transactional
-  @Scheduled(cron="0 0 8 * * ?",zone="Asia/Seoul")
+  @Scheduled(cron="0 0 10 * * ?",zone="Asia/Seoul")
+//  @Scheduled(cron="0 0 8 * * ?",zone="Asia/Seoul")
   public void sendMorningNotification() throws Exception{
+    log.info("아침 알림 발송");
     //TODO: 매일 오전 8시에 아침 알림 발송
     notificationService.sendMorningNotification();
   }
 
-  @Scheduled(cron="0 0 21 * * ?",zone="Asia/Seoul")
+  @Scheduled(cron="0 0 10 * * ?",zone="Asia/Seoul")
+//  @Scheduled(cron="0 0 21 * * ?",zone="Asia/Seoul")
   public void sendEveningNotification() throws Exception{
+    log.info("저녁 알림 발송");
     //TODO: 매일 오후 9시에 아직 해결되지 않은 알림 발송
     notificationService.sendEveningNotification();
   }
@@ -116,8 +120,11 @@ public class SchedulerService {
     notificationService.sendNotification();
   }
 
-  @Scheduled(cron="0 0 0 * * *", zone="Asia/Seoul")
+  @Transactional
+  @Scheduled(cron="0 0 10 * * ?", zone="Asia/Seoul")
+//  @Scheduled(cron="0 0 0 * * *", zone="Asia/Seoul")
   public void checkNotAchievedPlanFromYesterday() throws Exception {
+    log.info("미달성 업무 알림 발송");
     //어제 일정 미달성한 개수 카운트 & 백성 수 줄이기
 //    List<CountPlanDto> undoneList = calendarRepository.getUndonePlanCntYesterday();
     //어제 일정 달성한 개수 카운트
@@ -134,7 +141,7 @@ public class SchedulerService {
     }
 
     //어제 미달성한 업무 관련 밤 12시에 알림
-//    notificationService.sendChangeCitizenNotification();
+    notificationService.sendChangeCitizenNotification();
   }
 
   //오늘 할 일(그 중에서도 미달성인) 30개 이상이면 몬스터 파크 개장 업적 부여

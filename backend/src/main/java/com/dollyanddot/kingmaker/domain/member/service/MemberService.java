@@ -88,6 +88,12 @@ public class MemberService {
 
         Reward reward = rewardRepository.findById(10).orElseThrow(() -> new RewardNotFoundException());
 
+        log.info("달성 업적");
+        log.info("업적명: {}", reward.getRewardNm());
+        log.info("업적 조건: {}", reward.getRewardCond());
+        log.info("업적 메시지: {}", reward.getRewardMsg());
+        log.info("------------------------------------------------");
+
         return SignUpResDto.builder()
                 .memberId(member.getMemberId())
                 .nickname(member.getNickname())
