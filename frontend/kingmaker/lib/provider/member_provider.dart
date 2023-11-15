@@ -123,14 +123,10 @@ class MemberProvider with ChangeNotifier {
   }
 
   signup(String kdName) async{
-    await _memberRepository.signup(_member, kdName);
+    _member = await _memberRepository.signup(_member, kdName);
   }
 
-  getMember() async {
-    if (_social == "G") {
-      _member = await _memberRepository.checkMemberGoogle(token!);
-    } else {
-      _member = await _memberRepository.checkMemberKakao(token!);
-    }
+  deleteMember() async {
+    await _memberRepository.deleteMember();
   }
 }

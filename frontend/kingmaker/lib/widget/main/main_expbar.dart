@@ -18,13 +18,9 @@ class _ExpBarState extends State<ExpBar> {
   Widget build(BuildContext context) {
     KingdomDto? kingdomDto = context.watch<KingdomProvider>().kingdomDto;
     int leftMonster = context.watch<ScheduleProvider>().leftMonster;
-    return LayoutBuilder(builder: (context, constraints) {
-      final double maxWidth = constraints.maxWidth;
-      return Container(
+    return Container(
         margin: EdgeInsets.fromLTRB(10, 55, 10, 0),
         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-
-        width: maxWidth,
         height: 55,
         // padding: EdgeInsets.only(top: 25),
 
@@ -90,7 +86,6 @@ class _ExpBarState extends State<ExpBar> {
         ),
 
 
-      );
-    });
+    );
   }
 }

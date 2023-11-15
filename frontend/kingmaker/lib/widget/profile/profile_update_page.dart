@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
+import 'package:kingmaker/main.dart';
+import 'package:kingmaker/page/login_page.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/profile/profile_char_image_widget.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +38,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
           backgroundColor: LIGHTEST_BLUE_COLOR,
           appBar: AppBar(
             centerTitle: true,
-            title: Text('닉네임 수정', style: TextStyle(fontSize: 16, fontFamily: 'EsamanruMedium'),),
+            title: Text('회원 정보', style: TextStyle(fontSize: 16, fontFamily: 'EsamanruMedium'),),
             backgroundColor: LIGHTEST_BLUE_COLOR,
             leading: IconButton(
               icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24,),
@@ -89,6 +91,29 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                             backgroundColor: LIGHT_YELLOW_COLOR),
                         child: const Text(
                           '닉네임 수정하기',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      const SizedBox(height: 50),
+                      ElevatedButton(
+                        onPressed: () {
+                          Provider.of<MemberProvider>(context,listen: false).deleteMember();
+                          final globalcontext = navigatorKey1.currentContext;
+                          Navigator.pushAndRemoveUntil(
+                            globalcontext!,
+                            MaterialPageRoute(builder: (context) => LoginPage()),
+                                (route) => false,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 56),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            backgroundColor: LIGHT_RED_COLOR),
+                        child: const Text(
+                          '회원 탈퇴',
                           style: TextStyle(color: Colors.black),
                         ),
                       ),

@@ -16,11 +16,15 @@ class MemberRepository {
     return _memberApi.checkKakaoToken(token);
   }
 
-  signup(MemberDto? _member, String kdName) {
-    _memberApi.signup(_member, kdName);
+  Future<MemberDto?> signup(MemberDto? _member, String kdName) {
+    return _memberApi.signup(_member, kdName);
   }
 
   Future<bool> modifyNick(int i, String name){
     return _memberApi.modifyNickname(i, name);
+  }
+
+  deleteMember() {
+    _memberApi.delteMember();
   }
 }
