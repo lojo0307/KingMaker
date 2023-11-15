@@ -13,7 +13,7 @@ class _ProfileAchievementIconWidgetState extends State<ProfileAchievementIconWid
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image(image: AssetImage('assets/achievement/sample.png'), width: 50,height: 50,),
+        Image(image: AssetImage('assets/achievement/${widget.data.rewardId}.png'), width: 50,height: 50,),
         Text('${widget.data.rewardNm}',
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
