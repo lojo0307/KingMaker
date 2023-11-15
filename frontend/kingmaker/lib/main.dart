@@ -40,6 +40,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     notificationDetails,
   );
 }
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigatorKey1 = GlobalKey<NavigatorState>();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -99,19 +101,23 @@ class MyApp extends StatelessWidget {
         fontFamily: 'PretendardBold',
         useMaterial3: true,
       ),
-      home: Consumer<MemberProvider>(
-            builder: (context, provider, child) {
+      navigatorKey: navigatorKey,
+      home: MaterialApp(
+        navigatorKey: navigatorKey1,
+        home: Consumer<MemberProvider>(
+          builder: (context, provider, child) {
             var isLoggedIn = provider.isLoggedIn;
-              return Container(
-                color: LIGHTEST_BLUE_COLOR,
-                constraints: const BoxConstraints(
-                  maxWidth: 400,
-                ),
-                child: isLoggedIn? const BottomNavBar() : const LoginPage(),
-                // child: TestPage(),
-              );
-            },
-          ),
+            return Container(
+              color: LIGHTEST_BLUE_COLOR,
+              constraints: const BoxConstraints(
+                maxWidth: 400,
+              ),
+              child: isLoggedIn? const BottomNavBar() : const LoginPage(),
+              // child: TestPage(),
+            );
+          },
+        ),
+      ),
     );
   }
 }

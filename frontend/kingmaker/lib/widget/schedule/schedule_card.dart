@@ -62,12 +62,12 @@ class _ScheduleCardState extends State<ScheduleCard> {
             Container(
                 margin: EdgeInsets.only(right: 15),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (widget.data['type'] == '2') {
-                      Provider.of<ScheduleProvider>(context, listen: false)
+                      await Provider.of<ScheduleProvider>(context, listen: false)
                           .achieveRoutine(int.parse(widget.data['id']!));
                     } else {
-                      Provider.of<ScheduleProvider>(context, listen: false)
+                      await Provider.of<ScheduleProvider>(context, listen: false)
                           .achieveTodo(int.parse(widget.data['id']!));
                     }
                     int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
@@ -75,12 +75,12 @@ class _ScheduleCardState extends State<ScheduleCard> {
                     int year = now.year;
                     int month = now.month;
                     int day = now.day;
-                    Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, year, month);
-                    Provider.of<CalendarProvider>(context, listen: false).getData(memberId!, year, month);
-                    Provider.of<CalendarProvider>(context, listen: false).getList(memberId!, year, month, day);
-                    Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
-                    Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
-                    Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
+                    await Provider.of<CalendarProvider>(context, listen: false).getMyCal(memberId!, year, month);
+                    await Provider.of<CalendarProvider>(context, listen: false).getData(memberId!, year, month);
+                    await Provider.of<CalendarProvider>(context, listen: false).getList(memberId!, year, month, day);
+                    await Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
+                    await Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
+                    await Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
                   },
                   child: (widget.data['achieved'] == '0')
                       ? Text('수행', style: TextStyle(color: BLUE_BLACK_COLOR, fontSize: 14.0))

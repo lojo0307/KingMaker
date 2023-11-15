@@ -23,7 +23,7 @@ class AchievementProvider with ChangeNotifier {
     _achievementRepository = AchievementRepository();
   }
 
-  void getAllData(int memberId) {
+  getAllData(int memberId) {
     getCategory(memberId);
     getDailyRate(memberId);
     getMonthlyRate(memberId);
