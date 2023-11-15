@@ -26,7 +26,10 @@ class RegistRoutine extends StatefulWidget {
 class _RegistRoutineState extends State<RegistRoutine> {
   @override
   Widget build(BuildContext context) {
-    String error = context.watch<RegistProvider>().error;
+    String error1 = context.watch<RegistProvider>().error1;
+    String error2 = context.watch<RegistProvider>().error2;
+    String error3 = context.watch<RegistProvider>().error3;
+    String error4 = context.watch<RegistProvider>().error4;
     return Scaffold(
         backgroundColor: LIGHTEST_BLUE_COLOR,
         body: SafeArea(
@@ -84,8 +87,12 @@ class _RegistRoutineState extends State<RegistRoutine> {
                             fillColor: WHITE_COLOR,
                           ),
                         ),
+                        Container(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(error1, style: TextStyle(fontSize: 12, color: Colors.red,),),
+                        ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         TextFormField(
                           onChanged: (value) {
@@ -114,8 +121,12 @@ class _RegistRoutineState extends State<RegistRoutine> {
                             fillColor: WHITE_COLOR,
                           ),
                         ),
+                        Container(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(error2, style: TextStyle(fontSize: 12, color: Colors.red,),),
+                        ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         ImportanceCheck(),
                         SizedBox(
@@ -155,16 +166,20 @@ class _RegistRoutineState extends State<RegistRoutine> {
                             // ),
                           ],
                         ),
+                        Container(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(error3, style: TextStyle(fontSize: 12, color: Colors.red,),),
+                        ),
                         SizedBox(
-                          height: 24,
+                          height: 14,
                         ),
                         Text('주기', style: TextStyle(fontSize: 14)),
                         Divider(color: DARK_GREY_COLOR, thickness: 0.3),
                         WeekDayButton(),
+                        Text(error4, style: TextStyle(fontSize: 12, color: Colors.red),),
                         SizedBox(
                           height: 24,
                         ),
-                        Text(error, style: TextStyle(fontSize: 12, color: Colors.red),)
                       ],
                     ),
                   )
