@@ -61,8 +61,8 @@ class MonsterPosition extends PositionComponent {
       if (position.x >= 80 && position.x <= 500) {
         velocity.x = position.x < (80 + 500) / 2 ? -velocity.x.abs() : velocity.x.abs();
       }
-      if (position.y >= -40 && position.y <= 300) {
-        velocity.y = position.y < (-40 + 300) / 2 ? -velocity.y.abs() : velocity.y.abs();
+      if (position.y >= -40 && position.y <= 400) {
+        velocity.y = position.y < (-40 + 400) / 2 ? -velocity.y.abs() : velocity.y.abs();
       }
     }
 
@@ -108,7 +108,7 @@ class MonsterPosition extends PositionComponent {
   bool isEnteringRestrictedArea(Vector2 position) {
     // 제한된 사각형 영역 정의
     final restrictedTopLeft = Vector2(80, -40);
-    final restrictedBottomRight = Vector2(500, 300);
+    final restrictedBottomRight = Vector2(500, 400);
 
     // 위치가 제한된 영역 내에 있는지 확인
     return position.x >= restrictedTopLeft.x &&
@@ -134,7 +134,7 @@ class MonsterPosition extends PositionComponent {
     final double restrictedLeftX = 80;
     final double restrictedRightX = 500;
     final double restrictedTopY = -40;
-    final double restrictedBottomY = 300;
+    final double restrictedBottomY = 400;
 
     // position이 제한된 사각형 영역 내에 있는지 검사합니다.
     return position.x > restrictedLeftX && position.x < restrictedRightX
