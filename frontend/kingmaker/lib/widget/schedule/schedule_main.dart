@@ -51,13 +51,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
           body: SafeArea(
             child: Column(
               children: [
-                Text(
-                  '일정',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'EsamanruMedium',
-                  ),
-                ),
+                Header(title: '일정'),
                 SizedBox(
                   height: 10,
                 ),
