@@ -32,14 +32,14 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
           children: <Widget>[
             Container(
               width: dialogWidth,
-              height: dialogHeight, // Use the dialogHeight here
+              height: 400, // Use the dialogHeight here
               padding: const EdgeInsets.only(
-                top: 60,
+                top: 20,
                 bottom: 16,
                 left: 16,
                 right: 16,
               ),
-              margin: const EdgeInsets.only(top: 45),
+              margin: const EdgeInsets.only(top: 15),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
@@ -48,16 +48,27 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    SizedBox(height: maxWidth*0.05),
-                    DefaultTextStyle(
-                      style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
-                      child: Text(
-                        '\"${widget.dto.rewardNm}\"',
+                     Container(
+                       height: 200,
+                       child: CircleAvatar(
+                         backgroundColor: Colors.transparent,
+                         radius: 90,
+                         backgroundImage: AssetImage('assets/achievement/${widget.dto.rewardId}.png'),
+                       ),
+                     ),
+                    SizedBox(height: 5),
+                    Container(
+                      height: maxHeight*0.04,
+                      child: DefaultTextStyle(
+                        style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                        ),
+                        child: Text(
+                          '\"${widget.dto.rewardNm}\"',
+                        ),
                       ),
                     ),
                     const DefaultTextStyle(
@@ -70,7 +81,7 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
                         '획득',
                       ),
                     ),
-                    SizedBox(height: maxWidth*0.05),
+                    SizedBox(height: 5),
                     DefaultTextStyle(
                       style: const TextStyle(overflow: TextOverflow.clip,fontSize: 14, color: Colors.black,),
                       child: Text(
@@ -78,7 +89,7 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(height: maxWidth*0.05),
+                    SizedBox(height: 5),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: TextButton(
@@ -97,14 +108,7 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
                 ),
               )
             ),
-            Positioned(
-              top: maxWidth*0.45,
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 90,
-                backgroundImage: AssetImage('assets/achievement/${widget.dto.rewardId}.png'),
-              ),
-            ),
+
           ],
         );
       },
