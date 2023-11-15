@@ -21,10 +21,10 @@ class RewardDto{
       rewardId: json['rewardId'],
       rewardNm: json['rewardNm'],
       rewardCond: json['rewardCond'],
-      rewardMsg: json['rewardMsg'],
-      modifiedAt: json['modifiedAt'],
-      rewardPercent: json['rewardPercent'],
-      achieved: json['achieved'],
+      modifiedAt: json['modifiedAt'] ?? "",
+      rewardMsg: json['rewardMsg'] ?? "",
+      rewardPercent: json['rewardPercent'] ?? 0,
+      achieved: json['achieved'] ?? true,
     );
   }
 }

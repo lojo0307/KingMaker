@@ -82,7 +82,6 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
               if (kdName != "" && error == " ") {
                 print('건국하기 버튼 클릭 잘됨 if 안');
                 await Provider.of<MemberProvider>(context, listen: false).signup(kdName);
-                await Provider.of<MemberProvider>(context, listen: false).getMember();
                 memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                 Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
                 Provider.of<MemberProvider>(context,listen:false).initializeNoficiationSetting();
