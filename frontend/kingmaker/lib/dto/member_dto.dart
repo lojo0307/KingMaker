@@ -17,13 +17,13 @@ class MemberDto{
   });
   factory MemberDto.fromJson(Map<String, dynamic> json) {
     return MemberDto(
-      memberId: int.parse(json['memberId']),
-      credentialId: json['credentialId'],
-      kingdomId: json['kingdomId'],
-      nickname: json['nickname'],
-      gender: json['gender'],
-      email: json['email'],
-      provider: json['provider']
+      memberId: json['memberId'] ?? 0,
+      credentialId: json['credentialId'] ?? 0,
+      kingdomId: json['kingdomId'] ?? 0,
+      nickname: json['nickname'] ?? "",
+      gender: json['gender'] ?? "MAN",
+      email: json['email'] ?? "",
+      provider: json['provider'] ?? "",
     );
   }
   factory MemberDto.responseFromJson(Map<String, dynamic> json) {

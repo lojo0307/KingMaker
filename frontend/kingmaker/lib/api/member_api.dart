@@ -6,6 +6,8 @@ import 'package:kingmaker/api/total_api.dart';
 import 'dart:math';
 
 import 'package:kingmaker/dto/member_dto.dart';
+import 'package:kingmaker/dto/reward_dto.dart';
+import 'package:kingmaker/widget/achievement/test_modal.dart';
 
 final dio = Dio();
 String? url = dotenv.env['URL'];
@@ -13,6 +15,8 @@ String? url = dotenv.env['URL'];
 class MemberApi{
   final storage = const FlutterSecureStorage();
   final TotalApi totalApi = TotalApi();
+  final TestModal testModal = TestModal();
+
   Future<bool> checkToken() async{
     bool res = true;
     int number = Random().nextInt(100);
@@ -55,8 +59,9 @@ class MemberApi{
     return res;
   }
 
-  void signup(MemberDto? _member, String kdName) async{
+  Future<MemberDto?> signup(MemberDto? _member, String kdName) async{
     //회원가입 하는 부분 back 연동 해야됨
+    MemberDto? res;
     try {
       var data = {
         "nickname": _member?.nickname,
@@ -68,10 +73,21 @@ class MemberApi{
       );
       // 응답으로부터 MemberDto 객체를 생성합니다.
       _member = MemberDto.responseFromJson(response.data['data']);
+      print('this is MemberAPi');
+      print(response.data['data']);
+      print('${response.data['data']['rewardResDto'].length > 0}');
+      if (response.data['data']['rewardResDto'] != null){
+        print('여기 들어 왔냐?${response.data['data']['rewardResDto']}');
+        testModal.getViewModel(
+            RewardDto.fromJson(response.data['data']['rewardResDto']['rewardInfoDto'])
+        );
+      }
+      print('this is MemberAPi finish');
+      return MemberDto.fromJson(response.data['data']);
     }catch (e) {
       print(e);
-      return null;
     }
+    return res;
   }
 
   Future<bool> modifyNickname(int memberId, String nickname) async{
@@ -87,6 +103,10 @@ class MemberApi{
     }
     print(response.statusCode);
     return false;
+  }
+
+  void delteMember() async {
+    final response = await totalApi.deleteApi('/api/member/leave');
   }
 }
 
