@@ -6,8 +6,10 @@ import 'package:kingmaker/provider/achievement_provider.dart';
 import 'package:kingmaker/provider/calendar_provider.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/common/header.dart';
+import 'package:kingmaker/widget/todo/modify_todo.dart';
 import 'package:provider/provider.dart';
 
 class TodoDetailPage extends StatefulWidget {
@@ -244,7 +246,15 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                           children: [
                             Expanded(
                               child: ElevatedButton(
-                                  onPressed: () => print("버튼 클릭"),
+                                  onPressed:(){
+                                    Map<String,String> detail=Provider.of<ScheduleProvider>(context, listen: false).detail;
+                                    Provider.of<RegistProvider>(context, listen: false).setData(detail);
+                                    Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const ModifyTodo())
+                                    );
+                                    },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: Size(100, 45),
                                     shape: RoundedRectangleBorder(

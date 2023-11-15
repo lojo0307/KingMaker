@@ -7,6 +7,10 @@ import 'package:kingmaker/repository/todo_repository.dart';
 class RegistProvider with ChangeNotifier {
   late final RoutineRepository _routineRepository;
   late final TodoRepository _todoRepository;
+
+  int _id = 0;
+  int get id => _id;
+
   String _title = "";
   String get title => _title;
 
@@ -102,6 +106,13 @@ class RegistProvider with ChangeNotifier {
     return 1;
   }
 
+  ModifyTodo(int _todoId){
+    //todoId는 줘야 함
+    TodoDto todoDto = TodoDto(todoId: _todoId, categoryId: _categoryId, startAt: "$_startAt$_startTime", endAt: "$_endAt$_endTime", todoNm: _title, todoDetail: _detail, todoPlace: "장소", importantYn: importantYn, achievedYn: false);
+    _todoRepository.modifyTodo(todoDto);
+    ResetAll();
+  }
+
   void ResetAll() {
     _title = "";
     _detail = "";
@@ -117,6 +128,14 @@ class RegistProvider with ChangeNotifier {
     _error2 = "";
     _error3 = "";
     _error4 = "";
+  }
+
+  void setData(Map<String, String> detail) {
+    _id = int.parse(detail['id']!);
+    _title = detail['title']!;
+    _detail = detail['detail']!;
+    _categoryId = int.parse(detail['category']!);
+    _importantYn = bool.parse(detail['importantYn']!);
   }
 
   void setTitle(String value) {

@@ -12,6 +12,10 @@ class TodoRepository {
     _todoApi.registTodo(memberId, todoDto);
   }
 
+  void modifyTodo(TodoDto todoDto){
+    _todoApi.modifyTodo(todoDto);
+  }
+
   void achieve(todoId) {
     _todoApi.achieveTodo(todoId);
   }
