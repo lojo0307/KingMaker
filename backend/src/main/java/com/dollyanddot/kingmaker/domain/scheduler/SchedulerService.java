@@ -97,7 +97,7 @@ public class SchedulerService {
   }
 
   @Transactional
-  @Scheduled(cron="0 0/10 * * * ?",zone="Asia/Seoul")
+  @Scheduled(cron="0 0/10 * * * *",zone="Asia/Seoul")
 //  @Scheduled(cron="0 0 8 * * ?",zone="Asia/Seoul")
   public void sendMorningNotification() throws Exception{
     log.info("아침 알림 발송");
@@ -105,7 +105,7 @@ public class SchedulerService {
     notificationService.sendMorningNotification();
   }
 
-  @Scheduled(cron="0 0/10 * * * ?",zone="Asia/Seoul")
+  @Scheduled(cron="0 0/10 * * * *",zone="Asia/Seoul")
 //  @Scheduled(cron="0 0 21 * * ?",zone="Asia/Seoul")
   public void sendEveningNotification() throws Exception{
     log.info("저녁 알림 발송");
@@ -114,14 +114,14 @@ public class SchedulerService {
   }
 
   @Transactional
-  @Scheduled(cron="0 0/1 * * * ?",zone="Asia/Seoul")
+  @Scheduled(cron="0 0/1 * * * *",zone="Asia/Seoul")
   public void sendPlanNotification() throws Exception{
     //TODO: 일정 수행 시작 한 시간 전 알림 발송
     notificationService.sendNotification();
   }
 
   @Transactional
-  @Scheduled(cron="0 0/10 * * * ?", zone="Asia/Seoul")
+  @Scheduled(cron="0 0/10 * * * *", zone="Asia/Seoul")
 //  @Scheduled(cron="0 0 0 * * *", zone="Asia/Seoul")
   public void checkNotAchievedPlanFromYesterday() throws Exception {
     log.info("미달성 업무 알림 발송");
