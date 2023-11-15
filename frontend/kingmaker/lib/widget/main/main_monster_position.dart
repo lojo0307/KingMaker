@@ -42,6 +42,13 @@ class MonsterPosition extends PositionComponent {
   }
 
   @override
+  void remove(Component component) {
+    // TODO: implement remove
+    super.remove(component);
+  }
+
+
+  @override
   void update(double dt) {
     super.update(dt);
     _elapsedTime += dt;
