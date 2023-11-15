@@ -26,6 +26,7 @@ class RegistRoutine extends StatefulWidget {
 class _RegistRoutineState extends State<RegistRoutine> {
   @override
   Widget build(BuildContext context) {
+    String error = context.watch<RegistProvider>().error;
     return Scaffold(
         backgroundColor: LIGHTEST_BLUE_COLOR,
         body: SafeArea(
@@ -41,6 +42,7 @@ class _RegistRoutineState extends State<RegistRoutine> {
                           icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24.0,),
                           tooltip: '이 전 페이지',
                           onPressed: () {
+                            Provider.of<RegistProvider>(context, listen: false).ResetAll();
                             print("click");
                             Navigator.pop(
                               context,
@@ -162,6 +164,7 @@ class _RegistRoutineState extends State<RegistRoutine> {
                         SizedBox(
                           height: 24,
                         ),
+                        Text(error, style: TextStyle(fontSize: 12, color: Colors.red),)
                       ],
                     ),
                   )
@@ -177,8 +180,10 @@ class _RegistRoutineState extends State<RegistRoutine> {
                     Provider.of<MemberProvider>(context, listen: false)
                         .member
                         ?.memberId;
-                await Provider.of<RegistProvider>(context, listen: false)
+                int checker = await Provider.of<RegistProvider>(context, listen: false)
                     .RegistRoutine(MemberId!);
+                if (checker == -1)
+                  return;
                 DateTime now = DateTime.now();
                 Provider.of<ScheduleProvider>(context, listen: false)
                     .getList(MemberId, now.year, now.month, now.day);
