@@ -27,7 +27,7 @@ class RoutineApi{
     if (response.data['data']['rewardResDtoList'] != null){
       for(int i = 0 ; i < response.data['data']['rewardResDtoList'].length ; i++){
         testModal.getViewModel(
-            RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementsAt(i))
+            RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementAt(i)['rewardInfoDto'])
         );
       }
     }
@@ -47,7 +47,7 @@ class RoutineApi{
     if (response.data['data']['rewardResDtoList'] != null){
       for(int i = 0 ; i < response.data['data']['rewardResDtoList'].length ; i++){
         testModal.getViewModel(
-            RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementsAt(i))
+            RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementAt(i)['rewardInfoDto'])
         );
       }
     }
