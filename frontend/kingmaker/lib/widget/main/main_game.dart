@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:kingmaker/page/todo_detail_page.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/main/main_camera_focus.dart';
 import 'package:flame/extensions.dart';
@@ -42,9 +43,8 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
 
 
   @override
-  void onTapUp(TapUpInfo info) {
+  void onTapUp(TapUpInfo info) async {
     print(info.eventPosition.global);
-
     Vector2 worldPosition = camera.globalToLocal(info.eventPosition.global);
     print(worldPosition);
     if (player.toRect().contains(worldPosition.toOffset())) {
@@ -52,11 +52,16 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
       player.TapUp();
       return;
     }//몬스터를 클릭했을 때의 로직
-
     for (MonsterPosition monster in monsterList) {
       if (monster.toRect().contains(worldPosition.toOffset())) {
         print('${monster.monsterInfo} was tapped!');
-
+        await Provider.of<ScheduleProvider>(context, listen: false)
+            .getDetail(int.parse(monster.monsterInfo['id']!), monster.monsterInfo['type'].toString());
+        Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TodoDetailPage())
+          );
         break;  // 만약 한 번에 하나의 몬스터만 탭할 수 있다면, 루프를 종료
       }
     }
