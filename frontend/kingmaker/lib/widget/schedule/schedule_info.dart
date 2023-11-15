@@ -11,6 +11,7 @@ class ScheduleInfo extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               _truncateText(data['title'].toString(), 10),
@@ -19,6 +20,7 @@ class ScheduleInfo extends StatelessWidget {
                 decoration: (data['achieved'] == '1') ? TextDecoration.lineThrough : TextDecoration.none,
               ),
             ),
+            SizedBox(height: 4,),
             Text(data['start'].toString() + " ~ " + data['end'].toString(), style: TextStyle(fontSize: 9),),
           ],
         ),
