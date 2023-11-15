@@ -61,7 +61,19 @@ class _AlarmMainState extends State<AlarmMain> {
                 // const SizedBox(height: 30),
                 Expanded(
                   child: list.isEmpty?
-                  Center(child: Text("알림이 없습니다.", style: TextStyle(fontFamily: 'PretendardBold'),)):
+                  Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min, // Column을 내용 크기에 맞게
+                      children: [
+                        Image.asset(
+                            'assets/images/empty.png',
+                            width: 40,
+                            fit: BoxFit.cover), // 이미지
+                        SizedBox(height: 8.0),
+                        Text("알림이 없습니다.",style: TextStyle(fontFamily: 'PretendardBold')), // 텍스트
+                      ],
+                    ),
+                  ):
                   AlarmList(list: list, delFlag: delFlag,),
                 ),
               ],

@@ -68,7 +68,19 @@ class _ScheduleSetState extends State<ScheduleSet> {
         SizedBox(height: 8.0,),
         Expanded(
           child:widget.list.isEmpty
-              ? Center(child: Text("일정이 없습니다.",style: TextStyle(fontFamily: 'PretendardBold'))) // list가 비어있을 때 표시
+              ? Center(
+                child: Column(
+                    mainAxisSize: MainAxisSize.min, // Column을 내용 크기에 맞게
+                    children: [
+                      Image.asset(
+                          'assets/images/empty.png',
+                          width: 40,
+                          fit: BoxFit.cover), // 이미지
+                      SizedBox(height: 8.0),
+                      Text("일정이 없습니다.",style: TextStyle(fontFamily: 'PretendardBold')), // 텍스트
+                    ],
+                  ),
+                )
               : SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
