@@ -76,14 +76,12 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Container(
                                         child: Row(
                                           children: [
-                                            SvgPicture.asset('assets/icon/ic_star.svg'),
+                                            bool.parse(data['importantYn']!)?SvgPicture.asset('assets/icon/ic_star.svg') : SizedBox(),
                                             SizedBox(
                                               width: 8,
                                             ),
@@ -123,10 +121,6 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                                         )),
                                   ],
                                 ),
-                                (data['place'] == null) ? SizedBox() : SizedBox(height: 4,),
-                                (data['place'] == null)
-                                    ? SizedBox()
-                                    : Text(data['place']!),
                               ],
                             ),
                           ),
