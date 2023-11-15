@@ -137,6 +137,7 @@ flutter:
     - assets/images/nutty_right.png
     - assets/images/panda_left.png
     - assets/images/panda_right.png
+    - assets/images/empty.png
     - assets/images/expbar/1_expbar.png
     - assets/images/expbar/2_expbar.png
     - assets/images/expbar/3_expbar.png
