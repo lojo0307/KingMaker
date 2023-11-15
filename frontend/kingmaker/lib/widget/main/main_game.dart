@@ -87,21 +87,16 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     camera.follow(focusArea);
 
   }
-
+  @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+  }
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
     super.onLoad();
-    Provider.of<ScheduleProvider>(context, listen: false).addListener(_updateMonstersFromProvider);
-    // 다른 컴포넌트 로드...
-    // 경험치 바 로드 및 설정
-    //
-    // int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
-    // DateTime now = DateTime.now();
-    // int year = now.year;
-    // int month = now.month;
-    // int day = now.day;
-    // Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
+    Provider.of<ScheduleProvider>(context, listen: true).addListener(_updateMonstersFromProvider);
   }
 
   void _updateMonstersFromProvider() {
@@ -109,12 +104,12 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     // 기존 몬스터 목록을 비우고 새로운 데이터로 몬스터를 추가합니다.
     monsterList.clear();
     data.forEach((element) {
-      print("_updateMonstersFromProvider --- $element");
       if (element['achieved'] == '0') {
         monsterList.add(MonsterPosition(this, element));
       }
     });
     myWorld.updateMonsters(monsterList);
+    update(1);
   }
 
 }
@@ -128,11 +123,19 @@ class MyWorld extends World {
   final BuildContext context;
   MyWorld(this.context, this.game, this.player, this.monsterList);
 
+  @override
+  void remove(Component component) {
+    // TODO: implement remove
+    super.remove(component);
+  }
+
 
   void updateMonsters(List<MonsterPosition> newMonsterList) {
-    children.whereType<MonsterPosition>().forEach(remove);
+    // children.whereType<MonsterPosition>().forEach(remove);
+    children.whereType<MonsterPosition>().forEach((element) {
+      remove(element);
+    });
     for (MonsterPosition monster in newMonsterList) {
-      print('add updateMonsters');
       add(monster);
     }
   }
@@ -151,13 +154,9 @@ class MyWorld extends World {
     FocusArea focusArea = FocusArea();
     add(focusArea);
     game.setFocusArea(focusArea);  // MyGame의 focusArea 설정
-    print('프로바이더 : ');
-    // print(Provider.of<ScheduleProvider>().list);
-    // game.player = player;
-    // game.add(game.player);
+
     add(player);
     for(int i=0; i<this.game.monsterList.length; i++){
-      print('몬스터 추가');
       add(this.game.monsterList[i]);
     }
 
