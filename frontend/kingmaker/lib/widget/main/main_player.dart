@@ -24,7 +24,9 @@ class MainPlayer extends SpriteComponent with TapCallbacks {
   @override
   Future<void> onLoad() async {
       String? name = await Provider.of<MemberProvider>(context, listen: false).member?.nickname;
-      sprite = await Sprite.load('male.png');
+      String? gender = await Provider.of<MemberProvider>(context, listen: false).member?.gender;
+      String img = gender == "MAN" ? "male": "female";
+      sprite = await Sprite.load('${img}.png');
       size = Vector2(65,110);
       position = Vector2(272, 300);
       textComponent=TextComponent(

@@ -51,9 +51,14 @@ class _HomePageState extends State<HomePage> {
             // print('### homepage_build : $snapshot.data');
             return Stack(
               children: [
-                GameWidget.controlled(
-                  gameFactory: () => MyGame(context, snapshot.data!),
+
+                Consumer<ScheduleProvider>(builder: (BuildContext context, ScheduleProvider value, Widget? child) {
+                  return GameWidget.controlled(
+                    gameFactory: () => MyGame(context, snapshot.data!),
+                    );
+                  },
                 ),
+
 
                 Container(
                   margin: EdgeInsets.only(top: 110, left: 7),
