@@ -166,6 +166,7 @@ flutter:
     - assets/images/expbar/28_expbar.png
     - assets/images/expbar/expicon.png
     - assets/images/expbar/monstericon.png
+    - assets/achievement/sample.png
     - assets/achievement/0.png
     - assets/achievement/1.png
     - assets/achievement/2.png
