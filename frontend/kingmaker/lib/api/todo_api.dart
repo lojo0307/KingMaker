@@ -20,10 +20,11 @@ class TodoApi{
   }
   void registTodo(int memberId, TodoDto todoDto) async {
     final response = await totalApi.postApi('/api/todo', todoDto.toRegistJson(memberId),);
+    print('Todo Api registTodo response : $response');
     if (response.data['data']['rewardResDtoList'] != null){
       for(int i = 0 ; i < response.data['data']['rewardResDtoList'].length ; i++){
         testModal.getViewModel(
-            RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementsAt(i))
+            RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementAt(i)['rewardInfoDto'])
         );
       }
     }
@@ -52,7 +53,7 @@ class TodoApi{
     if (response.data['data']['rewardResDtoList'] != null){
       for(int i = 0 ; i < response.data['data']['rewardResDtoList'].length ; i++){
         testModal.getViewModel(
-            RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementsAt(i))
+            RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementAt(i)['rewardInfoDto'])
         );
       }
     }
