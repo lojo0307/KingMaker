@@ -171,12 +171,18 @@ public class MemberRoutineService {
 
       //백성 수 다시 차감 및 레벨 변경
       int changeLevel = kingdomService.changeCitizen(member.getMemberId(), "minus");
-
-      //TODO: 방금 수행함으로써 얻었던 리워드 다시 취소 해야 하는데...
     }
 
     if (rewardResDtoList.isEmpty()) {
       return PatchRoutineResDto.from(isAchieved, null);
+    } else {
+      log.info("달성 업적 리스트");
+      for(RewardResDto r: rewardResDtoList) {
+        log.info("업적명: {}", r.getRewardInfoDto().getRewardNm());
+        log.info("업적 조건: {}", r.getRewardInfoDto().getRewardCond());
+        log.info("업적 메시지: {}", r.getRewardInfoDto().getRewardMsg());
+        log.info("------------------------------------------------");
+      }
     }
 
     return PatchRoutineResDto.from(isAchieved, rewardResDtoList);

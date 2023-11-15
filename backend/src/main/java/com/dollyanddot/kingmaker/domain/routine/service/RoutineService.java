@@ -149,6 +149,14 @@ public class RoutineService {
 
     if(rewardResDtoList.size() == 0){
       return PostRoutineResDto.from(null);
+    } else {
+      log.info("달성 업적");
+      for(RewardResDto r: rewardResDtoList) {
+        log.info("업적명: {}", r.getRewardInfoDto().getRewardNm());
+        log.info("업적 조건: {}", r.getRewardInfoDto().getRewardCond());
+        log.info("업적 메시지: {}", r.getRewardInfoDto().getRewardMsg());
+        log.info("------------------------------------------------");
+      }
     }
 
     return PostRoutineResDto.from(rewardResDtoList);
