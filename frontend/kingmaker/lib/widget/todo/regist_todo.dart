@@ -26,6 +26,7 @@ class RegistTodo extends StatefulWidget {
 class _RegistTodoState extends State<RegistTodo> {
   @override
   Widget build(BuildContext context) {
+    String error = context.watch<RegistProvider>().error;
     return Scaffold(
         backgroundColor: LIGHTEST_BLUE_COLOR,
         body:SafeArea(
@@ -42,7 +43,7 @@ class _RegistTodoState extends State<RegistTodo> {
                         icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24,),
                         tooltip: '이 전 페이지',
                         onPressed: () {
-                          print("click");
+                          Provider.of<RegistProvider>(context, listen: false).ResetAll();
                           Navigator.pop(
                             context,
                           );
@@ -187,8 +188,10 @@ class _RegistTodoState extends State<RegistTodo> {
                         SizedBox(
                           height: 24,
                         ),
+                        Text(error, style: TextStyle(fontSize: 12, color: Colors.red),)
                       ],
-                    )),
+                    )
+                ),
               ],
             ),
           ),
@@ -201,8 +204,10 @@ class _RegistTodoState extends State<RegistTodo> {
                       Provider.of<MemberProvider>(context, listen: false)
                           .member
                           ?.memberId;
-                  await Provider.of<RegistProvider>(context, listen: false)
+                  int checker = await Provider.of<RegistProvider>(context, listen: false)
                       .RegistTodo(memberId!);
+                  if (checker == -1)
+                    return;
                   DateTime now = DateTime.now();
                   int year = now.year;
                   int month = now.month;
