@@ -8,11 +8,13 @@ import com.dollyanddot.kingmaker.domain.member.dto.response.SignUpResDto;
 import com.dollyanddot.kingmaker.domain.member.service.MemberService;
 import com.dollyanddot.kingmaker.global.common.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/member")
@@ -33,6 +35,8 @@ public class MemberController {
 
     @DeleteMapping("/leave")
     public EnvelopeResponse<Void> withdraw(Authentication authentication) {
+        log.info("권한정보: {}", authentication.toString());
+        log.info("권한정보: {}", authentication.getPrincipal().toString());
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         long credentialId = Long.parseLong(userDetails.getUsername());
         memberService.withDraw(credentialId);
