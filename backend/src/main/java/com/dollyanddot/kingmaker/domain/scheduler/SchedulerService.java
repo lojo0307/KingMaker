@@ -96,7 +96,8 @@ public class SchedulerService {
     });
   }
 
-  @Scheduled(cron="0 0 8 * * ?",zone="Asia/Seoul")
+  @Transactional
+  @Scheduled(cron="0 0 10 * * ?",zone="Asia/Seoul")
   public void sendMorningNotification() throws Exception{
     //TODO: 매일 오전 8시에 아침 알림 발송
     notificationService.sendMorningNotification();
