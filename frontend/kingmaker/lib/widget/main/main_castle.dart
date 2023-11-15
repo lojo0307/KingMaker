@@ -13,6 +13,7 @@ class Castle extends SpriteComponent {
   late TextComponent textComponent;
 
   Castle(this.context, this.game, this.level);
+
   @override
   Future<void> onLoad() async {
     super.onLoad(); // 상위 클래스의 onLoad 호출
@@ -67,6 +68,7 @@ class Castle extends SpriteComponent {
     }
 
   }
+
 
 
 }
