@@ -7,6 +7,7 @@ import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
+import 'package:kingmaker/widget/common/header.dart';
 
 import 'package:kingmaker/widget/routine/regist_routine_categorybutton.dart';
 import 'package:kingmaker/widget/routine/regist_routine_importancecheck.dart';
@@ -48,21 +49,7 @@ class _RegistRoutineState extends State<RegistRoutine> {
                           iconSize: 30,
                         ),
                       ),
-                      Container(
-                        height: 44,
-                        child: Center(
-                          child: Title(
-                            color: Colors.black,
-                            child: Text(
-                              '루틴 등록',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: BLUE_BLACK_COLOR,
-                                  fontFamily: 'EsamanruMedium'),
-                            ),
-                          ),
-                        ),
-                      ),
+                      Header(title: '루틴 등록'),
                     ],
                   ),
                   SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
 import 'package:kingmaker/provider/calendar_provider.dart';
@@ -6,6 +7,7 @@ import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
+import 'package:kingmaker/widget/common/header.dart';
 import 'package:provider/provider.dart';
 
 import '../routine/regist_routine_categorybutton.dart';
@@ -37,7 +39,7 @@ class _RegistTodoState extends State<RegistTodo> {
                     Container(
                       height: 40,
                       child: IconButton(
-                        icon: Image.asset('assets/icon/left.png'),
+                        icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24,),
                         tooltip: '이 전 페이지',
                         onPressed: () {
                           print("click");
@@ -48,21 +50,7 @@ class _RegistTodoState extends State<RegistTodo> {
                         iconSize: 30,
                       ),
                     ),
-                    Container(
-                      height: 44,
-                      child: Center(
-                        child: Title(
-                          color: Colors.black,
-                          child: Text(
-                            '할 일 등록',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'EsamanruMedium',
-                                color: BLUE_BLACK_COLOR,),
-                          ),
-                        ),
-                      ),
-                    ),
+                    Header(title: '할 일 등록'),
                   ],
                 ),
                 SizedBox(

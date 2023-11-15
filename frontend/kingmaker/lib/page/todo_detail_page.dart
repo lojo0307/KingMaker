@@ -7,6 +7,7 @@ import 'package:kingmaker/provider/calendar_provider.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
+import 'package:kingmaker/widget/common/header.dart';
 import 'package:provider/provider.dart';
 
 class TodoDetailPage extends StatefulWidget {
@@ -45,19 +46,7 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                           iconSize: 30,
                         ),
                       ),
-                      Container(
-                        height: 44,
-                        child: Center(
-                          child: Title(
-                            color: Colors.black,
-                            child: Text(
-                              '몬스터 정보',
-                              style: TextStyle(
-                                  fontSize: 16, fontFamily: 'EsamanruMedium'),
-                            ),
-                          ),
-                        ),
-                      ),
+                      Header(title: '몬스터 정보'),
                     ],
                   ),
                   Image.asset('assets/character/calendarlist/${int.parse(data['category']!)}.gif',scale: 0.25),
