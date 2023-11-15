@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
 
 class SignupWriteName extends StatefulWidget {
   const SignupWriteName({super.key});
@@ -11,10 +12,25 @@ class SignupWriteName extends StatefulWidget {
 }
 
 class _SignupWriteNameState extends State<SignupWriteName> {
+  TextEditingController _controller=TextEditingController();
+
   @override
   void initState() {
     Provider.of<MemberProvider>(context, listen: false).setErrorFirst();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose(); // 컨트롤러 해제
+    super.dispose();
+  }
+
+  String generateRandomName() {
+    List<String> names = ["카를","콘래드","볼드윈","발데마르","에드워드","헨리","루드비히","페르디난드","알폰소","태조 이방세"]; // 이름 배열
+    Random random = Random();
+    int index = random.nextInt(names.length);
+    return names[index];
   }
 
   @override
@@ -31,6 +47,7 @@ class _SignupWriteNameState extends State<SignupWriteName> {
                   child: Container(
                     height: 48.0,
                     child: TextField(
+                      controller: _controller,
                       decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0), // 상하 패딩 조절
                         border: OutlineInputBorder(
@@ -55,7 +72,12 @@ class _SignupWriteNameState extends State<SignupWriteName> {
               ),
               SizedBox(width: 8,),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  String randomName = generateRandomName();
+                  _controller.text = randomName;
+                  provider.setNickName(randomName);
+                  setState(() {}); // UI 갱신
+                },
                 child: const Text("랜덤 생성", style: TextStyle(color: BLUE_BLACK_COLOR),),
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size(100, 48),
