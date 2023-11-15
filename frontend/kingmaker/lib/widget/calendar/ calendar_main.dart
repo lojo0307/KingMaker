@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/calendar_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/calendar/day_list_set.dart';
@@ -68,15 +70,15 @@ class _CalendarMainState extends State<CalendarMain> {
                   titleCentered: true,
                   formatButtonVisible: false,
                   headerPadding:const EdgeInsets.only(bottom: 10),
-                  leftChevronIcon: Image.asset('assets/icon/left.png',scale: 0.8),
-                  rightChevronIcon: Image.asset('assets/icon/right.png',scale: 0.8),
+                  leftChevronIcon: SvgPicture.asset('assets/icon/ic_pixel_left.svg'),
+                  rightChevronIcon: SvgPicture.asset('assets/icon/ic_pixel_right.svg'),
                 ),
                 calendarBuilders: CalendarBuilders(
                   headerTitleBuilder: (context, day) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("${day.year} . ${day.month}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)
+                        Text("${day.year} . ${day.month}", style: TextStyle(fontSize: 16),)
                       ],
                     );
                   },
@@ -178,18 +180,18 @@ class _CalendarMainState extends State<CalendarMain> {
                 daysOfWeekStyle: DaysOfWeekStyle(
                     decoration: BoxDecoration(
                       color: Color(0xFF9FC6D2),
-                      borderRadius: BorderRadiusDirectional.circular(13),
+                      borderRadius: BorderRadiusDirectional.circular(0),
                     )
                 ),
                 daysOfWeekHeight: 30,
               ),
               SizedBox(height: 30,),
               Container(
-                padding: EdgeInsets.only(left: 10),
-                color: Color(0xFF9FC6D2),
+                padding: EdgeInsets.fromLTRB(12, 4, 0, 4),
+                color: BLUE_COLOR,
                 child: Row(
                   children: [
-                    Text('${_selectedDay?.month}월 ${_selectedDay?.day}일 일정', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                    Text('${_selectedDay?.month}월 ${_selectedDay?.day}일 일정', style: TextStyle(fontSize: 16, color: WHITE_COLOR)),
                   ],
                 ),
               ),
