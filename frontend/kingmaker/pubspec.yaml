@@ -50,7 +50,7 @@ dependencies:
   flutter_flip_card: ^0.0.4
   flutter_animated_dialog: ^2.0.1
   google_sign_in: ^6.1.5
-  kakao_flutter_sdk: ^1.6.1
+  kakao_flutter_sdk: ^1.7.0
   flutter_svg: ^2.0.9 # svg 벡터파일 사용을 위함
   firebase_messaging: ^14.7.4
   flutter_local_notifications: ^16.1.0
@@ -110,6 +110,7 @@ flutter:
     - assets/images/castle/Lv8.png
     - assets/images/castle/Lv9.png
     - assets/images/male.png
+    - assets/images/female.png
     - assets/images/slime_left.png
     - assets/images/slime_right.png
     - assets/images/notification/noti_butler_1.png
