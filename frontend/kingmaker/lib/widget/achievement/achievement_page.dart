@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/dto/reward_dto.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
+import 'package:kingmaker/widget/common/header.dart';
 import 'package:provider/provider.dart';
 
 // import 'achievement_modal.dart';
@@ -49,33 +51,23 @@ class _AchievementPageState extends State<AchievementPage> {
         appBar: AppBar(
           backgroundColor: LIGHTEST_BLUE_COLOR,
           leading: IconButton(
-            icon: const Icon(Icons.navigate_before,),
+            icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24,),
             tooltip: '이전 페이지',
             onPressed: () {
               Navigator.maybePop(context);
             },
           ),
-          title: TextButton(
-            onPressed: () {
-              // AchievementModal.showAchievementDialog(
-              //   context: context,
-              //   title: '알린모찌 학살자',
-              //   content: '알린모찌를 학살 중입니다!',
-              // );
-            },
-            child: const Text('업적'),
-
-          ),
+          title: Text('업적', style: TextStyle(fontSize: 16, fontFamily: 'EsamanruMedium', color: BLUE_BLACK_COLOR),),
           centerTitle: true,
+          elevation: 0,
         ),
-        body:Container( // Wrap ListView in a Container
-        // height: 0, // Fixed height for horizontal ListView
+        body:Container(
         child: ListView.builder(
           scrollDirection: Axis.vertical,
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.symmetric(horizontal: 24),
           itemCount:list.length,
           itemBuilder: (context, index) {
-              return AchievementWidget(data: list[index]); // Return AchievementWidget
+              return AchievementWidget(data: list[index], firstIdx: index == 0,); // Return AchievementWidget
           },
         ),
       ),

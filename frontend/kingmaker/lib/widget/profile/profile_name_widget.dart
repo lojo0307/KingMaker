@@ -19,7 +19,7 @@ class _ProfileNameWidgetState extends State<ProfileNameWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Image(image: AssetImage('assets/user_level/level.png')),
+        SvgPicture.asset('assets/icon/ic_crown.svg'),
         SizedBox(width: 10,),
         Text(
           Provider.of<MemberProvider>(context, listen: false).member!.nickname,

@@ -11,16 +11,25 @@ class ProfileAchievementIconWidget extends StatefulWidget {
 class _ProfileAchievementIconWidgetState extends State<ProfileAchievementIconWidget> {
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width / 4 - 36;
     return Column(
       children: [
-        Image(image: AssetImage('assets/achievement/${widget.data.rewardId}.png'), width: 50,height: 50,),
-        Text('${widget.data.rewardNm}',
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 12, // 조정 가능한 폰트 크기
+        ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          child: Image(
+            width: size,
+            height: size,
+            image: AssetImage('assets/achievement/${widget.data.rewardId}.png'),
+            fit: BoxFit.cover,
           ),
-          maxLines: 1,
-        )
+        ),
+        // Text('${widget.data.rewardNm}',
+        //   overflow: TextOverflow.ellipsis,
+        //   style: TextStyle(
+        //     fontSize: 12, // 조정 가능한 폰트 크기
+        //   ),
+        //   maxLines: 1,
+        // )
       ],
     );
   }
