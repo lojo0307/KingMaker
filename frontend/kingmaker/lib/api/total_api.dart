@@ -158,9 +158,8 @@ class TotalApi{
     dynamic authorization = await storage.read(key:'authorization-refresh');
     var headers = {
       "Content-Type": "application/json",
-      "Authorization": "Bearer ${authorization}",
+      "Authorization-refresh": "Bearer ${authorization}",
     };
     return headers;
   }
 }
-
