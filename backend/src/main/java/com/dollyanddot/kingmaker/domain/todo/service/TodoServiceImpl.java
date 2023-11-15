@@ -4,6 +4,7 @@ import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
 import com.dollyanddot.kingmaker.domain.calendar.dto.CalendarAchieveDto;
 import com.dollyanddot.kingmaker.domain.calendar.dto.response.CalendarStreakResDto;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
+import com.dollyanddot.kingmaker.domain.category.exception.CategoryNotFoundException;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.kingdom.service.KingdomService;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
@@ -136,12 +137,13 @@ public class TodoServiceImpl implements TodoService {
   @Transactional
   public PostTodoResDto registerTodo(PostTodoReqDto postTodoReqDto) {
 
-    Member member = memberRepository.findById(postTodoReqDto.getMemberId()).orElseThrow();
+    Member member = memberRepository.findById(postTodoReqDto.getMemberId()).orElseThrow(MemberRewardNotFoundException::new);
     List<RewardResDto> rewardResDtoList = new ArrayList<>();
 
     Todo todo = todoRepository.save(new Todo().builder()
         .member(member)
-        .category(categoryRepository.findById(postTodoReqDto.getCategoryId()).orElseThrow())
+        .category(categoryRepository.findById(postTodoReqDto.getCategoryId()).orElseThrow(
+            CategoryNotFoundException::new))
         .startAt(postTodoReqDto.getStartAt())
         .endAt(postTodoReqDto.getEndAt())
         .todoNm(postTodoReqDto.getTodoNm())
@@ -161,7 +163,7 @@ public class TodoServiceImpl implements TodoService {
             .build()));
 
     // 13번 업적 달성
-    Reward reward = rewardRepository.findById(13).orElseThrow();
+    Reward reward = rewardRepository.findById(13).orElseThrow(RewardNotFoundException::new);
     MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
     if (!memberReward.isAchievedYn()) {
       List<Todo> todos = todoRepository.findAllByMember(member);
@@ -193,10 +195,10 @@ public class TodoServiceImpl implements TodoService {
   @Transactional
   public Void editTodo(PutTodoReqDto putTodoReqDto) {
 
-    Todo todo = todoRepository.findById(putTodoReqDto.getTodoId()).orElseThrow();
+    Todo todo = todoRepository.findById(putTodoReqDto.getTodoId()).orElseThrow(TodoNotFoundException::new);
     List<Calendar> calendars = calendarRepository.findAllByTodoAndMember(todo, todo.getMember());
 
-    todo.update(categoryRepository.findById(putTodoReqDto.getCategoryId()).orElseThrow(),
+    todo.update(categoryRepository.findById(putTodoReqDto.getCategoryId()).orElseThrow(CategoryNotFoundException::new),
         putTodoReqDto.getTodoNm(), putTodoReqDto.getTodoDetail(), putTodoReqDto.getTodoPlace(),
         putTodoReqDto.isImportantYn(), putTodoReqDto.getStartAt(), putTodoReqDto.getEndAt());
 
@@ -229,7 +231,7 @@ public class TodoServiceImpl implements TodoService {
   @Transactional
   public PatchTodoResDto changeAchievedStatement(Long todoId) {
 
-    Todo todo = todoRepository.findById(todoId).orElseThrow();
+    Todo todo = todoRepository.findById(todoId).orElseThrow(TodoNotFoundException::new);
     Member member = todo.getMember();
     List<RewardResDto> rewardResDtoList = new ArrayList<>();
 
@@ -324,9 +326,14 @@ public class TodoServiceImpl implements TodoService {
               rewardRepository.findById(rewardId).orElseThrow(RewardNotFoundException::new))
           .isAchievedYn()) {
 
-        reward = rewardRepository.findById(rewardId).orElseThrow();
+        reward = rewardRepository.findById(rewardId).orElseThrow(RewardNotFoundException::new);
 
         memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
+
+        if(memberReward == null){
+          throw new MemberRewardNotFoundException();
+        }
+
         rewardResDtoList.add(RewardResDto.builder()
             .rewardInfoDto(RewardInfoDto.from(
                 reward.getRewardId(),

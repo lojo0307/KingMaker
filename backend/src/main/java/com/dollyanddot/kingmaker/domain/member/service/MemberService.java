@@ -18,6 +18,7 @@ import com.dollyanddot.kingmaker.domain.member.repository.FcmTokenRepository;
 import com.dollyanddot.kingmaker.domain.member.repository.MemberRepository;
 import com.dollyanddot.kingmaker.domain.notification.domain.NotificationSetting;
 import com.dollyanddot.kingmaker.domain.notification.dto.request.NotificationSettingReqDto;
+import com.dollyanddot.kingmaker.domain.notification.exception.NotificationNotFoundException;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationSettingRepository;
 import com.dollyanddot.kingmaker.domain.notification.repository.NotificationTypeRepository;
 import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
@@ -165,8 +166,9 @@ public class MemberService {
         for(NotificationSettingReqDto dto:settingList){
             //설정 저장
             NotificationSetting ns=NotificationSetting.builder()
-                    .member(memberRepository.findById(memberId).get())
-                    .notificationType(notificationTypeRepository.findById(dto.getNotificationTypeId()).get())
+                    .member(memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new))
+                    .notificationType(notificationTypeRepository.findById(dto.getNotificationTypeId()).orElseThrow(
+                        NotificationNotFoundException::new))
                     .activatedYn(dto.isActivatedYn())
                     .build();
             notificationSettingRepository.save(ns);

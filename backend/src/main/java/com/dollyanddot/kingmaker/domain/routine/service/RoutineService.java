@@ -3,6 +3,7 @@ package com.dollyanddot.kingmaker.domain.routine.service;
 import com.dollyanddot.kingmaker.domain.calendar.domain.Calendar;
 import com.dollyanddot.kingmaker.domain.calendar.repository.CalendarRepository;
 import com.dollyanddot.kingmaker.domain.category.domain.Category;
+import com.dollyanddot.kingmaker.domain.category.exception.CategoryNotFoundException;
 import com.dollyanddot.kingmaker.domain.category.repository.CategoryRepository;
 import com.dollyanddot.kingmaker.domain.member.domain.Member;
 import com.dollyanddot.kingmaker.domain.member.exception.MemberNotFoundException;
@@ -11,6 +12,8 @@ import com.dollyanddot.kingmaker.domain.reward.domain.MemberReward;
 import com.dollyanddot.kingmaker.domain.reward.domain.Reward;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardInfoDto;
 import com.dollyanddot.kingmaker.domain.reward.dto.RewardResDto;
+import com.dollyanddot.kingmaker.domain.reward.exception.MemberRewardNotFoundException;
+import com.dollyanddot.kingmaker.domain.reward.exception.RewardNotFoundException;
 import com.dollyanddot.kingmaker.domain.reward.repository.MemberRewardRepository;
 import com.dollyanddot.kingmaker.domain.reward.repository.RewardRepository;
 import com.dollyanddot.kingmaker.domain.routine.domain.MemberRoutine;
@@ -50,7 +53,7 @@ public class RoutineService {
   public PostRoutineResDto registerRoutine(PostRoutineReqDto postRoutineReqDto) throws ParseException {
 
     Category category = categoryRepository.findById(postRoutineReqDto.getCategoryId())
-        .orElseThrow();
+        .orElseThrow(CategoryNotFoundException::new);
     Member member = memberRepository.findById(postRoutineReqDto.getMemberId()).orElseThrow(
         MemberNotFoundException::new);
     List<RewardResDto> rewardResDtoList = new ArrayList<>();
@@ -120,8 +123,12 @@ public class RoutineService {
     }
 
     // 12번 업적 달성
-    Reward reward = rewardRepository.findById(12).orElseThrow();
+    Reward reward = rewardRepository.findById(12).orElseThrow(RewardNotFoundException::new);
     MemberReward memberReward = memberRewardRepository.findByMemberAndReward(member, reward);
+
+    if(memberReward == null){
+      throw new MemberRewardNotFoundException();
+    }
 
     if (!memberReward.isAchievedYn()) {
       List<Routine> routines = routineRepository.findAllByMember(member);
@@ -154,7 +161,7 @@ public class RoutineService {
         RoutineNotFoundException::new);
     LocalDateTime today = LocalDateTime.now();
 
-    routine.update(categoryRepository.findById(putRoutineReqDto.getCategoryId()).orElseThrow(),
+    routine.update(categoryRepository.findById(putRoutineReqDto.getCategoryId()).orElseThrow(CategoryNotFoundException::new),
         routine.getMember(), putRoutineReqDto.getRoutineNm(), putRoutineReqDto.getRoutineDetail(),
         putRoutineReqDto.getPeriod(), putRoutineReqDto.isImportantYn(),
         putRoutineReqDto.getStartAt(), putRoutineReqDto.getEndAt());

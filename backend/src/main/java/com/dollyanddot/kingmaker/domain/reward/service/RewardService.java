@@ -69,7 +69,7 @@ public class RewardService {
             MemberReward mr=MemberReward.builder()
                     .achievedYn(true)
                     .reward(reward)
-                    .member(memberRepository.findById(id).get())
+                    .member(memberRepository.findById(id).orElseThrow(MemberNotFoundException::new))
                     .build();
             memberRewardList.add(mr);
         }
@@ -115,11 +115,11 @@ public class RewardService {
 
     //TODO: 할 일 첫 달성시 "이게 내가 지닌 힘?" 업적 취득
     RewardResDto isThisMyPower(Long memberId){
-        MemberReward mw=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(memberId,11).orElseThrow();
+        MemberReward mw=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(memberId,11).orElseThrow(MemberRewardNotFoundException::new);
         if(mw.isAchievedYn()){
             return RewardResDto.from(0,null);
         }
-        Reward reward=rewardRepository.findById(11).get();
+        Reward reward=rewardRepository.findById(11).orElseThrow(RewardNotFoundException::new);
         memberRewardRepository.achieveMemberReward(memberId,11);
         RewardInfoDto rewardInfoDto=RewardInfoDto.from(11, reward.getRewardNm(), reward.getRewardCond(), reward.getRewardMsg());
         RewardResDto rewardResDto=RewardResDto.from(1,rewardInfoDto);
@@ -129,7 +129,7 @@ public class RewardService {
 
     //TODO: 카테고리별 하나 이상씩 달성시 "알록달록한 세상" 업적 취득
     public RewardResDto colorfulWorld(Long memberId){
-        MemberReward mw=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(memberId,8).orElseThrow();
+        MemberReward mw=memberRewardRepository.findMemberRewardByMember_MemberIdAndReward_RewardId(memberId,8).orElseThrow(MemberRewardNotFoundException::new);
         if(mw.isAchievedYn()){
             return RewardResDto.from(0,null);
         }
@@ -139,7 +139,7 @@ public class RewardService {
         categorySet.addAll(todoCategories);
         categorySet.addAll(mrCategories);
         if(categorySet.size()==categoryRepository.count()){
-            Reward reward=rewardRepository.findById(8).orElseThrow();
+            Reward reward=rewardRepository.findById(8).orElseThrow(RewardNotFoundException::new);
             RewardInfoDto rewardInfoDto=RewardInfoDto.from(8, reward.getRewardNm(), reward.getRewardCond(), reward.getRewardMsg());
             RewardResDto rewardResDto=RewardResDto.from(1,rewardInfoDto);
             return rewardResDto;

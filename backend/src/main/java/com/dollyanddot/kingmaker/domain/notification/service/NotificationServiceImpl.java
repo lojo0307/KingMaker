@@ -158,7 +158,7 @@ public class NotificationServiceImpl implements NotificationService{
             for(CountPlanDto t:list){
                 Notification temp=Notification.builder()
                         .notificationType(notificationTypeRepository.findById(4).get())
-                        .member(memberRepository.findById(t.getMemberId()).get())
+                        .member(memberRepository.findById(t.getMemberId()).orElseThrow(MemberNotFoundException::new))
                         .message("Your majesty, 아직 처리하지 못한 업무가 "+t.getCnt()+"건 있습니다.")
                         .build();
                 notifications.add(temp);
