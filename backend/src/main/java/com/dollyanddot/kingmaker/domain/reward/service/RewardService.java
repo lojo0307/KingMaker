@@ -142,6 +142,7 @@ public class RewardService {
             Reward reward=rewardRepository.findById(8).orElseThrow(RewardNotFoundException::new);
             RewardInfoDto rewardInfoDto=RewardInfoDto.from(8, reward.getRewardNm(), reward.getRewardCond(), reward.getRewardMsg());
             RewardResDto rewardResDto=RewardResDto.from(1,rewardInfoDto);
+            memberRewardRepository.achieveMemberReward(memberId,8);
             return rewardResDto;
         }
         else{
