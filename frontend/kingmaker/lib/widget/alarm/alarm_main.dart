@@ -60,7 +60,9 @@ class _AlarmMainState extends State<AlarmMain> {
                 ),
                 // const SizedBox(height: 30),
                 Expanded(
-                  child: AlarmList(list: list, delFlag: delFlag,),
+                  child: list.isEmpty?
+                  Center(child: Text("알림이 없습니다.", style: TextStyle(fontFamily: 'PretendardBold'),)):
+                  AlarmList(list: list, delFlag: delFlag,),
                 ),
               ],
             ),

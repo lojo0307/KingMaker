@@ -68,7 +68,7 @@ class _ScheduleSetState extends State<ScheduleSet> {
         SizedBox(height: 8.0,),
         Expanded(
           child:widget.list.isEmpty
-              ? Center(child: Text("일정이 없습니다.")) // list가 비어있을 때 표시
+              ? Center(child: Text("일정이 없습니다.",style: TextStyle(fontFamily: 'PretendardBold'))) // list가 비어있을 때 표시
               : SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
