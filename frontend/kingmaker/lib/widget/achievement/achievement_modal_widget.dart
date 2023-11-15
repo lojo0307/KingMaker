@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/dto/reward_dto.dart';
 
 class AchievementModalWidget extends StatefulWidget {
-  final String title;
-  final String content;
+  final RewardDto dto;
 
   const AchievementModalWidget({
     Key? key,
-    required this.title,
-    required this.content,
+    required this.dto,
   }) : super(key: key);
 
   @override
@@ -58,7 +57,7 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
                         fontSize: 22,
                       ),
                       child: Text(
-                        '\"${widget.title}\"',
+                        '\"${widget.dto.rewardNm}\"',
                       ),
                     ),
                     const DefaultTextStyle(
@@ -75,7 +74,7 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
                     DefaultTextStyle(
                       style: const TextStyle(overflow: TextOverflow.clip,fontSize: 14, color: Colors.black,),
                       child: Text(
-                        widget.content,
+                        widget.dto.rewardMsg,
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -44,6 +44,13 @@ class RoutineApi{
 
   void acheiveRoutine(int memberRoutineId) async {
     final response = await totalApi.patchApi1('/api/routine/$memberRoutineId',);
+    if (response.data['data']['rewardResDtoList'] != null){
+      for(int i = 0 ; i < response.data['data']['rewardResDtoList'].length ; i++){
+        testModal.getViewModel(
+            RewardDto.fromJson(response.data['data']['rewardResDtoList'].elementsAt(i))
+        );
+      }
+    }
   }
 
   Future <MemberRoutineDto> getDetailRoutine(int memberRoutineId) async {

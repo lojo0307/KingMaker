@@ -7,8 +7,7 @@ class TestModal {
   getViewModel(RewardDto rewardDto){
     AchievementModal.showAchievementDialog(
       context: context!,
-      title: rewardDto.rewardNm,
-      content: rewardDto.rewardMsg,
+      data: rewardDto,
     );
   }
 }
