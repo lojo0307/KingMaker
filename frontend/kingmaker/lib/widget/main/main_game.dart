@@ -34,7 +34,8 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     world =  myWorld = MyWorld(context, this, player, monsterList); // MyWorld 객체 초기화
     backgroundSize = Vector2(1024, 1024);
     focusArea = FocusArea();
-    focusArea.position = backgroundSize / 2;
+    // focusArea.position = backgroundSize / 2;
+    focusArea.position=Vector2(430, 300);
     camera.follow(focusArea);
 
   }
@@ -176,7 +177,9 @@ class MyWorld extends World {
 
 
     FocusArea focusArea = FocusArea();
+    focusArea.position = Vector2(0, 0);
     add(focusArea);
+
     game.setFocusArea(focusArea);  // MyGame의 focusArea 설정
 
     add(player);
