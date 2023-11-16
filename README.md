@@ -100,3 +100,4 @@
 
 
 ## :bulb: 팀원 소개
+![Kingmaker](./readmeFiles/team.png){: height="500px", width="700px"}
