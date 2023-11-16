@@ -8,12 +8,10 @@ import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/common/header.dart';
-
-import 'package:kingmaker/widget/routine/regist_routine_categorybutton.dart';
+import 'package:kingmaker/widget/modify/modify_routine_categorybutton.dart';
+import 'package:kingmaker/widget/modify/modify_routine_dateinput.dart';
+import 'package:kingmaker/widget/modify/modify_routine_weekdaybutton.dart';
 import 'package:kingmaker/widget/routine/regist_routine_importancecheck.dart';
-
-import 'package:kingmaker/widget/routine/regist_routine_weekdaybutton.dart';
-import 'package:kingmaker/widget/routine/resgist_routine_dateinput.dart';
 import 'package:provider/provider.dart';
 
 class ModifyRoutine extends StatefulWidget {
@@ -173,7 +171,7 @@ class _ModifyRoutineState extends State<ModifyRoutine> {
                             Divider(color: DARKER_GREY_COLOR, thickness: 0.3),
                             Container(
                               width: double.infinity,
-                              child: CategoryButton(),
+                              child: ModifyCategoryButton(),
                             ),
                           ],
                         ),
@@ -185,11 +183,11 @@ class _ModifyRoutineState extends State<ModifyRoutine> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            DateInput(
+                            ModifyDateInput(
                               type: 'start',
                             ),
                             Text('  ~  ', style: TextStyle(fontSize: 18)),
-                            DateInput(
+                            ModifyDateInput(
                               type: 'end',
                             ),
                             // Container(
@@ -206,7 +204,7 @@ class _ModifyRoutineState extends State<ModifyRoutine> {
                         ),
                         Text('주기', style: TextStyle(fontSize: 14)),
                         Divider(color: DARK_GREY_COLOR, thickness: 0.3),
-                        WeekDayButton(),
+                        ModifyWeekDayButton(),
                         Text(error4, style: TextStyle(fontSize: 12, color: Colors.red),),
                         SizedBox(
                           height: 24,
@@ -227,7 +225,7 @@ class _ModifyRoutineState extends State<ModifyRoutine> {
                         .member
                         ?.memberId;
                 int checker = await Provider.of<RegistProvider>(context, listen: false)
-                    .ModifyRoutine(_routineId!);
+                    .ModifyRoutine();
                 if (checker == -1)
                   return;
                 DateTime now = DateTime.now();
@@ -242,6 +240,8 @@ class _ModifyRoutineState extends State<ModifyRoutine> {
                 Provider.of<CalendarProvider>(context, listen: false).getList(memberId!, year, month, day);
                 Provider.of<ScheduleProvider>(context, listen: false).getList(memberId!, year, month, day);
                 Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);
+                String? routineGetId = Provider.of<ScheduleProvider>(context, listen: false).detail['id'];
+                Provider.of<ScheduleProvider>(context, listen: false).getDetail(int.parse(routineGetId!), '2');
                 Provider.of<AchievementProvider>(context, listen: false).getAllData(memberId!);
                 Navigator.pop(context);
               },
