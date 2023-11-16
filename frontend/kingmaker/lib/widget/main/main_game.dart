@@ -35,7 +35,7 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
     backgroundSize = Vector2(1024, 1024);
     focusArea = FocusArea();
     // focusArea.position = backgroundSize / 2;
-    focusArea.position=Vector2(430, 300);
+    focusArea.position=Vector2(430, 450);
     camera.follow(focusArea);
 
   }
@@ -174,13 +174,8 @@ class MyWorld extends World {
     Provider.of<KingdomProvider>(context, listen:false).addListener(updateCastle);
     add(Castle(context, game, {'level': '9'}));
 
-
-
     FocusArea focusArea = FocusArea();
-    focusArea.position = Vector2(0, 0);
     add(focusArea);
-
-    game.setFocusArea(focusArea);  // MyGame의 focusArea 설정
 
     add(player);
     for(int i=0; i<this.game.monsterList.length; i++){
