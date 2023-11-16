@@ -21,8 +21,8 @@ class LoginWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 60),
-              const Image(image: AssetImage('assets/login/kingMaker.png'), height: 150),
-              const SizedBox(height: 160),
+              const Image(image: AssetImage('assets/login/title2.png'), height: 330),
+              const SizedBox(height: 100),
               GestureDetector(
                 onTap: () async{
                   int flag = await provider.GoogleLogin();
