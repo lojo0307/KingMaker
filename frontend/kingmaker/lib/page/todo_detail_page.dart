@@ -12,6 +12,8 @@ import 'package:kingmaker/widget/common/header.dart';
 import 'package:kingmaker/widget/todo/modify_todo.dart';
 import 'package:provider/provider.dart';
 
+import '../widget/routine/modify_routine.dart';
+
 class TodoDetailPage extends StatefulWidget {
   const TodoDetailPage({super.key});
 
@@ -249,11 +251,20 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                                   onPressed:(){
                                     Map<String,String> detail=Provider.of<ScheduleProvider>(context, listen: false).detail;
                                     Provider.of<RegistProvider>(context, listen: false).setData(detail);
-                                    Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const ModifyTodo())
-                                    );
+                                    if (detail['type'] == '2') {
+                                      // 여기서 루틴을 수정하는 페이지로 이동
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => const ModifyRoutine())
+                                      );
+                                    } else {
+                                      // 기존의 할 일(Todo) 수정 로직
+                                      Provider.of<RegistProvider>(context, listen: false).setData(detail);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => const ModifyTodo())
+                                      );
+                                    }
                                     },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: Size(100, 45),
