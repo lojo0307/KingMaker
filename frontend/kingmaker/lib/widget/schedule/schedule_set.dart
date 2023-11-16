@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/widget/schedule/schedule_card.dart';
+
 class ScheduleSet extends StatefulWidget {
   const ScheduleSet({super.key, this.type, required this.list});
   final type;
@@ -31,39 +32,6 @@ class _ScheduleSetState extends State<ScheduleSet> {
                 _buildButton(context, category[i], idxs[i], i),
             ],
           ),
-
-
-          // child: Row(
-          //   children: <Widget>[
-          //     Expanded(
-          //       child: CustomRadioButton(
-          //         elevation: 0,
-          //         unSelectedColor: Colors.transparent,
-          //         buttonLables: category,
-          //         buttonValues: idxs,
-          //         selectedBorderColor: const Color(0xFF5792A4),
-          //         buttonTextStyle: const ButtonTextStyle(
-          //             selectedColor: Colors.white,
-          //             unSelectedColor: Colors.black,
-          //             textStyle: TextStyle(fontSize: 16)
-          //         ),
-          //         radioButtonValue: (value) {
-          //           idx = value;
-          //           setState(() {});
-          //         },
-          //         defaultSelected: idxs[0],
-          //         unSelectedBorderColor: const Color(0xFF5792A4),
-          //         horizontal: false,
-          //         width: 120,
-          //         selectedColor: const Color(0xFF5792A4),
-          //         padding: 5,
-          //         enableShape: true,
-          //       ),
-          //     ),
-          //   ],
-          // ),
-
-
         ),
         SizedBox(height: 8.0,),
         Expanded(
@@ -114,7 +82,6 @@ class _ScheduleSetState extends State<ScheduleSet> {
         idx = value;
         setState(() {});
       },
-
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 4),
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),

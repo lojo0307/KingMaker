@@ -5,8 +5,6 @@ import 'package:kingmaker/provider/kingdom_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/common/bottom_nav_bar.dart';
 import 'package:kingmaker/widget/signup/gender_img.dart';
-
-import 'package:kingmaker/widget/signup/select_gender.dart';
 import 'package:kingmaker/widget/signup/signup_text.dart';
 import 'package:kingmaker/widget/signup/signup_write_kingdom.dart';
 import 'package:provider/provider.dart';
@@ -80,7 +78,6 @@ class _MakeKingDomPageState extends State<MakeKingDomPage> {
                       .errorMessage;
               int? memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
               if (kdName != "" && error == " ") {
-                print('건국하기 버튼 클릭 잘됨 if 안');
                 await Provider.of<MemberProvider>(context, listen: false).signup(kdName);
                 memberId = Provider.of<MemberProvider>(context, listen: false).member?.memberId;
                 Provider.of<KingdomProvider>(context, listen: false).getKingdom(memberId!);

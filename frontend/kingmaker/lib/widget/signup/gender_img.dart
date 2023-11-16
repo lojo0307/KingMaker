@@ -31,6 +31,7 @@ class _GenderImgState extends State<GenderImg> {
               ],
             ),
           );
-        });
+        }
+    );
   }
 }

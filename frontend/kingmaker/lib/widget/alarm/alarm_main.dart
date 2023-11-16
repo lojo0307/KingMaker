@@ -7,6 +7,7 @@ import 'package:kingmaker/provider/alarm_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/widget/alarm/alarm_list.dart';
 import 'package:provider/provider.dart';
+
 class AlarmMain extends StatefulWidget {
   const AlarmMain({super.key});
   @override

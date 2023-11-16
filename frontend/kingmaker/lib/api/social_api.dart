@@ -45,7 +45,6 @@ class SocialApi{
         if (googleSignInAuthentication == null) {
           // 사용자가 필요한 권한을 부여하지 않았을 때의 처리
           await googleSignIn.signOut();
-          print('Required consent not granted by user');
           return null;
         } else {
           //accessToken을 저장
@@ -54,7 +53,6 @@ class SocialApi{
       }
     } catch (error) {
       // 오류 처리
-      print('Error while signing in with Google: $error');
       return null;
     }
   }

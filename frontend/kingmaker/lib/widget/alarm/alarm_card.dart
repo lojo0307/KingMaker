@@ -6,6 +6,7 @@ import 'package:kingmaker/dto/alarm_dto.dart';
 import 'package:kingmaker/provider/alarm_provider.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
+
 class AlarmCard extends StatelessWidget {
   const AlarmCard({super.key, required this.data, required this.delFlag, required this.lastIdx});
   final AlarmDto data;
@@ -25,7 +26,6 @@ class AlarmCard extends StatelessWidget {
               width: 0.3,
             ),
           ),
-
         ),
         padding: EdgeInsets.symmetric(vertical: 12.0),
         child: Column(

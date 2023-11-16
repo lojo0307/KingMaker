@@ -23,13 +23,6 @@ class _ProfileAchievementIconWidgetState extends State<ProfileAchievementIconWid
             fit: BoxFit.cover,
           ),
         ),
-        // Text('${widget.data.rewardNm}',
-        //   overflow: TextOverflow.ellipsis,
-        //   style: TextStyle(
-        //     fontSize: 12, // 조정 가능한 폰트 크기
-        //   ),
-        //   maxLines: 1,
-        // )
       ],
     );
   }

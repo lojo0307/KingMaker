@@ -67,8 +67,6 @@ class _ModifyTimeInputState extends State<ModifyTimeInput> {
     }else{
       date = Provider.of<RegistProvider>(context, listen: false).endDay;
     }
-    print(date);
-    print('');
     initialtime = '${getHourString(date!.hour)}시 ${date!.minute}분';
     super.initState();
   }

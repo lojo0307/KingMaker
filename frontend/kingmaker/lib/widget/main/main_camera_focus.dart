@@ -6,8 +6,6 @@ class FocusArea extends PositionComponent {
   @override
   NotifyingVector2 get size => NotifyingVector2.zero();
 
-
-
   @override
   set position(Vector2 position) {
     super.position = position;

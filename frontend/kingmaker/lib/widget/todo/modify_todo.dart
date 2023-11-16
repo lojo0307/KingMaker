@@ -49,7 +49,6 @@ class _ModifyTodoState extends State<ModifyTodo> {
     // ScheduleProvider에서 상세 정보 가져오기
     await Provider.of<ScheduleProvider>(context, listen: false).getDetail(_todoId, type);
     Map<String, String> detail = Provider.of<ScheduleProvider>(context, listen: false).detail;
-    print(detail);
     // 텍스트 필드 컨트롤러에 데이터 설정
     _titleController.text = detail['title'] ?? '';
     _detailController.text = detail['detail'] ?? '';
@@ -73,7 +72,6 @@ class _ModifyTodoState extends State<ModifyTodo> {
                         icon: SvgPicture.asset('assets/icon/ic_left.svg', height: 24,),
                         tooltip: '이 전 페이지',
                         onPressed: () {
-                          print("click");
                           Navigator.pop(
                             context,
                           );
@@ -234,8 +232,10 @@ class _ModifyTodoState extends State<ModifyTodo> {
                       Provider.of<MemberProvider>(context, listen: false)
                           .member
                           ?.memberId;
-                  await Provider.of<RegistProvider>(context, listen: false)
+                  int checker = await Provider.of<RegistProvider>(context, listen: false)
                       .ModifyTodo(_todoId);
+                  if (checker == -1)
+                    return;
                   DateTime now = DateTime.now();
                   int year = now.year;
                   int month = now.month;

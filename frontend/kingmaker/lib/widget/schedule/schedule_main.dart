@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
-import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/schedule/schedule_set.dart';

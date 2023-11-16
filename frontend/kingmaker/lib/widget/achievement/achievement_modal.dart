@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:animated_dialog_box/animated_dialog_box.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:kingmaker/dto/reward_dto.dart';
 
@@ -17,7 +16,6 @@ class AchievementModal {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        print('여기가 모달 진짜 호출 하는 곳');
         return AchievementModalWidget(dto: data,);
       },
       animationType: transitionType,

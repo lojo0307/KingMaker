@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/kingdom_provider.dart';
-import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
 
 class SignupWriteKingdom extends StatefulWidget {
