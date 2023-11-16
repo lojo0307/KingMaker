@@ -28,12 +28,32 @@ public class CategoryService {
         log.info("size2: {}", routineList.size());
 
         List<CategoryDto> category = new ArrayList<>();
+        Long maxCnt = 0L;
+        Long minCnt = 0L;
+
         //둘 다 달성한 게 하나도 없는 경우
         if(todoList.size()==1 && routineList.size()==1) {
             if(todoList.get(0).getCnt()==-1 && routineList.get(0).getCnt()==-1) {
                 CategoryDto c1 = CategoryDto.builder().categoryId(-1L).categoryNm(
                     "달성한 일정이 없음").type("MAX").build();
                 category.add(c1);
+                CategoryDto c2 = CategoryDto.builder().categoryId(-1L).categoryNm(
+                    "달성한 일정이 없음").type("MIN").build();
+                category.add(c2);
+                return category;
+
+                //동일한 달성 개수인 경우
+            } else if(todoList.get(0).getCnt()!=-1 && routineList.get(0).getCnt()!=1){
+                Long categoryId = todoList.get(0).getCnt() > routineList.get(0).getCnt()
+                    ? todoList.get(0).getCategoryId() : routineList.get(0).getCategoryId();
+                Category c = categoryRepository.findById(categoryId)
+                    .orElseThrow(CategoryNotFoundException::new);
+                category.add(CategoryDto.from(c, "MAX"));
+
+                //max값
+                maxCnt = todoList.get(0).getCnt() > routineList.get(0).getCnt()
+                    ? todoList.get(0).getCnt() : routineList.get(0).getCnt();
+
                 CategoryDto c2 = CategoryDto.builder().categoryId(-1L).categoryNm(
                     "달성한 일정이 없음").type("MIN").build();
                 category.add(c2);
@@ -68,10 +88,13 @@ public class CategoryService {
                 Category c = categoryRepository.findById(todoList.get(0).getCategoryId())
                     .orElseThrow(CategoryNotFoundException::new);
                 category.add(CategoryDto.from(c, "MAX"));
+                maxCnt = todoList.get(0).getCnt();
+
             } else {
                 Category c = categoryRepository.findById(routineList.get(0).getCategoryId())
                     .orElseThrow(CategoryNotFoundException::new);
                 category.add(CategoryDto.from(c, "MAX"));
+                maxCnt = routineList.get(0).getCnt();
             }
 
         } else {
@@ -80,6 +103,8 @@ public class CategoryService {
             Category c = categoryRepository.findById(categoryId)
                 .orElseThrow(CategoryNotFoundException::new);
             category.add(CategoryDto.from(c, "MAX"));
+            maxCnt = todoList.get(0).getCnt() > routineList.get(0).getCnt()
+                ? todoList.get(0).getCnt() : routineList.get(0).getCnt();
         }
 
         //min값 비교
@@ -104,16 +129,24 @@ public class CategoryService {
 
         } else {
             if (todoList.get(tLen).getCnt() == routineList.get(rLen).getCnt()) {
-                //최신순
-                if (todoList.get(tLen).getModifiedAt()
-                    .isAfter(routineList.get(rLen).getModifiedAt())) {
-                    Category c = categoryRepository.findById(todoList.get(tLen).getCategoryId())
-                        .orElseThrow(CategoryNotFoundException::new);
-                    category.add(CategoryDto.from(c, "MIN"));
+                //근데 만약 max개수랑 같으면 min은 없는 걸로
+                if(todoList.get(tLen).getCnt() == maxCnt) {
+                    CategoryDto c = CategoryDto.builder().categoryId(-1L).categoryNm(
+                        "달성한 일정이 없음").type("MIN").build();
+                    category.add(c);
+
                 } else {
-                    Category c = categoryRepository.findById(routineList.get(rLen).getCategoryId())
-                        .orElseThrow(CategoryNotFoundException::new);
-                    category.add(CategoryDto.from(c, "MIN"));
+                    //최신순
+                    if (todoList.get(tLen).getModifiedAt()
+                        .isAfter(routineList.get(rLen).getModifiedAt())) {
+                        Category c = categoryRepository.findById(todoList.get(tLen).getCategoryId())
+                            .orElseThrow(CategoryNotFoundException::new);
+                        category.add(CategoryDto.from(c, "MIN"));
+                    } else {
+                        Category c = categoryRepository.findById(routineList.get(rLen).getCategoryId())
+                            .orElseThrow(CategoryNotFoundException::new);
+                        category.add(CategoryDto.from(c, "MIN"));
+                    }
                 }
 
             } else {
@@ -127,5 +160,4 @@ public class CategoryService {
 
         return category;
     }
-
 }
