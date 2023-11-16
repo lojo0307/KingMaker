@@ -65,6 +65,19 @@ class MonsterPosition extends PositionComponent {
         velocity.y = position.y < (-40 + 400) / 2 ? -velocity.y.abs() : velocity.y.abs();
       }
     }
+    //호수
+    if (isEnteringRestrictedArea2(position)) {
+      // 제한 구역에서 멀어지도록 속도 조정
+      if (position.x >= 580 && position.x <= 1000) {
+        velocity.x = position.x < (580 + 1000) / 2 ? -velocity.x.abs() : velocity.x.abs();
+        setRandomVelocity();
+      }
+      if (position.y >= 750 && position.y <= 1015) {
+        velocity.y = position.y < (750 + 1015) / 2 ? -velocity.y.abs() : velocity.y.abs();
+        // setRandomVelocity();
+      }
+    }
+
 
     if (velocity.x > 0 && currentDirection != MonsterDirection.RIGHT) {
       currentDirection = MonsterDirection.RIGHT;
@@ -116,6 +129,20 @@ class MonsterPosition extends PositionComponent {
         position.y >= restrictedTopLeft.y &&
         position.y <= restrictedBottomRight.y;
   }
+//호수
+  bool isEnteringRestrictedArea2(Vector2 position) {
+    // 제한된 사각형 영역 정의
+    final restrictedTopLeft = Vector2(580, 750);
+    final restrictedBottomRight = Vector2(1000, 1015);
+
+    // 위치가 제한된 영역 내에 있는지 확인
+    return position.x >= restrictedTopLeft.x &&
+        position.x <= restrictedBottomRight.x &&
+        position.y >= restrictedTopLeft.y &&
+        position.y <= restrictedBottomRight.y;
+  }
+
+
 
   Vector2 getRandomPositionOutsideRestrictedArea() {
     Vector2 initialPosition;
