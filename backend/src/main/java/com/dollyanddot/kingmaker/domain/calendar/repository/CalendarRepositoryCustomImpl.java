@@ -21,7 +21,7 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<CalendarStreakResDto> getPlansByMonth(int year,int month, Long memberId){
+    public List<CalendarStreakResDto> getPlanLevelByMonth(int year,int month, Long memberId){
         NumberExpression<Integer> levelCase = new CaseBuilder()
                 .when(calendar.calendarId.count().eq(0L)).then(0)
                 .when(calendar.calendarId.count().between(1L, 4L)).then(1)
@@ -33,6 +33,18 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
                 .select(Projections.fields(CalendarStreakResDto.class,
                         calendar.calendarDate.dayOfMonth().as("day"),
                         levelCase.as("level")))
+                .from(calendar)
+                .where(calendar.member.memberId.eq(memberId),calendar.calendarDate.month().eq(month),calendar.calendarDate.year().eq(year))
+                .groupBy(calendar.calendarDate.dayOfMonth())
+                .fetch();
+    }
+
+    @Override
+    public List<CalendarStreakResDto> getPlansByMonth(int year,int month, Long memberId){
+        return queryFactory
+                .select(Projections.fields(CalendarStreakResDto.class,
+                        calendar.calendarDate.dayOfMonth().as("day"),
+                        calendar.calendarId.count().intValue().as("level")))
                 .from(calendar)
                 .where(calendar.member.memberId.eq(memberId),calendar.calendarDate.month().eq(month),calendar.calendarDate.year().eq(year))
                 .groupBy(calendar.calendarDate.dayOfMonth())
