@@ -90,12 +90,14 @@ flutter:
     - assets/audios/
     - assets/images/uncheck.png
     - assets/images/check.png
+    - assets/images/duck.png
     - assets/
     - assets/images/player_sprite.png
     - assets/images/pig.png
     - assets/images/Slime.png
     - assets/images/ember.png
     - assets/images/background.png
+    - assets/images/background1.png
     - assets/login/
     - assets/images/pixel_star.png
     - assets/login/login.png

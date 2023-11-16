@@ -1,5 +1,4 @@
 
-
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -10,6 +9,7 @@ import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/main/main_camera_focus.dart';
 import 'package:flame/extensions.dart';
 import 'package:kingmaker/widget/main/main_castle.dart';
+import 'package:kingmaker/widget/main/main_duck.dart';
 import 'package:kingmaker/widget/main/main_monster_position.dart';
 import 'package:provider/provider.dart';
 import 'main_background.dart';
@@ -166,7 +166,7 @@ class MyWorld extends World {
   Future<void> onLoad() async {
     print('Initial game world size: $game.size');
     backgroundSize = Vector2(1024, 1024);
-    final bgSprite = await Sprite.load('background.png');
+    final bgSprite = await Sprite.load('background1.png');
     background = GameBackground(bgSprite, backgroundSize);
     add(background);
 
@@ -181,8 +181,10 @@ class MyWorld extends World {
     for(int i=0; i<this.game.monsterList.length; i++){
       add(this.game.monsterList[i]);
     }
-
-
+    add(Duck(game, 850, 940, false));
+    add(Duck(game, 900, 900, true));
+    add(Duck(game, 915, 900, true));
+    add(Duck(game, 950, 950, false));
   }
 
 }
