@@ -56,7 +56,7 @@ class ExpBar extends StatelessWidget {
   }
 
   Widget _expBar(KingdomDto? kingdomDto, BuildContext context) {
-    final double percent = (kingdomDto?.citizen ?? 0) / 100000;
+    final double percent = (kingdomDto?.citizen ?? 0) / 8000;
     return Expanded(
       child: LinearPercentIndicator(
         animation: true,
