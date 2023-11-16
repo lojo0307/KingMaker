@@ -67,11 +67,11 @@
 ![Mattermost](https://img.shields.io/badge/Mattermost-gray?logo=Mattermost)
 
 ### Tools
-![IntelliJ](https://img.shields.io/badge/IntelliJ-gray?logo=IntelliJ-IDEA) 
-![AndroidStudio](https://img.shields.io/badge/AndroidStudio-gray?logo=AndroidStudio)
+![IntelliJ](https://img.shields.io/badge/IntelliJ-2023.1.3-blue?logo=IntelliJ-IDEA) 
+![AndroidStudio](https://img.shields.io/badge/AndroidStudio-2022.3.1.21-white?logo=AndroidStudio)
 
 ### Infra
-![AWS_EC2](https://img.shields.io/badge/AWS_EC2-gray?logo=AmazonAWS)
+![AWS_EC2](https://img.shields.io/badge/AWS_EC2-20.04.6-orange?logo=AmazonAWS)
 ![Nginx](https://img.shields.io/badge/Nginx-1.18.0-009639?logo=Nginx&logoColor=009639)
 ![Jenkins](https://img.shields.io/badge/Jenkins-2.430-c93632?logo=Jenkins)
 ![Docker](https://img.shields.io/badge/Docker-24.0.6-2497ed?logo=Docker)
