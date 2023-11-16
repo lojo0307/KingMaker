@@ -1,6 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kingmaker/api/total_api.dart';
 import 'package:kingmaker/dto/fcm_dto.dart';

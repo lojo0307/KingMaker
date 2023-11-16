@@ -1,10 +1,8 @@
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kingmaker/api/total_api.dart';
 import 'dart:math';
-
 import 'package:kingmaker/dto/member_dto.dart';
 import 'package:kingmaker/dto/reward_dto.dart';
 import 'package:kingmaker/widget/achievement/test_modal.dart';
@@ -55,7 +53,6 @@ class MemberApi{
     } catch(e) {
       print(e);
     }
-
     return res;
   }
 
@@ -73,16 +70,11 @@ class MemberApi{
       );
       // 응답으로부터 MemberDto 객체를 생성합니다.
       _member = MemberDto.responseFromJson(response.data['data']);
-      print('this is MemberAPi');
-      print(response.data['data']);
-      print('${response.data  ['data']['rewardResDto'].length > 0}');
       if (response.data['data']['rewardResDto'] != null){
-        print('여기 들어 왔냐?${response.data['data']['rewardResDto']}');
         testModal.getViewModel(
             RewardDto.fromJson(response.data['data']['rewardResDto']['rewardInfoDto'])
         );
       }
-      print('this is MemberAPi finish');
       return MemberDto.fromJson(response.data['data']);
     }catch (e) {
       print(e);

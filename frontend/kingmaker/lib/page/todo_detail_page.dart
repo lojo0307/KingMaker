@@ -34,9 +34,6 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
-                  // SizedBox(
-                  //   height: 16,
-                  // ),
                   Stack(
                     children: [
                       Container(
@@ -54,22 +51,13 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                     ],
                   ),
                   Image.asset('assets/character/calendarlist/${int.parse(data['category']!)}.gif',scale: 0.25),
-                  // Image.asset(
-                  //   'assets/images/Slime.png',
-                  //   height: 150,
-                  //   width: 150,
-                  // ),
-                  // 이미지 경로를 수정하세요.
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Container(
                       padding: EdgeInsets.all(16),
-                      // width: 350,
-                      // height: 200,
                       decoration: BoxDecoration(
                         color: WHITE_COLOR,
                         borderRadius: BorderRadius.circular(8), //모서리를 둥글게
-                        // border: Border.all(color: Colors.black, width: 3), //테두리
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +110,8 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                                               style: TextStyle(
                                                   color: WHITE_COLOR,
                                                   fontSize: 14)),
-                                        )),
+                                        )
+                                    ),
                                   ],
                                 ),
                               ],
@@ -136,7 +125,6 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                             decoration: BoxDecoration(
                               color: LIGHTEST_GREY_COLOR,
                               borderRadius: BorderRadius.circular(10), //모서리를 둥글게
-                              // border: Border.all(color: Colors.black, width: 3), //테두리
                             ),
                             child: Text(data['detail']!, style: TextStyle(fontSize: 14),),
                           ),
@@ -201,7 +189,6 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              print(data);
                               int id = int.parse(data['id']!);
                               if (data['type'] == '2') {
                                 Provider.of<ScheduleProvider>(context,
@@ -255,7 +242,8 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                                       // 여기서 루틴을 수정하는 페이지로 이동
                                       Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => const ModifyRoutine())
+                                          MaterialPageRoute(builder: (
+                                              context) => const ModifyRoutine())
                                       );
                                     } else {
                                       // 기존의 할 일(Todo) 수정 로직
@@ -265,7 +253,7 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                                           MaterialPageRoute(builder: (context) => const ModifyTodo())
                                       );
                                     }
-                                    },
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: Size(100, 45),
                                     shape: RoundedRectangleBorder(
@@ -312,7 +300,8 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                     ),
                   )
                 ],
-              )),
+              )
+          ),
         ),
     );
   }

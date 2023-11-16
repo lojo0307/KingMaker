@@ -13,7 +13,7 @@ class MainSpeechBubble extends PositionComponent with HasGameRef {
   '반란은\n용서모태!', '노 세금\n노 복지', '국경을\n강화하라!', '평화는\n무력으로!',
   '백투더 퓨처?', '젠킨스?', '문을 열어라!', '예를 갖춰\n대하라', '날씨가\n좋구나',
   '오늘 점심이\n무엇이냐?', '귀찮구나', '밥 줘', '짐의 나이가\n궁금한가?', '혁명을\n일으키겠다',
-  '왕보다 낮은\n사람 접어', '내가 왕이될\n상인가', '부모도\n실력이다'];
+  '왕보다 낮은\n사람 접어', '내가 왕이될\n상인가', '전현태\n삼성맨', '돌리랑 도트\n제일 좋아'];
   final text;
   MainSpeechBubble(Vector2 position, String this.text)
       : super(position: position, size: Vector2(130, 122));
@@ -47,13 +47,10 @@ class MainSpeechBubble extends PositionComponent with HasGameRef {
   void showBubble(String text) {
     if (mainPlayer == null) {
       // mainPlayer가 초기화되지 않았다면, 에러를 로그하고 리턴합니다.
-      print('Error: MainPlayer is not initialized for MainSpeechBubble.');
       return;
     }
-
     textComponent.text = list[random.nextInt(list.length)];
     addToParent(mainPlayer!); // Non-null assertion을 사용합니다.
-
     // 일정 시간 후에 말풍선을 숨깁니다.
     Future.delayed(Duration(seconds: 5)).then((_) {
       removeFromParent();

@@ -11,7 +11,6 @@ class AlarmDto{
     required this.sendtime,
   });
   factory AlarmDto.fromJson(Map<String, dynamic> json) {
-    print("dkdkdkdkdkdkkd아멀;ㄴ이ㅏ럼;ㄴ이ㅏ : ${json}");
     return AlarmDto(
       notificationTypeId: json['notificationTypeId'] ?? 0,
       message: json['message'] ?? "",

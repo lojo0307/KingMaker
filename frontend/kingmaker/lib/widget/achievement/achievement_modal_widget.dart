@@ -22,7 +22,6 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
         // Get the maximum width and height available from the parent constraints
         double maxWidth = constraints.maxWidth;
         double maxHeight = constraints.maxHeight;
-
         // You can adjust the width and height according to your requirement
         double dialogWidth = maxWidth * 0.8; // taking 80% of the screen width
         double dialogHeight = maxHeight * 0.4; // taking 50% of the screen height

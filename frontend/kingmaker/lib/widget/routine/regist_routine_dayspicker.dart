@@ -32,8 +32,6 @@ class _DaysPickerState extends State<DaysPicker> {
 
   _loadDetail() async {
     Map<String, String> detail = Provider.of<ScheduleProvider>(context, listen: false).detail;
-    print(detail['dateType']);
-    print(detail['dateValue']);
     if (detail['dateType'] == 'num')
       _valueController.text = detail['dateValue']!;
   }

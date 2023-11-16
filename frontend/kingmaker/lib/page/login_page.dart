@@ -17,7 +17,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _audioPlayerHelper.playLoginMusic('loginBgm.mp3'); // 배경음악 재생
-
   }
 
   @override

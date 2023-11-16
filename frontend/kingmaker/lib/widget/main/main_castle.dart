@@ -19,7 +19,6 @@ class Castle extends SpriteComponent {
     super.onLoad(); // 상위 클래스의 onLoad 호출
     int? clevel = await Provider.of<KingdomProvider>(context, listen: false).kingdomDto?.level;
     String? castleName = await Provider.of<KingdomProvider>(context, listen: false).kingdomDto?.kingdomNm;
-    print("성성성성 레벨  : $clevel");
     sprite = await Sprite.load('castle/Lv${clevel}.png');
     textComponent=TextComponent(
         text: "Lv.${clevel} ${castleName}",
@@ -59,7 +58,6 @@ class Castle extends SpriteComponent {
           size.y-35);
       add(textComponent);
     }else if(clevel==8||clevel==9){
-      print('여기');
       size = Vector2.all(230.0);
       position = Vector2(350, 150);
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),

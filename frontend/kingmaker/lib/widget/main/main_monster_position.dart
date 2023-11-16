@@ -19,7 +19,6 @@ class MonsterPosition extends PositionComponent {
   Vector2 velocity = Vector2.zero();
   Map<String, String> monsterInfo;
   MonsterPosition(this.game, this.monsterInfo) {
-    // print('MonsterPosition : $monsterInfo');
     setRandomVelocity();
     this.size = Vector2(144,144);
   }
@@ -53,8 +52,6 @@ class MonsterPosition extends PositionComponent {
     super.update(dt);
     _elapsedTime += dt;
     position += velocity * dt;  // MonsterPosition의 위치를 업데이트
-    // print('x: ${position.x} y: ${position.y}');
-
     // 몬스터가 제한 구역에 진입하려는지 확인
     if (isEnteringRestrictedArea(position)) {
       // 제한 구역에서 멀어지도록 속도 조정
@@ -142,8 +139,6 @@ class MonsterPosition extends PositionComponent {
         position.y <= restrictedBottomRight.y;
   }
 
-
-
   Vector2 getRandomPositionOutsideRestrictedArea() {
     Vector2 initialPosition;
     do {
@@ -172,7 +167,6 @@ class MonsterPosition extends PositionComponent {
     // TODO: implement toRect
     return super.toRect();
   }
-
 }
 
 class MonsterText extends TextComponent{

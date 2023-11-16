@@ -45,7 +45,6 @@ class _ModifyRoutineState extends State<ModifyRoutine> {
     _routineId=int.parse(Provider.of<ScheduleProvider>(context, listen: false).detail['id']!);
     // ScheduleProvider에서 상세 정보 가져오기
     Map<String, String> detail = Provider.of<ScheduleProvider>(context, listen: false).detail;
-    print(detail);
     // 텍스트 필드 컨트롤러에 데이터 설정
     _titleController.text = detail['title'] ?? '';
     _detailController.text = detail['detail'] ?? '';
@@ -73,7 +72,6 @@ class _ModifyRoutineState extends State<ModifyRoutine> {
                           tooltip: '이 전 페이지',
                           onPressed: () {
                             Provider.of<RegistProvider>(context, listen: false).ResetAll();
-                            print("click");
                             Navigator.pop(
                               context,
                             );
@@ -219,7 +217,6 @@ class _ModifyRoutineState extends State<ModifyRoutine> {
           padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
           child: ElevatedButton(
               onPressed: () async {
-                print('click');
                 int? MemberId =
                     Provider.of<MemberProvider>(context, listen: false)
                         .member

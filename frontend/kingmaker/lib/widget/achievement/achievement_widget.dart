@@ -102,28 +102,28 @@ class _AchievementWidgetState extends State<AchievementWidget> {
           children: [
             Flexible(
                 child: Container(
-              // decoration: BoxDecoration(color: Colors.blue),
-              padding: EdgeInsets.all(16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Text('${rewardNmtText}', style: TextStyle(fontSize: 20)),//업적이름/미달성 업적
-                  Expanded(
-                    child: Text(
-                      '${rewardMsgText}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: BLUE_BLACK_COLOR,
+                  // decoration: BoxDecoration(color: Colors.blue),
+                  padding: EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Text('${rewardNmtText}', style: TextStyle(fontSize: 20)),//업적이름/미달성 업적
+                      Expanded(
+                        child: Text(
+                          '${rewardMsgText}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: BLUE_BLACK_COLOR,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                      // Text('${rewardDateText}',  style: TextStyle(fontSize: 10)),
+                    ],
                   ),
-
-                  // Text('${rewardDateText}',  style: TextStyle(fontSize: 10)),
-                ],
-              ),
-            )),
+                )
+            ),
           ],
         ),
       ),

@@ -42,15 +42,12 @@ class ScheduleProvider with ChangeNotifier {
       _tList = await _todoRepository.getList(memberId, '${year%100}$monStr$dayStr');
       // 데이터를 가져오는 데 성공했습니다.
       notifyListeners();
-      print('ScheduleProvider - getList : $_tList');
       make(list);
-      print('ScheduleProvider - getList2 :$_list');
     } catch (e) {
       // 에러가 발생했습니다.
       print("error getMainList 발생 $e");
     }
   }
-
 
   void make(List<Map<String, String>> list) {
     int ridx = 0;
@@ -102,7 +99,6 @@ class ScheduleProvider with ChangeNotifier {
     }
     _leftMonster = noneAchiveList.length;
     _list = noneAchiveList + achiveList;
-    print("#########makelist : $_list");
     notifyListeners();
   }
 

@@ -1,4 +1,3 @@
-
 import 'package:flame/text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -36,7 +35,6 @@ class MainPlayer extends SpriteComponent with TapCallbacks {
               fontFamily: 'PretendardBold',
               fontSize: 20,
               backgroundColor: Colors.black38,
-
             ),
           )
       );
@@ -45,13 +43,10 @@ class MainPlayer extends SpriteComponent with TapCallbacks {
       textComponent.position.setValues((size.x / 2) - (textWidth / 2),
           120);
       add(textComponent);
-
-
       //말풍선 컴포넌트 생성
       speechBubble = MainSpeechBubble(Vector2(-33, -130), "엄준식");
       await speechBubble!.onLoad();
       add(speechBubble!);
-
       propagateToChildren((p0) => true);
   }
 
@@ -62,13 +57,7 @@ class MainPlayer extends SpriteComponent with TapCallbacks {
 
   @override
   void onTapUp(TapUpEvent event) {
-    // Vector2 worldPosition = game.camera.localToGlobal(event.localPosition);
-    // if (toRect().contains(worldPosition.toOffset())) {
-    //   print('player onTapUp called');
-    //   // toggleAnimationRow();
-    // }
     super.onTapUp(event);
-    // speechBubble.showBubble("Hellow");
   }
 
   @override

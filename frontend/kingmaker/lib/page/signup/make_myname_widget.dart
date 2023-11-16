@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
-import 'package:kingmaker/provider/member_provider.dart';
-import 'package:kingmaker/widget/signup/gender_img.dart';
 import 'package:kingmaker/widget/signup/next_button.dart';
 import 'package:kingmaker/widget/signup/select_gender.dart';
 import 'package:kingmaker/widget/signup/signup_text.dart';
 import 'package:kingmaker/widget/signup/signup_write_name.dart';
-import 'package:provider/provider.dart';
 
 class MakeMynamePage extends StatefulWidget {
   const MakeMynamePage({super.key});
@@ -18,8 +15,6 @@ class MakeMynamePage extends StatefulWidget {
 class _MakeMynamePageState extends State<MakeMynamePage> {
   @override
   Widget build(BuildContext context) {
-    print('makepage');
-    print(context.read<MemberProvider>());
     return const Scaffold(
         backgroundColor: LIGHTEST_BLUE_COLOR,
         body: SafeArea(

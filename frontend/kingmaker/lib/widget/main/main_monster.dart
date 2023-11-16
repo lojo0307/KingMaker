@@ -72,17 +72,6 @@ class Monster extends SpriteAnimationComponent with TapCallbacks {
   @override
   void update(double dt) {
     super.update(dt);
-    // if (monsterPosition.velocity.x > 0) {
-    //   // 오른쪽으로 움직이는 경우
-    //   changeAnimation('slime_right.png');
-    // } else if (monsterPosition.velocity.x < 0) {
-    //   // 왼쪽으로 움직이는 경우
-    //   changeAnimation('slime_left.png');
-    // }
-    // 여기서는 position 업데이트나 경계 체크를 하지 않습니다.
-    // 이것은 MonsterPosition에서 처리됩니다.
-
-
   }
 
   void changeAnimation(String imagePath) async {

@@ -14,9 +14,6 @@ class ProfileUpdatePage extends StatefulWidget {
   State<ProfileUpdatePage> createState() => _ProfileUpdatePageState();
 }
 
-
-
-
 class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   final TextEditingController _nicknameController = TextEditingController();
 
@@ -133,8 +130,6 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   void _updateProfileInformation() {
     String nickname = _nicknameController.text;
     RegExp nicknameRegExp = RegExp(r'^[a-zA-Z0-9_-가-힣]+$');
-    print(nickname);
-    print(nickname.length);
     if (nickname.isEmpty) {
       _showDialog('수정 실패!', '닉네임을 입력해주세요');
     } else if (nickname.length > 10) {

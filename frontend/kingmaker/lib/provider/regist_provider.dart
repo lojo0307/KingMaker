@@ -68,8 +68,6 @@ class RegistProvider with ChangeNotifier {
   }
 
   RegistRoutine(int MemberId){
-    print(value);
-    print(value.runtimeType);
     if (_title == "")
       _error1 = "제목을 작성해 주세요.";
     if(_detail == "")
@@ -101,6 +99,29 @@ class RegistProvider with ChangeNotifier {
   }
 
   ModifyRoutine(){
+    if (_title == "")
+      _error1 = "제목을 작성해 주세요.";
+    if(_detail == "")
+      _error2 = "상세 내용을 작성해 주세요.";
+    if(_startAt == "" || _endAt == "")
+      _error3 = "날짜를 입력해 주세요.";
+    if (_type != "day" && (_value == '0' || value == 0 || value.runtimeType == List<bool>))
+      _error4 = "주기를 작성해 주세요.";
+    if (_type == "day" && value.runtimeType != List<bool>)
+      _error4 = "요일을 작성해 주세요.";
+    if (_type == "day" && value.runtimeType == List<bool>){
+      bool flag = false;
+      for(int i = 0 ; i < 7 ; i++){
+        if (value[i])
+          flag = true;
+      }
+      if (!flag)
+        _error4 = "요일을 작성해 주세요.";
+    }
+    if (_error1 != "" || _error2 != "" || _error3 != "" || _error4 != ""){
+      notifyListeners();
+      return -1;
+    }
     String period = "{\"type\" : \"$_type\", \"value\": $_value}";
     RoutineDto routine = RoutineDto(routineId: _id, categoryId: _categoryId, routineNm: _title, routineDetail: _detail, period: period, importantYn: _importantYn, startAt: "${_startAt}00:00:00", endAt: "${_endAt}23:59:59");
     _routineRepository.modifyRoutine(routine);
@@ -128,7 +149,18 @@ class RegistProvider with ChangeNotifier {
   }
 
   ModifyTodo(int _todoId){
-    //todoId는 줘야 함
+    if (_title == "")
+      _error1 = "제목을 작성해 주세요.";
+    if(_detail == "")
+      _error2 = "상세 내용을 작성해 주세요.";
+    if(_startAt == "" || _endAt == "")
+      _error3 = "날짜를 입력해 주세요.";
+    else if (_startTime == "" || _endTime == "")
+      _error3 = "시간을 입력해 주세요.";
+    if (_error1 != "" || _error2 != "" || _error3 != ""){
+      notifyListeners();
+      return -1;
+    }
     TodoDto todoDto = TodoDto(todoId: _todoId, categoryId: _categoryId, startAt: "$_startAt$_startTime", endAt: "$_endAt$_endTime", todoNm: _title, todoDetail: _detail, todoPlace: "장소", importantYn: importantYn, achievedYn: false);
     _todoRepository.modifyTodo(todoDto);
     ResetAll();
@@ -152,7 +184,6 @@ class RegistProvider with ChangeNotifier {
   }
 
   void setData(Map<String, String> detail) {
-    print(detail);
     _id = int.parse(detail['id']!);
     _title = detail['title']!;
     _detail = detail['detail']!;

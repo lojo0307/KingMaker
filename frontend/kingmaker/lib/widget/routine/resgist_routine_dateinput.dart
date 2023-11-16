@@ -27,7 +27,6 @@ class _DateInput extends State<DateInput> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-
               ),
               onPressed: () async {
                 final date = await showDatePickerDialog(
