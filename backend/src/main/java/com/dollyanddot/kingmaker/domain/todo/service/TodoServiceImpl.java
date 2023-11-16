@@ -67,7 +67,7 @@ public class TodoServiceImpl implements TodoService {
   @Override
   public List<CalendarStreakResDto> getStreak(int year, int month, Long memberId) {
     //윤년까지 계산해야 하므로 year도 parameter로 넘김
-    List<CalendarStreakResDto> list = calendarRepository.getPlansByMonth(year, month, memberId);
+    List<CalendarStreakResDto> list = calendarRepository.getPlanLevelByMonth(year, month, memberId);
     List<CalendarStreakResDto> result = new ArrayList<>();
     LocalDate newDate = LocalDate.of(year, month, 1);
     int lengthOfMon = newDate.lengthOfMonth();

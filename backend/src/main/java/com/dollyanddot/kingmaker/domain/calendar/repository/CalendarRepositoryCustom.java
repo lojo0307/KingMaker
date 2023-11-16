@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface CalendarRepositoryCustom{
     //연월을 입력하면, 해당 월의 모든 날짜에 대해 todo+memberRoutine 개수를 반환
+    public List<CalendarStreakResDto> getPlanLevelByMonth(int year,int month, Long memberId);
+
     public List<CalendarStreakResDto> getPlansByMonth(int year,int month, Long memberId);
 
     List<CountPlanDto> getTodayPlan();
