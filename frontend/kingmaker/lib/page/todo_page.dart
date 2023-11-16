@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/widget/common/add_content.dart';
 import 'package:kingmaker/widget/schedule/schedule_main.dart';
 

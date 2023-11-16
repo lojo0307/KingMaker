@@ -20,7 +20,6 @@ class _ProfileAchievementWidgetState extends State<ProfileAchievementWidget> {
   @override
   Widget build(BuildContext context) {
     List<RewardDto> list = context.watch<AchievementProvider>().list;
-    print('page list = $list');
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

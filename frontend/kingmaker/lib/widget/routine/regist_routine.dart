@@ -8,10 +8,8 @@ import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/common/header.dart';
-
 import 'package:kingmaker/widget/routine/regist_routine_categorybutton.dart';
 import 'package:kingmaker/widget/routine/regist_routine_importancecheck.dart';
-
 import 'package:kingmaker/widget/routine/regist_routine_weekdaybutton.dart';
 import 'package:kingmaker/widget/routine/resgist_routine_dateinput.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +44,6 @@ class _RegistRoutineState extends State<RegistRoutine> {
                           tooltip: '이 전 페이지',
                           onPressed: () {
                             Provider.of<RegistProvider>(context, listen: false).ResetAll();
-                            print("click");
                             Navigator.pop(
                               context,
                             );
@@ -190,7 +187,6 @@ class _RegistRoutineState extends State<RegistRoutine> {
           padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
           child: ElevatedButton(
               onPressed: () async {
-                print('click');
                 int? MemberId =
                     Provider.of<MemberProvider>(context, listen: false)
                         .member

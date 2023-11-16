@@ -1,4 +1,3 @@
-
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -46,17 +45,13 @@ class MyGame extends FlameGame with MultiTouchDragDetector, TapDetector  {
 
   @override
   void onTapUp(TapUpInfo info) async {
-    print(info.eventPosition.global);
     Vector2 worldPosition = camera.globalToLocal(info.eventPosition.global);
-    print(worldPosition);
     if (player.toRect().contains(worldPosition.toOffset())) {
-      print('Character was tapped!');
       player.TapUp();
       return;
     }//몬스터를 클릭했을 때의 로직
     for (MonsterPosition monster in monsterList) {
       if (monster.toRect().contains(worldPosition.toOffset())) {
-        print('${monster.monsterInfo} was tapped!');
         await Provider.of<ScheduleProvider>(context, listen: false)
             .getDetail(int.parse(monster.monsterInfo['id']!), monster.monsterInfo['type'].toString());
         Navigator.push(
@@ -164,7 +159,6 @@ class MyWorld extends World {
 
   @override
   Future<void> onLoad() async {
-    print('Initial game world size: $game.size');
     backgroundSize = Vector2(1024, 1024);
     final bgSprite = await Sprite.load('background1.png');
     background = GameBackground(bgSprite, backgroundSize);

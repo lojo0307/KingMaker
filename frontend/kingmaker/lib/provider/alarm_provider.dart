@@ -14,7 +14,6 @@ class AlarmProvider with ChangeNotifier {
 
   getAlarm(int memberId) async{
     _list = await _alarmRepository.getAlarm(memberId);
-    print('Provider - list = $_list');
     notifyListeners();
   }
   deleteAlarm(int notificationId) async {

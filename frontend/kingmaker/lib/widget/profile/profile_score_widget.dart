@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/achievement_provider.dart';
-import 'package:kingmaker/provider/member_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 

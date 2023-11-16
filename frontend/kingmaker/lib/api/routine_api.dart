@@ -22,8 +22,6 @@ class RoutineApi{
 
   void registRoutine(int memberId, RoutineDto routine) async {
     final response = await totalApi.postApi('/api/routine', routine.toRegistJson(memberId),);
-    print(response.data['data']['rewardResDtoList']);
-    print(response.data['data']['rewardResDtoList'] == null);
     if (response.data['data']['rewardResDtoList'] != null){
       for(int i = 0 ; i < response.data['data']['rewardResDtoList'].length ; i++){
         testModal.getViewModel(
@@ -31,7 +29,6 @@ class RoutineApi{
         );
       }
     }
-    print('routine 등록 완료');
   }
 
   void modifyRoutine(RoutineDto routine) async {

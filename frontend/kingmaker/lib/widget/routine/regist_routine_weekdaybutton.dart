@@ -34,7 +34,6 @@ class _WeekDayButtonState extends State<WeekDayButton> {
               selectedValue = value;
               Provider.of<RegistProvider>(context, listen: false).setType(value);
             });
-            print(value);
           },
           elevation: 0,
           unSelectedColor: GREY_COLOR,
@@ -48,7 +47,6 @@ class _WeekDayButtonState extends State<WeekDayButton> {
         ),
         //selectedValue의 값이 바뀔 때 마다 다른 라디오 버튼 출력
         //첫번째 값이면 나올 위젯
-        // SizedBox(height: 5,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -70,7 +68,6 @@ class _WeekDayButtonState extends State<WeekDayButton> {
               )
           ],
         )
-
       ],
     );
   }

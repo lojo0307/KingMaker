@@ -18,7 +18,6 @@ class _ImportanceCheckState extends State<ImportanceCheck> {
           onTap: () {
             Provider.of<RegistProvider>(context, listen: false).changeImport();
             setState(() {});
-            print(Provider.of<RegistProvider>(context, listen: false).importantYn);
           },
           child: (Provider.of<RegistProvider>(context, listen: false).importantYn)? Image.asset('assets/images/check.png',width: 24,) :Image.asset('assets/images/uncheck.png',width: 24                ,),
         ),

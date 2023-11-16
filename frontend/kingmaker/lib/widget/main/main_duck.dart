@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flame/components.dart';
@@ -36,8 +35,6 @@ class Duck extends SpriteAnimationComponent with TapCallbacks {
     if(dir){
       flipHorizontally();
     }
-
-
   }
 
   Rect toRect() {
@@ -48,8 +45,4 @@ class Duck extends SpriteAnimationComponent with TapCallbacks {
   void update(double dt) {
     super.update(dt);
   }
-
-
-
-
 }

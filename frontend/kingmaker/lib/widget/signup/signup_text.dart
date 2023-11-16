@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class SignupText extends StatelessWidget {
   const SignupText({super.key,required  this.line1,required  this.line2});
   final line1;

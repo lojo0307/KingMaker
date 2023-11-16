@@ -8,10 +8,8 @@ class AlarmApi{
   }
 
   Future <List<AlarmDto>> getAlarm(int memberId) async{
-    print('AlarmApi - fetAlarm');
     try{
       final response = await totalApi.getApi('/api/notification/$memberId',);
-      print(response);
       return response.data['data'].map<AlarmDto>((alarm) {
         return AlarmDto.fromJson(alarm);
       }).toList();

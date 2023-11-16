@@ -32,8 +32,6 @@ class _DayOfWeekButtonState extends State<DayOfWeekButton> {
   @override
   void initState() {
     Map<String, String> detail = Provider.of<ScheduleProvider>(context, listen: false).detail;
-    print(detail['dateType']);
-    print(detail['dateValue']);
     if (detail['dateType'] == 'day')
       _selections1 = json.decode(detail['dateValue']!).cast<bool>();
     super.initState();

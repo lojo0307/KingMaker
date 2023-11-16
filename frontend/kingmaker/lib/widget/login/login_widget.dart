@@ -29,7 +29,6 @@ class LoginWidget extends StatelessWidget {
                   if(flag != 0){
                      Provider.of<KingdomProvider>(context, listen: false).getKingdom(flag);
                   }
-                  print("로그인 위젯 플래그 값 : ${flag}");
                   movPage(flag, context, providerKing);
                 },
                 child: Container(

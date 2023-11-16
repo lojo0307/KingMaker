@@ -34,10 +34,6 @@ class _ScheduleCardState extends State<ScheduleCard> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          // border: Border.all(
-          //   color: BLUE_BLACK_COLOR,
-          //   width: 1,
-          // ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +89,8 @@ class _ScheduleCardState extends State<ScheduleCard> {
                         horizontal: 16.0, vertical: 8.0),
                     backgroundColor: (widget.data['achieved'] == '0') ? LIGHT_YELLOW_COLOR : Color(0XFFC7F4B3),
                   ),
-                )),
+                )
+            ),
           ],
         ),
       ),
