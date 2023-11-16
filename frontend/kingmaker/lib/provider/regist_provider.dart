@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:kingmaker/dto/routine_dto.dart';
 import 'package:kingmaker/dto/todo_dto.dart';
@@ -98,32 +100,9 @@ class RegistProvider with ChangeNotifier {
     return 1;
   }
 
-  ModifyRoutine(int _routineId){
-    // if (_title == "")
-    //   _error1 = "제목을 작성해 주세요.";
-    // if(_detail == "")
-    //   _error2 = "상세 내용을 작성해 주세요.";
-    // if(_startAt == "" || _endAt == "")
-    //   _error3 = "날짜를 입력해 주세요.";
-    // if (_type != "day" && (_value == '0' || value == 0 || value.runtimeType == List<bool>))
-    //   _error4 = "주기를 작성해 주세요.";
-    // if (_type == "day" && value.runtimeType != List<bool>)
-    //   _error4 = "요일을 작성해 주세요.";
-    // if (_type == "day" && value.runtimeType == List<bool>){
-    //   bool flag = false;
-    //   for(int i = 0 ; i < 7 ; i++){
-    //     if (value[i])
-    //       flag = true;
-    //   }
-    //   if (!flag)
-    //     _error4 = "요일을 작성해 주세요.";
-    // }
-    // if (_error1 != "" || _error2 != "" || _error3 != "" || _error4 != ""){
-    //   notifyListeners();
-    //   return -1;
-    // }
-    // String period = "{\"type\" : \"$_type\", \"value\": $_value}";
-    RoutineDto routine = RoutineDto(routineId: _routineId, categoryId: _categoryId, routineNm: _title, routineDetail: _detail, period: period, importantYn: _importantYn, startAt: "${_startAt}00:00:00", endAt: "${_endAt}23:59:59");
+  ModifyRoutine(){
+    String period = "{\"type\" : \"$_type\", \"value\": $_value}";
+    RoutineDto routine = RoutineDto(routineId: _id, categoryId: _categoryId, routineNm: _title, routineDetail: _detail, period: period, importantYn: _importantYn, startAt: "${_startAt}00:00:00", endAt: "${_endAt}23:59:59");
     _routineRepository.modifyRoutine(routine);
     ResetAll();
     return 1;
@@ -173,6 +152,7 @@ class RegistProvider with ChangeNotifier {
   }
 
   void setData(Map<String, String> detail) {
+    print(detail);
     _id = int.parse(detail['id']!);
     _title = detail['title']!;
     _detail = detail['detail']!;
@@ -185,6 +165,11 @@ class RegistProvider with ChangeNotifier {
     _startTime = DateFormat('hh:mm').format(_startDay!);
     _endTime = DateFormat('hh:mm').format(_endDay!);
     _achievedYn = bool.parse(detail['achievedYn']!);
+    if (detail['type'] == '2'){
+      _id = int.parse(detail['modifyId']!);
+      _type = detail['dateType']!;
+      _value = jsonDecode(detail['dateValue']!);
+    }
   }
 
   void setTitle(String value) {

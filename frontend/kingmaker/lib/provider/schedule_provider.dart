@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:kingmaker/dto/member_routine_dto.dart';
 import 'package:kingmaker/dto/todo_dto.dart';
@@ -182,6 +184,9 @@ class ScheduleProvider with ChangeNotifier {
         'achievedYn' : routineDetail.achievedYn.toString(),
         'startAtString' : routineDetail.routine.startAt,
         'endAtString' : routineDetail.routine.endAt,
+        'dateType' : jsonDecode(routineDetail.routine.period)['type'],
+        'dateValue' : jsonDecode(routineDetail.routine.period)['value'].toString(),
+        'modifyId' : routineDetail.routine.routineId.toString(),
       };
     } else {
       TodoDto todoDetail = await _todoRepository.getDetail(id);
@@ -200,6 +205,7 @@ class ScheduleProvider with ChangeNotifier {
         'endAtString' : todoDetail.endAt,
       };
     }
+    notifyListeners();
   }
   makedate(String date){
     return " ${date.substring(0,4)}년 ${date.substring(5,7)}월 ${date.substring(8,10)}일";
