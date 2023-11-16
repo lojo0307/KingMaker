@@ -89,6 +89,37 @@ class RegistProvider with ChangeNotifier {
     return 1;
   }
 
+  ModifyRoutine(int _routineId){
+    // if (_title == "")
+    //   _error1 = "제목을 작성해 주세요.";
+    // if(_detail == "")
+    //   _error2 = "상세 내용을 작성해 주세요.";
+    // if(_startAt == "" || _endAt == "")
+    //   _error3 = "날짜를 입력해 주세요.";
+    // if (_type != "day" && (_value == '0' || value == 0 || value.runtimeType == List<bool>))
+    //   _error4 = "주기를 작성해 주세요.";
+    // if (_type == "day" && value.runtimeType != List<bool>)
+    //   _error4 = "요일을 작성해 주세요.";
+    // if (_type == "day" && value.runtimeType == List<bool>){
+    //   bool flag = false;
+    //   for(int i = 0 ; i < 7 ; i++){
+    //     if (value[i])
+    //       flag = true;
+    //   }
+    //   if (!flag)
+    //     _error4 = "요일을 작성해 주세요.";
+    // }
+    // if (_error1 != "" || _error2 != "" || _error3 != "" || _error4 != ""){
+    //   notifyListeners();
+    //   return -1;
+    // }
+    // String period = "{\"type\" : \"$_type\", \"value\": $_value}";
+    RoutineDto routine = RoutineDto(routineId: _routineId, categoryId: _categoryId, routineNm: _title, routineDetail: _detail, period: period, importantYn: _importantYn, startAt: "${_startAt}00:00:00", endAt: "${_endAt}23:59:59");
+    _routineRepository.modifyRoutine(routine);
+    ResetAll();
+    return 1;
+  }
+
   RegistTodo(int MemberId){
     if (_title == "")
       _error1 = "제목을 작성해 주세요.";
