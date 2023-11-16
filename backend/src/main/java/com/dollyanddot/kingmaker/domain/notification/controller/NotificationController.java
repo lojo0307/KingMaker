@@ -21,7 +21,7 @@ public class NotificationController {
     public EnvelopeResponse<List<NotificationResDto>> getNotification(@PathVariable Long memberId){
         List<NotificationResDto> list=notificationService.getNotification(memberId)
                 .stream()
-                .map(m->new NotificationResDto(m.getMessage(),m.getNotificationType().getNotificationTypeId(),m.getNotificationId()))
+                .map(m->new NotificationResDto(m.getMessage(),m.getNotificationType().getNotificationTypeId(),m.getNotificationId(), m.getCreatedAt()))
                 .collect(Collectors.toList());
         return EnvelopeResponse.<List<NotificationResDto>>builder()
                 .data(list)
