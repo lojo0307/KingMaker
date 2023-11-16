@@ -74,7 +74,7 @@
 ![AWS_EC2](https://img.shields.io/badge/AWS_EC2-20.04.6-orange?logo=AmazonAWS)
 ![Nginx](https://img.shields.io/badge/Nginx-1.18.0-009639?logo=Nginx&logoColor=009639)
 ![Jenkins](https://img.shields.io/badge/Jenkins-2.430-c93632?logo=Jenkins)
-![Docker](https://img.shields.io/badge/Docker-24.0.6-2497ed?logo=Docker)
+![Docker](https://img.shields.io/badge/Docker-24.0.7-2497ed?logo=Docker)
 
 ### BackEnd
 ![Openjdk](https://img.shields.io/badge/Openjdk-11-e66f01?logo=Openjdk&logoColor=black)
