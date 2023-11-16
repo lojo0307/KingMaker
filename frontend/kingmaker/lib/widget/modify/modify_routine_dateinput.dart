@@ -4,16 +4,27 @@ import 'package:intl/intl.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:provider/provider.dart';
-class DateInput extends StatefulWidget {
-  const DateInput({super.key, required this.type});
+class ModifyDateInput extends StatefulWidget {
+  const ModifyDateInput({super.key, required this.type});
   final String type;
   @override
-  State<DateInput> createState() => _DateInput();
+  State<ModifyDateInput> createState() => _DateInput();
 }
 
-class _DateInput extends State<DateInput> {
+class _DateInput extends State<ModifyDateInput> {
   DateTime? selectedDate;
   var initialdate ='----년 --월 --일';
+  @override
+  void initState() {
+    DateTime? date;
+    if (widget.type == 'start'){
+      date = Provider.of<RegistProvider>(context, listen: false).startDay;
+    }else{
+      date = Provider.of<RegistProvider>(context, listen: false).endDay;
+    }
+    initialdate = DateFormat('yyyy년 MM월 dd일').format(date!);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return  Column(
@@ -27,11 +38,9 @@ class _DateInput extends State<DateInput> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-
               ),
               onPressed: () async {
                 final date = await showDatePickerDialog(
-                  // barrierColor: Colors.transparent,
                   disbaledCellColor: BLUE_BLACK_COLOR,
                   enabledCellTextStyle: TextStyle(fontSize: 12),
                   currentDateTextStyle: TextStyle(fontSize: 12, color: DARKER_BLUE_COLOR),

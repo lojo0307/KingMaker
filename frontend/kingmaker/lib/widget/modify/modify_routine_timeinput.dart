@@ -5,15 +5,16 @@ import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:time_picker_sheet/widget/sheet.dart';
 import 'package:time_picker_sheet/widget/time_picker.dart';
+import 'package:intl/intl.dart';
 
-class TimeInput extends StatefulWidget {
-  const TimeInput({super.key, required this.type});
+class ModifyTimeInput extends StatefulWidget {
+  const ModifyTimeInput({super.key, required this.type});
   final String type;
   @override
-  State<TimeInput> createState() => _TimeInputState();
+  State<ModifyTimeInput> createState() => _ModifyTimeInputState();
 }
 
-class _TimeInputState extends State<TimeInput> {
+class _ModifyTimeInputState extends State<ModifyTimeInput> {
   var initialtime ='-- --시 --분';
   String getHourString(int hour) {
     if (hour < 12) {
@@ -58,7 +59,19 @@ class _TimeInputState extends State<TimeInput> {
       });
     }
   }
-
+  @override
+  void initState() {
+    DateTime? date;
+    if (widget.type == 'start'){
+      date = Provider.of<RegistProvider>(context, listen: false).startDay;
+    }else{
+      date = Provider.of<RegistProvider>(context, listen: false).endDay;
+    }
+    print(date);
+    print('');
+    initialtime = '${getHourString(date!.hour)}시 ${date!.minute}분';
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
