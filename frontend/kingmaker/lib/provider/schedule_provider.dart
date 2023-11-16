@@ -180,6 +180,8 @@ class ScheduleProvider with ChangeNotifier {
         'detail' : routineDetail.routine.routineDetail,
         'category' : routineDetail.routine.categoryId.toString(),
         'achievedYn' : routineDetail.achievedYn.toString(),
+        'startAtString' : routineDetail.routine.startAt,
+        'endAtString' : routineDetail.routine.endAt,
       };
     } else {
       TodoDto todoDetail = await _todoRepository.getDetail(id);
@@ -194,6 +196,8 @@ class ScheduleProvider with ChangeNotifier {
         'category' : todoDetail.categoryId.toString(),
         'place' : todoDetail.todoPlace,
         'achievedYn' : todoDetail.achievedYn.toString(),
+        'startAtString' : todoDetail.startAt,
+        'endAtString' : todoDetail.endAt,
       };
     }
   }
