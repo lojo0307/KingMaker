@@ -36,7 +36,7 @@ class MonsterPosition extends PositionComponent {
     categoryId = int.tryParse(monsterInfo['category']!)!;
     monster = Monster(this.game, monsterInfo);
     monsterText = MonsterText(monsterInfo);
-
+    size =Vector2(170, 170);
     add(monster);
     // add(monsterText);
   }
@@ -167,7 +167,11 @@ class MonsterPosition extends PositionComponent {
     return position.x > restrictedLeftX && position.x < restrictedRightX
         && position.y > restrictedTopY && position.y < restrictedBottomY;
   }
-
+@override
+  Rect toRect() {
+    // TODO: implement toRect
+    return super.toRect();
+  }
 
 }
 
