@@ -96,15 +96,19 @@ public class TodoServiceImpl implements TodoService {
     }
     for (CalendarStreakResDto s : sumList) {
       int achieve= result.get(s.getDay()-1).getLevel();
-      double rate=(double)achieve/(double)s.getLevel();
-      System.out.println(s.getDay()+"일의 달성률은 "+rate+"이고 achieved: "+achieve+" level: "+s.getLevel());
       int level;
-      if(rate>0.8)level=5;
-      else if(rate>0.6)level=4;
-      else if(rate>0.4)level=3;
-      else if(rate>0.2)level=2;
-      else if(rate>0)level=1;
-      else level=0;
+      if(achieve==0)level=0;
+      else{
+        double rate=(double)s.getLevel()/(double)achieve*100;
+        level=(int)Math.round(rate);
+      }
+//      System.out.println(s.getDay()+"일의 달성률은 "+level+"이고 achieved: "+achieve+" level: "+s.getLevel());
+//      if(rate>0.8)level=5;
+//      else if(rate>0.6)level=4;
+//      else if(rate>0.4)level=3;
+//      else if(rate>0.2)level=2;
+//      else if(rate>0)level=1;
+//      else level=0;
       result.get(s.getDay() - 1).setLevel(level);
     }
     return result;
