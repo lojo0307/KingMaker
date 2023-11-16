@@ -15,31 +15,43 @@ public class CalendarService {
 
     @Transactional(readOnly = true)
     public Long getDailyMonsterCnt(Long memberId) {
-        return calendarRepository.getDailyMonsterCnt(memberId);
+        log.info("메인페이지 - 미달성 몬스터 수 -------------------------------");
+        Long monster = calendarRepository.getDailyMonsterCnt(memberId);
+        log.info("일간: {}", monster);
+        return monster;
     }
 
     @Transactional(readOnly = true)
     public int getDailyPercent(Long memberId) {
+        log.info("마이페이지 - 몬스터 리포트1 -------------------------------");
         Long dailyCnt = calendarRepository.getDailyCnt(memberId);
         Long achievedCnt = calendarRepository.getDailyAchievedCnt(memberId);
 
-        return makePercent(dailyCnt, achievedCnt);
+        int percent = makePercent(dailyCnt, achievedCnt);
+        log.info("일간: {}", percent);
+        return percent;
     }
 
     @Transactional(readOnly = true)
     public int getMonthlyPercent(Long memberId) {
+        log.info("마이페이지 - 몬스터 리포트1 -------------------------------");
         Long monthlyCnt = calendarRepository.getMonthlyCnt(memberId);
         Long achievedCnt = calendarRepository.getMonthlyAchievedCnt(memberId);
 
-        return makePercent(monthlyCnt, achievedCnt);
+        int percent = makePercent(monthlyCnt, achievedCnt);
+        log.info("월간: {}", percent);
+        return percent;
     }
 
     @Transactional(readOnly = true)
     public int getYearlyPercent(Long memberId) {
+        log.info("마이페이지 - 몬스터 리포트1 -------------------------------");
         Long yearlyCnt = calendarRepository.getYearlyCnt(memberId);
         Long achievedCnt = calendarRepository.getYearlyAchievedCnt(memberId);
 
-        return makePercent(yearlyCnt, achievedCnt);
+        int percent = makePercent(yearlyCnt, achievedCnt);
+        log.info("연간: {}", percent);
+        return percent;
     }
 
     private Long nullTo0(Long num) {

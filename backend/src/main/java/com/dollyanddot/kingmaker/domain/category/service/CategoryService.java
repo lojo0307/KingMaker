@@ -158,6 +158,9 @@ public class CategoryService {
             }
         }
 
+        log.info("마이페이지 - 몬스터 리포트2 -------------------------------");
+        log.info("최다 달성 카테고리: {} ", category.get(0).getCategoryNm());
+        log.info("최소 달성 카테고리: {} ", category.get(1).getCategoryNm());
         return category;
     }
 }
