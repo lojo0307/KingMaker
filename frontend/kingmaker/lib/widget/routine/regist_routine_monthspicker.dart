@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
+import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
 class MonthsPicker extends StatefulWidget {
@@ -15,6 +16,28 @@ class MonthsPicker extends StatefulWidget {
 class _DaysPickerState extends State<MonthsPicker> {
   String customInputValue = '직접 입력';
 
+  final TextEditingController _valueController = TextEditingController();
+
+  @override
+  void initState() {
+    _loadDetail();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _valueController.dispose();
+    super.dispose();
+  }
+
+  _loadDetail() async {
+    Map<String, String> detail = Provider.of<ScheduleProvider>(context, listen: false).detail;
+    print(detail['dateType']);
+    print(detail['dateValue']);
+    if (detail['dateType'] == 'month')
+      _valueController.text = detail['dateValue']!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -24,6 +47,7 @@ class _DaysPickerState extends State<MonthsPicker> {
         Text('  매 '),
         Container(
           child: TextFormField(
+            controller: _valueController,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(3),

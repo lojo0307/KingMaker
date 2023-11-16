@@ -35,7 +35,7 @@ class RoutineApi{
   }
 
   void modifyRoutine(RoutineDto routine) async {
-    final response = await totalApi.putApi('/api/routine', routine.toModifyJson(),);
+      final response = await totalApi.putApi('/api/routine', routine.toModifyJson(),);
   }
 
   void deleteRoutine(int routineId) async {
