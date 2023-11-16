@@ -14,6 +14,10 @@ class RoutineRepository {
     _routineApi.registRoutine(memberId, routine);
   }
 
+  void modifyRoutine(RoutineDto routine){
+    _routineApi.modifyRoutine(routine);
+  }
+
   void achieve(int memberRoutineId) {
     return _routineApi.acheiveRoutine(memberRoutineId);
   }
