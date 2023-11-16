@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/dto/reward_dto.dart';
 
 class AchievementModalWidget extends StatefulWidget {
@@ -44,69 +45,77 @@ class _AchievementModalWidgetState extends State<AchievementModalWidget> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                     Container(
-                       height: 200,
-                       child: CircleAvatar(
-                         backgroundColor: Colors.transparent,
-                         radius: 90,
-                         backgroundImage: AssetImage('assets/achievement/${widget.dto.rewardId}.png'),
-                       ),
-                     ),
-                    SizedBox(height: 5),
-                    Container(
-                      height: maxHeight*0.04,
-                      child: DefaultTextStyle(
-                        style: const TextStyle(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: 200,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 90,
+                      backgroundImage: AssetImage('assets/achievement/${widget.dto.rewardId}.png'),
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    height: maxHeight*0.04,
+                    child: DefaultTextStyle(
+                      style: const TextStyle(
                           overflow: TextOverflow.clip,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
-                        ),
-                        child: Text(
-                          '\"${widget.dto.rewardNm}\"',
-                        ),
-                      ),
-                    ),
-                    const DefaultTextStyle(
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
+                          fontFamily: 'PretendardBold'
                       ),
                       child: Text(
-                        '획득',
+                        '\"${widget.dto.rewardNm}\"',
                       ),
                     ),
-                    SizedBox(height: 5),
-                    DefaultTextStyle(
-                      style: const TextStyle(overflow: TextOverflow.clip,fontSize: 14, color: Colors.black,),
-                      child: Text(
-                        widget.dto.rewardMsg,
-                        textAlign: TextAlign.center,
-                      ),
+                  ),
+                  const DefaultTextStyle(
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
                     ),
-                    SizedBox(height: 5),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: TextButton(
-                        style: ButtonStyle(
-                          minimumSize: MaterialStateProperty.all(Size(double.infinity, 36)),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                          ),
-                          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                    child: Text(
+                      '획득', style: TextStyle(fontFamily: 'PretendardBold'),
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  DefaultTextStyle(
+                    style: const TextStyle(overflow: TextOverflow.clip,fontSize: 14, color: Colors.black,),
+                    child: Text(
+                      widget.dto.rewardMsg,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontFamily: 'PretendardBold', color: DARKER_GREY_COLOR),
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(Size(double.infinity, 36)),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                         ),
-                        child: Text('확인',style: TextStyle(fontSize: 14),),
-                        onPressed: () => Navigator.of(context).pop(),
+                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                        overlayColor: MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.pressed))
+                              return LIGHTEST_BLUE_COLOR;
+                            return Colors.transparent;
+                          },
+                        ),
                       ),
+                      child: Text('확인',style: TextStyle(fontSize: 14, color: DARKER_BLUE_COLOR),),
+                      onPressed: () => Navigator.of(context).pop(),
                     ),
-                  ],
-                ),
-              )
+                  ),
+                ],
+              ),
             ),
 
           ],
