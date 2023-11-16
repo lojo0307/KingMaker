@@ -15,7 +15,6 @@ class ProfileScoreWidget extends StatefulWidget {
 class _ProfileScoreWidgetState extends State<ProfileScoreWidget> {
   @override
   Widget build(BuildContext context) {
-
     String maxCategory = context.watch<AchievementProvider>().maxCategory;
     String minCategory = context.watch<AchievementProvider>().minCategory;
     int dailyRate = context.watch<AchievementProvider>().dailyRate;
