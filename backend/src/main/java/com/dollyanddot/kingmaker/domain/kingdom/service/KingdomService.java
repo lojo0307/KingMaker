@@ -47,9 +47,9 @@ public class KingdomService {
 
         int changeCitizen = kingdom.getCitizen();
         if(sign.equals("plus")) {
-            changeCitizen += 10;
+            changeCitizen += 1000;
         } else if(sign.equals("minus")) {
-            changeCitizen -= 10;
+            changeCitizen -= 1000;
         }
 
         int changeLevel = changeLevel(changeCitizen);
@@ -65,7 +65,7 @@ public class KingdomService {
             () -> new KingdomNotFoundException());
 
         int changeCitizen = kingdom.getCitizen();
-        changeCitizen -= cnt*5;
+        changeCitizen -= cnt*500;
 
         int changeLevel = changeLevel(changeCitizen);
         kingdom.update(changeCitizen, changeLevel);
@@ -77,20 +77,20 @@ public class KingdomService {
         Long unAchieved = calendarRepository.getMinusSchedule(memberId);
         log.info("달성 개수: {}", achieved);
         log.info("미달성 개수: {}", unAchieved);
-        int change = (int) (achieved*10 -  unAchieved*5);
+        int change = (int) (achieved*1000 -  unAchieved*500);
         log.info("백성 변경: {}", change);
         return change;
     }
 
     private int changeLevel(int citizen) {
         if (citizen < 1000) return 1;
-        if (citizen < 3000) return 2;
-        if (citizen < 5000) return 3;
-        if (citizen < 10000) return 4;
-        if (citizen < 20000) return 5;
-        if (citizen < 30000) return 6;
-        if (citizen < 50000) return 7;
-        if (citizen < 100000) return 8;
+        if (citizen < 2000) return 2;
+        if (citizen < 3000) return 3;
+        if (citizen < 4000) return 4;
+        if (citizen < 5000) return 5;
+        if (citizen < 6000) return 6;
+        if (citizen < 7000) return 7;
+        if (citizen < 8000) return 8;
         return 9;
     }
 
