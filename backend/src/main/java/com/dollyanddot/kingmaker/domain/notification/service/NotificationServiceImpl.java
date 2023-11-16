@@ -283,14 +283,9 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public void sendChangeCitizenNotification() throws Exception {
-        //멤버 별로 어제 완료하지 못한 일 있으면 백성 수 차감
+        //멤버 별로 어제 일정 수행 결과 가져오기
         List<CountPlanDto> undoneList = calendarRepository.getUndonePlanCntYesterday();
-        for(CountPlanDto c : undoneList) {
-            if(c.getCnt()>0) {
-                memberRepository.findById(c.getMemberId()).orElseThrow(MemberNotFoundException::new);
-                kingdomService.penaltyCitizen(c.getMemberId(), c.getCnt());
-            }
-        }
+        List<CountPlanDto> doneList = calendarRepository.getDonePlanCntYesterday();
 
         //알림
         List<Notification> notifications=new ArrayList<>();
@@ -301,9 +296,9 @@ public class NotificationServiceImpl implements NotificationService{
                         .notificationType(notificationTypeRepository.findById(1).get())
                         .member(memberRepository.findById(t.getMemberId()).orElseThrow(MemberNotFoundException::new))
                         .message("Your majesty, 어제 미달성한 업무 "+t.getCnt()+"건으로 인해 백성 "
-                            + (t.getCnt()*10) + "명이 왕국을 떠났습니다. "
-                            + "여신님이 항상 당신을 지켜보고 있음을 기억하고, 일정 수행을 위해 힘내주세요!")
+                            + (t.getCnt()*10) + "명이 왕국을 떠났습니다.")
                         .build();
+
                     log.info("확인1: {}", temp);
                     notifications.add(temp);
                 }
@@ -323,9 +318,8 @@ public class NotificationServiceImpl implements NotificationService{
                             .setToken(ft.getToken())
                             .setNotification(com.google.firebase.messaging.Notification.builder()
                                 .setBody("Your majesty, 어제 미달성한 업무 "+t.getCnt()+"건으로 인해 백성 "
-                                    + (t.getCnt()*10) + "명이 왕국을 떠났습니다. "
-                                    + "여신님이 항상 당신을 지켜보고 있음을 기억하고, 일정 수행을 위해 힘내주세요!")
-                                .setTitle("어제의 일정 수행 결과 보고 드립니다.")
+                                    + (t.getCnt()*10) + "명이 왕국을 떠났습니다. ")
+                                .setTitle("어제의 미달성 업무 관련 보고 드립니다.")
                                 .build())
                             .build();
 
