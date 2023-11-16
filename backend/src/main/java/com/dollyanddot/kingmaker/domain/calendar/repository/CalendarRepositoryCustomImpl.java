@@ -24,10 +24,15 @@ public class CalendarRepositoryCustomImpl implements CalendarRepositoryCustom{
     public List<CalendarStreakResDto> getPlanLevelByMonth(int year,int month, Long memberId){
         NumberExpression<Integer> levelCase = new CaseBuilder()
                 .when(calendar.calendarId.count().eq(0L)).then(0)
-                .when(calendar.calendarId.count().between(1L, 4L)).then(1)
-                .when(calendar.calendarId.count().between(5L, 8L)).then(2)
-                .when(calendar.calendarId.count().between(9L, 12L)).then(3)
-                .when(calendar.calendarId.count().between(13L, 16L)).then(4)
+                .when(calendar.calendarId.count().between(1L, 2L)).then(1)
+                .when(calendar.calendarId.count().between(3L, 4L)).then(2)
+                .when(calendar.calendarId.count().between(5L, 6L)).then(3)
+                .when(calendar.calendarId.count().between(7L, 8L)).then(4)
+//                .when(calendar.calendarId.count().eq(0L)).then(0)
+//                .when(calendar.calendarId.count().between(1L, 4L)).then(1)
+//                .when(calendar.calendarId.count().between(5L, 8L)).then(2)
+//                .when(calendar.calendarId.count().between(9L, 12L)).then(3)
+//                .when(calendar.calendarId.count().between(13L, 16L)).then(4)
                 .otherwise(5); // 만약 어떤 조건도 만족하지 않는다면 기본값
         return queryFactory
                 .select(Projections.fields(CalendarStreakResDto.class,
