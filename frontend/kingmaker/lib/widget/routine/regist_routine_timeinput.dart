@@ -29,11 +29,17 @@ class _TimeInputState extends State<TimeInput> {
     final result = await TimePicker.show<DateTime?>(
       context: context,
       sheet: TimePickerSheet(
-        sheetTitle: '시작 시간을 선택해 주세요',
+        sheetTitle: (widget.type == 'start') ? '시작 시간을 선택해 주세요' : '종료 시간을 선택해 주세요',
         minuteTitle: '분',
         hourTitle: '시간',
         saveButtonText: '선택',
-        saveButtonColor: Colors.lightBlueAccent,
+        saveButtonColor: BLUE_COLOR,
+        sheetCloseIconColor: DARK_GREY_COLOR,
+        hourTitleStyle: TextStyle(color: Colors.black),
+        minuteTitleStyle: TextStyle(color: Colors.black),
+        wheelNumberItemStyle: TextStyle(color:GREY_COLOR),
+        wheelNumberSelectedStyle: TextStyle(color: Colors.black),
+        initialDateTime: dateTimeSelected,
         minuteInterval: 1,
       ),
     );
