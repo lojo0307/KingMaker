@@ -72,6 +72,7 @@ public class KingdomService {
     }
 
     public Integer getChangeCitizen(Long memberId) {
+        log.info("마이페이지 - 백성 수 변경 -------------------------------");
         Long achieved = calendarRepository.getPlusSchedule(memberId);
         Long unAchieved = calendarRepository.getMinusSchedule(memberId);
         log.info("달성 개수: {}", achieved);

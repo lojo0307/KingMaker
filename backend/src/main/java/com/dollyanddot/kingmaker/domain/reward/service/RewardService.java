@@ -112,7 +112,8 @@ public class RewardService {
 
         log.info("마이페이지 - 달성한 업적 -------------------------------");
         for(RewardListResDto r : response) {
-            log.info("업적명: {}", r.getRewardNm());
+            if(r.isAchieved())
+                log.info("업적명: {}", r.getRewardNm());
         }
 
         return response;
