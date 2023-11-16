@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kingmaker/consts/colors.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
+import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
 class DayOfWeekButton extends StatefulWidget {
@@ -25,11 +28,16 @@ class _DayOfWeekButtonState extends State<DayOfWeekButton> {
         child: child,
       );
   }
-
-
-
   List<bool> _selections1 = List.generate(7, (index) => false);
-
+  @override
+  void initState() {
+    Map<String, String> detail = Provider.of<ScheduleProvider>(context, listen: false).detail;
+    print(detail['dateType']);
+    print(detail['dateValue']);
+    if (detail['dateType'] == 'day')
+      _selections1 = json.decode(detail['dateValue']!).cast<bool>();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Expanded(
