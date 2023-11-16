@@ -93,7 +93,7 @@ class _AchievementWidgetState extends State<AchievementWidget> {
       ),
       backWidget: Container(
         height: 80,
-        margin: EdgeInsets.only(bottom: 12),
+        margin: widget.firstIdx ? EdgeInsets.symmetric(vertical: 12) : EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           color: bgColor, // 조건에 따른 배경색 설정
           borderRadius: BorderRadius.all(Radius.circular(12)),
