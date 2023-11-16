@@ -3,6 +3,7 @@ import 'package:kingmaker/dto/routine_dto.dart';
 import 'package:kingmaker/dto/todo_dto.dart';
 import 'package:kingmaker/repository/routine_repository.dart';
 import 'package:kingmaker/repository/todo_repository.dart';
+import 'package:intl/intl.dart';
 
 class RegistProvider with ChangeNotifier {
   late final RoutineRepository _routineRepository;
@@ -23,6 +24,9 @@ class RegistProvider with ChangeNotifier {
   bool _importantYn = false;
   bool get importantYn => _importantYn;
 
+  bool _achievedYn = false;
+  bool get achievedYn => _achievedYn;
+
   String _startAt = "";
   String get startAt => _startAt;
 
@@ -35,11 +39,16 @@ class RegistProvider with ChangeNotifier {
   dynamic  _value = 0;
   dynamic get value => _value;
 
-  String _startTime = '00:00';
+  String _startTime = '';
   String get startTime => _startTime;
 
-  String _endTime = '23:59';
+  String _endTime = '';
   String get endTime => _endTime;
+
+  DateTime? _startDay;
+  DateTime? get startDay => _startDay;
+  DateTime? _endDay;
+  DateTime? get endDay => _endDay;
 
   String _error1 = "";
   String get error1 => _error1;
@@ -127,11 +136,13 @@ class RegistProvider with ChangeNotifier {
       _error2 = "상세 내용을 작성해 주세요.";
     if(_startAt == "" || _endAt == "")
       _error3 = "날짜를 입력해 주세요.";
+    else if (_startTime == "" || _endTime == "")
+      _error3 = "시간을 입력해 주세요.";
     if (_error1 != "" || _error2 != "" || _error3 != ""){
       notifyListeners();
       return -1;
     }
-    TodoDto todoDto = TodoDto(todoId: 0, categoryId: _categoryId, startAt: "$_startAt$_startTime", endAt: "$_endAt$_endTime", todoNm: _title, todoDetail: _detail, todoPlace: "장소", importantYn: importantYn, achievedYn: false);
+    TodoDto todoDto = TodoDto(todoId: 0, categoryId: _categoryId, startAt: "$_startAt$_startTime", endAt: "$_endAt$_endTime", todoNm: _title, todoDetail: _detail, todoPlace: "장소", importantYn: importantYn, achievedYn: achievedYn);
     _todoRepository.registTodo(MemberId, todoDto);
     ResetAll();
     return 1;
@@ -153,8 +164,8 @@ class RegistProvider with ChangeNotifier {
     _endAt = "";
     _type = "day";
     _value = 0;
-    _startTime = '00:00';
-    _endTime = '23:59';
+    _startTime = '';
+    _endTime = '';
     _error1 = "";
     _error2 = "";
     _error3 = "";
@@ -167,6 +178,13 @@ class RegistProvider with ChangeNotifier {
     _detail = detail['detail']!;
     _categoryId = int.parse(detail['category']!);
     _importantYn = bool.parse(detail['importantYn']!);
+    _startDay = DateTime.parse(detail['startAtString']!);
+    _endDay = DateTime.parse(detail['endAtString']!);
+    _startAt = DateFormat('yyyy-MM-ddT').format(_startDay!);
+    _endAt = DateFormat('yyyy-MM-ddT').format(_endDay!);
+    _startTime = DateFormat('hh:mm').format(_startDay!);
+    _endTime = DateFormat('hh:mm').format(_endDay!);
+    _achievedYn = bool.parse(detail['achievedYn']!);
   }
 
   void setTitle(String value) {

@@ -8,13 +8,12 @@ import 'package:kingmaker/provider/member_provider.dart';
 import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/provider/schedule_provider.dart';
 import 'package:kingmaker/widget/common/header.dart';
+import 'package:kingmaker/widget/modify/modify_routine_categorybutton.dart';
+import 'package:kingmaker/widget/modify/modify_routine_dateinput.dart';
+import 'package:kingmaker/widget/modify/modify_routine_timeinput.dart';
 import 'package:provider/provider.dart';
 
-import '../routine/regist_routine_categorybutton.dart';
 import '../routine/regist_routine_importancecheck.dart';
-import '../routine/regist_routine_timeinput.dart';
-
-import '../routine/resgist_routine_dateinput.dart';
 
 class ModifyTodo extends StatefulWidget {
   const ModifyTodo({super.key});
@@ -82,7 +81,7 @@ class _ModifyTodoState extends State<ModifyTodo> {
                         iconSize: 30,
                       ),
                     ),
-                    Header(title: '할 일 등록'),
+                    Header(title: '할 일 수정'),
                   ],
                 ),
                 SizedBox(
@@ -161,7 +160,7 @@ class _ModifyTodoState extends State<ModifyTodo> {
                         Divider(color: DARKER_GREY_COLOR, thickness: 0.3),
                         Container(
                           width: double.infinity,
-                          child: CategoryButton(),
+                          child: ModifyCategoryButton(),
                         ),
                         SizedBox(
                           height: 24,
@@ -180,7 +179,7 @@ class _ModifyTodoState extends State<ModifyTodo> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      child: DateInput(
+                                      child: ModifyDateInput(
                                         type: 'start',
                                       ),
                                     ),
@@ -188,7 +187,7 @@ class _ModifyTodoState extends State<ModifyTodo> {
                                       width: 12,
                                     ),
                                     Container(
-                                      child: TimeInput(
+                                      child: ModifyTimeInput(
                                         type: 'start',
                                       ),
                                     ),
@@ -200,7 +199,7 @@ class _ModifyTodoState extends State<ModifyTodo> {
                                     Text('  ~  ',
                                         style: TextStyle(fontSize: 18)),
                                     Container(
-                                      child: DateInput(
+                                      child: ModifyDateInput(
                                         type: 'end',
                                       ),
                                     ),
@@ -208,7 +207,7 @@ class _ModifyTodoState extends State<ModifyTodo> {
                                       width: 10,
                                     ),
                                     Container(
-                                      child: TimeInput(
+                                      child: ModifyTimeInput(
                                         type: 'end',
                                       ),
                                     ),

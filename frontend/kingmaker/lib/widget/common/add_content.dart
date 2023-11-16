@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kingmaker/consts/colors.dart';
+import 'package:kingmaker/provider/regist_provider.dart';
 import 'package:kingmaker/widget/routine/regist_routine.dart';
 import 'package:kingmaker/widget/todo/regist_todo.dart';
+import 'package:provider/provider.dart';
 
 class AddContent extends StatefulWidget {
   const AddContent({super.key});
@@ -59,6 +61,7 @@ class _AddContentState extends State<AddContent> {
                             onPressed: () {
                               flag = !flag;
                               setState(() {});
+                              Provider.of<RegistProvider>(context, listen: false).ResetAll();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -97,6 +100,7 @@ class _AddContentState extends State<AddContent> {
                             onPressed: () {
                               flag = !flag;
                               setState(() {});
+                              Provider.of<RegistProvider>(context, listen: false).ResetAll();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
