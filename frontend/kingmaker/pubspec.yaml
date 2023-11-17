@@ -1,0 +1,239 @@
+name: kingmaker
+description: Schedule Management Application Kingmaker
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.3 <4.0.0'
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  persistent_bottom_nav_bar: any
+  google_fonts: ^6.1.0
+  social_login_buttons: ^1.0.7
+  flame: ^1.10.0
+  flutter_secure_storage: ^9.0.0 # flutter_secure_storage 관련 패키지
+  dio: ^5.3.3 #http 통신을 위한 패키지
+  custom_radio_grouped_button: ^2.2.1
+  date_picker_plus: ^1.1.4
+  time_picker_sheet: ^0.0.2+1
+  table_calendar: ^3.0.9
+  flutter_dotenv: ^5.1.0 # 보안데이터 관리를 위한 패키지
+  provider: ^6.0.5
+  flutter_flip_card: ^0.0.4
+  flutter_animated_dialog: ^2.0.1
+  google_sign_in: ^6.1.5
+  kakao_flutter_sdk: ^1.7.0
+  flutter_svg: ^2.0.9 # svg 벡터파일 사용을 위함
+  firebase_messaging: ^14.7.4
+  flutter_local_notifications: ^16.1.0
+  firebase_core: ^2.22.0
+  simple_animation_progress_bar: "^1.6.0"
+  percent_indicator: ^4.2.3
+  assets_audio_player: ^3.1.1
+  shared_preferences: ^2.2.2
+  circular_progress_stack: ^0.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/audios/
+    - assets/images/uncheck.png
+    - assets/images/check.png
+    - assets/images/duck.png
+    - assets/
+    - assets/images/player_sprite.png
+    - assets/images/pig.png
+    - assets/images/Slime.png
+    - assets/images/ember.png
+    - assets/images/background.png
+    - assets/images/background1.png
+    - assets/login/
+    - assets/images/pixel_star.png
+    - assets/login/login.png
+    - assets/login/kingMaker.png
+    - assets/signup/
+    - assets/images/castle/Lv1.png
+    - assets/images/castle/Lv2.png
+    - assets/images/castle/Lv3.png
+    - assets/images/castle/Lv4.png
+    - assets/images/castle/Lv5.png
+    - assets/images/castle/Lv6.png
+    - assets/images/castle/Lv7.png
+    - assets/images/castle/Lv8.png
+    - assets/images/castle/Lv9.png
+    - assets/images/male.png
+    - assets/images/female.png
+    - assets/images/slime_left.png
+    - assets/images/slime_right.png
+    - assets/images/notification/noti_butler_1.png
+    - assets/images/notification/noti_butler_2.png
+    - assets/images/notification/noti_butler_3.png
+    - assets/images/notification/noti_butler_4.png
+    - assets/character/
+    - assets/character/calendarlist/
+    - assets/user_level/
+    - assets/icon/
+    - .env
+    - assets/images/reaper_right.png
+    - assets/images/reaper_left.png
+    - assets/castle/tower.png
+    - assets/castle/castle.png
+    - assets/images/skeleton_right.png
+    - assets/images/skeleton_left.png
+    - assets/images/goblin_right.png
+    - assets/images/goblin_left.png
+    - assets/images/speech_bubble.png
+    - assets/images/bear_left.png
+    - assets/images/bear_right.png
+    - assets/images/nutty_left.png
+    - assets/images/nutty_right.png
+    - assets/images/panda_left.png
+    - assets/images/panda_right.png
+    - assets/images/empty.png
+    - assets/images/expbar/1_expbar.png
+    - assets/images/expbar/2_expbar.png
+    - assets/images/expbar/3_expbar.png
+    - assets/images/expbar/4_expbar.png
+    - assets/images/expbar/5_expbar.png
+    - assets/images/expbar/6_expbar.png
+    - assets/images/expbar/7_expbar.png
+    - assets/images/expbar/8_expbar.png
+    - assets/images/expbar/9_expbar.png
+    - assets/images/expbar/10_expbar.png
+    - assets/images/expbar/11_expbar.png
+    - assets/images/expbar/12_expbar.png
+    - assets/images/expbar/13_expbar.png
+    - assets/images/expbar/14_expbar.png
+    - assets/images/expbar/15_expbar.png
+    - assets/images/expbar/16_expbar.png
+    - assets/images/expbar/17_expbar.png
+    - assets/images/expbar/18_expbar.png
+    - assets/images/expbar/19_expbar.png
+    - assets/images/expbar/20_expbar.png
+    - assets/images/expbar/21_expbar.png
+    - assets/images/expbar/22_expbar.png
+    - assets/images/expbar/23_expbar.png
+    - assets/images/expbar/24_expbar.png
+    - assets/images/expbar/25_expbar.png
+    - assets/images/expbar/26_expbar.png
+    - assets/images/expbar/27_expbar.png
+    - assets/images/expbar/28_expbar.png
+    - assets/images/expbar/expicon.png
+    - assets/images/expbar/monstericon.png
+    - assets/achievement/sample.png
+    - assets/achievement/0.png
+    - assets/achievement/1.png
+    - assets/achievement/2.png
+    - assets/achievement/3.png
+    - assets/achievement/4.png
+    - assets/achievement/5.png
+    - assets/achievement/6.png
+    - assets/achievement/7.png
+    - assets/achievement/8.png
+    - assets/achievement/9.png
+    - assets/achievement/10.png
+    - assets/achievement/11.png
+    - assets/achievement/12.png
+    - assets/achievement/13.png
+    - assets/achievement/14.png
+    - assets/achievement/15.png
+    - assets/icon/category/ic_category_0.svg
+    - assets/icon/category/ic_category_1.svg
+    - assets/icon/category/ic_category_2.svg
+    - assets/icon/category/ic_category_3.svg
+    - assets/icon/category/ic_category_4.svg
+    - assets/icon/category/ic_category_5.svg
+    - assets/icon/category/ic_category_6.svg
+    - assets/castle/lv1.png
+    - assets/castle/lv2.png
+    - assets/castle/lv3.png
+    - assets/castle/lv4.png
+    - assets/castle/lv5.png
+    - assets/castle/lv6.png
+    - assets/castle/lv7.png
+    - assets/castle/lv8.png
+    - assets/castle/lv9.png
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+
+  fonts:
+    - family: PretendardBold
+      fonts:
+        - asset: assets/fonts/esamanru Light.ttf
+    - family: EsamanruMedium
+      fonts:
+        - asset: assets/fonts/esamanru Medium.ttf
+    - family: EsamanruBold
+      fonts:
+        - asset: assets/fonts/esamanru Bold.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
