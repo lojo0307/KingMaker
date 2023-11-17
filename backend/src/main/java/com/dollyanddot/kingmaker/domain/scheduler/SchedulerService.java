@@ -123,10 +123,8 @@ public class SchedulerService {
   @Transactional
   @Scheduled(cron="0 0/1 * * * *",zone="Asia/Seoul")
   public void sendPlanNotification() throws Exception{
-    log.info("한 시간 전 알림 시작 ------------------------------------------------------");
     //TODO: 일정 수행 시작 한 시간 전 알림 발송
     notificationService.sendNotification();
-    log.info("한 시간 전 알림 끝 ------------------------------------------------------");
   }
 
   @Transactional
