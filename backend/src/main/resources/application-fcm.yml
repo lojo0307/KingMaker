@@ -1,0 +1,4 @@
+fcm:
+  service-account-file: /firebase/kingmaker-811e9-firebase.json # 비밀키 경로 ( 필수 )
+  topic-name: testMessage # topic 이름 ( topic 통신시에 필요함 )
+  project-id: kingmaker-811e9

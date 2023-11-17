@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+spring:
+  config:
+    import:
+      - env.yml
+      - application-redis.yml
+      - application-oauth2.yml
+      - application-jwt.yml
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${MARIADB_DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    hikari:
+      maximum-pool-size: 2
+      max-lifetime: 30000
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format-sql: true
+        dialect: org.hibernate.dialect.MariaDBDialect
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
