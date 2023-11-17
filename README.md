@@ -1,6 +1,6 @@
 ![Kingmaker](./readmeFiles/logo.png){: height="500px", width="700px"}
 
-# :sparkles: 킹메이커
+# :sparkles: [킹메이커](https://play.google.com/store/apps/details?id=a406.kingmaker.kingmaker) <-Play 스토어에서 다운 가능합니다!
 ### “왕이 되고 싶은 자, 일상의 무게를 견뎌라!” 
 
     왕 캐릭터 키우기를 통해 계획한 하루 일정을 달성할 수 있도록 동기를 부여하고, 알림을 통해 업무를 잊지 않도록 도와주는 서비스
