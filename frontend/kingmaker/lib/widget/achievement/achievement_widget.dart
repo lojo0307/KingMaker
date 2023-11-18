@@ -31,14 +31,12 @@ class _AchievementWidgetState extends State<AchievementWidget> {
     final Color bgColor = isAchieved ? WHITE_COLOR : GREY_COLOR;
     final int rewardId = isAchieved ? widget.data.rewardId : 0;
     final String rewardNmtText = isAchieved ? widget.data.rewardNm : "미달성 업적";
-    final String rewardContText = isAchieved
-        ? widget.data.rewardCond
-        : '${widget.data.rewardPercent}% 달성';
+    final String rewardContText = widget.data.rewardCond;
     final String rewardMsgText =
         isAchieved ? widget.data.rewardMsg : "달성을 위해 열심히 일정을 수행하세요!";
     final String rewardDateText = isAchieved
         ? '업적 달성일 : ${formatTimestamp(widget.data.modifiedAt)}'
-        : " ";
+        : '${widget.data.rewardPercent}% 달성';
     final con = FlipCardController();
     return FlipCard(
       controller: con,
@@ -82,7 +80,8 @@ class _AchievementWidgetState extends State<AchievementWidget> {
                       SizedBox(height: 4,),
                       Text('${rewardContText}', style: TextStyle(fontSize: 12, color: BLUE_BLACK_COLOR)),
                       SizedBox(height: 4,),
-                      isAchieved ? Text('${rewardDateText}', style: TextStyle(fontSize: 9, color: DARK_GREY_COLOR)) : SizedBox()
+                      isAchieved ? Text('${rewardDateText}', style: TextStyle(fontSize: 9, color: DARK_GREY_COLOR))
+                          : Text('${rewardDateText}', style: TextStyle(fontSize: 9, color: BLUE_BLACK_COLOR))
                     ],
                   ),
                 ),
