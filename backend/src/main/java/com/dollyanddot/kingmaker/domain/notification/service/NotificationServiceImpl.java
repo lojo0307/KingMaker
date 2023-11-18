@@ -289,7 +289,7 @@ public class NotificationServiceImpl implements NotificationService{
                         .notificationType(notificationTypeRepository.findById(1).get())
                         .member(memberRepository.findById(t.getMemberId()).orElseThrow(MemberNotFoundException::new))
                         .message("Your majesty, 어제 미달성한 업무 "+t.getCnt()+"건으로 인해 백성 "
-                            + (t.getCnt()*10) + "명이 왕국을 떠났습니다.")
+                            + (t.getCnt()*500) + "명이 왕국을 떠났습니다.")
                         .build();
 
                     log.info("확인1: {}", temp);
@@ -311,8 +311,8 @@ public class NotificationServiceImpl implements NotificationService{
                             .setToken(ft.getToken())
                             .setNotification(com.google.firebase.messaging.Notification.builder()
                                 .setBody("Your majesty, 어제 미달성한 업무 "+t.getCnt()+"건으로 인해 백성 "
-                                    + (t.getCnt()*10) + "명이 왕국을 떠났습니다. ")
-                                .setTitle("어제의 미달성 업무 관련 보고 드립니다.")
+                                    + (t.getCnt()*500) + "명이 왕국을 떠났습니다. ")
+                                .setTitle("어제의 미달성 업무 보고 드립니다.")
                                 .build())
                             .build();
 
