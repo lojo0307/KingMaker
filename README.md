@@ -92,12 +92,12 @@
 
 
 ## :bulb: 아키텍처
-![Kingmaker](./readmeFiles/arch.png){: height="500px", width="700px"}
+![Kingmaker](./readmeFiles/arch.png)
 
 
 ## :bulb: ERD
-![Kingmaker](./readmeFiles/erd.png){: height="500px", width="700px"}
+![Kingmaker](./readmeFiles/erd.png)
 
 
 ## :bulb: 팀원 소개
-![Kingmaker](./readmeFiles/team.png){: height="500px", width="700px"}
+![Kingmaker](./readmeFiles/team.png)
